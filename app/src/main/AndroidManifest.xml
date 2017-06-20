@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tzw.noah">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Design.NoActionBar"
+        android:name="com.tzw.noah.AppContext">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.home.HomeMainActivity" />
+        <activity android:name=".ui.circle.CirileMainActivity" />
+        <activity android:name=".ui.service.ServiceMainActivity" />
+        <activity android:name=".ui.friend.FriendMainActivity" />
+        <activity android:name=".ui.mine.MineMainActivity" />
+        <activity android:name=".ui.mine.LoginActivity" />
+        <activity android:name=".ui.mine.RegisterActivity" />
+        <activity android:name=".ui.mine.AboutActivity" />
+        <activity android:name=".ui.mine.FeedbackActivity" />
+        <activity android:name=".ui.mine.setting.SettingActivity" />
+        <activity android:name=".ui.mine.setting.PersonalSettingActivity" />
+        <activity android:name=".ui.mine.setting.CommonActivity" />
+        <activity android:name=".ui.mine.setting.SafeActivity" />
+        <activity android:name=".ui.mine.setting.SafeDeviceActivity" />
+        <activity android:name=".ui.mine.setting.SafePwdActivity" />
+        <activity android:name=".ui.mine.setting.personal.NickNameActivity" />
+        <activity android:name=".ui.mine.setting.personal.BirthdayActivity" />
+
+    </application>
+
+</manifest>

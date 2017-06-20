@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Noah</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_friend">好友</string>
+    <string name="title_mine">我的</string>
+    <string name="internet_fault">\"网络访问过程中出错了\"</string>
+</resources>
