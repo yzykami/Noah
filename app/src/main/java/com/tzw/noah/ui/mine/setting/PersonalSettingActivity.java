@@ -13,8 +13,10 @@ import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.mine.setting.personal.AreaProvinceActivity;
 import com.tzw.noah.ui.mine.setting.personal.BirthdayActivity;
 import com.tzw.noah.ui.mine.setting.personal.NickNameActivity;
+import com.tzw.noah.utils.FileUtil;
 
 import java.io.IOException;
 
@@ -94,17 +96,21 @@ public class PersonalSettingActivity extends MyBaseActivity {
 
 
     public void handle_nickname(View view) {
-        startActivity(CallBy_NickName, NickNameActivity.class);
+        startActivity(NickNameActivity.class);
     }
 
     public void handle_birth(View view) {
-        startActivity(CallBy_Birth, BirthdayActivity.class);
+        startActivity(BirthdayActivity.class);
     }
 
     public void handle_sex(View view) {
+        FileUtil.save2InternalSdCard("dd", "123", "abc");
+        FileUtil.readFromInternalSdCard("dd", "123");
     }
 
     public void handle_area(View view) {
+        startActivity(AreaProvinceActivity.class);
+//        startActivity(CallBy_Area, AreaProvinceActivity.class);
     }
 
     public void handle_interest(View view) {
@@ -148,37 +154,37 @@ public class PersonalSettingActivity extends MyBaseActivity {
         });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == LOGINSUCCEED) {
-            switch (requestCode) {
-                case CallBy_NickName:
-                    handle_nickname(null);
-                    break;
-                case CallBy_Sex:
-                    handle_sex(null);
-                    break;
-                case CallBy_Birth:
-                    handle_birth(null);
-                    break;
-                case CallBy_Area:
-                    handle_area(null);
-                    break;
-                case CallBy_Interest:
-                    handle_interest(null);
-                    break;
-                case CallBy_Character:
-                    handle_character(null);
-                    break;
-                case CallBy_Job:
-                    handle_job(null);
-                    break;
-                case CallBy_Sign:
-                    handle_sign(null);
-                    break;
-            }
-        }
-    }
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == LOGINSUCCEED) {
+//            switch (requestCode) {
+//                case CallBy_NickName:
+//                    handle_nickname(null);
+//                    break;
+//                case CallBy_Sex:
+//                    handle_sex(null);
+//                    break;
+//                case CallBy_Birth:
+//                    handle_birth(null);
+//                    break;
+//                case CallBy_Area:
+//                    handle_area(null);
+//                    break;
+//                case CallBy_Interest:
+//                    handle_interest(null);
+//                    break;
+//                case CallBy_Character:
+//                    handle_character(null);
+//                    break;
+//                case CallBy_Job:
+//                    handle_job(null);
+//                    break;
+//                case CallBy_Sign:
+//                    handle_sign(null);
+//                    break;
+//            }
+//        }
+//    }
 
     @Override
     protected void onResume() {

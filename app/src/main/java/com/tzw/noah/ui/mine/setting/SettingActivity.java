@@ -45,52 +45,41 @@ public class SettingActivity extends MyBaseActivity {
     }
 
     public void handle_personalsetting(View view) {
-        if (!checkLogin(callBy_personalsetting))
-            return;
-        Intent intent = new Intent(mycontext, PersonalSettingActivity.class);
-        startActivityForResult(intent, 200);
+
+        startActivityForResult(200 ,PersonalSettingActivity.class);
     }
 
     public void handle_devicesafe(View view) {
-        if (!checkLogin(callBy_devicesafe))
-            return;
-        Intent intent = new Intent(mycontext, SafeActivity.class);
-        startActivity(intent);
+        startActivity(SafeActivity.class);
     }
 
     public void handle_commonsetting(View view) {
-        if (!checkLogin(callBy_commonsetting))
-            return;
-        Intent intent = new Intent(mycontext, CommonActivity.class);
-        startActivity(intent);
+        startActivity(CommonActivity.class);
     }
 
     public void handle_about(View view) {
-        if (!checkLogin(callBy_about))
-            return;
-        Intent intent = new Intent(mycontext, AboutActivity.class);
-        startActivity(intent);
+        startActivity(AboutActivity.class);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == LOGINSUCCEED) {
-            switch (requestCode) {
-                case callBy_personalsetting:
-                    handle_personalsetting(null);
-                    break;
-                case callBy_devicesafe:
-                    handle_devicesafe(null);
-                    break;
-                case callBy_commonsetting:
-                    handle_commonsetting(null);
-                    break;
-                case callBy_about:
-                    handle_about(null);
-                    break;
-            }
-        }
+//        if (resultCode == LOGINSUCCEED) {
+//            switch (requestCode) {
+//                case callBy_personalsetting:
+//                    handle_personalsetting(null);
+//                    break;
+//                case callBy_devicesafe:
+//                    handle_devicesafe(null);
+//                    break;
+//                case callBy_commonsetting:
+//                    handle_commonsetting(null);
+//                    break;
+//                case callBy_about:
+//                    handle_about(null);
+//                    break;
+//            }
+//        }
 
         if (resultCode == LOGOUT) {
             finish();

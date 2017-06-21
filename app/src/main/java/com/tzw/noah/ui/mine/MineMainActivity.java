@@ -97,24 +97,16 @@ public class MineMainActivity extends MyBaseActivity {
     }
 
     public void handle_feedback(View view) {
-        if (checkLogin(callby_feedback)) {
-            Intent intent = new Intent(mycontext, FeedbackActivity.class);
-            startActivity(intent);
-        }
+
+        startActivity(FeedbackActivity.class);
     }
 
     public void handle_about(View view) {
-        if (checkLogin(callby_feedback)) {
-            Intent intent = new Intent(mycontext, AboutActivity.class);
-            startActivity(intent);
-        }
+        startActivity(AboutActivity.class);
     }
 
     public void handle_setting(View view) {
-        if (checkLogin(callby_feedback)) {
-            Intent intent = new Intent(mycontext, SettingActivity.class);
-            startActivity(intent);
-        }
+        startActivity(SettingActivity.class);
     }
 
     public void handle_dev(View view) {
@@ -137,26 +129,5 @@ public class MineMainActivity extends MyBaseActivity {
         super.onResume();
         Log.log(TAG,"onResume");
         initview();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != LoginActivity.succeed) {
-            return;
-        }
-        switch (requestCode) {
-            case callby_feedback:
-                handle_feedback(null);
-                break;
-            case callby_about:
-                handle_about(null);
-                break;
-            case callby_setting:
-                handle_setting(null);
-                break;
-            default:
-                break;
-        }
     }
 }

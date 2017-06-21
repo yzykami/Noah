@@ -222,6 +222,7 @@ public class LoginActivity extends MyBaseActivity {
                             Intent intent = new Intent(mycontext, MineMainActivity.class);
                             startActivity(intent);
                         }
+                        setResult(LOGINSUCCEED);
                         finish();
                     } else {
                         toast(iMsg.getMsg());

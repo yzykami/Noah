@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.tzw.noah.AppContext;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -82,8 +83,10 @@ public class FileUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //Toast.makeText(WebviewTencentActivity.this, "成功保存到sd卡", Toast.LENGTH_LONG).show();
+            com.tzw.noah.logger.Log.log("save2sdcard","succeed save file = "+filename);
         }
+        else
+            com.tzw.noah.logger.Log.log("save2sdcard","fail save file = "+filename);
     }
 
     public static String readFromSdCard(String dir, String filename) {
@@ -169,4 +172,68 @@ public class FileUtil {
 
         return content;
     }
+
+
+    public static void save2InternalSdCard(String dir, String filename, String content) {
+
+            String path = AppContext.getContext().getExternalFilesDir(dir).getPath();//获取SDCard内部存储目录,
+            String dd = path ;
+            try {
+                File sdFile = new File(dd, filename);
+                System.out.println(sdFile.getPath());
+                if (!sdFile.exists()) {
+//                    sdFile.delete();
+                    sdFile.createNewFile();
+                }
+                FileOutputStream fos = new FileOutputStream(sdFile);
+                byte[] bytes= content.getBytes("utf-8");
+                fos.write(bytes,0,bytes.length);
+                fos.flush();
+                fos.close(); // 关闭输出流
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            com.tzw.noah.logger.Log.log("save2sdcard","succeed save file = "+dd);
+
+    }
+
+    public static String readFromInternalSdCard(String dir, String filename) {
+
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+
+            String path = AppContext.getContext().getExternalFilesDir(dir).getPath();//获取SDCard目录
+            String dd = path ;//+ File.separator + dir;
+
+            File sdFile = new File(dd, filename);
+            FileInputStream fis=null;
+            String content = "";
+            try {
+                fis = new FileInputStream(sdFile);   //获得输入流
+                int len = 0;
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                byte[] buf=new byte[1024];
+                while ((len = fis.read(buf)) != -1) {
+                    byteArrayOutputStream.write(buf, 0, len);
+                }
+                content = new String(byteArrayOutputStream.toByteArray(),"utf-8");
+                fis.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+            com.tzw.noah.logger.Log.log("read",content);
+            return content;
+        }
+        return "";
+    }
+
 }

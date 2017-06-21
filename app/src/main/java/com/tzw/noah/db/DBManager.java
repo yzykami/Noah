@@ -119,18 +119,18 @@ public class DBManager {
 
     public List<Area> queryProvince()
     {
-        String sql = "SELECT * FROM Area where Level = '1'";
+        String sql = "SELECT * FROM Area where Level = '1.0'";
         return query(sql);
     }
 
     public List<Area> queryCity(String pid)
     {
-        String sql = "SELECT * FROM Area where Level = '2' and Pid = "+pid;
+        String sql = "SELECT * FROM Area where Level = '2.0' and Pid = "+pid;
         return query(sql);
     }
 
     public List<Area> queryTown(String pid) {
-        String sql = "SELECT * FROM Area where Level = '3' and Pid = "+pid;
+        String sql = "SELECT * FROM Area where Level = '3.0' and Pid = "+pid;
         return query(sql);
     }
 
