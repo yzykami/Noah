@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.cache.UserCache;
+import com.tzw.noah.db.DBManager;
+import com.tzw.noah.models.Area;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
@@ -83,7 +85,7 @@ public class PersonalSettingActivity extends MyBaseActivity {
         }
         tv_birth.setText(birth);
         tv_sex.setText(user.memberSex == 0 ? "男" : "女");
-        tv_area.setText(user.areaId + "");
+        tv_area.setText(getArea(user.areaId));
         tv_interest.setText(user.memberInterest);
         tv_character.setText(user.memberCharacter);
         tv_job.setText(user.memberWork);
@@ -92,6 +94,17 @@ public class PersonalSettingActivity extends MyBaseActivity {
 
     private void doWorking() {
 
+    }
+
+    private String getArea(int areaId) {
+        String area = "";
+        DBManager db = new DBManager(mycontext);
+
+        Area province = db.queryProvinceByTownId(areaId);
+        Area city = db.queryCityByTownId(areaId);
+        Area town = db.queryTownByTownId(areaId);
+        area = province.areaName + " " + city.areaName + " " + town.areaName;
+        return area;
     }
 
 

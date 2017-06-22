@@ -49,4 +49,18 @@ public class Utils {
         }
         return timestamp;
     }
+
+    public static int String2Int(String idStr) {
+        try
+        {
+            double d  = Double.parseDouble(idStr);
+            int i = (int )d;
+            return  i;
+        }
+        catch (Exception e)
+        {
+
+        }
+        return 0;
+    }
 }

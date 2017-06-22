@@ -12,7 +12,7 @@ import java.util.List;
 public class Area {
     public String areaId;
     public String areaPid;
-    public String areaName;
+    public String areaName="";
     public String areaLevel;
     public String areaCode;
     public String areaPostCode;

@@ -48,7 +48,7 @@ public class DBManager {
         try {
             for (Area Area : Areas) {
                 db.execSQL("INSERT INTO Area VALUES(null, ?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                        new Object[]{Area.areaId, Area.areaPid, Area.areaName, Area.areaLevel, Area.areaCode, Area.areaPostCode, Area.areaTelCode, Area.areaSort, Area.areaShortName, Area.areaSpell, Area.areaShortSpell, Area.areaLng, Area.areaLat});
+                        new Object[]{Utils.String2Int(Area.areaId), Utils.String2Int(Area.areaPid), Area.areaName, Utils.String2Int(Area.areaLevel), Area.areaCode, Area.areaPostCode, Area.areaTelCode, Area.areaSort, Area.areaShortName, Area.areaSpell, Area.areaShortSpell, Area.areaLng, Area.areaLat});
             }
             db.setTransactionSuccessful();  //设置事务成功完成
         } finally {
@@ -117,21 +117,43 @@ public class DBManager {
         return Areas;
     }
 
-    public List<Area> queryProvince()
-    {
-        String sql = "SELECT * FROM Area where Level = '1.0'";
+    public List<Area> queryProvince() {
+        String sql = "SELECT * FROM Area where Level = '1'";
         return query(sql);
     }
 
-    public List<Area> queryCity(String pid)
-    {
-        String sql = "SELECT * FROM Area where Level = '2.0' and Pid = "+pid;
+    public List<Area> queryCity(String pid) {
+        String sql = "SELECT * FROM Area where Level = '2' and Pid = " + pid;
         return query(sql);
     }
 
     public List<Area> queryTown(String pid) {
-        String sql = "SELECT * FROM Area where Level = '3.0' and Pid = "+pid;
+        String sql = "SELECT * FROM Area where Level = '3' and Pid = " + pid;
         return query(sql);
+    }
+
+    public Area queryProvinceByTownId(int townID) {
+        String sql = "select * from area  where Id = (select Pid  from area  where Id = (select Pid from area where Id = " + townID + ")) ";
+        List<Area> list = query(sql);
+        if (list.size() > 0)
+            return list.get(0);
+        return new Area();
+    }
+
+    public Area queryCityByTownId(int townID) {
+        String sql = "select *  from area where Id = (select Pid from area where Id = " + townID + ") ";
+        List<Area> list = query(sql);
+        if (list.size() > 0)
+            return list.get(0);
+        return new Area();
+    }
+
+    public Area queryTownByTownId(int townID) {
+        String sql = "select * from area where Id = " + townID ;
+        List<Area> list = query(sql);
+        if (list.size() > 0)
+            return list.get(0);
+        return new Area();
     }
 
     /**
