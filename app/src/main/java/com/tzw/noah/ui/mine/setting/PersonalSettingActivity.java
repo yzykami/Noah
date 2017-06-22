@@ -9,6 +9,7 @@ import com.tzw.noah.R;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.DBManager;
 import com.tzw.noah.models.Area;
+import com.tzw.noah.models.Dict;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
@@ -17,10 +18,16 @@ import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.mine.setting.personal.AreaProvinceActivity;
 import com.tzw.noah.ui.mine.setting.personal.BirthdayActivity;
+import com.tzw.noah.ui.mine.setting.personal.CharacterActivity;
+import com.tzw.noah.ui.mine.setting.personal.InterestActivity;
 import com.tzw.noah.ui.mine.setting.personal.NickNameActivity;
+import com.tzw.noah.ui.mine.setting.personal.SexActivity;
+import com.tzw.noah.ui.mine.setting.personal.SignActivity;
+import com.tzw.noah.ui.mine.setting.personal.WorkActivity;
 import com.tzw.noah.utils.FileUtil;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 
@@ -86,9 +93,9 @@ public class PersonalSettingActivity extends MyBaseActivity {
         tv_birth.setText(birth);
         tv_sex.setText(user.memberSex == 0 ? "男" : "女");
         tv_area.setText(getArea(user.areaId));
-        tv_interest.setText(user.memberInterest);
-        tv_character.setText(user.memberCharacter);
-        tv_job.setText(user.memberWork);
+        tv_interest.setText(getInterestbyID(user.memberInterest));
+        tv_character.setText(getCharacterByID(user.memberCharacter));
+        tv_job.setText(getWorkbyID(user.memberWork));
         tv_sign.setText(user.memberIntroduce);
     }
 
@@ -107,6 +114,41 @@ public class PersonalSettingActivity extends MyBaseActivity {
         return area;
     }
 
+    private String getInterestbyID(String memberInterest) {
+
+        List<Dict> interestList = new DBManager(mycontext).selectInterestList();
+        return getDictNameById(memberInterest, interestList);
+    }
+
+    private String getCharacterByID(String memberCharacter) {
+        List<Dict> interestList = new DBManager(mycontext).selectCharacterList();
+        return getDictNameById(memberCharacter, interestList);
+    }
+
+    private String getWorkbyID(String memberWork) {
+
+        List<Dict> interestList = new DBManager(mycontext).selectJobtList();
+        return getDictNameById(memberWork, interestList);
+    }
+
+    private String getDictNameById(String ids, List<Dict> list) {
+        String s = "";
+        String[] ss = ids.split(",");
+        for (String sss : ss) {
+            if (!sss.isEmpty()) {
+                for (Dict dict : list) {
+                    if (dict.dictionaryId.equals(sss)) {
+                        if (s.isEmpty()) {
+                            s += dict.dictionaryName;
+                        } else
+                            s += " " + dict.dictionaryName;
+                    }
+                }
+            }
+        }
+        return s;
+    }
+
 
     public void handle_nickname(View view) {
         startActivity(NickNameActivity.class);
@@ -117,25 +159,27 @@ public class PersonalSettingActivity extends MyBaseActivity {
     }
 
     public void handle_sex(View view) {
-        FileUtil.save2InternalSdCard("dd", "123", "abc");
-        FileUtil.readFromInternalSdCard("dd", "123");
+        startActivity(SexActivity.class);
     }
 
     public void handle_area(View view) {
         startActivity(AreaProvinceActivity.class);
-//        startActivity(CallBy_Area, AreaProvinceActivity.class);
     }
 
     public void handle_interest(View view) {
+        startActivity(InterestActivity.class);
     }
 
     public void handle_character(View view) {
+        startActivity(CharacterActivity.class);
     }
 
     public void handle_job(View view) {
+        startActivity(WorkActivity.class);
     }
 
     public void handle_sign(View view) {
+        startActivity(SignActivity.class);
     }
 
     public void handle_logout(View view) {
@@ -166,38 +210,6 @@ public class PersonalSettingActivity extends MyBaseActivity {
             }
         });
     }
-
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == LOGINSUCCEED) {
-//            switch (requestCode) {
-//                case CallBy_NickName:
-//                    handle_nickname(null);
-//                    break;
-//                case CallBy_Sex:
-//                    handle_sex(null);
-//                    break;
-//                case CallBy_Birth:
-//                    handle_birth(null);
-//                    break;
-//                case CallBy_Area:
-//                    handle_area(null);
-//                    break;
-//                case CallBy_Interest:
-//                    handle_interest(null);
-//                    break;
-//                case CallBy_Character:
-//                    handle_character(null);
-//                    break;
-//                case CallBy_Job:
-//                    handle_job(null);
-//                    break;
-//                case CallBy_Sign:
-//                    handle_sign(null);
-//                    break;
-//            }
-//        }
-//    }
 
     @Override
     protected void onResume() {

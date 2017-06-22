@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.tzw.noah.AppContext;
+import com.tzw.noah.R;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.EventListener;
 
 /**
@@ -34,7 +36,7 @@ public class FileUtil {
     }
 
     public static String readRawFile(Context context, int id) {
-        String content="";
+        String content = "";
         Resources resources = context.getResources();
         InputStream is = null;
         try {
@@ -83,10 +85,9 @@ public class FileUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            com.tzw.noah.logger.Log.log("save2sdcard","succeed save file = "+filename);
-        }
-        else
-            com.tzw.noah.logger.Log.log("save2sdcard","fail save file = "+filename);
+            com.tzw.noah.logger.Log.log("save2sdcard", "succeed save file = " + filename);
+        } else
+            com.tzw.noah.logger.Log.log("save2sdcard", "fail save file = " + filename);
     }
 
     public static String readFromSdCard(String dir, String filename) {
@@ -138,7 +139,7 @@ public class FileUtil {
         FileOutputStream outputStream;
         try {
             //调用方法创建流，参数1：文件名参数2：文件类型为私有
-            outputStream = AppContext.getContext().openFileOutput(filename, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_READABLE);
+            outputStream = AppContext.getContext().openFileOutput(filename, Context.MODE_WORLD_READABLE | Context.MODE_WORLD_READABLE);
             //调用流的write方法
             outputStream.write(content.getBytes());
             //关闭流
@@ -148,12 +149,55 @@ public class FileUtil {
         }
     }
 
+    public static void copyDBFromRaw(Context context) {
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("/data/data/");
+            stringBuffer.append(context.getPackageName());
+            stringBuffer.append("/databases");
+            File dir=new File(stringBuffer.toString());
+            if(!dir.exists()){//防止databases文件夹不存在，不然，会报ENOENT (No such file or directory)的异常
+                dir.mkdirs();
+            }
+            stringBuffer.append("/");
+            stringBuffer.append("noah.db");
+            File file = new File(stringBuffer.toString());
+            if (file == null || !file.exists()) {//数据库不存在，则进行拷贝数据库的操作。
+                inputStream = context.getResources().openRawResource(R.raw.noah);
+                outputStream = new FileOutputStream(file.getAbsolutePath());
+                byte[] b = new byte[1024];
+                int length;
+                while ((length = inputStream.read(b)) > 0) {
+                    outputStream.write(b, 0, length);
+                }
+                //写完后刷新
+                outputStream.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null) {//关闭流，释放资源
+                    inputStream.close();
+                }
+                if(outputStream!=null){
+                    outputStream.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
     public static String readInternalFile(String filename) {
         FileInputStream inputStream;
         String content = "";
 
         InputStream is = null;
-        byte[] buf = new byte[1000*1024];
+        byte[] buf = new byte[1000 * 1024];
         int len = 0;
         try {
             is = AppContext.getContext().openFileInput(filename);
@@ -176,26 +220,26 @@ public class FileUtil {
 
     public static void save2InternalSdCard(String dir, String filename, String content) {
 
-            String path = AppContext.getContext().getExternalFilesDir(dir).getPath();//获取SDCard内部存储目录,
-            String dd = path ;
-            try {
-                File sdFile = new File(dd, filename);
-                System.out.println(sdFile.getPath());
-                if (!sdFile.exists()) {
+        String path = AppContext.getContext().getExternalFilesDir(dir).getPath();//获取SDCard内部存储目录,
+        String dd = path;
+        try {
+            File sdFile = new File(dd, filename);
+            System.out.println(sdFile.getPath());
+            if (!sdFile.exists()) {
 //                    sdFile.delete();
-                    sdFile.createNewFile();
-                }
-                FileOutputStream fos = new FileOutputStream(sdFile);
-                byte[] bytes= content.getBytes("utf-8");
-                fos.write(bytes,0,bytes.length);
-                fos.flush();
-                fos.close(); // 关闭输出流
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                sdFile.createNewFile();
             }
-            com.tzw.noah.logger.Log.log("save2sdcard","succeed save file = "+dd);
+            FileOutputStream fos = new FileOutputStream(sdFile);
+            byte[] bytes = content.getBytes("utf-8");
+            fos.write(bytes, 0, bytes.length);
+            fos.flush();
+            fos.close(); // 关闭输出流
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        com.tzw.noah.logger.Log.log("save2sdcard", "succeed save file = " + dd);
 
     }
 
@@ -204,20 +248,20 @@ public class FileUtil {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 
             String path = AppContext.getContext().getExternalFilesDir(dir).getPath();//获取SDCard目录
-            String dd = path ;//+ File.separator + dir;
+            String dd = path;//+ File.separator + dir;
 
             File sdFile = new File(dd, filename);
-            FileInputStream fis=null;
+            FileInputStream fis = null;
             String content = "";
             try {
                 fis = new FileInputStream(sdFile);   //获得输入流
                 int len = 0;
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                byte[] buf=new byte[1024];
+                byte[] buf = new byte[1024];
                 while ((len = fis.read(buf)) != -1) {
                     byteArrayOutputStream.write(buf, 0, len);
                 }
-                content = new String(byteArrayOutputStream.toByteArray(),"utf-8");
+                content = new String(byteArrayOutputStream.toByteArray(), "utf-8");
                 fis.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -230,7 +274,7 @@ public class FileUtil {
                     }
                 }
             }
-            com.tzw.noah.logger.Log.log("read",content);
+            com.tzw.noah.logger.Log.log("read", content);
             return content;
         }
         return "";

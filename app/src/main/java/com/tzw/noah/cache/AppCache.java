@@ -59,8 +59,7 @@ public class AppCache {
 
         if(!isInstalldb)
         {
-            DBManager dbManager = new DBManager(context);
-            dbManager.initArea();
+            FileUtil.copyDBFromRaw(AppContext.getContext());
             prefs.edit().putBoolean(PREFS_IsInstall_DB,true).commit();
         }
         boolean isInstalldict = prefs.getBoolean(PREFS_IsInstall_Dict, false);

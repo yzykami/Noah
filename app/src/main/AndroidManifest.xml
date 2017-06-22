@@ -50,6 +50,11 @@
         <activity android:name=".ui.mine.setting.personal.AreaProvinceActivity" />
         <activity android:name=".ui.mine.setting.personal.AreaCityActivity" />
         <activity android:name=".ui.mine.setting.personal.AreaTownActivity" />
+        <activity android:name=".ui.mine.setting.personal.SexActivity" />
+        <activity android:name=".ui.mine.setting.personal.InterestActivity" />
+        <activity android:name=".ui.mine.setting.personal.CharacterActivity" />
+        <activity android:name=".ui.mine.setting.personal.WorkActivity" />
+        <activity android:name=".ui.mine.setting.personal.SignActivity" />
 
     </application>
 

@@ -10,6 +10,7 @@ import android.util.Log;
 import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.R;
 import com.tzw.noah.models.Area;
+import com.tzw.noah.models.Dict;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.utils.FileUtil;
 import com.tzw.noah.utils.Utils;
@@ -56,24 +57,6 @@ public class DBManager {
         }
     }
 
-//    /**
-//     * update Area's age
-//     * @param Area
-//     */
-//    public void updateAge(Area Area) {
-//        ContentValues cv = new ContentValues();
-//        cv.put("age", Area.age);
-//        db.update("Area", cv, "name = ?", new String[]{Area.name});
-//    }
-//
-//    /**
-//     * delete old Area
-//     * @param Area
-//     */
-//    public void deleteOldArea(Area Area) {
-//        db.delete("Area", "age >= ?", new String[]{String.valueOf(Area.age)});
-//    }
-
     /**
      * query all Areas, return list
      *
@@ -84,8 +67,8 @@ public class DBManager {
         Cursor c = queryTheCursor();
         while (c.moveToNext()) {
             Area Area = new Area();
-            Area.areaId = c.getString(c.getColumnIndex("Id"));
-            Area.areaName = c.getString(c.getColumnIndex("Name"));
+            Area.areaId = c.getString(c.getColumnIndex("areaId"));
+            Area.areaName = c.getString(c.getColumnIndex("areaName"));
             Areas.add(Area);
 
         }
@@ -103,14 +86,14 @@ public class DBManager {
         return c;
     }
 
-    public List<Area> query(String sql) {
+    private List<Area> query(String sql) {
         //sql = "SELECT * FROM Area"
         ArrayList<Area> Areas = new ArrayList<Area>();
         Cursor c = db.rawQuery(sql, null);
         while (c.moveToNext()) {
             Area Area = new Area();
-            Area.areaId = c.getString(c.getColumnIndex("Id"));
-            Area.areaName = c.getString(c.getColumnIndex("Name"));
+            Area.areaId = c.getString(c.getColumnIndex("areaId"));
+            Area.areaName = c.getString(c.getColumnIndex("areaName"));
             Areas.add(Area);
         }
         c.close();
@@ -118,22 +101,22 @@ public class DBManager {
     }
 
     public List<Area> queryProvince() {
-        String sql = "SELECT * FROM Area where Level = '1'";
+        String sql = "SELECT * FROM Area where areaLevel = '1'";
         return query(sql);
     }
 
     public List<Area> queryCity(String pid) {
-        String sql = "SELECT * FROM Area where Level = '2' and Pid = " + pid;
+        String sql = "SELECT * FROM Area where areaLevel = '2' and areaPid = " + pid;
         return query(sql);
     }
 
     public List<Area> queryTown(String pid) {
-        String sql = "SELECT * FROM Area where Level = '3' and Pid = " + pid;
+        String sql = "SELECT * FROM Area where areaLevel = '3' and areaPid = " + pid;
         return query(sql);
     }
 
     public Area queryProvinceByTownId(int townID) {
-        String sql = "select * from area  where Id = (select Pid  from area  where Id = (select Pid from area where Id = " + townID + ")) ";
+        String sql = "select * from area  where areaId = (select areaPid  from area  where areaId = (select areaPid from area where areaId = " + townID + ")) ";
         List<Area> list = query(sql);
         if (list.size() > 0)
             return list.get(0);
@@ -141,7 +124,7 @@ public class DBManager {
     }
 
     public Area queryCityByTownId(int townID) {
-        String sql = "select *  from area where Id = (select Pid from area where Id = " + townID + ") ";
+        String sql = "select *  from area where areaId = (select areaPid from area where areaId = " + townID + ") ";
         List<Area> list = query(sql);
         if (list.size() > 0)
             return list.get(0);
@@ -149,7 +132,7 @@ public class DBManager {
     }
 
     public Area queryTownByTownId(int townID) {
-        String sql = "select * from area where Id = " + townID ;
+        String sql = "select * from area where areaId = " + townID;
         List<Area> list = query(sql);
         if (list.size() > 0)
             return list.get(0);
@@ -191,5 +174,34 @@ public class DBManager {
         db.close();
     }
 
+
+    public List<Dict> selectInterestList() {
+        String sql = "SELECT * FROM Dictionary where dictionaryType ='memberInterest'";
+        return selectDictionaryList(sql);
+    }
+    public List<Dict> selectCharacterList() {
+        String sql = "SELECT * FROM Dictionary where dictionaryType ='memberCharacter'";
+        return selectDictionaryList(sql);
+    }
+
+    public List<Dict> selectJobtList() {
+        String sql = "SELECT * FROM Dictionary where dictionaryType ='memberWork'";
+        return selectDictionaryList(sql);
+    }
+
+    private List<Dict> selectDictionaryList(String sql) {
+        //sql = "SELECT * FROM Area"
+        ArrayList<Dict> Dicts = new ArrayList<Dict>();
+        Cursor c = db.rawQuery(sql, null);
+        while (c.moveToNext()) {
+            Dict dict = new Dict();
+            dict.dictionaryId = c.getString(c.getColumnIndex("dictionaryId"));
+            dict.dictionaryName = c.getString(c.getColumnIndex("dictionaryName"));
+            dict.updateTime = c.getString(c.getColumnIndex("updateTime"));
+            Dicts.add(dict);
+        }
+        c.close();
+        return Dicts;
+    }
 
 }

@@ -64,7 +64,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public void createNewTable(String tablename, SQLiteDatabase db) {
         if (tableIsExist(tablename, db))
             return;
-        String sql = FileUtil.readRawFile(context, R.raw.noah);
-        db.execSQL(sql);
+        FileUtil.copyDBFromRaw(context);
     }
 }

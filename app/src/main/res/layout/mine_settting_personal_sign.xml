@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="昵称"
+            android:text="个性签名"
             android:textColor="@color/white"
             android:textSize="@dimen/text_title" />
 
@@ -35,17 +35,18 @@
             android:paddingRight="@dimen/pt13"
             android:paddingTop="@dimen/pt8"
             android:src="@drawable/back_white" />
+
         <TextView
             android:id="@+id/tv_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="保存"
             android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/bj"
-            android:textColor="@color/white"
+            android:gravity="center"
             android:onClick="handle_save"
+            android:text="保存"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_title_right" />
     </RelativeLayout>
 
@@ -54,49 +55,43 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_top"
         android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/rl"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/columnHeight"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pt12"
             android:background="@color/white">
 
-            <ImageView
-                android:id="@+id/iv_male"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:paddingTop="@dimen/pt6"
-                android:paddingBottom="@dimen/pt6"
-                android:paddingRight="@dimen/pt10"
-                android:paddingLeft="@dimen/pt10"
-                android:layout_marginRight="@dimen/pt15"
-                android:src="@drawable/edittext_delete" />
-
             <EditText
-                android:id="@+id/et_nickname"
+                android:id="@+id/et_sign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
+                android:layout_marginRight="@dimen/bj"
                 android:layout_toLeftOf="@+id/iv_male"
                 android:gravity="left"
-                android:text="昵称"
+
+                android:hint="请输入您的签名"
+                android:maxLines="5"
+                android:minLines="5"
+                android:text=""
                 android:textColor="@color/textDarkGray"
+                android:textColorHint="@color/textLightGray"
                 android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/et_sign"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/pt8"
+                android:layout_marginRight="@dimen/bj"
+                android:text="150"
+                android:textColor="@color/textLightGray" />
         </RelativeLayout>
-
-        <ListView
-            android:id="@+id/list"
-            android:layout_marginTop="@dimen/pt12"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="@dimen/pt1"
-            android:background="@color/white"
-            android:divider="@color/bg_light">
-
-        </ListView>
 
     </LinearLayout>
 

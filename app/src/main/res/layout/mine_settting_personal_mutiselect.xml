@@ -54,38 +54,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_top"
         android:orientation="vertical">
-        <RelativeLayout
-            android:id="@+id/rl"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt12"
-            android:background="@color/white">
-
-            <ImageView
-                android:id="@+id/iv_male"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:paddingTop="@dimen/pt6"
-                android:paddingBottom="@dimen/pt6"
-                android:paddingRight="@dimen/pt10"
-                android:paddingLeft="@dimen/pt10"
-                android:layout_marginRight="@dimen/pt15"
-                android:src="@drawable/edittext_delete" />
-
-            <EditText
-                android:id="@+id/et_nickname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/bj"
-                android:layout_toLeftOf="@+id/iv_male"
-                android:gravity="left"
-                android:text="昵称"
-                android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
-        </RelativeLayout>
 
         <ListView
             android:id="@+id/list"

@@ -1,9 +1,7 @@
 package com.tzw.noah.ui.mine.setting.personal;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,7 +15,6 @@ import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.mine.LoginActivity;
 import com.tzw.noah.utils.Utils;
 
 import java.io.IOException;
@@ -65,7 +62,7 @@ public class NickNameActivity extends MyBaseActivity {
 
     private void findview() {
         et_nickname = (EditText) findViewById(R.id.et_nickname);
-        iv_delete = (ImageView) findViewById(R.id.iv_delete);
+        iv_delete = (ImageView) findViewById(R.id.iv_male);
         list = (ListView) findViewById(R.id.list);
 
         list.setAdapter(adapter);

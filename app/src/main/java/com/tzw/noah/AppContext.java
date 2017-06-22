@@ -3,6 +3,7 @@ package com.tzw.noah;
 import android.app.Application;
 import android.content.Context;
 
+import com.tzw.noah.cache.AppCache;
 import com.tzw.noah.logger.Log;
 
 /**
@@ -19,6 +20,7 @@ public class AppContext extends Application {
         super.onCreate();
         instance = getApplicationContext();
         Log.init();
+        AppCache.firstInstall();
     }
 
     public static Context getContext()

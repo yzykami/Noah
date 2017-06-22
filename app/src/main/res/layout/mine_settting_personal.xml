@@ -53,14 +53,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:text="会员号"
-                android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14"
-                android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="25dp" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:text="会员号"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
 
 
             <TextView
@@ -226,6 +226,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/pt10"
                 android:layout_toLeftOf="@+id/iv_district"
+                android:maxLines="1"
                 android:text="浙江 台州"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -240,6 +241,7 @@
             android:onClick="handle_interest">
 
             <TextView
+                android:id="@+id/tv_interest1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -263,8 +265,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/pt10"
                 android:layout_marginRight="@dimen/pt10"
                 android:layout_toLeftOf="@+id/iv_intrest"
+                android:layout_toRightOf="@+id/tv_interest1"
+                android:gravity="right"
+                android:maxLines="1"
                 android:text="未填写"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -279,6 +285,7 @@
             android:onClick="handle_character">
 
             <TextView
+                android:id="@+id/tv_character1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -302,8 +309,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/pt10"
                 android:layout_marginRight="@dimen/pt10"
                 android:layout_toLeftOf="@+id/iv_character"
+                android:layout_toRightOf="@+id/tv_character1"
+                android:gravity="right"
+                android:maxLines="1"
                 android:text="未填写"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -318,7 +329,7 @@
             android:onClick="handle_job">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tv_job1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -341,10 +352,13 @@
                 android:id="@+id/tv_job"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/textView"
-                android:layout_alignBottom="@+id/textView"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/pt10"
+                android:layout_marginRight="@dimen/pt10"
                 android:layout_toLeftOf="@+id/iv_job"
-                android:layout_toStartOf="@+id/iv_job"
+                android:layout_toRightOf="@+id/tv_job1"
+                android:gravity="right"
+                android:maxLines="1"
                 android:text="未填写"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -359,6 +373,7 @@
             android:onClick="handle_sign">
 
             <TextView
+                android:id="@+id/tv_sign1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -382,8 +397,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/pt10"
                 android:layout_marginRight="@dimen/pt10"
                 android:layout_toLeftOf="@+id/iv_sign"
+                android:layout_toRightOf="@+id/tv_sign1"
+                android:gravity="right"
+                android:maxLines="1"
                 android:text="未填写"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />

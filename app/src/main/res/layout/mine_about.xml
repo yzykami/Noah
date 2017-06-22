@@ -37,4 +37,96 @@
             android:src="@drawable/back_white" />
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="125dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="36dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/mine_about_bg1" />
+
+        <TextView
+            android:id="@+id/tv_ver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="version 22.1 build668"
+            android:textColor="@color/textLightGray"
+            android:textSize="@dimen/text_comment" />
+
+        <RelativeLayout
+            android:id="@+id/rl6"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/columnHeight"
+            android:layout_marginTop="@dimen/pt10"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"
+                android:src="@drawable/mine_arrow_gray" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:text="隐私策略"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/columnHeight"
+            android:layout_marginTop="@dimen/pt1"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25dp"
+                android:src="@drawable/mine_arrow_gray" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:text="开源组件许可"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/pt14"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:text="台州网云传媒科技 版权所有\nCopyright©2005-2017 taizhou.com"
+        android:textColor="@color/textLightGray"
+        android:textSize="@dimen/sp10" />
 </RelativeLayout>
