@@ -62,6 +62,7 @@
                 android:textSize="@dimen/sp14" />
 
             <TextView
+                android:id="@+id/tv_mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -72,7 +73,40 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_pwd1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/columnHeight"
+            android:layout_marginTop="@dimen/pt1"
+            android:background="@color/white">
+
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/bj"
+                android:text="原密码"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <EditText
+                android:id="@+id/et_pwd_old"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:hint="请输入原密码                                   "
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/textDarkGray"
+                android:textColorHint="@color/textLightLightGray"
+                android:textSize="@dimen/sp14" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
             android:layout_marginTop="@dimen/pt1"
@@ -90,19 +124,23 @@
                 android:textSize="@dimen/sp14" />
 
             <EditText
+                android:id="@+id/et_pwd1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
-                android:text=""
                 android:hint="请设置密码                                   "
-                android:textColorHint="@color/textLightLightGray"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:maxLines="1"
+                android:text=""
                 android:textColor="@color/textDarkGray"
+                android:textColorHint="@color/textLightLightGray"
                 android:textSize="@dimen/sp14" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_pwd2"
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
             android:layout_marginTop="@dimen/pt1"
@@ -120,16 +158,22 @@
                 android:textSize="@dimen/sp14" />
 
             <EditText
+                android:id="@+id/et_pwd2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
-                android:text=""
                 android:hint="请再次填入                                    "
-                android:textColorHint="@color/textLightLightGray"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:maxLines="1"
+                android:text=""
                 android:textColor="@color/textDarkGray"
+                android:textColorHint="@color/textLightLightGray"
                 android:textSize="@dimen/sp14" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/tv_submit"
             android:layout_width="fill_parent"
@@ -141,6 +185,7 @@
             android:background="@drawable/bg_red_fill_round"
             android:gravity="center"
             android:hint=""
+            android:onClick="handle_save"
             android:text="完成"
             android:textColor="@color/white"
             android:textSize="@dimen/text_content" />

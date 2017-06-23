@@ -37,7 +37,7 @@ import okhttp3.Call;
 
 public class PersonalSettingActivity extends MyBaseActivity {
 
-    String TAG = "RegisterActivity";
+    String TAG = "PersonalSettingActivity";
     PersonalSettingActivity mycontext = PersonalSettingActivity.this;
 
     final static int CallBy_NickName = 10001;

@@ -80,6 +80,7 @@ public class MineMainActivity extends MyBaseActivity {
             });
             tv_name.setText("未登录");
             tv_sign.setText("1秒登录，专享个性化服务");
+            iv_head.setImageResource(R.drawable.default_user);
         }
     }
 

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="设置"
+            android:text="字体大小"
             android:textColor="@color/white"
             android:textSize="@dimen/text_title" />
 
@@ -35,37 +35,28 @@
             android:paddingRight="@dimen/pt13"
             android:paddingTop="@dimen/pt8"
             android:src="@drawable/back_white" />
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="保存"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/bj"
+            android:textColor="@color/white"
+            android:onClick="handle_save"
+            android:textSize="@dimen/text_title_right"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_top"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_ver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/pt2"
-            android:layout_marginLeft="@dimen/bj"
-            android:layout_marginRight="@dimen/bj"
-            android:layout_marginTop="@dimen/pt2"
-            android:padding="@dimen/pt4"
-            android:text="最近登录设备：你可以删除列表中的设备，删除后再设备登录需要进行身份验证。"
-            android:textColor="@color/textLightGray"
-            android:textSize="@dimen/text_content" />
-
-        <include
-            layout="@layout/mine_settting_safe_device_item"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:id="@+id/ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

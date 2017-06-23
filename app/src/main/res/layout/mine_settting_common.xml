@@ -51,18 +51,19 @@
             android:background="@color/white">
 
             <ImageView
+                android:id="@+id/iv_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="25dp"
-                android:src="@drawable/btn1_unselect" />
+                android:src="@drawable/btn1_selected" />
 
             <TextView
-                android:id="@+id/iv_msg"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_msg"
                 android:layout_marginLeft="@dimen/bj"
                 android:text="消息推送"
                 android:textColor="@color/textDarkGray"
@@ -89,6 +90,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_wifi"
                 android:layout_marginLeft="@dimen/bj"
                 android:text="非Wi-Fi网络下不自动加载图片"
                 android:textColor="@color/textDarkGray"
@@ -99,6 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
             android:layout_marginTop="@dimen/pt15"
+            android:onClick="handle_size"
             android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"

@@ -16,7 +16,7 @@ import com.tzw.noah.ui.mine.LoginActivity;
 public class SettingActivity extends MyBaseActivity {
 
 
-    String TAG = "RegisterActivity";
+    String TAG = "SettingActivity";
     SettingActivity mycontext = SettingActivity.this;
 
     public final int callBy_personalsetting = 10001;

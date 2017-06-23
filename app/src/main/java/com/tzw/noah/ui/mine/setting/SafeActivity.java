@@ -3,8 +3,10 @@ package com.tzw.noah.ui.mine.setting;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.mine.LoginActivity;
 
@@ -14,8 +16,9 @@ import com.tzw.noah.ui.mine.LoginActivity;
 
 public class SafeActivity extends MyBaseActivity {
 
-    String TAG="RegisterActivity";
+    String TAG="SafeActivity";
     SafeActivity mycontext = SafeActivity.this;
+    private TextView tv_mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,27 +31,23 @@ public class SafeActivity extends MyBaseActivity {
 
     private void findview() {
 
+        tv_mobile =(TextView)findViewById(R.id.tv_mobile);
     }
 
     private void initview() {
+        tv_mobile.setText(UserCache.getUser().memberMobile);
     }
 
     private void doWorking() {
 
     }
 
-    public void handle_login(View view) {
-        Intent intent = new Intent(mycontext,LoginActivity.class);
-        startActivity(intent);
-    }
 
     public void handle_pwd(View view) {
-        Intent intent = new Intent(mycontext,SafePwdActivity.class);
-        startActivity(intent);
+        startActivity(SafePwdActivity.class);
     }
 
     public void handle_device(View view) {
-        Intent intent = new Intent(mycontext,SafeDeviceActivity.class);
-        startActivity(intent);
+        startActivity(SafeDeviceActivity.class);
     }
 }

@@ -63,4 +63,13 @@ public class Utils {
         }
         return 0;
     }
+
+    public static String formatDatetime(String datetime)
+    {
+        if(datetime==null||datetime.isEmpty()||datetime.equals("0000-00-00 00:00:00"))
+        {
+            return "";
+        }
+        return datetime;
+    }
 }

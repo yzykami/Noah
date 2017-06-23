@@ -13,7 +13,7 @@ import com.tzw.noah.ui.MyBaseActivity;
 
 public class AboutActivity extends MyBaseActivity {
 
-    String TAG="RegisterActivity";
+    String TAG="AboutActivity";
     AboutActivity mycontext = AboutActivity.this;
 
     @Override

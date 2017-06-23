@@ -111,7 +111,7 @@ public class SignActivity extends MyBaseActivity {
         body.add(new Param("memberCharacter", user.memberCharacter));
         body.add(new Param("memberWork", user.memberWork));
         body.add(new Param("areaId", user.areaId));
-        body.add(new Param("memberIntroduce", user.memberIntroduce));
+        body.add(new Param("memberIntroduce", et_sign.getText().toString()));
         body.add(new Param("memberBirthday", Utils.String2Timestamp(user.memberBirthday)));
         NetHelper.getInstance().setUserInfo(body, new StringDialogCallback(this) {
             @Override

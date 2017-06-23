@@ -62,12 +62,14 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/et_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/pt10"
                 android:gravity="top"
                 android:hint="请写下您的意见或者建议"
                 android:lines="3"
+                android:textColor="@color/textDarkGray"
                 android:textColorHint="@color/textLightGray"
                 android:textSize="@dimen/text_comment" />
 
@@ -92,155 +94,12 @@
             android:textColor="@color/textLightGray"
             android:textSize="@dimen/text_comment" />
 
-        <RelativeLayout
-            android:id="@+id/rl1"
+        <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt1"
-            android:background="@color/white">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/mine_arrow_gray" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/pt15"
-                android:text="隐私策略"
-                android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl2"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt1"
-            android:background="@color/white">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/mine_arrow_gray" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/pt15"
-                android:text="开源组件许可"
-                android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl3"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt1"
-            android:background="@color/white">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/mine_arrow_gray" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/pt15"
-                android:text="隐私策略"
-                android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl4"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt1"
-            android:background="@color/white">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/mine_arrow_gray" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/pt15"
-                android:text="开源组件许可"
-                android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl5"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt1"
-            android:background="@color/white">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/mine_arrow_gray" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/pt15"
-                android:text="隐私策略"
-                android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl6"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt1"
-            android:background="@color/white">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/mine_arrow_gray" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/pt15"
-                android:text="开源组件许可"
-                android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
-        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -273,6 +132,7 @@
                 android:textSize="@dimen/sp10" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -304,6 +164,7 @@
                 android:textSize="@dimen/sp10" />
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/tv_submit"
             android:layout_width="fill_parent"
@@ -314,11 +175,13 @@
             android:background="@drawable/bg_red_border_round"
             android:gravity="center"
             android:hint=""
+            android:onClick="handle_submit"
             android:text="提交"
             android:textColor="@color/myRed"
             android:textSize="@dimen/text_content" />
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+            android:layout_height="20dp" />
     </LinearLayout>
 </ScrollView>

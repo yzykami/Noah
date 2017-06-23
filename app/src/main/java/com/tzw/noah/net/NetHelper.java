@@ -104,6 +104,7 @@ public class NetHelper {
         String bodyName = "registerSObj";
         new WIRequest().Post(method, body, bodyName, callback);
     }
+
     //登录
     //member/Login
     public IMsg memberLogin(List<Param> body) {
@@ -112,7 +113,7 @@ public class NetHelper {
             String method = "member/login";
             String bodyName = "loginSObj";
             DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(AppContext.getContext());
-            body.add(new Param("clientCode",deviceUuidFactory.getDeviceUuidString()));
+            body.add(new Param("clientCode", deviceUuidFactory.getDeviceUuidString()));
             iMsg = new WIRequest().Post(method, body, bodyName);
             return iMsg;
         } else {
@@ -133,7 +134,7 @@ public class NetHelper {
     public void memberLogout(List<Param> body, Callback callback) {
         String method = "member/logout";
         String bodyName = "";
-        new WIRequest().Post(method, body, bodyName,callback);
+        new WIRequest().Post(method, body, bodyName, callback);
     }
 
     //获取系统推荐昵称
@@ -144,10 +145,18 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
+    //获取系统推荐昵称
+    //operation/feedback
+    public void operationFeedback(List<Param> body, Callback callback) {
+        String method = "operation/feedback";
+        String bodyName = "feedbackSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
     //user/details
     public IMsg getUserDetails() {
         String method = "user/details";
-        IMsg iMsg = new WIRequest().Post(method,null);
+        IMsg iMsg = new WIRequest().Post(method, null);
         return iMsg;
     }
 
@@ -155,6 +164,19 @@ public class NetHelper {
     public void setUserInfo(List<Param> body, Callback callback) {
         String method = "user/info";
         String bodyName = "infoSObj";
-        new WIRequest().Put(method,body,bodyName,callback);
+        new WIRequest().Put(method, body, bodyName, callback);
+    }
+
+    //user/password
+    public void setUserPassword(List<Param> body, Callback callback) {
+        String method = "user/password";
+        String bodyName = "passwordSObj";
+        new WIRequest().Put(method, body, bodyName, callback);
+    }
+
+    //user/device
+    public void getUserDevice(List<Param> body, Callback callback) {
+        String method = "user/device";
+        new WIRequest().Post(method, body, callback);
     }
 }

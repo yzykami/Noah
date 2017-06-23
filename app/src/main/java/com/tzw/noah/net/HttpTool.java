@@ -77,7 +77,12 @@ public class HttpTool {
             execute = call.execute();
             String ret = execute.body().string();
             Log.httpcall(request, ret);
-            return IMsg.getInstance(ret);
+            IMsg imsg=null;
+            if (execute.code() == 200)
+                imsg = IMsg.getInstance(ret);
+            else
+                imsg = CreateErrorMsgResponse("服务器返回错误:" + execute.code());
+            return imsg;
         } catch (Exception e) {
             Log.httpcall(request, e);
             return CreateErrorMsgResponse(e.getMessage());
@@ -156,7 +161,10 @@ public class HttpTool {
                     try {
                         ret = response.body().string();
                         Log.httpcall(request, ret);
-                        imsg = IMsg.getInstance(ret);
+                        if (response.code() == 200)
+                            imsg = IMsg.getInstance(ret);
+                        else
+                            imsg = CreateErrorMsgResponse("服务器返回错误:" + response.code());
                     } catch (Exception e) {
                         imsg = CreateErrorMsgResponse(e.getMessage());
                         Log.httpcall(request, e);
@@ -212,7 +220,11 @@ public class HttpTool {
                     try {
                         String ret = response.body().string();
                         Log.httpcall(request, ret);
-                        imsg = IMsg.getInstance(ret);
+                        if (response.code() == 200)
+                            imsg = IMsg.getInstance(ret);
+                        else
+                            imsg = CreateErrorMsgResponse("服务器返回错误:" + response.code());
+
                     } catch (Exception e) {
                         imsg = CreateErrorMsgResponse(e.getMessage());
                         Log.httpcall(request, e);
@@ -252,7 +264,12 @@ public class HttpTool {
             String ret = execute.body().string();
 
             Log.httpcall(request, ret, json);
-            return IMsg.getInstance(ret);
+            IMsg imsg=null;
+            if (execute.code() == 200)
+                imsg = IMsg.getInstance(ret);
+            else
+                imsg = CreateErrorMsgResponse("服务器返回错误:" + execute.code());
+            return imsg;
         } catch (Exception e) {
 
             Log.httpcall(request, e, json);
@@ -299,7 +316,10 @@ public class HttpTool {
                     try {
                         String ret = response.body().string();
                         Log.httpcall(request, ret);
-                        imsg = IMsg.getInstance(ret);
+                        if (response.code() == 200)
+                            imsg = IMsg.getInstance(ret);
+                        else
+                            imsg = CreateErrorMsgResponse("服务器返回错误:" + response.code());
                     } catch (Exception e) {
                         imsg = CreateErrorMsgResponse(e.getMessage());
                         Log.httpcall(request, e);
@@ -339,7 +359,12 @@ public class HttpTool {
             String ret = execute.body().string();
 
             Log.httpcall(request, ret, json);
-            return IMsg.getInstance(ret);
+            IMsg imsg=null;
+            if (execute.code() == 200)
+                imsg = IMsg.getInstance(ret);
+            else
+                imsg = CreateErrorMsgResponse("服务器返回错误:" + execute.code());
+            return imsg;
         } catch (Exception e) {
 
             Log.httpcall(request, e, json);

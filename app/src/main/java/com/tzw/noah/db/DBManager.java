@@ -189,6 +189,11 @@ public class DBManager {
         return selectDictionaryList(sql);
     }
 
+    public List<Dict> selectFeedbacktList() {
+        String sql = "SELECT * FROM Dictionary where dictionaryType ='feedBackType'";
+        return selectDictionaryList(sql);
+    }
+
     private List<Dict> selectDictionaryList(String sql) {
         //sql = "SELECT * FROM Area"
         ArrayList<Dict> Dicts = new ArrayList<Dict>();
