@@ -1,0 +1,116 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/myRed">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="模板"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_title" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/btn_title_width"
+            android:layout_height="@dimen/btn_title_height"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/pt12"
+            android:clickable="true"
+            android:onClick="handle_back"
+            android:paddingBottom="@dimen/pt8"
+            android:paddingLeft="@dimen/pt13"
+            android:paddingRight="@dimen/pt13"
+            android:paddingTop="@dimen/pt8"
+            android:src="@drawable/back_white" />
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/bj"
+            android:gravity="center"
+            android:onClick="handle_save"
+            android:text="保存"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_title_right" />
+
+        <ImageView
+            android:layout_width="@dimen/btn_title_right_size"
+            android:layout_height="@dimen/btn_title_right_size"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/pt12"
+            android:paddingBottom="@dimen/pt8"
+            android:paddingLeft="@dimen/pt13"
+            android:paddingRight="@dimen/pt13"
+            android:paddingTop="@dimen/pt8"
+            android:src="@drawable/default_user" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:orientation="vertical">
+
+        <include layout="@layout/sns_chat_item">
+
+        </include>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt1"/>
+
+        <include layout="@layout/sns_add_item">
+
+        </include>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt1"/>
+
+        <TextView
+            android:id="@+id/tv_submit1"
+            android:layout_width="fill_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginRight="@dimen/bj"
+            android:layout_marginTop="@dimen/pt10"
+            android:background="@drawable/bg_red_border_round"
+            android:gravity="center"
+            android:hint=""
+            android:text="红边框"
+            android:textColor="@color/myRed"
+            android:textSize="@dimen/text_content" />
+
+        <TextView
+            android:id="@+id/tv_submit2"
+            android:layout_width="fill_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginRight="@dimen/bj"
+            android:layout_marginTop="@dimen/pt10"
+            android:layout_toRightOf="@+id/iv_username"
+            android:background="@drawable/bg_red_fill_round"
+            android:gravity="center"
+            android:hint=""
+            android:text="红底"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_content" />
+
+    </LinearLayout>
+
+</RelativeLayout>

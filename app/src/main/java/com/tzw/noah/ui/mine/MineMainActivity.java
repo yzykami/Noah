@@ -14,6 +14,7 @@ import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.mine.setting.SettingActivity;
+import com.tzw.noah.widgets.CircleImageView;
 
 /**
  * Created by yzy on 2017/6/8.
@@ -68,6 +69,7 @@ public class MineMainActivity extends MyBaseActivity {
             sign += "积分 " + user.growth;
             tv_sign.setText(sign);
             iv_head.setImageResource(R.drawable.mine_login_user);
+//            ((CircleImageView)iv_head).setNum(99);
             tv_login.setVisibility(View.GONE);
         } else {
             tv_login.setVisibility(View.VISIBLE);

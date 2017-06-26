@@ -61,9 +61,13 @@
     <dimen name="text_small10">10sp</dimen>
     <dimen name="btn_title_width">36dp</dimen>
     <dimen name="btn_title_height">36dp</dimen>
+    <dimen name="btn_title_right_size">46dp</dimen>
     <dimen name="pt25">25dp</dimen>
     <dimen name="columnHeight">44dp</dimen>
     <dimen name="pt50">50dp</dimen>
     <dimen name="title_height">50dp</dimen>
     <dimen name="text_title_right">15sp</dimen>
+    <dimen name="head">50dp</dimen>
+    <dimen name="headPadding">8dp</dimen>
+    <dimen name="sns_invite_height">66dp</dimen>
 </resources>
