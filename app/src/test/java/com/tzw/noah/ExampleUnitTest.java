@@ -11,6 +11,7 @@ import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
 import com.tzw.noah.net.WIRequest;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.util.Map;
 import okhttp3.Call;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -66,7 +68,7 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
     }
 
-//    @Test
+    //    @Test
 //    public void test_netapi_base_time() {
 //        WIRequest net = new WIRequest();
 //        IMsg IMsg = net.getBaseTime();
@@ -89,14 +91,14 @@ public class ExampleUnitTest {
 //    }
     @Test
     public void test_netapi_base_config() {
-        NetHelper netHelper=NetHelper.getInstance();
+        NetHelper netHelper = NetHelper.getInstance();
         IMsg IMsg = netHelper.getBaseConfig();
         o(IMsg.toString());
     }
 
     @Test
     public void test_netapi_base_appache() {
-        NetHelper netHelper=NetHelper.getInstance();
+        NetHelper netHelper = NetHelper.getInstance();
         IMsg IMsg = netHelper.getBaseDictType();
         o(IMsg.toString());
         IMsg = netHelper.getBaseDict();
@@ -104,7 +106,6 @@ public class ExampleUnitTest {
         IMsg = netHelper.getBaseConfig();
         o(IMsg.toString());
     }
-
 
 
 //    @Test
@@ -134,14 +135,13 @@ public class ExampleUnitTest {
 
 
     @Test
-    public void testRegister()
-    {
+    public void testRegister() {
         NetHelper netHelper = NetHelper.getInstance();
         netHelper.getBaseTime();
-        List<Param> body=new ArrayList<>();
-        body.add(new Param("memberMobile","15858652110"));
-        body.add(new Param("memberPasswd","123456"));
-        body.add(new Param("vcode","999999"));
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("memberMobile", "15858652110"));
+        body.add(new Param("memberPasswd", "123456"));
+        body.add(new Param("vcode", "999999"));
         final IMsg[] imsg1 = new IMsg[1];
         netHelper.memberRegister(body, new Callback() {
             @Override
@@ -153,11 +153,10 @@ public class ExampleUnitTest {
             public void onResponse(IMsg imsg) {
 
                 o(imsg.toString());
-                imsg1[0] =imsg;
+                imsg1[0] = imsg;
             }
         });
-        while (imsg1[0]==null)
-        {
+        while (imsg1[0] == null) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -167,4 +166,13 @@ public class ExampleUnitTest {
     }
 
 
+    @Test
+    public void testCompare() {
+        String s = "";
+        String b = "";
+        assertEquals(s.compareTo(b), 0);
+        s = "a";
+        b = "b";
+        assertEquals(s.compareTo(b), -1);
+    }
 }

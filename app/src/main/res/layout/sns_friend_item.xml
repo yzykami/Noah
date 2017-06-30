@@ -2,19 +2,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/bg_light">
+
     <TextView
         android:id="@+id/tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/headPadding"
-        android:paddingBottom="@dimen/pt2"
+        android:text="A"
         android:paddingTop="@dimen/pt2"
-        android:text=""
+        android:paddingBottom="@dimen/pt2"
         android:textColor="@color/textLightGray"
-        android:textSize="@dimen/text_comment"
-        android:visibility="visible" />
+        android:textSize="@dimen/text_comment" />
+
     <RelativeLayout
         android:id="@+id/ll_user"
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <com.tzw.noah.widgets.CircleImageView
+        <me.xiaopan.sketchsample.widget.SampleImageView
             android:id="@+id/iv_head"
             android:layout_width="@dimen/head"
             android:layout_height="@dimen/head"
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/llr"
+            android:layout_toLeftOf="@id/llr"
             android:layout_toRightOf="@+id/iv_head"
             android:orientation="vertical">
 
@@ -77,14 +78,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/bg_red_border_round"
-                android:paddingBottom="@dimen/pt5"
-                android:paddingLeft="@dimen/pt12"
-                android:paddingRight="@dimen/pt12"
-                android:paddingTop="@dimen/pt5"
-                android:text="添加"
-                android:textColor="@color/myRed"
-                android:textSize="@dimen/text_lable_small" />
+                android:text="昨天"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/text_small10" />
+
+            <ImageView
+                android:id="@+id/iv_notify"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/pt6"
+                android:src="@drawable/sns_block" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

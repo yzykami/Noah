@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light"
+    tools:context="com.tzw.noah.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/myRed">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="会话"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_title" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/btn_title_width"
+                android:layout_height="@dimen/btn_title_height"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/pt12"
+                android:clickable="true"
+                android:onClick="handle_back"
+                android:paddingBottom="@dimen/pt8"
+                android:paddingLeft="@dimen/pt13"
+                android:paddingRight="@dimen/pt13"
+                android:paddingTop="@dimen/pt8"
+                android:src="@drawable/back_white" />
+
+            <ImageView
+                android:id="@+id/iv_add"
+                android:layout_width="@dimen/btn_title_width"
+                android:layout_height="@dimen/btn_title_height"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/pt15"
+                android:clickable="true"
+                android:onClick="handle_back"
+                android:paddingBottom="@dimen/pt5"
+                android:paddingLeft="@dimen/pt10"
+                android:paddingRight="@dimen/pt10"
+                android:paddingTop="@dimen/pt5"
+                android:src="@drawable/sns_add" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/pt8"
+            android:background="@drawable/bg_white_fill"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:layout_width="@dimen/pt10"
+                    android:layout_height="@dimen/pt10"
+                    android:layout_gravity="center"
+                    android:src="@drawable/sns_more" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/pt4"
+                    android:text="搜索"
+                    android:textColor="@color/textLightGray"
+                    android:textSize="@dimen/text_small10" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <in.srain.cube.views.ptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/header_list_view_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            cube_ptr:ptr_duration_to_close="200"
+            cube_ptr:ptr_duration_to_close_header="1000"
+            cube_ptr:ptr_keep_header_when_refresh="true"
+            cube_ptr:ptr_pull_to_fresh="false"
+            cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+            cube_ptr:ptr_resistance="1.7">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:choiceMode="singleChoice"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:listSelector="@android:color/transparent"
+                android:scrollbarStyle="outsideOverlay" />
+
+        </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

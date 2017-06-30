@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/bg_light">
 
         <RelativeLayout
@@ -10,9 +10,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/pt1">
 
-            <com.tzw.noah.widgets.CircleImageView
+            <me.xiaopan.sketchsample.widget.SampleImageView
                 android:id="@+id/iv_head"
                 android:layout_width="@dimen/head"
                 android:layout_height="@dimen/head"
@@ -75,7 +76,7 @@
                     android:layout_height="12dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/pt6"
-                    android:src="@drawable/mine_setting" />
+                    android:src="@drawable/sns_block" />
             </LinearLayout>
         </RelativeLayout>
 </RelativeLayout>

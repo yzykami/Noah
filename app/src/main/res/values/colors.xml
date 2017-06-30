@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="default_text_color_normal">#AEFFFFFF</color>
+    <color name="default_text_color_selected">#FFFFFF</color>
+    <color name="default_text_color_subtitle">#33FFFFFF</color>
+
+    <color name="window_background_start">#A75509</color>
+    <color name="window_background_center">#371708</color>
+    <color name="window_background_end">#040404</color>
+
+    <color name="list_item_background_pressed">#33FFFFFF</color>
+
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -10,6 +20,7 @@
     <color name="myblack">#000000</color>
     <color name="myRed">#DA251C</color>
     <color name="bg_light">#F4F4F4</color>
+    <color name="bg_darkLight">#cccccc</color>
     <color name="textDarkGray">#666666</color>
     <color name="textLightGray">#999999</color>
     <color name="textLightLightGray">#bfbfbf</color>

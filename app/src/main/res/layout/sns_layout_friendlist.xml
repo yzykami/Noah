@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light"
+    tools:context="com.tzw.noah.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/myRed">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="好友"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_title" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/btn_title_width"
+                android:layout_height="@dimen/btn_title_height"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/pt12"
+                android:clickable="true"
+                android:onClick="handle_back"
+                android:paddingBottom="@dimen/pt8"
+                android:paddingLeft="@dimen/pt13"
+                android:paddingRight="@dimen/pt13"
+                android:paddingTop="@dimen/pt8"
+                android:src="@drawable/back_white" />
+
+            <ImageView
+                android:id="@+id/iv_add"
+                android:layout_width="@dimen/btn_title_width"
+                android:layout_height="@dimen/btn_title_height"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/pt15"
+                android:clickable="true"
+                android:onClick="handle_back"
+                android:paddingBottom="@dimen/pt5"
+                android:paddingLeft="@dimen/pt10"
+                android:paddingRight="@dimen/pt10"
+                android:paddingTop="@dimen/pt5"
+                android:src="@drawable/sns_add" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/pt8"
+                android:background="@drawable/bg_red_border_round"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@color/myRed"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/tv_friend"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="0.5dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/myRed"
+                        android:gravity="center"
+                        android:onClick="handle_select"
+                        android:padding="@dimen/pt6"
+                        android:text="好友"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_follow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_marginRight="0.5dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:onClick="handle_select"
+                        android:padding="@dimen/pt6"
+                        android:text="关注"
+                        android:textColor="@color/myRed"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_fans"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_marginRight="0.5dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:onClick="handle_select"
+                        android:padding="@dimen/pt6"
+                        android:text="粉丝"
+                        android:textColor="@color/myRed"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginLeft="0.5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:onClick="handle_select"
+                        android:padding="@dimen/pt6"
+                        android:text="群组"
+                        android:textColor="@color/myRed"
+                        android:textSize="@dimen/text_content" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+    </LinearLayout>
+
+</RelativeLayout>

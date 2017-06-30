@@ -18,6 +18,7 @@ import com.tzw.noah.ui.friend.FriendMainActivity;
 import com.tzw.noah.ui.home.HomeMainActivity;
 import com.tzw.noah.ui.mine.MineMainActivity;
 import com.tzw.noah.ui.service.ServiceMainActivity;
+import com.tzw.noah.ui.sns.SnsMainActivity;
 
 public class MainActivity extends TabActivity {
 
@@ -57,11 +58,13 @@ public class MainActivity extends TabActivity {
         intent2.setClass(MainActivity.this, CirileMainActivity.class);
         tabHost.addTab(tabHost.newTabSpec("2").setIndicator("2")
                 .setContent(intent2));
+
         Intent intent3 = new Intent();
-        intent3.setClass(MainActivity.this, ServiceMainActivity.class);
+        intent3.setClass(MainActivity.this, SnsMainActivity.class);
         tabHost.addTab(tabHost.newTabSpec("3").setIndicator("3").setContent(intent3));
+
         Intent intent4 = new Intent();
-        intent4.setClass(MainActivity.this, FriendMainActivity.class);
+        intent4.setClass(MainActivity.this, ServiceMainActivity.class);
         tabHost.addTab(tabHost.newTabSpec("4").setIndicator("4").setContent(intent4));
 
         Intent intent5 = new Intent();
@@ -70,8 +73,8 @@ public class MainActivity extends TabActivity {
 
         layout1 = (FrameLayout) findViewById(R.id.frame_home);
         layout2 = (FrameLayout) findViewById(R.id.frame_circle);
-        layout3 = (FrameLayout) findViewById(R.id.frame_service);
-        layout4 = (FrameLayout) findViewById(R.id.frame_friend);
+        layout3 = (FrameLayout) findViewById(R.id.frame_friend);
+        layout4 = (FrameLayout) findViewById(R.id.frame_service);
         layout5 = (FrameLayout) findViewById(R.id.frame_mine);
 
         layout1.setOnClickListener(l);
@@ -109,7 +112,6 @@ public class MainActivity extends TabActivity {
     }
 
 
-
     View.OnClickListener l = new View.OnClickListener() {
 
         public void onClick(View arg0) {
@@ -129,8 +131,7 @@ public class MainActivity extends TabActivity {
                 tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_mine_text.setTextColor(getResources().getColorStateList(R.color.mygray));
 
-            }
-            else if (arg0 == layout2) {
+            } else if (arg0 == layout2) {
                 tabHost.setCurrentTabByTag("2");
 
                 iv_home.setImageResource(R.drawable.tab_home);
@@ -145,41 +146,36 @@ public class MainActivity extends TabActivity {
                 tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_mine_text.setTextColor(getResources().getColorStateList(R.color.mygray));
 
-            }
+            } else if (arg0 == layout3) {
 
-            else if (arg0 == layout3) {
                 tabHost.setCurrentTabByTag("3");
 
                 iv_home.setImageResource(R.drawable.tab_home);
                 iv_circle.setImageResource(R.drawable.tab_circle);
-                iv_service.setImageResource(R.drawable.tab_service_clicked);
-                iv_friend.setImageResource(R.drawable.tab_friend);
+                iv_friend.setImageResource(R.drawable.tab_friend_clicked);
+                iv_service.setImageResource(R.drawable.tab_service);
                 iv_mine.setImageResource(R.drawable.tab_mine);
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-                tab_service_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
-                tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
+                tab_friend_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
+                tab_service_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_mine_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-            }
-
-            else if (arg0 == layout4) {
-
+            } else if (arg0 == layout4) {
                 tabHost.setCurrentTabByTag("4");
 
                 iv_home.setImageResource(R.drawable.tab_home);
                 iv_circle.setImageResource(R.drawable.tab_circle);
-                iv_service.setImageResource(R.drawable.tab_service);
-                iv_friend.setImageResource(R.drawable.tab_friend_clicked);
+                iv_friend.setImageResource(R.drawable.tab_friend);
+                iv_service.setImageResource(R.drawable.tab_service_clicked);
                 iv_mine.setImageResource(R.drawable.tab_mine);
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-                tab_service_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-                tab_friend_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
+                tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
+                tab_service_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
                 tab_mine_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-            }
-            else if (arg0 == layout5) {
+            } else if (arg0 == layout5) {
 
                 tabHost.setCurrentTabByTag("5");
 

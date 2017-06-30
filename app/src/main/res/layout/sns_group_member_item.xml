@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_light">
+
+    <RelativeLayout
+        android:id="@+id/ll_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/pt1"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <com.tzw.noah.widgets.CircleImageView
+            android:id="@+id/iv_head"
+            android:layout_width="@dimen/head"
+            android:layout_height="@dimen/head"
+            android:layout_margin="@dimen/headPadding"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_user"
+            app:type="circle" />
+
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_head"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_vertical"
+            android:maxWidth="@dimen/headtext"
+            android:gravity="center"
+            android:text="昵称昵称昵称"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/text_content" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

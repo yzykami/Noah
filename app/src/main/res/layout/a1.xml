@@ -68,16 +68,29 @@
         android:layout_below="@+id/rl_top"
         android:orientation="vertical">
 
-        <include layout="@layout/sns_chat_item">
-
-        </include>
+        <include layout="@layout/sns_chat_item"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/pt1"/>
 
-        <include layout="@layout/sns_add_item">
+        <include layout="@layout/sns_add_item"/>
 
-        </include>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt1"/>
+
+        <include layout="@layout/sns_invite_item"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt1"/>
+        <include layout="@layout/sns_next_operation_item"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt1"/>
+        <include layout="@layout/sns_group_member_item"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/pt1"/>

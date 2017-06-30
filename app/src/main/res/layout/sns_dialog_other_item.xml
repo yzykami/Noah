@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="right"
+        android:layout_marginBottom="@dimen/pt8"
+        android:layout_marginTop="@dimen/pt14"
+        android:background="@drawable/bg_gray_fill_round"
+        android:paddingBottom="@dimen/pt2"
+        android:paddingLeft="@dimen/pt5"
+        android:paddingRight="@dimen/pt5"
+        android:paddingTop="@dimen/pt2"
+        android:text="05:34"
+        android:textColor="@color/textLightGray"
+        android:textSize="@dimen/text_comment" />
+
+    <RelativeLayout
+        android:id="@+id/ll_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_time"
+        android:layout_marginBottom="@dimen/pt1"
+        android:orientation="horizontal">
+
+        <com.tzw.noah.widgets.CircleImageView
+            android:id="@+id/iv_head"
+            android:layout_width="@dimen/head"
+            android:layout_height="@dimen/head"
+            android:layout_margin="@dimen/headPadding"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_user"
+            app:type="circle" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/headPadding"
+            android:layout_marginRight="@dimen/sns_dialog_bj"
+            android:layout_marginTop="@dimen/headPadding"
+            android:layout_toRightOf="@+id/iv_head"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="昵称"
+                android:textColor="@color/textLightGray"
+                android:textSize="@dimen/text_comment" />
+
+            <TextView
+                android:id="@+id/tv_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/pt4"
+                android:background="@drawable/sns_dialog_other"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/text_content" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</RelativeLayout>

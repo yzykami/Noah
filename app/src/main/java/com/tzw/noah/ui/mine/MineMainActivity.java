@@ -14,6 +14,7 @@ import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.mine.setting.SettingActivity;
+import com.tzw.noah.ui.sns.friendlist.FriendListActivity;
 import com.tzw.noah.widgets.CircleImageView;
 
 /**
@@ -132,5 +133,9 @@ public class MineMainActivity extends MyBaseActivity {
         super.onResume();
         Log.log(TAG,"onResume");
         initview();
+    }
+
+    public void handle_friendlist(View view) {
+        startActivity(FriendListActivity.class);
     }
 }

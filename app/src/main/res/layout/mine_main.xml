@@ -193,6 +193,7 @@
                     android:layout_weight="1"
                     android:paddingTop="@dimen/pt12"
                     android:paddingBottom="@dimen/pt12"
+                    android:onClick="handle_friendlist"
                     android:orientation="vertical">
 
                     <ImageView
