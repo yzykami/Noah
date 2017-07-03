@@ -95,8 +95,8 @@ public class BookActivity extends MyBaseActivity {
         list_view.setAdapter(adapter);
 
         View headSearchView = getLayoutInflater().inflate(R.layout.sns_search_head, null, false);
-//        TextView tv = (TextView) headSearchView.findViewById(R.id.tv);
-//        tv.setText("手机号/微信号");
+//        TextView tv_name = (TextView) headSearchView.findViewById(R.id.tv_name);
+//        tv_name.setText("手机号/微信号");
         list_view.addHeaderView(headSearchView);
 
         View headSpanView = new View(mContext);
@@ -132,11 +132,6 @@ public class BookActivity extends MyBaseActivity {
                 }
             }
         });
-    }
-
-
-    protected void setupViews(final PtrClassicFrameLayout ptrFrame) {
-
     }
 
 

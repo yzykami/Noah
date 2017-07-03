@@ -2,9 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="50dip"
-    android:layout_alignParentBottom="true" >
+    android:layout_alignParentBottom="true">
 
-    
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -12,21 +11,21 @@
         android:layout_gravity="bottom"
         android:background="@drawable/tab_bg"
         android:gravity="center_horizontal"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <FrameLayout
             android:id="@+id/frame_home"
             android:layout_width="fill_parent"
             android:layout_height="48.0dip"
-            android:layout_weight="1.0" >
+            android:layout_weight="1.0">
 
             <ImageView
                 android:id="@+id/iv_home"
                 android:layout_width="28.0dip"
                 android:layout_height="28.0dip"
                 android:layout_gravity="top|center"
-                android:padding="3dp"
                 android:layout_marginTop="5.0dip"
+                android:padding="3dp"
                 android:src="@drawable/tab_home" />
 
             <TextView
@@ -44,15 +43,15 @@
             android:id="@+id/frame_circle"
             android:layout_width="fill_parent"
             android:layout_height="48.0dip"
-            android:layout_weight="1.0" >
+            android:layout_weight="1.0">
 
             <ImageView
                 android:id="@+id/iv_circle"
                 android:layout_width="28.0dip"
                 android:layout_height="28.0dip"
-                android:padding="3dp"
                 android:layout_gravity="top|center"
                 android:layout_marginTop="5.0dip"
+                android:padding="3dp"
                 android:src="@drawable/tab_circle" />
 
             <TextView
@@ -66,39 +65,11 @@
                 android:textSize="10.0dip" />
         </FrameLayout>
 
-        
-
-        <FrameLayout
-            android:id="@+id/frame_service"
-            android:layout_width="fill_parent"
-            android:layout_height="48.0dip"
-            android:layout_weight="1.0" >
-
-            <ImageView
-                android:id="@+id/iv_service"
-                android:layout_width="28.0dip"
-                android:layout_height="28.0dip"
-                android:layout_gravity="top|center"
-                android:layout_marginTop="5.0dip"
-                android:padding="3dp"
-                android:src="@drawable/tab_service" />
-
-            <TextView
-                android:id="@+id/tab_service_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:layout_marginBottom="2.0dip"
-                android:text="服务"
-                android:textColor="@color/mygray"
-                android:textSize="10.0dip" />
-        </FrameLayout>
-
         <FrameLayout
             android:id="@+id/frame_friend"
             android:layout_width="fill_parent"
             android:layout_height="48.0dip"
-            android:layout_weight="1.0" >
+            android:layout_weight="1.0">
 
             <ImageView
                 android:id="@+id/iv_friend"
@@ -121,10 +92,37 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/frame_service"
+            android:layout_width="fill_parent"
+            android:layout_height="48.0dip"
+            android:layout_weight="1.0">
+
+            <ImageView
+                android:id="@+id/iv_service"
+                android:layout_width="28.0dip"
+                android:layout_height="28.0dip"
+                android:layout_gravity="top|center"
+                android:layout_marginTop="5.0dip"
+                android:padding="3dp"
+                android:src="@drawable/tab_service" />
+
+            <TextView
+                android:id="@+id/tab_service_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="2.0dip"
+                android:text="服务"
+                android:textColor="@color/mygray"
+                android:textSize="10.0dip" />
+        </FrameLayout>
+
+
+        <FrameLayout
             android:id="@+id/frame_mine"
             android:layout_width="fill_parent"
             android:layout_height="48.0dip"
-            android:layout_weight="1.0" >
+            android:layout_weight="1.0">
 
             <ImageView
                 android:id="@+id/iv_mine"
@@ -147,6 +145,5 @@
         </FrameLayout>
     </LinearLayout>
 
-    
 
 </FrameLayout>

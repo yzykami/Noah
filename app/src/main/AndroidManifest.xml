@@ -60,6 +60,11 @@
         <activity android:name=".ui.sns.friendlist.FriendListActivity" />
         <activity android:name=".ui.sns.add.AddActivity" />
         <activity android:name=".ui.sns.add.BookActivity" />
+        <activity android:name=".ui.sns.chat.ChatActivity" />
+        <activity android:name=".ui.sns.personal.PersonalActivity" />
+        <activity android:name=".ui.sns.personal.PersonalMoreActivity" />
+        <activity android:name=".ui.sns.personal.PersonalChatDetailActivity" />
+        <activity android:name=".ui.sns.group.GroupDetailActivity"/>
 
     </application>
     <meta-data

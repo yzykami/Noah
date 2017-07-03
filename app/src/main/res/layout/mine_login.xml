@@ -40,7 +40,7 @@
             android:layout_height="@dimen/btn_title_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/pt12"
+            android:layout_marginLeft="@dimen/title_left_btn_left_bj"
             android:clickable="true"
             android:onClick="handle_back"
             android:paddingBottom="@dimen/pt8"
@@ -53,8 +53,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_below="@+id/rl_top"
-        android:orientation="vertical">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:id="@+id/ll_title"
@@ -279,7 +281,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginLeft="@dimen/pt25"
-            android:layout_marginRight="@dimen/pt15"
+            android:layout_marginRight="@dimen/title_right_btn_right_bj"
             android:layout_marginTop="@dimen/pt0"
             android:gravity="center"
             android:hint=""
@@ -297,7 +299,7 @@
         android:layout_above="@+id/ll_bottom"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/pt25"
-        android:layout_marginRight="@dimen/pt15">
+        android:layout_marginRight="@dimen/title_right_btn_right_bj">
 
         <RelativeLayout
             android:layout_width="match_parent"

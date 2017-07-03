@@ -118,7 +118,7 @@ public class FileUtil {
                     try {
                         ois.close();
                     } catch (IOException e) {
-//                        Log.e(tag, "close file", e);
+//                        Log.e(tv_time, "close file", e);
                     }
                 }
             }

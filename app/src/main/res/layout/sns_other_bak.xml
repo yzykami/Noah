@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="com.tzw.noah.MainActivity">
+
+    <!--android:layout_alignTop="@+id/rl2"-->
+    <!--android:layout_alignBottom="@+id/rl2"-->
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="@dimen/sns_dialog_corners"
+        android:layout_height="@dimen/sns_dialog_corners"
+        android:background="@drawable/bg_sns_other1">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rl3"
+        android:layout_alignLeft="@id/rl1"
+        android:layout_alignRight="@id/rl3"
+        android:layout_alignTop="@+id/rl1"
+        android:layout_marginBottom="@dimen/sns_dialog_corners"
+        android:background="@drawable/bg_sns_other2">
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sns_dialog_corners_padding"
+        android:layout_marginTop="@dimen/sns_dialog_corners"
+        android:background="@drawable/bg_sns_other3">
+
+        <TextView
+            android:id="@+id/msg_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/sns_dialog_corners"
+            android:layout_marginLeft="@dimen/sns_dialog_corners_text_padding"
+            android:layout_marginRight="@dimen/sns_dialog_corners_text_padding"
+            android:text="哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!哈哈哈你们好啊!!!"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/text_content" />
+
+    </RelativeLayout>
+</RelativeLayout>

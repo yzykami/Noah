@@ -30,7 +30,7 @@
         android:layout_marginBottom="@dimen/pt1"
         android:orientation="horizontal">
 
-        <com.tzw.noah.widgets.CircleImageView
+        <me.xiaopan.sketchsample.widget.SampleImageView
             android:id="@+id/iv_head"
             android:layout_width="@dimen/head"
             android:layout_height="@dimen/head"
@@ -53,6 +53,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/pt8"
                 android:layout_gravity="right"
                 android:text="昵称"
                 android:textColor="@color/textLightGray"
@@ -65,9 +66,11 @@
                 android:layout_marginTop="@dimen/pt4"
                 android:background="@drawable/sns_dialog_me"
                 android:gravity="center"
-                android:text="1"
+                android:text="11111111"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/text_content" />
+                android:textSize="@dimen/text_content"
+                android:visibility="gone"/>
+            <include layout="@layout/sns_me"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

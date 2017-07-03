@@ -27,7 +27,7 @@
             android:layout_height="@dimen/btn_title_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/pt12"
+            android:layout_marginLeft="@dimen/title_left_btn_left_bj"
             android:clickable="true"
             android:onClick="handle_back"
             android:paddingBottom="@dimen/pt8"
@@ -71,7 +71,7 @@
                 android:paddingBottom="@dimen/pt6"
                 android:paddingRight="@dimen/pt10"
                 android:paddingLeft="@dimen/pt10"
-                android:layout_marginRight="@dimen/pt15"
+                android:layout_marginRight="@dimen/title_right_btn_right_bj"
                 android:src="@drawable/edittext_delete" />
 
             <EditText

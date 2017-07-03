@@ -1,0 +1,248 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/myRed"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="聊天详情"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_title" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/btn_title_width"
+            android:layout_height="@dimen/btn_title_height"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_left_btn_left_bj"
+            android:clickable="true"
+            android:onClick="handle_back"
+            android:paddingBottom="@dimen/pt8"
+            android:paddingLeft="@dimen/pt13"
+            android:paddingRight="@dimen/pt13"
+            android:paddingTop="@dimen/pt8"
+            android:src="@drawable/back_white" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/bj">
+
+
+                <ImageView
+                    android:id="@+id/iv_head"
+                    android:layout_width="@dimen/head"
+                    android:layout_height="@dimen/head"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="@dimen/pt12"
+                    android:layout_marginTop="@dimen/pt12"
+                    android:src="@drawable/sns_user_default" />
+
+                <ImageView
+                    android:id="@+id/iv_detail"
+                    android:layout_width="@dimen/head"
+                    android:layout_height="@dimen/head"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="@dimen/pt12"
+                    android:layout_marginLeft="@dimen/title_left_btn_left_bj"
+                    android:layout_marginTop="@dimen/pt12"
+                    android:src="@drawable/sns_add_person" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/columnHeight"
+                android:layout_marginTop="@dimen/pt12"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/iv_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/btn1_selected" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/bj"
+                    android:layout_toLeftOf="@+id/iv_msg"
+                    android:text="置顶聊天"
+                    android:textColor="@color/textDarkGray"
+                    android:textSize="@dimen/sp14" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/columnHeight"
+                android:layout_marginTop="@dimen/pt1"
+                android:background="@color/white"
+                android:onClick="handle_size">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/bj"
+                    android:text="消息免打扰"
+                    android:textColor="@color/textDarkGray"
+                    android:textSize="@dimen/sp14" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/btn1_selected" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/columnHeight"
+                android:layout_marginTop="@dimen/pt12"
+                android:background="@color/white"
+                android:onClick="handle_size">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/bj"
+                    android:text="设置聊天背景"
+                    android:textColor="@color/textDarkGray"
+                    android:textSize="@dimen/sp14" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/mine_arrow_gray" />
+
+            </RelativeLayout>
+            v
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/columnHeight"
+                android:layout_marginTop="@dimen/pt1"
+                android:background="@color/white"
+                android:onClick="handle_size">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/bj"
+                    android:text="查找聊天内容"
+                    android:textColor="@color/textDarkGray"
+                    android:textSize="@dimen/sp14" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/mine_arrow_gray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/columnHeight"
+                android:layout_marginTop="@dimen/pt1"
+                android:background="@color/white"
+                android:onClick="handle_size">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/bj"
+                    android:text="清空聊天记录"
+                    android:textColor="@color/textDarkGray"
+                    android:textSize="@dimen/sp14" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/mine_arrow_gray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/columnHeight"
+                android:layout_marginTop="@dimen/pt12"
+                android:background="@color/white"
+                android:onClick="handle_size">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/bj"
+                    android:text="投诉"
+                    android:textColor="@color/textDarkGray"
+                    android:textSize="@dimen/sp14" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/mine_arrow_gray" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

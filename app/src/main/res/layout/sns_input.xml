@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    tools:context="com.tzw.noah.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/pt6"
+        android:paddingTop="@dimen/pt6">
+
+        <ImageView
+            android:id="@+id/iv_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sns_input_btn"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/pt3"
+            android:paddingLeft="@dimen/pt4"
+            android:paddingRight="@dimen/pt6"
+            android:src="@drawable/sns_voice" />
+
+
+        <EditText
+            android:id="@+id/tv_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_face"
+            android:layout_toRightOf="@+id/iv_switch"
+            android:background="@drawable/bg_gray_border"
+            android:padding="@dimen/pt4"
+            android:text="呵呵"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/text_content" />
+
+        <ImageView
+            android:id="@+id/iv_face"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sns_input_btn"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/pt3"
+            android:layout_toLeftOf="@+id/iv_more"
+            android:paddingLeft="@dimen/pt6"
+            android:paddingRight="@dimen/pt3"
+            android:src="@drawable/sns_face" />
+
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/sns_input_btn"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/pt3"
+            android:paddingLeft="@dimen/pt3"
+            android:paddingRight="@dimen/pt4"
+            android:src="@drawable/sns_more" />
+    </RelativeLayout>
+
+</RelativeLayout>

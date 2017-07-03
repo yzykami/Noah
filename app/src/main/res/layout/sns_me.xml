@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.tzw.noah.widgets.ChatMeBgView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="com.tzw.noah.MainActivity">
+
+        <TextView
+            android:id="@+id/msg_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="哈哈哈你们好啊!!!"
+            android:paddingTop="@dimen/pt6"
+            android:paddingBottom="@dimen/pt6"
+            android:paddingLeft="@dimen/pt6"
+            android:paddingRight="@dimen/pt12"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/text_content" />
+</com.tzw.noah.widgets.ChatMeBgView>

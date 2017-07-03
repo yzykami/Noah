@@ -32,7 +32,7 @@ public class FriendListActivity extends MyBaseActivity {
     FrameLayout frameLayout;
     @BindView(R.id.ll)
     LinearLayout ll;
-    @BindView(R.id.iv_add)
+    @BindView(R.id.iv_detail)
     ImageView iv_add;
 
     Context mContext = FriendListActivity.this;

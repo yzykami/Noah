@@ -102,8 +102,8 @@ public class AddFriendFragment extends Fragment {
         list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_scan, "扫一扫"));
 
 //        View headSpanView = inflater.inflate(R.layout.sns_span, container, false);
-//        TextView tag = (TextView) headSpanView.findViewById(R.id.tag);
-//        tag.setText("好友推荐");
+//        TextView tv_time = (TextView) headSpanView.findViewById(R.id.tv_time);
+//        tv_time.setText("好友推荐");
 //        list_view.addHeaderView(headSpanView);
 
         wordnavi.setVisibility(View.GONE);

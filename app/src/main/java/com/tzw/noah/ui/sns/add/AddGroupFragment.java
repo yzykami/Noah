@@ -94,8 +94,8 @@ public class AddGroupFragment extends Fragment {
         list_view.addHeaderView(getHeadView(inflater,container,R.drawable.sns_create_multichat,"创建多人会话"));
 
 //        View headSpanView = inflater.inflate(R.layout.sns_span, container, false);
-//        TextView tag = (TextView) headSpanView.findViewById(R.id.tag);
-//        tag.setText("系统推荐");
+//        TextView tv_time = (TextView) headSpanView.findViewById(R.id.tv_time);
+//        tv_time.setText("系统推荐");
 //        list_view.addHeaderView(headSpanView);
 
         wordnavi.setVisibility(View.GONE);

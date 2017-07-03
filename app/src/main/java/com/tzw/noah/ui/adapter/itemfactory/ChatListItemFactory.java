@@ -7,6 +7,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.tzw.noah.R;
 
@@ -20,6 +21,7 @@ import me.xiaopan.sketch.util.SketchUtils;
 import me.xiaopan.sketchsample.ImageOptions;
 import me.xiaopan.sketchsample.adapter.BindAssemblyRecyclerItem;
 import me.xiaopan.sketchsample.widget.SampleImageView;
+import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 
 public class ChatListItemFactory extends AssemblyRecyclerItemFactory<ChatListItemFactory.ChatListItem> {
 
@@ -47,7 +49,9 @@ public class ChatListItemFactory extends AssemblyRecyclerItemFactory<ChatListIte
 
     public class ChatListItem extends BindAssemblyRecyclerItem<String> {
         @BindView(R.id.iv_head)
-        SampleImageView imageView;
+        SampleImageViewHead imageView;
+        @BindView(R.id.ll_user)
+        RelativeLayout ll_user;
 
         public ChatListItem(int itemLayoutId, ViewGroup parent) {
             super(itemLayoutId, parent);
@@ -55,7 +59,7 @@ public class ChatListItemFactory extends AssemblyRecyclerItemFactory<ChatListIte
 
         @Override
         protected void onConfigViews(Context context) {
-            imageView.setOnClickListener(new View.OnClickListener() {
+            ll_user.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onImageClickListener != null) {
@@ -63,15 +67,13 @@ public class ChatListItemFactory extends AssemblyRecyclerItemFactory<ChatListIte
                     }
                 }
             });
-            imageView.getOptions().setImageProcessor(CircleImageProcessor.getInstance());
-
-            imageView.setPage(SampleImageView.Page.PHOTO_LIST);
         }
 
         @Override
         protected void onSetData(int i, String imageUri) {
 //            imageView.setNum(i);
             imageView.displayImage(imageUri);
+
         }
     }
 }

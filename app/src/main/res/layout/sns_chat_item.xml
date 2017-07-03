@@ -11,9 +11,10 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
+            android:clickable="true"
             android:layout_marginBottom="@dimen/pt1">
 
-            <me.xiaopan.sketchsample.widget.SampleImageView
+            <me.xiaopan.sketchsample.widget.SampleImageViewHead
                 android:id="@+id/iv_head"
                 android:layout_width="@dimen/head"
                 android:layout_height="@dimen/head"

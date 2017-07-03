@@ -30,7 +30,7 @@
         android:layout_marginBottom="@dimen/pt1"
         android:orientation="horizontal">
 
-        <com.tzw.noah.widgets.CircleImageView
+        <me.xiaopan.sketchsample.widget.SampleImageView
             android:id="@+id/iv_head"
             android:layout_width="@dimen/head"
             android:layout_height="@dimen/head"
@@ -46,27 +46,22 @@
             android:layout_marginRight="@dimen/sns_dialog_bj"
             android:layout_marginTop="@dimen/headPadding"
             android:layout_toRightOf="@+id/iv_head"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/pt8"
                 android:text="昵称"
                 android:textColor="@color/textLightGray"
-                android:textSize="@dimen/text_comment" />
+                android:textSize="@dimen/text_comment"
+                />
 
-            <TextView
-                android:id="@+id/tv_sign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/pt4"
-                android:background="@drawable/sns_dialog_other"
-                android:gravity="center"
-                android:text="1"
-                android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/text_content" />
+            <include
+                layout="@layout/sns_other"/>
         </LinearLayout>
 
 

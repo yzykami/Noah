@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="@dimen/sns_dialog_corners_border_small"
+        android:left="@dimen/sns_dialog_corners_border_big">
+        <shape>
+
+            <stroke
+                android:width="@dimen/pt1"
+                android:color="@color/white"></stroke>
+            <corners android:topRightRadius="@dimen/sns_dialog_corners" />
+
+        </shape>
+    </item>
+</layer-list>

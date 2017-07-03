@@ -86,9 +86,9 @@ public class FansFragment extends Fragment {
 //        list_view.addHeaderView(headSearchView);
 //        View nextView = inflater.inflate(R.layout.sns_next_operation_item, container, false);
 //        ImageView iv=(ImageView)nextView.findViewById(R.id.iv_head);
-//        TextView tv=(TextView)nextView.findViewById(R.id.tv_name);
+//        TextView tv_name=(TextView)nextView.findViewById(R.id.tv_name);
 //        iv.setImageResource(R.drawable.sns_star);
-//        tv.setText("好友推荐");
+//        tv_name.setText("好友推荐");
 //        list_view.addHeaderView(nextView);
 
         return view;

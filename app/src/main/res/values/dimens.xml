@@ -5,7 +5,7 @@
     <dimen name="image_title_padding">8dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="bj">25dp</dimen>
+    <dimen name="bj">15dp</dimen>
     <dimen name="pt0">0dp</dimen>
     <dimen name="pt1">1dp</dimen>
     <dimen name="pt2">2dp</dimen>
@@ -75,4 +75,18 @@
     <dimen name="headPadding">8dp</dimen>
     <dimen name="sns_invite_height">66dp</dimen>
     <dimen name="sns_dialog_bj">50dp</dimen>
+
+    <dimen name="sns_dialog_corners">8dp</dimen>
+    <dimen name="sns_dialog_corners_padding">5.5dp</dimen>
+    <dimen name="sns_dialog_corners_text_padding">9dp</dimen>
+    <dimen name="sns_input_btn">20dp</dimen>
+
+
+    <dimen name="sns_dialog_corners_me">-1.5dp</dimen>
+    <dimen name="sns_dialog_corners_border_small">-1.5dp</dimen>
+    <dimen name="sns_dialog_corners_border_big">-2dp</dimen>
+    <dimen name="sns_personal_bg_height">180dp</dimen>
+
+    <dimen name="title_left_btn_left_bj">2dp</dimen>
+    <dimen name="title_right_btn_right_bj">5dp</dimen>
 </resources>
