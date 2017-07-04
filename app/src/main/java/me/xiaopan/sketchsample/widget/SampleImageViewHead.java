@@ -33,6 +33,7 @@ import me.xiaopan.sketch.request.DisplayOptions;
 import me.xiaopan.sketch.request.RedisplayListener;
 import me.xiaopan.sketch.request.UriInfo;
 import me.xiaopan.sketch.request.UriScheme;
+import me.xiaopan.sketch.shaper.CircleImageShaper;
 import me.xiaopan.sketch.util.SketchUtils;
 import me.xiaopan.sketchsample.ImageOptions;
 import me.xiaopan.sketchsample.event.AppConfigChangedEvent;
@@ -51,7 +52,7 @@ public class SampleImageViewHead extends SketchImageView {
         super(context, attrs);
 
         setOnLongClickListener(new LongClickShowDrawableInfoListener());
-        getOptions().setImageProcessor(CircleImageProcessor.getInstance());
+        getOptions().setImageShaper(new CircleImageShaper());
     }
 
     @Override

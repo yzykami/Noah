@@ -65,6 +65,9 @@
         <activity android:name=".ui.sns.personal.PersonalMoreActivity" />
         <activity android:name=".ui.sns.personal.PersonalChatDetailActivity" />
         <activity android:name=".ui.sns.group.GroupDetailActivity"/>
+        <activity android:name=".ui.sns.group.GroupMemberListActivity"/>
+        <activity android:name=".ui.sns.group.GroupManagerActivity"/>
+        <activity android:name=".ui.sns.group.GroupEditActivity"/>
 
     </application>
     <meta-data

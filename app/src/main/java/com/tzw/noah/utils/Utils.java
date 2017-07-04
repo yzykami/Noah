@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 
+import com.tzw.noah.AppContext;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
 
 import java.io.IOException;
@@ -31,6 +33,14 @@ public class Utils {
     public static int dp2px(Context context, float dp) {
         final float scale = getScreenDensity(context);
         return (int) (dp * scale + 0.5);
+    }
+
+    public static int getSrceenWidth() {
+        return AppContext.getContext().getResources().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getSrceenHeight() {
+        return AppContext.getContext().getResources().getDisplayMetrics().heightPixels;
     }
 
 

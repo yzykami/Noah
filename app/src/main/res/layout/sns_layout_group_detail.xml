@@ -5,42 +5,9 @@
     android:layout_height="match_parent"
     android:background="@color/bg_light">
 
-    <RelativeLayout
-        android:id="@+id/rl_top"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/myRed">
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="聊天详情"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_title" />
-
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="@dimen/btn_title_width"
-            android:layout_height="@dimen/btn_title_height"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/title_left_btn_left_bj"
-            android:clickable="true"
-            android:onClick="handle_back"
-            android:paddingBottom="@dimen/pt8"
-            android:paddingLeft="@dimen/pt13"
-            android:paddingRight="@dimen/pt13"
-            android:paddingTop="@dimen/pt8"
-            android:src="@drawable/back_white" />
-    </RelativeLayout>
-
-    <ScrollView
+    <com.tzw.noah.widgets.ListenedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_top">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,11 +16,58 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sns_group_bg_height"
+                    android:background="@drawable/sns_group_bg"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sns_group_bg_height"
+                    android:background="@color/mask"
+                    android:scaleType="centerCrop" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bj"
+                        android:text="英雄联盟"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp17" />
+
+                    <TextView
+                        android:id="@+id/tv_group_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bj"
+                        android:paddingBottom="@dimen/pt22"
+                        android:paddingTop="@dimen/pt8"
+                        android:text="群号 : 12345678"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp12" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/rl2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/pt0"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_memberlist">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -73,7 +87,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
@@ -88,6 +102,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/ll_member"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -95,15 +110,13 @@
 
                 <include layout="@layout/sns_group_member_item" />
 
-                <include layout="@layout/sns_group_member_item" />
-
-                <include layout="@layout/sns_group_member_item" />
-
-                <include layout="@layout/sns_group_member_item" />
-
-                <include layout="@layout/sns_group_member_item" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bj"
+                android:background="@color/white" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -127,7 +140,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
@@ -163,7 +176,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
@@ -199,7 +212,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
@@ -234,7 +247,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>
@@ -251,7 +264,7 @@
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/btn1_selected" />
 
                 <TextView
@@ -287,7 +300,7 @@
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/btn1_selected" />
 
             </RelativeLayout>
@@ -315,7 +328,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>
@@ -343,7 +356,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>
@@ -370,7 +383,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>
@@ -396,7 +409,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>
@@ -422,5 +435,52 @@
                 android:layout_height="@dimen/pt20" />
 
         </LinearLayout>
-    </ScrollView>
+    </com.tzw.noah.widgets.ListenedScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/transParent">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_title" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/btn_title_width"
+            android:layout_height="@dimen/btn_title_height"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_left_btn_left_bj"
+            android:clickable="true"
+            android:onClick="handle_back"
+            android:paddingBottom="@dimen/pt8"
+            android:paddingLeft="@dimen/pt13"
+            android:paddingRight="@dimen/pt13"
+            android:paddingTop="@dimen/pt8"
+            android:src="@drawable/back_white" />
+
+        <ImageView
+            android:id="@+id/iv_detail"
+            android:layout_width="@dimen/btn_title_width"
+            android:layout_height="@dimen/btn_title_height"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/title_right_btn_right_bj"
+            android:onClick="handle_more"
+            android:paddingBottom="@dimen/pt5"
+            android:paddingLeft="@dimen/pt10"
+            android:paddingRight="@dimen/pt10"
+            android:paddingTop="@dimen/pt5"
+            android:src="@drawable/sns_personal_more"
+            android:visibility="visible" />
+    </RelativeLayout>
 </RelativeLayout>

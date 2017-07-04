@@ -25,4 +25,5 @@
     <color name="textDarkGray">#666666</color>
     <color name="textLightGray">#999999</color>
     <color name="textLightLightGray">#bfbfbf</color>
+    <color name="mask">#30666666</color>
 </resources>

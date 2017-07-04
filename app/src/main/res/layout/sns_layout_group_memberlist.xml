@@ -5,14 +5,9 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_light"
+    android:background="@color/white"
     tools:context="com.tzw.noah.MainActivity">
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_above="@+id/rl_input"-->
-    <!--android:orientation="vertical">-->
 
     <RelativeLayout
         android:id="@+id/rl_top"
@@ -26,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="昵称"
+            android:text="群成员"
             android:textColor="@color/white"
             android:textSize="@dimen/text_title" />
 
@@ -80,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:choiceMode="singleChoice"
-            android:divider="@null"
+            android:divider="@color/white"
             android:fadingEdge="none"
             android:listSelector="@android:color/transparent"
             android:scrollbarStyle="outsideOverlay" />
@@ -89,22 +84,22 @@
 
     <!--</LinearLayout>-->
 
-    <RelativeLayout
-        android:id="@+id/rl_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/framelayout"
-        android:layout_alignWithParentIfMissing="true">
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_input"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/framelayout"-->
+        <!--android:layout_alignWithParentIfMissing="true">-->
 
-        <include layout="@layout/sns_input" />
-    </RelativeLayout>
+        <!--<include layout="@layout/sns_input" />-->
+    <!--</RelativeLayout>-->
 
-    <FrameLayout
-        android:id="@+id/framelayout"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_alignParentBottom="true"
-        android:visibility="visible">
+    <!--<FrameLayout-->
+        <!--android:id="@+id/framelayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="180dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:visibility="visible">-->
 
-    </FrameLayout>
+    <!--</FrameLayout>-->
 </RelativeLayout>

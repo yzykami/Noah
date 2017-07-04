@@ -9,80 +9,88 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_light">
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iv_bg"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/sns_personal_bg_height"
-                    android:background="@drawable/sns_personal_bg"
-                    android:scaleType="centerCrop" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/sns_personal_bg_height"
-                    android:background="#30666666"
-                    android:scaleType="centerCrop" />
-            </RelativeLayout>
+            android:orientation="vertical"
+            android:background="@color/bg_light">
 
             <LinearLayout
-                android:id="@+id/ll_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_bg"
-                android:layout_marginTop="-40dp"
+                android:background="@color/white"
                 android:orientation="vertical">
 
-                <me.xiaopan.sketchsample.widget.SampleImageViewHead
-                    android:id="@+id/iv_head"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/sns_user_default" />
-
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
-
-                    <TextView
-                        android:id="@+id/tv_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/pt10"
-                        android:layout_marginTop="@dimen/pt15"
-                        android:text="皮皮虾"
-                        android:textColor="@color/textDarkGray"
-                        android:textSize="@dimen/sp17" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/pt5"
-                        android:layout_toRightOf="@+id/tv_name"
-                        android:src="@drawable/sns_book" />
+                        android:id="@+id/iv_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sns_personal_bg_height"
+                        android:background="@drawable/sns_personal_bg"
+                        android:scaleType="centerCrop" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sns_personal_bg_height"
+                        android:background="@color/mask"
+                        android:scaleType="centerCrop" />
+
                 </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ll_info"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/pt12"
-                    android:text="会员号： 1234567890"
-                    android:textColor="@color/textLightGray"
-                    android:textSize="@dimen/sp14" />
-            </LinearLayout>
+                    android:layout_below="@+id/iv_bg"
+                    android:layout_marginTop="-40dp"
+                    android:orientation="vertical">
 
+                    <me.xiaopan.sketchsample.widget.SampleImageViewHead
+                        android:id="@+id/iv_head"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/sns_user_default" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/pt8"
+                        android:layout_marginTop="@dimen/pt12">
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="皮皮虾"
+                            android:textColor="@color/textDarkGray"
+                            android:textSize="@dimen/sp17" />
+
+                        <ImageView
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/pt5"
+                            android:layout_toRightOf="@+id/tv_name"
+                            android:src="@drawable/sns_book" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/pt12"
+                        android:text="会员号： 1234567890"
+                        android:textColor="@color/textLightGray"
+                        android:textSize="@dimen/sp14" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_1"
@@ -347,17 +355,14 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/pt20"/>
+                android:layout_height="@dimen/pt20" />
         </LinearLayout>
     </com.tzw.noah.widgets.ListenedScrollView>
 
     <RelativeLayout
         android:id="@+id/rl_top"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/title_height"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height">
 
         <TextView
             android:id="@+id/tv_title"

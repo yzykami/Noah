@@ -20,7 +20,7 @@
             android:layout_width="@dimen/head"
             android:layout_height="@dimen/head"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_user"
+            android:src="@drawable/sns_add_person"
             app:type="circle" />
 
 
@@ -31,7 +31,8 @@
             android:layout_below="@+id/iv_head"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_vertical"
-            android:maxWidth="@dimen/head"
+            android:layout_alignLeft="@id/iv_head"
+            android:layout_alignRight="@id/iv_head"
             android:gravity="center"
             android:text="昵称昵称昵称"
             android:ellipsize="end"

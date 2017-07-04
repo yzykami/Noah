@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="地区"
+            android:text="群组名称"
             android:textColor="@color/white"
             android:textSize="@dimen/text_title" />
 
@@ -46,8 +46,7 @@
             android:layout_marginRight="@dimen/bj"
             android:textColor="@color/white"
             android:onClick="handle_save"
-            android:textSize="@dimen/text_title_right"
-            android:visibility="gone"/>
+            android:textSize="@dimen/text_title_right" />
     </RelativeLayout>
 
     <LinearLayout
@@ -55,71 +54,38 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_top"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/bj"
-            android:layout_marginTop="@dimen/pt12"
-            android:layout_toRightOf="@+id/iv"
-            android:text="定位到的位置"
-            android:textColor="@color/textDarkGray"
-            android:textSize="@dimen/sp13" />
         <RelativeLayout
+            android:id="@+id/rl"
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
             android:layout_marginTop="@dimen/pt12"
             android:background="@color/white">
 
             <ImageView
-                android:id="@+id/iv"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dip"
-                android:gravity="center"
-                android:src="@drawable/local" />
-
-            <ImageView
+                android:id="@+id/iv_male"
                 android:layout_width="wrap_content"
-                android:layout_height="18dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/bj"
-                android:src="@drawable/mine_arrow_gray"
-                android:visibility="gone"/>
+                android:paddingTop="@dimen/pt6"
+                android:paddingBottom="@dimen/pt6"
+                android:paddingRight="@dimen/pt10"
+                android:paddingLeft="@dimen/pt10"
+                android:layout_marginRight="@dimen/title_right_btn_right_bj"
+                android:src="@drawable/edittext_delete" />
 
-            <TextView
-                android:id="@+id/tv_area"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/et_nickname"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/pt10"
-                android:layout_toRightOf="@+id/iv"
-                android:text="浙江 台州 椒江区"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_toLeftOf="@+id/iv_male"
+                android:gravity="left"
+                android:text="王者荣耀"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/bj"
-            android:layout_marginTop="@dimen/pt12"
-            android:layout_toRightOf="@+id/iv"
-            android:text="全部"
-            android:textColor="@color/textDarkGray"
-            android:textSize="@dimen/sp13" />
-        <ListView
-            android:id="@+id/list"
-            android:layout_marginTop="@dimen/pt12"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="@dimen/pt1"
-            android:background="@color/white"
-            android:divider="@color/bg_light">
-
-        </ListView>
 
     </LinearLayout>
 

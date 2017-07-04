@@ -93,7 +93,7 @@
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/btn1_selected" />
 
                 <TextView
@@ -129,7 +129,7 @@
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/btn1_selected" />
 
             </RelativeLayout>
@@ -157,7 +157,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>
@@ -185,7 +185,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>
@@ -212,7 +212,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>
@@ -238,7 +238,7 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>

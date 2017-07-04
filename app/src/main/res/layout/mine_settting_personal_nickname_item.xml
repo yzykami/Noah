@@ -19,7 +19,7 @@
             android:layout_height="18dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="25dp"
+            android:layout_marginRight="@dimen/bj"
             android:src="@drawable/listview_selected" />
 
         <TextView

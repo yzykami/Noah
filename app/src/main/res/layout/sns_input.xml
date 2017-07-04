@@ -34,6 +34,7 @@
             android:layout_toRightOf="@+id/iv_switch"
             android:background="@drawable/bg_gray_border"
             android:padding="@dimen/pt4"
+            android:imeOptions="actionSend"
             android:text="呵呵"
             android:textColor="@color/textDarkGray"
             android:textSize="@dimen/text_content" />
