@@ -71,6 +71,8 @@
         <activity android:name=".ui.sns.group.GroupEditActivity"/>
         <activity android:name=".ui.sns.group.GroupEditNameActivity"/>
         <activity android:name=".ui.sns.group.GroupEditIntroduceActivity"/>
+        <activity android:name=".ui.sns.group.GroupSetAdminActivity"/>
+        <activity android:name=".ui.sns.group.GroupSelectAdminActivity"/>
 
     </application>
     <meta-data

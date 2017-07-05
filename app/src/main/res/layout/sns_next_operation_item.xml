@@ -16,7 +16,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="@dimen/pt1">
 
-        <com.tzw.noah.widgets.CircleImageView
+        <me.xiaopan.sketchsample.widget.SampleImageViewHead
             android:id="@+id/iv_head"
             android:layout_width="@dimen/head"
             android:layout_height="@dimen/head"

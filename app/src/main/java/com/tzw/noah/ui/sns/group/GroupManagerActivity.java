@@ -48,4 +48,8 @@ public class GroupManagerActivity extends MyBaseActivity {
     public void handle_edit(View view) {
         startActivity(GroupEditActivity.class);
     }
+
+    public void handle_setadmin(View view) {
+        startActivity(GroupSetAdminActivity.class);
+    }
 }

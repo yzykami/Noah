@@ -54,8 +54,8 @@
 
     <com.tzw.noah.widgets.ListenedScrollView
         android:layout_width="match_parent"
-        android:layout_below="@id/rl_top"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_top">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,8 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
-                android:onClick="handle_edit"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_edit">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -96,7 +96,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_setadmin">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -118,6 +119,7 @@
                     android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
+                    android:id="@+id/tv_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -289,7 +291,6 @@
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>
-
 
 
         </LinearLayout>
