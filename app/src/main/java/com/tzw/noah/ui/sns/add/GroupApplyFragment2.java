@@ -25,11 +25,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.tzw.noah.R.id.container;
+import static com.tzw.noah.R.id.ptr_classic_header_rotate_view;
 
 /**
- * Created by yzy on 2017/6/29.
+ * Created by yzy on 2017/7/5.
  */
-public class AddGroupFragment extends Fragment {
+public class GroupApplyFragment2 extends Fragment {
     @BindView(container)
     ViewGroup rootViewGroup;
 
@@ -74,7 +75,7 @@ public class AddGroupFragment extends Fragment {
             SnsPerson p = new SnsPerson();
             p.name = name;
             p.namePingyin = Utils.getLetter(name);
-            p.shortCut = "推荐";
+            p.shortCut = "你可能还想加入以下群组";
             p.type=SnsPerson.Type.Group;
             items.add(p);
         }
@@ -85,14 +86,14 @@ public class AddGroupFragment extends Fragment {
 
         list_view.setAdapter(adapter);
 
-        View headSearchView = inflater.inflate(R.layout.sns_search_head, container, false);
-        TextView tv = (TextView) headSearchView.findViewById(R.id.tv);
-        tv.setText("简介/群名称");
-        list_view.addHeaderView(headSearchView);
+        View headView = inflater.inflate(R.layout.sns_group_apply_head, container, false);
+//        TextView tv = (TextView) headView.findViewById(R.id.tv);
+//        tv.setText("简介/群名称");
+        list_view.addHeaderView(headView);
 
-
-        list_view.addHeaderView(getHeadView(inflater,container,R.drawable.sns_group,"创建群组"));
-        list_view.addHeaderView(getHeadView(inflater,container,R.drawable.sns_create_multichat,"创建多人会话"));
+//
+//        list_view.addHeaderView(getHeadView(inflater,container,R.drawable.sns_group,"创建群组"));
+//        list_view.addHeaderView(getHeadView(inflater,container,R.drawable.sns_create_multichat,"创建多人会话"));
 
 //        View headSpanView = inflater.inflate(R.layout.sns_span, container, false);
 //        TextView tv_time = (TextView) headSpanView.findViewById(R.id.tv_time);

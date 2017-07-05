@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/pt6"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginTop="@dimen/pt6"
+            android:text="群号\群名称"
+            android:textColor="@color/textLightGray"
+            android:textSize="@dimen/sp12" />
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <EditText
+                android:id="@+id/et_sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginRight="@dimen/bj"
+                android:layout_toLeftOf="@+id/iv_male"
+                android:gravity="left"
+                android:hint="说说你的加群理由"
+                android:maxLines="5"
+                android:minLines="5"
+                android:text=""
+                android:textColor="@color/textDarkGray"
+                android:textColorHint="@color/textLightGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/et_sign"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/pt8"
+                android:layout_marginRight="@dimen/bj"
+                android:text="150"
+                android:textColor="@color/textLightGray" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/columnHeight"
+            android:layout_marginTop="@dimen/pt12"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/iv_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/bj"
+                android:src="@drawable/btn1_selected" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_toLeftOf="@+id/iv_msg"
+                android:text="加群后通知好友"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="fill_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginRight="@dimen/bj"
+            android:layout_marginTop="@dimen/pt14"
+            android:layout_toRightOf="@+id/iv_username"
+            android:background="@drawable/bg_red_fill_round"
+            android:gravity="center"
+            android:hint=""
+            android:onClick="handle_save"
+            android:text="提交申请"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_content" />
+    </LinearLayout>
+
+</RelativeLayout>

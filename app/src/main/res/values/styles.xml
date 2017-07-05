@@ -29,11 +29,17 @@
         <item name="android:background">@drawable/selector_list_item</item>
     </style>
 
+    <style name="AnimBottom">
+        <!-- PopupWindow弹出的效果 -->
+        <item name="android:windowEnterAnimation">@anim/slide_to_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_to_bottom_out</item>
+    </style>
+
     <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
-        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
-        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
-        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-        <!--<item name="colorAccent">@color/colorAccent</item>-->
-        <!--&lt;!&ndash;<item name="windowNoTitle">true</item>&ndash;&gt;-->
+    <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--&lt;!&ndash;<item name="windowNoTitle">true</item>&ndash;&gt;-->
     <!--</style>-->
 </resources>

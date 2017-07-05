@@ -3,7 +3,6 @@ package com.tzw.noah.ui.sns.group;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.tzw.noah.R;
@@ -13,21 +12,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by yzy on 2017/7/4.
+ * Created by yzy on 2017/7/5.
  */
 
-public class GroupEditActivity extends MyBaseActivity {
+public class GroupEditIntroduceActivity extends MyBaseActivity {
 
     @BindView(R.id.rl_top)
     RelativeLayout rl_top;
 
-    Context mContext = GroupEditActivity.this;
+    Context mContext = GroupEditIntroduceActivity.this;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sns_layout_group_edit);
+        setContentView(R.layout.sns_layout_group_edit_introduce);
         ButterKnife.bind(this);
 
         initdata();
@@ -45,11 +44,4 @@ public class GroupEditActivity extends MyBaseActivity {
     private void initview() {
     }
 
-    public void handle_edit_name(View view) {
-        startActivity(GroupEditNameActivity.class);
-    }
-
-    public void handle_edit_introduce(View view) {
-        startActivity(GroupEditIntroduceActivity.class);
-    }
 }

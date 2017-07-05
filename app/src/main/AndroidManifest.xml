@@ -60,6 +60,7 @@
         <activity android:name=".ui.sns.friendlist.FriendListActivity" />
         <activity android:name=".ui.sns.add.AddActivity" />
         <activity android:name=".ui.sns.add.BookActivity" />
+        <activity android:name=".ui.sns.add.GroupApplyActivity"/>
         <activity android:name=".ui.sns.chat.ChatActivity" />
         <activity android:name=".ui.sns.personal.PersonalActivity" />
         <activity android:name=".ui.sns.personal.PersonalMoreActivity" />
@@ -68,6 +69,8 @@
         <activity android:name=".ui.sns.group.GroupMemberListActivity"/>
         <activity android:name=".ui.sns.group.GroupManagerActivity"/>
         <activity android:name=".ui.sns.group.GroupEditActivity"/>
+        <activity android:name=".ui.sns.group.GroupEditNameActivity"/>
+        <activity android:name=".ui.sns.group.GroupEditIntroduceActivity"/>
 
     </application>
     <meta-data

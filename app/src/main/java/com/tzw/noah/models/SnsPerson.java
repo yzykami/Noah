@@ -8,12 +8,18 @@ import java.util.List;
 
 public class SnsPerson {
 
-    public String shortCut="";
-    public String name="";
+    public String shortCut = "";
+    public String name = "";
     public List<Character> namePingyin;
-    public String sign="";
-    public String headUrl="";
-    public String lastChatTime="";
-    public boolean isBlock=false;
-    public int unReadNum=0;
+    public String sign = "";
+    public String headUrl = "";
+    public String lastChatTime = "";
+    public boolean isBlock = false;
+    public int unReadNum = 0;
+    public int type = 0;
+
+    public static class Type {
+        public static int Person = 0;
+        public static int Group = 1;
+    }
 }

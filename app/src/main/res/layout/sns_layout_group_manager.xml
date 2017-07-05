@@ -172,11 +172,11 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="18dp"
+                    android:layout_height="22dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
-                    android:src="@drawable/mine_arrow_gray" />
+                    android:src="@drawable/btn1_selected" />
 
             </RelativeLayout>
 

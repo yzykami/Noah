@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.ui.MyBaseActivity;
 
 import java.util.List;
 
@@ -20,10 +21,12 @@ public class AddAdapter extends BaseAdapter {
 
     Context context;
     List<SnsPerson> items;
+    MyBaseActivity myBaseActivity;
 //    List<Boolean> selected;
 
     public AddAdapter(Context context, List<SnsPerson> items) {
         this.context = context;
+        myBaseActivity = (MyBaseActivity) context;
         this.items = items;
     }
 
@@ -54,28 +57,38 @@ public class AddAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.tag = (TextView) convertView.findViewById(R.id.tag);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_name);
+            holder.tv_add = (TextView) convertView.findViewById(R.id.tv_add);
             holder.view = convertView;
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        SnsPerson snsPerson = items.get(position);
+        final SnsPerson snsPerson = items.get(position);
         holder.tv.setText(snsPerson.name);
 
 
-        if (position ==0) {
+        if (position == 0) {
             holder.tag.setText(snsPerson.shortCut);
             holder.tag.setVisibility(View.VISIBLE);
         } else {
             holder.tag.setVisibility(View.GONE);
         }
+        holder.tv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (snsPerson.type == SnsPerson.Type.Group) {
+                    myBaseActivity.startActivity(GroupApplyActivity.class);
+                }
+            }
+        });
 
         return convertView;
     }
 
     static class ViewHolder {
         public TextView tv;
+        public TextView tv_add;
         public View view;
         public TextView tag;
     }

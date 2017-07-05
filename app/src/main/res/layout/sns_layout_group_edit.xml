@@ -40,20 +40,22 @@
             android:id="@+id/tv_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="保存"
             android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/bj"
-            android:textColor="@color/white"
+            android:gravity="center"
             android:onClick="handle_save"
+            android:text="保存"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_title_right" />
     </RelativeLayout>
 
     <com.tzw.noah.widgets.ListenedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_top">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rl_top">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,6 +102,7 @@
                     android:layout_width="@dimen/head"
                     android:layout_height="@dimen/head"
                     android:layout_marginLeft="@dimen/bj"
+                    android:layout_marginTop="@dimen/pt10"
                     android:src="@drawable/sns_add_person" />
 
 
@@ -110,15 +113,17 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:text="群聊成员"
+                android:layout_marginTop="@dimen/pt10"
+                android:text="默认第一张是头像，共4张"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/text_comment" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_edit_name">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -226,7 +231,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_edit_introduce">
 
                 <TextView
                     android:id="@+id/tv4"
@@ -247,6 +253,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
                     android:src="@drawable/mine_arrow_gray" />
+
                 <TextView
                     android:id="@+id/tv_sign"
                     android:layout_width="wrap_content"
@@ -263,15 +270,6 @@
                     android:textSize="@dimen/sp14" />
 
             </RelativeLayout>
-
-
-
-
-
-
-
-
-
 
 
         </LinearLayout>

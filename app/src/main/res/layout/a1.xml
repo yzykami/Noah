@@ -91,6 +91,11 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/pt1"/>
+        <include layout="@layout/sns_select_item"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt1"/>
         <include layout="@layout/sns_group_member_item"/>
 
         <View
@@ -108,6 +113,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/pt1"/>
+
 
     </LinearLayout>
 

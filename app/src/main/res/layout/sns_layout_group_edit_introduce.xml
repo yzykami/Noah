@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="个性签名"
+            android:text="群介绍"
             android:textColor="@color/white"
             android:textSize="@dimen/text_title" />
 
