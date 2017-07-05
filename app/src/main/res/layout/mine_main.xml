@@ -244,6 +244,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:onClick="handle_friendlist_group"
                     android:paddingTop="@dimen/pt12"
                     android:paddingBottom="@dimen/pt12"
                     android:orientation="vertical">

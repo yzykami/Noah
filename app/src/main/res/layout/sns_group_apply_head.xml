@@ -15,7 +15,7 @@
         android:layout_height="@dimen/pt50"
         android:layout_marginTop="32dp"
         android:layout_gravity="center"
-        android:src="@drawable/sns_search" />
+        android:src="@drawable/sns_ok" />
 
     <TextView
         android:id="@+id/tv"

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.tzw.noah.MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/myRed">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="编辑群资料"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_title" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/btn_title_width"
+            android:layout_height="@dimen/btn_title_height"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_left_btn_left_bj"
+            android:clickable="true"
+            android:onClick="handle_back"
+            android:paddingBottom="@dimen/pt8"
+            android:paddingLeft="@dimen/pt13"
+            android:paddingRight="@dimen/pt13"
+            android:paddingTop="@dimen/pt8"
+            android:src="@drawable/back_white" />
+
+        <ImageView
+            android:id="@+id/iv_detail"
+            android:layout_width="@dimen/btn_title_width"
+            android:layout_height="@dimen/btn_title_height"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/title_right_btn_right_bj"
+            android:onClick="handle_more"
+            android:paddingBottom="@dimen/pt5"
+            android:paddingLeft="@dimen/pt10"
+            android:paddingRight="@dimen/pt10"
+            android:paddingTop="@dimen/pt5"
+            android:src="@drawable/sns_personal_more"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_top"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/sns_add_person" />
+
+        <EditText
+            android:id="@+id/et_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginRight="@dimen/bj"
+            android:gravity="center"
+            android:hint="填写群名称(2-10个字)"
+            android:text=""
+            android:textColor="@color/textDarkGray"
+            android:textColorHint="@color/textLightGray"
+            android:textSize="@dimen/sp14" />
+
+        <View
+            android:layout_width="match_parent"
+
+            android:layout_height="@dimen/pt1"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginRight="@dimen/bj"
+            android:background="@color/bg_light" />
+
+        <TextView
+            android:id="@+id/tv_submit2"
+            android:layout_width="fill_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginRight="@dimen/bj"
+            android:layout_marginTop="@dimen/pt20"
+            android:layout_toRightOf="@+id/iv_username"
+            android:background="@drawable/bg_red_fill_round"
+            android:gravity="center"
+            android:hint=""
+            android:onClick="handle_next"
+            android:text="下一步"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/pt20"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_check"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/pt4"
+            android:paddingLeft="@dimen/pt8"
+            android:paddingRight="@dimen/pt8"
+            android:paddingTop="@dimen/pt4"
+            android:src="@drawable/mine_login_checked" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/pt0"
+            android:gravity="center"
+            android:hint=""
+            android:paddingBottom="@dimen/pt10"
+            android:paddingTop="@dimen/pt10"
+            android:text="我已阅读并同意"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/sp10" />
+
+        <TextView
+            android:id="@+id/tv_xieyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/title_right_btn_right_bj"
+            android:layout_marginTop="@dimen/pt0"
+            android:gravity="center"
+            android:hint=""
+            android:paddingBottom="@dimen/pt10"
+            android:paddingTop="@dimen/pt10"
+            android:text="《台州网用户协议》"
+            android:textColor="@color/myRed"
+            android:textSize="@dimen/sp10" />
+
+    </LinearLayout>
+
+</RelativeLayout>

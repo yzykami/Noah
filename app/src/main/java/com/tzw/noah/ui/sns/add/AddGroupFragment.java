@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.tzw.noah.R;
 import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
+import com.tzw.noah.ui.sns.group.GroupCreateActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.WordNaviView;
 
@@ -25,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.tzw.noah.R.id.container;
+import static com.tzw.noah.R.id.list_view;
 
 /**
  * Created by yzy on 2017/6/29.
@@ -42,12 +45,15 @@ public class AddGroupFragment extends Fragment {
     Context mContext;
     List<SnsPerson> items = new ArrayList<>();
 
+    AddActivity mActivity;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.sns_friendlist_friend, container, false);
+        mActivity = (AddActivity) getActivity();
         ButterKnife.bind(this, view);
         wordnavi.setOnWordsChangeListener(new WordNaviView.onWordsChangeListener() {
             @Override
@@ -75,7 +81,7 @@ public class AddGroupFragment extends Fragment {
             p.name = name;
             p.namePingyin = Utils.getLetter(name);
             p.shortCut = "推荐";
-            p.type=SnsPerson.Type.Group;
+            p.type = SnsPerson.Type.Group;
             items.add(p);
         }
 
@@ -91,8 +97,8 @@ public class AddGroupFragment extends Fragment {
         list_view.addHeaderView(headSearchView);
 
 
-        list_view.addHeaderView(getHeadView(inflater,container,R.drawable.sns_group,"创建群组"));
-        list_view.addHeaderView(getHeadView(inflater,container,R.drawable.sns_create_multichat,"创建多人会话"));
+        list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_group, "创建群组"));
+        list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_create_multichat, "创建多人会话"));
 
 //        View headSpanView = inflater.inflate(R.layout.sns_span, container, false);
 //        TextView tv_time = (TextView) headSpanView.findViewById(R.id.tv_time);
@@ -100,11 +106,18 @@ public class AddGroupFragment extends Fragment {
 //        list_view.addHeaderView(headSpanView);
 
         wordnavi.setVisibility(View.GONE);
+        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 1) {
+                    mActivity.startActivity(GroupCreateActivity.class);
+                }
+            }
+        });
         return view;
     }
 
-    private  View getHeadView(LayoutInflater inflater,ViewGroup container,int drawableId,String title)
-    {
+    private View getHeadView(LayoutInflater inflater, ViewGroup container, int drawableId, String title) {
         View headView = inflater.inflate(R.layout.sns_next_operation_item, container, false);
         ImageView iv = (ImageView) headView.findViewById(R.id.iv_head);
         TextView tv = (TextView) headView.findViewById(R.id.tv_name);

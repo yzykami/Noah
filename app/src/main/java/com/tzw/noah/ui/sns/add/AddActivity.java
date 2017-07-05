@@ -56,6 +56,11 @@ public class AddActivity extends MyBaseActivity {
     private void initdata() {
         selectPage = 0;
         fragmentList = new Fragment[2];
+        Bundle bu =getIntent().getExtras();
+        if(bu !=null)
+        {
+            selectPage=bu.getInt("DATA");
+        }
     }
 
     private void findview() {

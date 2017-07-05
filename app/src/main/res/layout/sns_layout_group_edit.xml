@@ -86,7 +86,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:padding="@dimen/pt10"
-                    android:src="@drawable/sns_delete" />
+                    android:src="@drawable/sns_delete_photo" />
 
 
             </RelativeLayout>

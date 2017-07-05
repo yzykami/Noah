@@ -56,6 +56,10 @@ public class FriendListActivity extends MyBaseActivity {
     private void initdata() {
         selectPage = 0;
         fragmentList = new Fragment[4];
+        Bundle bu = getIntent().getExtras();
+        if (bu != null) {
+            selectPage = bu.getInt("DATA");
+        }
     }
 
     private void findview() {
@@ -67,7 +71,12 @@ public class FriendListActivity extends MyBaseActivity {
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(AddActivity.class);
+                Bundle bu = new Bundle();
+                if (selectPage == 3)
+                    bu.putInt("DATA", 1);
+                else
+                    bu.putInt("DATA", 0);
+                startActivity(AddActivity.class, bu);
             }
         });
     }
