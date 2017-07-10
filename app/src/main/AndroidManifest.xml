@@ -60,24 +60,32 @@
         <activity android:name=".ui.sns.friendlist.FriendListActivity" />
         <activity android:name=".ui.sns.add.AddActivity" />
         <activity android:name=".ui.sns.add.BookActivity" />
-        <activity android:name=".ui.sns.add.GroupApplyActivity"/>
+        <activity android:name=".ui.sns.add.GroupApplyActivity" />
         <activity android:name=".ui.sns.chat.ChatActivity" />
         <activity android:name=".ui.sns.personal.PersonalActivity" />
         <activity android:name=".ui.sns.personal.PersonalMoreActivity" />
         <activity android:name=".ui.sns.personal.PersonalChatDetailActivity" />
-        <activity android:name=".ui.sns.group.GroupDetailActivity"/>
-        <activity android:name=".ui.sns.group.GroupMemberListActivity"/>
-        <activity android:name=".ui.sns.group.GroupManagerActivity"/>
-        <activity android:name=".ui.sns.group.GroupEditActivity"/>
-        <activity android:name=".ui.sns.group.GroupEditNameActivity"/>
-        <activity android:name=".ui.sns.group.GroupEditIntroduceActivity"/>
-        <activity android:name=".ui.sns.group.GroupSetAdminActivity"/>
-        <activity android:name=".ui.sns.group.GroupSelectAdminActivity"/>
-        <activity android:name=".ui.sns.group.GroupCreateActivity"/>
-        <activity android:name=".ui.sns.group.GroupCreateActivity2"/>
-        <activity android:name=".ui.sns.group.GroupCreateActivity4"/>
+        <activity android:name=".ui.sns.group.GroupDetailActivity" />
+        <activity android:name=".ui.sns.group.GroupMemberListActivity" />
+        <activity android:name=".ui.sns.group.GroupManagerActivity" />
+        <activity android:name=".ui.sns.group.GroupEditActivity" />
+        <activity android:name=".ui.sns.group.GroupEditNameActivity" />
+        <activity android:name=".ui.sns.group.GroupEditIntroduceActivity" />
+        <activity android:name=".ui.sns.group.GroupSetAdminActivity" />
+        <activity android:name=".ui.sns.group.GroupSelectAdminActivity" />
+        <activity android:name=".ui.sns.group.GroupCreateActivity" />
+        <activity android:name=".ui.sns.group.GroupCreateActivity2" />
+        <activity android:name=".ui.sns.group.GroupCreateActivity4" />
 
     </application>
+    <receiver
+        android:name=".broadcast.NetWorkStatusReceiver"
+        android:enabled="true"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+        </intent-filter>
+    </receiver>
     <meta-data
         android:name="me.xiaopan.sketchsample.SketchInitializer"
         android:value="SKETCH_INITIALIZER" />

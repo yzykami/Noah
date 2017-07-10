@@ -68,6 +68,7 @@ public class FriendListActivity extends MyBaseActivity {
 
     private void initview() {
         showFragment(selectPage);
+        setTag(selectPage);
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +130,19 @@ public class FriendListActivity extends MyBaseActivity {
         } else {
             selectPage = clickindex;
             showFragment(selectPage);
+        }
+    }
+
+    public void setTag(int index) {
+        for (int i = 0; i < ll.getChildCount(); i++) {
+            TextView child = (TextView) ll.getChildAt(i);
+            if (i == index) {
+                child.setTextColor(getResources().getColor(R.color.white));
+                child.setBackgroundColor(getResources().getColor(R.color.myRed));
+            } else {
+                child.setBackgroundColor(getResources().getColor(R.color.white));
+                child.setTextColor(getResources().getColor(R.color.myRed));
+            }
         }
     }
 }

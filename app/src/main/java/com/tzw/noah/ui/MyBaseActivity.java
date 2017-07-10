@@ -21,6 +21,7 @@ import java.util.Random;
 public class MyBaseActivity extends AppCompatActivity {
     public static final int LOGINSUCCEED = 1;
     public static final int LOGOUT = 2;
+    public static boolean isNetWorkConnected;
 
 
     public Map<Object, Object> classMap;
@@ -58,7 +59,7 @@ public class MyBaseActivity extends AppCompatActivity {
 
     private int getRandowmCode() {
         boolean created = false;
-        int i=hashCode()%65535;
+        int i = hashCode() % 65535;
         while (!created) {
             i = new Random().nextInt(65535);
             if (

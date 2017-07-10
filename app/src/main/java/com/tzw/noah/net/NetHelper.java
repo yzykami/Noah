@@ -144,7 +144,6 @@ public class NetHelper {
         String bodyName = "";
         new WIRequest().Get(method, callback);
     }
-
     //获取系统推荐昵称
     //operation/feedback
     public void operationFeedback(List<Param> body, Callback callback) {
@@ -179,4 +178,76 @@ public class NetHelper {
         String method = "user/device";
         new WIRequest().Post(method, body, callback);
     }
+/////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////            SNS                ///////////////////
+    //添加关注
+    //sns/attention
+    public void snsAttention(List<Param> body, Callback callback) {
+        String method = "sns/attention";
+        new WIRequest().Post(method, body, callback);
+    }
+
+    //取消关注
+    //sns/unfollow/{memberNo}
+    public void snsUnfollow(String memberNo,Callback callback) {
+        String method = "sns/unfollow/" + memberNo;
+        new WIRequest().Delete(method, callback);
+    }
+
+    //移除粉丝
+    //sns/removeFans/{memberNo}
+    public void snsRemoveFans(String memberNo, Callback callback) {
+        String method = "sns/removeFans/" + memberNo;
+        new WIRequest().Delete(method, callback);
+    }
+
+    //添加黑名单
+    //sns/blacklist
+    public void snsBlacklist(String userid, Callback callback) {
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("userid", userid));
+        String method = "sns/attention";
+        new WIRequest().Post(method, body, callback);
+    }
+
+    //移除黑名单
+    //sns/removeBlacklist/{memberNo}
+    public void snsRemoveBlacklist(String memberNo, Callback callback) {
+        String method = "sns/removeBlacklist/" + memberNo;
+        new WIRequest().Delete(method, callback);
+    }
+
+    //获取我的好友列表
+    //sns/friends
+    public void snsFriends(Callback callback) {
+        String method = "sns/friends";
+        new WIRequest().Get(method, callback);
+    }
+
+    //获取我的关注列表
+    //sns/concern
+    public void snsConcern(Callback callback) {
+        String method = "sns/concern";
+        new WIRequest().Get(method, callback);
+    }
+    //获取我的粉丝列表
+    //sns/fans
+    public void snsFans(Callback callback) {
+        String method = "sns/fans";
+        new WIRequest().Get(method, callback);
+    }
+
+    //获取我的黑名单列表
+    //sns/blacks
+    public void snsBlacks(Callback callback) {
+        String method = "sns/blacks";
+        new WIRequest().Get(method, callback);
+    }
+    //获取我的好友,关注,粉丝,黑名单列表
+    //sns/myList
+    public void snsMyList(Callback callback) {
+        String method = "sns/myList";
+        new WIRequest().Get(method, callback);
+    }
+
 }

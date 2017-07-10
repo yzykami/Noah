@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/headPadding"
-        android:text="A"
-        android:paddingTop="@dimen/pt2"
         android:paddingBottom="@dimen/pt2"
+        android:paddingTop="@dimen/pt2"
+        android:text="A"
         android:textColor="@color/textLightGray"
         android:textSize="@dimen/text_comment" />
 
@@ -72,7 +72,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/headPadding"
             android:layout_marginRight="@dimen/headPadding"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

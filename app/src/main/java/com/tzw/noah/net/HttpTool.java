@@ -89,50 +89,6 @@ public class HttpTool {
         }
     }
 
-//    public IMsg HttpGet2(String url, Param[] headers) {
-//
-//        Request.Builder builder = new Request.Builder();
-//        for (Param param : headers) {
-//            builder.header(param.key, param.value);
-//        }
-//        final Request request = builder
-//                .url(url)
-//                .build();
-//
-//        Call call = mOkHttpClient.newCall(request);
-//        Response execute = null;
-//        try {
-//            execute = call.execute();
-//
-//            String ret = null;
-//
-//            InputStream is = null;
-//            byte[] buf = new byte[1000 * 1024];
-//            int len = 0;
-//            try {
-//                is = execute.body().byteStream();
-//                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//                while ((len = is.read(buf)) != -1) {
-//                    byteArrayOutputStream.write(buf, 0, len);
-//                }
-//                String ret1 = new String(byteArrayOutputStream.toByteArray());
-//                ret = ret1;
-//            } catch (Throwable e) {
-//                throw e;
-//            } finally {
-//                try {
-//                    if (is != null) is.close();
-//                } catch (IOException e) {
-//                }
-//
-//            }
-//
-//            return IMsg.getInstance(ret);
-//        } catch (Throwable e) {
-//            return CreateErrorMsgResponse(e.getMessage());
-//        }
-//    }
-
     //HttpGet异步请求
     public void HttpGet(String url, Param[] headers, final Callback callback) {
         Request.Builder builder = new Request.Builder();
@@ -141,6 +97,79 @@ public class HttpTool {
         }
         final Request request = builder
                 .url(url)
+                .build();
+
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (callback != null) {
+                    callback.onFailure(call, e);
+                    Log.httpcall(request, e);
+                }
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (callback != null) {
+                    IMsg imsg = null;
+                    String ret = "";
+                    try {
+                        ret = response.body().string();
+                        Log.httpcall(request, ret);
+                        if (response.code() == 200)
+                            imsg = IMsg.getInstance(ret);
+                        else
+                            imsg = CreateErrorMsgResponse("服务器返回错误:" + response.code());
+                    } catch (Exception e) {
+                        imsg = CreateErrorMsgResponse(e.getMessage());
+                        Log.httpcall(request, e);
+                    }
+                    callback.onResponse(imsg);
+                }
+            }
+        });
+    }
+
+    //HttpGet同步请求
+    public IMsg HttpDelete(String url, Param[] headers) {
+
+        Request.Builder builder = new Request.Builder();
+        for (Param param : headers) {
+            builder.header(param.key, (String) param.value);
+        }
+        final Request request = builder
+                .url(url)
+                .delete()
+                .build();
+
+        Call call = mOkHttpClient.newCall(request);
+        Response execute = null;
+        try {
+            execute = call.execute();
+            String ret = execute.body().string();
+            Log.httpcall(request, ret);
+            IMsg imsg=null;
+            if (execute.code() == 200)
+                imsg = IMsg.getInstance(ret);
+            else
+                imsg = CreateErrorMsgResponse("服务器返回错误:" + execute.code());
+            return imsg;
+        } catch (Exception e) {
+            Log.httpcall(request, e);
+            return CreateErrorMsgResponse(e.getMessage());
+        }
+    }
+
+    //HttpGet异步请求
+    public void HttpDelete(String url, Param[] headers, final Callback callback) {
+        Request.Builder builder = new Request.Builder();
+        for (Param param : headers) {
+            builder.header(param.key, (String) param.value);
+        }
+        final Request request = builder
+                .url(url)
+                .delete()
                 .build();
 
         Call call = mOkHttpClient.newCall(request);

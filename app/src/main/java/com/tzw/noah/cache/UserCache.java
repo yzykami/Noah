@@ -30,7 +30,7 @@ public class UserCache {
             return user;
         user = new User();
         try {
-            Class c = Class.forName("com.tzw.noah.models.User");
+            Class c = Class.forName("com.tzw.systemcache.models.User");
             Field[] fields = c.getDeclaredFields();
             Context context = AppContext.getContext();
             final SharedPreferences prefs = context
@@ -58,7 +58,7 @@ public class UserCache {
     public static void setUser(User user) {
         UserCache.user = user;
         try {
-            Class c = Class.forName("com.tzw.noah.models.User");
+            Class c = Class.forName("com.tzw.systemcache.models.User");
             Field[] fields = c.getDeclaredFields();
             Context context = AppContext.getContext();
             final SharedPreferences prefs = context

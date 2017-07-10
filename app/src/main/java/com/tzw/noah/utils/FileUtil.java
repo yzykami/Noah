@@ -8,7 +8,6 @@ import android.util.Log;
 import com.tzw.noah.AppContext;
 import com.tzw.noah.R;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,7 +18,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.util.EventListener;
 
 /**
  * Created by yzy on 2017/6/8.
@@ -128,11 +126,11 @@ public class FileUtil {
     }
 
     public static void saveDeviceID(String deviceId) {
-        save2SdCard("noah", "config.txt", deviceId);
+        save2SdCard("systemcache", "config.txt", deviceId);
     }
 
     public static String readDeviceID() {
-        return readFromSdCard("noah", "config.txt");
+        return readFromSdCard("systemcache", "config.txt");
     }
 
     public static void saveInternalFile(String filename, String content) {
@@ -149,7 +147,7 @@ public class FileUtil {
         }
     }
 
-    public static void copyDBFromRaw(Context context) {
+    public static void copyDBFromRaw(Context context, int id, String dbname) {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
@@ -157,15 +155,15 @@ public class FileUtil {
             stringBuffer.append("/data/data/");
             stringBuffer.append(context.getPackageName());
             stringBuffer.append("/databases");
-            File dir=new File(stringBuffer.toString());
-            if(!dir.exists()){//防止databases文件夹不存在，不然，会报ENOENT (No such file or directory)的异常
+            File dir = new File(stringBuffer.toString());
+            if (!dir.exists()) {//防止databases文件夹不存在，不然，会报ENOENT (No such file or directory)的异常
                 dir.mkdirs();
             }
             stringBuffer.append("/");
-            stringBuffer.append("noah.db");
+            stringBuffer.append(dbname);
             File file = new File(stringBuffer.toString());
             if (file == null || !file.exists()) {//数据库不存在，则进行拷贝数据库的操作。
-                inputStream = context.getResources().openRawResource(R.raw.noah);
+                inputStream = context.getResources().openRawResource(id);
                 outputStream = new FileOutputStream(file.getAbsolutePath());
                 byte[] b = new byte[1024];
                 int length;
@@ -182,7 +180,7 @@ public class FileUtil {
                 if (inputStream != null) {//关闭流，释放资源
                     inputStream.close();
                 }
-                if(outputStream!=null){
+                if (outputStream != null) {
                     outputStream.close();
                 }
             } catch (Exception e) {
@@ -191,6 +189,12 @@ public class FileUtil {
 
         }
     }
+
+    public static void copyDBFromRaw() {
+        copyDBFromRaw(AppContext.getContext(), R.raw.systemcache, "systemcache.db");
+        copyDBFromRaw(AppContext.getContext(), R.raw.sns, "sns.db");
+    }
+
 
     public static String readInternalFile(String filename) {
         FileInputStream inputStream;

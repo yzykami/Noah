@@ -6,14 +6,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.google.gson.reflect.TypeToken;
-import com.tzw.noah.R;
 import com.tzw.noah.models.Area;
 import com.tzw.noah.utils.FileUtil;
-import com.tzw.noah.utils.Utils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +20,14 @@ import java.util.List;
  * Created by yzy on 2017/6/13.
  */
 
-public class DBHelper extends SQLiteOpenHelper {
+public class SnsDBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "systemcache.db";
+    private static final String DATABASE_NAME = "sns.db";
     private static final int DATABASE_VERSION = 1;
     Context context;
     SQLiteDatabase db;
 
-    public DBHelper(Context context) {
+    public SnsDBHelper(Context context) {
         //CursorFactory设置为null,使用默认值
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
@@ -149,9 +148,9 @@ public class DBHelper extends SQLiteOpenHelper {
             Class tclass = Class.forName(t.getClass().getName());
 
             Field[] fields = tclass.getDeclaredFields();
-            db.execSQL("delete from "+tableName);
+            db.execSQL("delete from " + tableName);
 
-            String sql = "INSERT INTO "+tableName+" VALUES(null";
+            String sql = "INSERT INTO " + tableName + " VALUES(null";
             List<Object> objs = new ArrayList<>();
             for (T tt : tList) {
                 for (Field field : fields) {
@@ -175,7 +174,128 @@ public class DBHelper extends SQLiteOpenHelper {
 //                    if (ftype.equals(double.class)) {
 //                    }
                 }
-                sql+=")";
+                sql += ")";
+                db.execSQL(sql, objs.toArray(new Object[objs.size()]));
+            }
+            db.setTransactionSuccessful();  //设置事务成功完成
+        } catch (Exception e) {
+        } finally {
+            db.endTransaction();    //结束事务
+        }
+    }
+
+
+    public <T> void insertAndUpdate(List<T> tList, String tableName) {
+        if (tList == null || tList.size() == 0)
+            return;
+        T t = tList.get(0);
+        db.beginTransaction();  //开始事务
+        try {
+
+            Class tclass = Class.forName(t.getClass().getName());
+
+            Field[] fields = tclass.getDeclaredFields();
+            db.execSQL("delete from " + tableName);
+
+            String sql = "INSERT INTO " + tableName + " VALUES(null";
+            List<Object> objs = new ArrayList<>();
+            for (T tt : tList) {
+                for (Field field : fields) {
+                    Annotation a = field.getAnnotation(MyField.class);
+                    if (a == null) {
+                        continue;
+                    }
+                    String fname = field.getName();
+                    Type ftype = field.getType();
+
+                    if (a == null) {
+                        continue;
+                    }
+                    sql += ",?";
+                    objs.add(field.get(tt));
+//                    if (ftype.equals(new TypeToken<String>() {
+//                    }.getType())) {
+//                    }
+//                    if (ftype.equals(int.class)) {
+//                    }
+//                    if (ftype.equals(double.class)) {
+//                    }
+                }
+                sql += ")";
+                db.execSQL(sql, objs.toArray(new Object[objs.size()]));
+            }
+            db.setTransactionSuccessful();  //设置事务成功完成
+        } catch (Exception e) {
+        } finally {
+            db.endTransaction();    //结束事务
+        }
+    }
+
+
+    public <T> void insertAndUpdate(T t, String tableName) {
+//        if (tList == null || tList.size() == 0)
+//            return;
+//        T t = tList.get(0);
+        String sql = "";
+        db.beginTransaction();  //开始事务
+        try {
+            String tableIdName = "";
+            Object tableIdValue = null;
+            Class tclass = Class.forName(t.getClass().getName());
+
+            Field[] fields = tclass.getDeclaredFields();
+
+            for (Field field : fields) {
+                Annotation a = field.getAnnotation(MyField.class);
+                if (a.equals("id")) {
+                    tableIdName = field.getName();
+                    tableIdValue = field.get(t);
+                }
+            }
+            if (tableIdValue == null) {
+                return;
+            }
+            sql = "select * from " + tableName + " where " + tableIdName + " = " + tableIdValue;
+            List<T> list_select=queryAll(tclass,sql);
+
+            //如果数据不存在 Insert
+            if(list_select==null||list_select.size()==0)
+            {
+                sql = "INSERT INTO " + tableName + " VALUES(null";
+                List<Object> objs = new ArrayList<>();
+                for (Field field : fields) {
+                    Annotation a = field.getAnnotation(MyField.class);
+                    if (a == null) {
+                        continue;
+                    }
+                    String fname = field.getName();
+                    Type ftype = field.getType();
+
+                    if (a == null) {
+                        continue;
+                    }
+                    sql += ",?";
+                    objs.add(field.get(t));
+                }
+                sql += ")";
+                db.execSQL(sql, objs.toArray(new Object[objs.size()]));
+            }
+            //如果已经存在 Update
+            else {
+                sql = "UPDATE " + tableName + " SET ";//+//""memberNo = ?,
+                List<Object> objs = new ArrayList<>();
+                for (Field field : fields) {
+                    Annotation a = field.getAnnotation(MyField.class);
+                    if (a == null) {
+                        continue;
+                    }
+                    String fname = field.getName();
+                    Type ftype = field.getType();
+                    objs.add(field.get(t));
+                    sql+=fname +"=?,";
+                }
+                sql=sql.substring(0,sql.length()-1);
+                sql+=" where " + tableIdName + " = " + tableIdValue;
                 db.execSQL(sql, objs.toArray(new Object[objs.size()]));
             }
             db.setTransactionSuccessful();  //设置事务成功完成

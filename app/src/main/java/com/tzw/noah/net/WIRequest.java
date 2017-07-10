@@ -224,6 +224,78 @@ public class WIRequest {
         });
     }
 
+    public IMsg Delete(String method) {
+        BuildHeaderLoginKey();
+        String url = preUrl + method;
+        IMsg iMsg = httptool.HttpDelete(url, header);
+        updateTimeoffset(iMsg);
+        if (iMsg.getCode() == 3) {
+            updateTimeoffset(iMsg);
+            BuildHeaderLoginKey();
+            iMsg = httptool.HttpDelete(url, header);
+            if (iMsg.getCode() == 1041) {
+                reGetLoginKey();
+                BuildHeaderLoginKey();
+                iMsg = httptool.HttpDelete(url, header);
+            }
+        }
+        if (iMsg.getCode() == 1041) {
+            reGetLoginKey();
+            BuildHeaderLoginKey();
+            iMsg = httptool.HttpDelete(url, header);
+        }
+        return iMsg;
+    }
+
+    public void Delete(String method, final Callback callback) {
+        BuildHeaderLoginKey();
+        final String url = preUrl + method;
+        httptool.HttpGet(url, header, new Callback() {
+            @Override
+            public void onFailure(final Call call, final IOException e) {
+                if (callback != null) {
+                    mdelivery.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onAfter();
+                            callback.onFailure(call, e);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                if (callback != null) {
+                    updateTimeoffset(iMsg);
+                    if (iMsg.getCode() == 3) {
+                        updateTimeoffset(iMsg);
+                        BuildHeaderLoginKey();
+                        iMsg = httptool.HttpDelete(url, header);
+                        if (iMsg.getCode() == 1041) {
+                            reGetLoginKey();
+                            BuildHeaderLoginKey();
+                            iMsg = httptool.HttpDelete(url, header);
+                        }
+                    }
+                    if (iMsg.getCode() == 1041) {
+                        reGetLoginKey();
+                        BuildHeaderLoginKey();
+                        iMsg = httptool.HttpDelete(url, header);
+                    }
+                    final IMsg finalImsg = iMsg;
+                    mdelivery.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onAfter();
+                            callback.onResponse(finalImsg);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 //    public void GetNoLoginKey(String method, final Callback callback) {
 //        BuildHeader();
 //        String url = preUrl + method;

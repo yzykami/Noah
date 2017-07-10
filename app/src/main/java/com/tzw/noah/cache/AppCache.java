@@ -50,23 +50,20 @@ public class AppCache {
     protected static final String PREFS_IsInstall_Dict = "IsInstall_Dict";
 
     //如果是首次安装需要将raw的数据初始化到本地私有存储
-    public static void firstInstall()
-    {
+    public static void firstInstall() {
         Context context = AppContext.getContext();
         final SharedPreferences prefs = context
                 .getSharedPreferences(PREFS_FILE, 0);
         boolean isInstalldb = prefs.getBoolean(PREFS_IsInstall_DB, false);
 
-        if(!isInstalldb)
-        {
-            FileUtil.copyDBFromRaw(AppContext.getContext());
-            prefs.edit().putBoolean(PREFS_IsInstall_DB,true).commit();
+        if (!isInstalldb) {
+            FileUtil.copyDBFromRaw();
+            prefs.edit().putBoolean(PREFS_IsInstall_DB, true).commit();
         }
         boolean isInstalldict = prefs.getBoolean(PREFS_IsInstall_Dict, false);
-        if(!isInstalldict)
-        {
-            FileUtil.saveInternalFile("dict.txt",FileUtil.readRawFile(context, R.raw.dict));
-            prefs.edit().putBoolean(PREFS_IsInstall_Dict,true).commit();
+        if (!isInstalldict) {
+            FileUtil.saveInternalFile("dict.txt", FileUtil.readRawFile(context, R.raw.dict));
+            prefs.edit().putBoolean(PREFS_IsInstall_Dict, true).commit();
         }
     }
 
@@ -229,8 +226,7 @@ public class AppCache {
         return s;
     }
 
-    public static DictList getDictList()
-    {
+    public static DictList getDictList() {
         String s = FileUtil.readInternalFile("dict.txt");
         DictList dict = DictList.load(s);
         return dict;

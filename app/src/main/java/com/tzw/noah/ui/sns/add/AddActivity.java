@@ -69,6 +69,7 @@ public class AddActivity extends MyBaseActivity {
 
     private void initview() {
         showFragment(selectPage);
+        setTag(selectPage);
     }
 
     private void showFragment(int selected) {
@@ -115,6 +116,19 @@ public class AddActivity extends MyBaseActivity {
         } else {
             selectPage = clickindex;
             showFragment(selectPage);
+        }
+    }
+
+    public void setTag(int index) {
+        for (int i = 0; i < ll.getChildCount(); i++) {
+            TextView child = (TextView) ll.getChildAt(i);
+            if (i == index) {
+                child.setTextColor(getResources().getColor(R.color.white));
+                child.setBackgroundColor(getResources().getColor(R.color.myRed));
+            } else {
+                child.setBackgroundColor(getResources().getColor(R.color.white));
+                child.setTextColor(getResources().getColor(R.color.myRed));
+            }
         }
     }
 }

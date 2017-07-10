@@ -104,7 +104,7 @@ public class Utils {
                 }
             }
         }
-//        com.tzw.noah.logger.Log.log("getLetter", "word = " + word + ",letter = " + ret.toString());
+//        com.tzw.systemcache.logger.Log.log("getLetter", "word = " + word + ",letter = " + ret.toString());
         return ret;
     }
 

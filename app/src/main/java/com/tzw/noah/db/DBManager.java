@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.R;
 import com.tzw.noah.models.Area;
 import com.tzw.noah.models.Dict;
+import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.utils.FileUtil;
 import com.tzw.noah.utils.Utils;
@@ -179,6 +180,7 @@ public class DBManager {
         String sql = "SELECT * FROM Dictionary where dictionaryType ='memberInterest'";
         return selectDictionaryList(sql);
     }
+
     public List<Dict> selectCharacterList() {
         String sql = "SELECT * FROM Dictionary where dictionaryType ='memberCharacter'";
         return selectDictionaryList(sql);
@@ -209,4 +211,13 @@ public class DBManager {
         return Dicts;
     }
 
+    public List<User> getSnsFriendList() {
+        String sql = "select * from memberInfo where memberNo in(select memberNo from MyFriend)";
+        return helper.queryAll(User.class, sql);
+    }
+
+    public void UpdateFriendList(List<User> list)
+    {
+        helper.insert(list,"memberInfo");
+    }
 }

@@ -2,16 +2,13 @@ package com.tzw.noah;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.tzw.noah.cache.AppCache;
-import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
-import com.tzw.noah.net.WIRequest;
+import com.tzw.noah.sdk.SnsManager;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -22,7 +19,6 @@ import java.util.Map;
 
 import okhttp3.Call;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -174,5 +170,11 @@ public class ExampleUnitTest {
         s = "a";
         b = "b";
         assertEquals(s.compareTo(b), -1);
+    }
+
+    @Test
+    public void testT(){
+        SnsManager sm = new SnsManager();
+        List<User> sp =sm.GetList(User.class);
     }
 }
