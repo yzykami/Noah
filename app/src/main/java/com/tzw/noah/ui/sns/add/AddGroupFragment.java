@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.models.User;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.ui.sns.group.GroupCreateActivity;
 import com.tzw.noah.utils.Utils;
@@ -43,7 +44,7 @@ public class AddGroupFragment extends Fragment {
     ListView list_view;
 
     Context mContext;
-    List<SnsPerson> items = new ArrayList<>();
+    List<User> items = new ArrayList<>();
 
     AddActivity mActivity;
 
@@ -76,14 +77,14 @@ public class AddGroupFragment extends Fragment {
         namelist.add("ddd呵呵");
 
         items = new ArrayList<>();
-        for (String name : namelist) {
-            SnsPerson p = new SnsPerson();
-            p.name = name;
-            p.namePingyin = Utils.getLetter(name);
-            p.shortCut = "推荐";
-            p.type = SnsPerson.Type.Group;
-            items.add(p);
-        }
+//        for (String name : namelist) {
+//            SnsPerson p = new SnsPerson();
+//            p.name = name;
+//            p.namePingyin = Utils.getLetter(name);
+//            p.shortCut = "推荐";
+//            p.type = SnsPerson.Type.Group;
+//            items.add(p);
+//        }
 
         Collections.sort(items, new MyCompare());
 
@@ -149,7 +150,7 @@ public class AddGroupFragment extends Fragment {
             return;
         }
         for (int i = 0; i < items.size(); i++) {
-            String ping = items.get(i).shortCut;
+            String ping = items.get(i).nameFirstChar;
             //将手指按下的字母与列表中相同字母开头的项找出来
             if (words.equals(ping)) {
                 //将列表选中哪一个

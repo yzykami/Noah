@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.models.User;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.WordNaviView;
 
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * Created by yzy on 2017/6/30.
  */
-public class FansFragment extends Fragment {
+public class FansFragment extends MyFragment {
     @BindView(R.id.container)
     ViewGroup rootViewGroup;
 
@@ -37,7 +38,7 @@ public class FansFragment extends Fragment {
     ListView list_view;
 
     Context mContext;
-    List<SnsPerson> items = new ArrayList<>();
+    List<User> items = new ArrayList<>();
 
     @Nullable
     @Override
@@ -67,14 +68,14 @@ public class FansFragment extends Fragment {
         namelist.add("ddd呵呵");
 
         items=new ArrayList<>();
-        for (String name :namelist)
-        {
-            SnsPerson p=new SnsPerson();
-            p.name=name;
-            p.namePingyin= Utils.getLetter(name);
-            p.shortCut=Utils.getLetterShortCut(p.namePingyin);
-            items.add(p);
-        }
+//        for (String name :namelist)
+//        {
+//            SnsPerson p=new SnsPerson();
+//            p.name=name;
+//            p.namePingyin= Utils.getLetter(name);
+//            p.shortCut=Utils.getLetterShortCut(p.namePingyin);
+//            items.add(p);
+//        }
 
         Collections.sort(items, new MyCompare());
 
@@ -117,7 +118,7 @@ public class FansFragment extends Fragment {
             return;
         }
         for (int i = 0; i < items.size(); i++) {
-            String ping = items.get(i).shortCut;
+            String ping = items.get(i).nameFirstChar;
             //将手指按下的字母与列表中相同字母开头的项找出来
             if (words.equals(ping)) {
                 //将列表选中哪一个

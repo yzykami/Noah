@@ -1,16 +1,29 @@
 package com.tzw.noah.sdk;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+
 import com.tzw.noah.db.MyField;
+import com.tzw.noah.db.SnsDBManager;
+import com.tzw.noah.logger.Log;
+import com.tzw.noah.models.User;
 import com.tzw.noah.net.Callback;
+import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
 import com.tzw.noah.net.WIRequest;
+import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.utils.NetWorkUtils;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
 
 /**
  * Created by yzy on 2017/7/10.
@@ -19,6 +32,24 @@ import java.util.List;
 public class SnsManager {
     //添加关注
     //sns/attention
+    Context mContext;
+    SnsDBManager snsDBManager;
+
+    private static Handler mdelivery;
+
+    public SnsManager(Context mContext) {
+        this.mContext = mContext;
+        snsDBManager = new SnsDBManager(mContext);
+        mdelivery = new Handler(Looper.getMainLooper());
+    }
+
+
+    private IMsg createImsg() {
+        IMsg imsg = new IMsg();
+        imsg.setSucceed(true);
+        return imsg;
+    }
+
     public void snsAttention(List<Param> body, Callback callback) {
         NetHelper.getInstance().snsAttention(body, callback);
     }
@@ -49,9 +80,52 @@ public class SnsManager {
 
     //获取我的好友列表
     //sns/friends
-    public void snsFriends(Callback callback) {
-        NetHelper.getInstance().snsFriends(callback);
+    public void snsFriends(final Callback callback) {
+        Log.log("SnsManager:snsFriends", "isNetWorkConnected = " + MyBaseActivity.isNetWorkConnected);
+        if (NetWorkUtils.isNetworkAvailable(mContext))
+            NetHelper.getInstance().snsFriends(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    if (callback != null) {
+                        callback.onAfter();
+                        callback.onFailure(call, e);
+                    }
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        //保存到本地数据库
+                        List<User> userList = User.loadFriendList(iMsg);
+                        iMsg.Data = userList;
+                        snsDBManager.UpdateFriendList(userList);
+                    } catch (Exception e) {
+
+                    }
+                    callback.onAfter();
+                    callback.onResponse(iMsg);
+                }
+            });
+        else {
+            if (callback != null) {
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        final IMsg iMsg = createImsg();
+                        iMsg.Data = snsDBManager.getSnsFriendList();
+                        mdelivery.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onAfter();
+                                callback.onResponse(iMsg);
+                            }
+                        });
+                    }
+                };
+            }
+        }
     }
+
 
     //获取我的关注列表
     //sns/concern
@@ -75,34 +149,5 @@ public class SnsManager {
     //sns/myList
     public void snsMyList(Callback callback) {
         NetHelper.getInstance().snsMyList(callback);
-    }
-
-    public <T> List<T> GetList(Class<T> t) {
-
-        List<T> list = null;
-        try {
-            Class c = Class.forName(t.getName());
-            Field[] fields = c.getDeclaredFields();
-            for(Field field:fields)
-            {
-                Annotation a = field.getAnnotation(MyField.class);
-                if(a==null)
-                {
-                    continue;
-                }
-                String fname = field.getName();
-                Type ftype=field.getType();
-
-
-            }
-            T ins = t.newInstance();
-            list.add(ins);
-
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
     }
 }

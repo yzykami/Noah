@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.models.User;
 import com.tzw.noah.ui.MyBaseActivity;
 
 import java.util.List;
@@ -20,11 +21,11 @@ import java.util.List;
 public class AddAdapter extends BaseAdapter {
 
     Context context;
-    List<SnsPerson> items;
+    List<User> items;
     MyBaseActivity myBaseActivity;
 //    List<Boolean> selected;
 
-    public AddAdapter(Context context, List<SnsPerson> items) {
+    public AddAdapter(Context context, List<User> items) {
         this.context = context;
         myBaseActivity = (MyBaseActivity) context;
         this.items = items;
@@ -64,12 +65,12 @@ public class AddAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final SnsPerson snsPerson = items.get(position);
-        holder.tv.setText(snsPerson.name);
+        final User snsPerson = items.get(position);
+        holder.tv.setText(snsPerson.memberNickName);
 
 
         if (position == 0) {
-            holder.tag.setText(snsPerson.shortCut);
+            holder.tag.setText(snsPerson.nameFirstChar);
             holder.tag.setVisibility(View.VISIBLE);
         } else {
             holder.tag.setVisibility(View.GONE);

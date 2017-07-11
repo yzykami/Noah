@@ -1,11 +1,8 @@
 package com.tzw.noah.db;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
-import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.R;

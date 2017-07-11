@@ -147,7 +147,7 @@ public class FileUtil {
         }
     }
 
-    public static void copyDBFromRaw(Context context, int id, String dbname) {
+    public static void copyDBFromRaw(Context context, int id, String dbname,String dbDir) {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
@@ -155,6 +155,8 @@ public class FileUtil {
             stringBuffer.append("/data/data/");
             stringBuffer.append(context.getPackageName());
             stringBuffer.append("/databases");
+            if(!dbDir.isEmpty())
+                stringBuffer.append("/"+dbDir);
             File dir = new File(stringBuffer.toString());
             if (!dir.exists()) {//防止databases文件夹不存在，不然，会报ENOENT (No such file or directory)的异常
                 dir.mkdirs();
@@ -186,15 +188,16 @@ public class FileUtil {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
     public static void copyDBFromRaw() {
-        copyDBFromRaw(AppContext.getContext(), R.raw.systemcache, "systemcache.db");
-        copyDBFromRaw(AppContext.getContext(), R.raw.sns, "sns.db");
+        copyDBFromRaw(AppContext.getContext(), R.raw.systemcache, "systemcache.db","");
     }
 
+    public static void copySnsDBFromRaw(String dbDir) {
+        copyDBFromRaw(AppContext.getContext(), R.raw.sns, "sns.db",dbDir);
+    }
 
     public static String readInternalFile(String filename) {
         FileInputStream inputStream;

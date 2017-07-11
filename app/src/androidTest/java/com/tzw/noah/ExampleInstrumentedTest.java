@@ -61,7 +61,7 @@ public class ExampleInstrumentedTest {
         for (int i = 0; i < list.size(); i++) {
             System.out.println("index = " + i + "areaid = " + list.get(i).areaId);
         }
-        assertEquals("com.tzw.systemcache", appContext.getPackageName());
+        assertEquals("com.tzw.noah", appContext.getPackageName());
     }
 
     @Test
@@ -224,7 +224,7 @@ public class ExampleInstrumentedTest {
         u.totalBonus=0.12;
         u.memberNickName="haha";
 
-        Class c  = Class.forName("com.tzw.systemcache.models.User");
+        Class c  = Class.forName("com.tzw.noah.models.User");
         Field[] fields= c.getDeclaredFields();
 
         for (Field field:fields

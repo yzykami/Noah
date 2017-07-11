@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.cache.UserCache;
+import com.tzw.noah.db.SnsDBManager;
+import com.tzw.noah.init.DBInit;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
@@ -215,6 +217,8 @@ public class LoginActivity extends MyBaseActivity {
                     if (iMsg.isSucceed()) {
                         User user = User.load(iMsg);
                         UserCache.setUser(user);
+                        new DBInit().snsInit();
+                        new SnsDBManager(mycontext).updateUser(user);
 //                        UserCache.setToken(UserCache.getToken());
 //                        UserCache.setLoginkey(UserCache.getLoginKey());
 

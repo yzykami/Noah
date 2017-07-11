@@ -23,6 +23,7 @@ public class NetWorkStatusReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        com.tzw.noah.logger.Log.log("NetWorkStatusReceiver", "received = " + NetWorkUtils.getAPNType(context));
         String action = intent.getAction();
         if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
             Toast.makeText(context, "network changed", Toast.LENGTH_LONG).show();

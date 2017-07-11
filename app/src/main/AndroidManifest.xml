@@ -79,9 +79,7 @@
 
     </application>
     <receiver
-        android:name=".broadcast.NetWorkStatusReceiver"
-        android:enabled="true"
-        android:exported="true">
+        android:name="com.tzw.noah.broadcast.NetWorkStatusReceiver">
         <intent-filter>
             <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
         </intent-filter>

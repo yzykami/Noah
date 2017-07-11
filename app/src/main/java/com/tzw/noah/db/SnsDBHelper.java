@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.google.gson.reflect.TypeToken;
+import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Area;
 import com.tzw.noah.utils.FileUtil;
 
@@ -29,8 +30,9 @@ public class SnsDBHelper extends SQLiteOpenHelper {
 
     public SnsDBHelper(Context context) {
         //CursorFactory设置为null,使用默认值
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(new DatabaseContext(context), DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        db = getWritableDatabase();
     }
 
     //数据库第一次被创建时onCreate会被调用
@@ -47,7 +49,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
 //        db.execSQL("ALTER TABLE person ADD COLUMN other STRING");
     }
 
-    public boolean tableIsExist(String tabName, SQLiteDatabase db) {
+    public boolean tableIsExist(String tabName) {
         boolean result = false;
         if (tabName == null) {
             return false;
@@ -70,8 +72,8 @@ public class SnsDBHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public void createNewTable(String tablename, SQLiteDatabase db) {
-        if (tableIsExist(tablename, db))
+    public void createNewTable(String tablename) {
+        if (tableIsExist(tablename))
             return;
         FileUtil.copyDBFromRaw();
     }
@@ -151,8 +153,10 @@ public class SnsDBHelper extends SQLiteOpenHelper {
             db.execSQL("delete from " + tableName);
 
             String sql = "INSERT INTO " + tableName + " VALUES(null";
-            List<Object> objs = new ArrayList<>();
             for (T tt : tList) {
+                String column = " (";
+                String values = " (";
+                List<Object> objs = new ArrayList<>();
                 for (Field field : fields) {
                     Annotation a = field.getAnnotation(MyField.class);
                     if (a == null) {
@@ -161,20 +165,15 @@ public class SnsDBHelper extends SQLiteOpenHelper {
                     String fname = field.getName();
                     Type ftype = field.getType();
 
-                    if (a == null) {
-                        continue;
-                    }
-                    sql += ",?";
+                    column += fname + ",";
+                    values += "?,";
                     objs.add(field.get(tt));
-//                    if (ftype.equals(new TypeToken<String>() {
-//                    }.getType())) {
-//                    }
-//                    if (ftype.equals(int.class)) {
-//                    }
-//                    if (ftype.equals(double.class)) {
-//                    }
                 }
-                sql += ")";
+
+                column = column.substring(0, column.length() - 1) + ") ";
+                values = values.substring(0, values.length() - 1) + ") ";
+
+                sql = "INSERT INTO " + tableName + column + " VALUES" + values;
                 db.execSQL(sql, objs.toArray(new Object[objs.size()]));
             }
             db.setTransactionSuccessful();  //设置事务成功完成
@@ -198,8 +197,10 @@ public class SnsDBHelper extends SQLiteOpenHelper {
             db.execSQL("delete from " + tableName);
 
             String sql = "INSERT INTO " + tableName + " VALUES(null";
-            List<Object> objs = new ArrayList<>();
             for (T tt : tList) {
+                String column = " (";
+                String values = " (";
+                List<Object> objs = new ArrayList<>();
                 for (Field field : fields) {
                     Annotation a = field.getAnnotation(MyField.class);
                     if (a == null) {
@@ -208,20 +209,15 @@ public class SnsDBHelper extends SQLiteOpenHelper {
                     String fname = field.getName();
                     Type ftype = field.getType();
 
-                    if (a == null) {
-                        continue;
-                    }
-                    sql += ",?";
+                    column += fname + ",";
+                    values += "?,";
                     objs.add(field.get(tt));
-//                    if (ftype.equals(new TypeToken<String>() {
-//                    }.getType())) {
-//                    }
-//                    if (ftype.equals(int.class)) {
-//                    }
-//                    if (ftype.equals(double.class)) {
-//                    }
                 }
-                sql += ")";
+
+                column = column.substring(0, column.length() - 1) + ") ";
+                values = values.substring(0, values.length() - 1) + ") ";
+
+                sql = "INSERT INTO " + tableName + column + " VALUES" + values;
                 db.execSQL(sql, objs.toArray(new Object[objs.size()]));
             }
             db.setTransactionSuccessful();  //设置事务成功完成
@@ -247,7 +243,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
 
             for (Field field : fields) {
                 Annotation a = field.getAnnotation(MyField.class);
-                if (a.equals("id")) {
+                if (a != null && a.toString().equals("@com.tzw.noah.db.MyField(name=id)")) {
                     tableIdName = field.getName();
                     tableIdValue = field.get(t);
                 }
@@ -256,12 +252,12 @@ public class SnsDBHelper extends SQLiteOpenHelper {
                 return;
             }
             sql = "select * from " + tableName + " where " + tableIdName + " = " + tableIdValue;
-            List<T> list_select=queryAll(tclass,sql);
+            List<T> list_select = queryAll(tclass, sql);
 
             //如果数据不存在 Insert
-            if(list_select==null||list_select.size()==0)
-            {
-                sql = "INSERT INTO " + tableName + " VALUES(null";
+            if (list_select == null || list_select.size() == 0) {
+                String column = " (";
+                String values = " (";
                 List<Object> objs = new ArrayList<>();
                 for (Field field : fields) {
                     Annotation a = field.getAnnotation(MyField.class);
@@ -271,13 +267,15 @@ public class SnsDBHelper extends SQLiteOpenHelper {
                     String fname = field.getName();
                     Type ftype = field.getType();
 
-                    if (a == null) {
-                        continue;
-                    }
-                    sql += ",?";
+                    column += fname + ",";
+                    values += "?,";
                     objs.add(field.get(t));
                 }
-                sql += ")";
+
+                column = column.substring(0, column.length() - 1) + ") ";
+                values = values.substring(0, values.length() - 1) + ") ";
+
+                sql = "INSERT INTO " + tableName + column + " VALUES" + values;
                 db.execSQL(sql, objs.toArray(new Object[objs.size()]));
             }
             //如果已经存在 Update
@@ -292,14 +290,15 @@ public class SnsDBHelper extends SQLiteOpenHelper {
                     String fname = field.getName();
                     Type ftype = field.getType();
                     objs.add(field.get(t));
-                    sql+=fname +"=?,";
+                    sql += fname + "=?,";
                 }
-                sql=sql.substring(0,sql.length()-1);
-                sql+=" where " + tableIdName + " = " + tableIdValue;
+                sql = sql.substring(0, sql.length() - 1);
+                sql += " where " + tableIdName + " = " + tableIdValue;
                 db.execSQL(sql, objs.toArray(new Object[objs.size()]));
             }
             db.setTransactionSuccessful();  //设置事务成功完成
         } catch (Exception e) {
+            Log.log("SnsDBHelper", e);
         } finally {
             db.endTransaction();    //结束事务
         }

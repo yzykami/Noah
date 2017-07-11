@@ -5,13 +5,25 @@ package com.tzw.noah.ui.sns.friendlist;
  */
 
 import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.models.User;
+import com.tzw.noah.utils.Utils;
 
 import java.util.Comparator;
 import java.util.List;
 
-public class MyCompare implements Comparator<SnsPerson> {
+public class MyCompare implements Comparator<User> {
     @Override
-    public int compare(SnsPerson o1, SnsPerson o2) {
+    public int compare(User o1, User o2) {
+        if(o1.namePingyin==null)
+        {
+            o1.namePingyin= Utils.getLetter(o1.memberNickName);
+            o1.nameFirstChar =Utils.getLetterShortCut(o1.namePingyin);
+        }
+        if(o2.namePingyin==null)
+        {
+            o2.namePingyin= Utils.getLetter(o1.memberNickName);
+            o2.nameFirstChar =Utils.getLetterShortCut(o2.namePingyin);
+        }
         List<Character> lc1 = o1.namePingyin;
         List<Character> lc2 = o2.namePingyin;
         for (int i = 0; i < lc1.size() && i < lc2.size(); i++) {
@@ -39,9 +51,9 @@ public class MyCompare implements Comparator<SnsPerson> {
                 }
             }
         }
-        if (o1.name.length() < o2.name.length())
+        if (o1.memberNickName.length() < o2.memberNickName.length())
             return -1;
-        else if (o1.name.length() == o2.name.length())
+        else if (o1.memberNickName.length() == o2.memberNickName.length())
             return 0;
         return 1;
     }

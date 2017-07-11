@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.models.User;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.WordNaviView;
 
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * Created by yzy on 2017/6/30.
  */
-public class FollowFragment extends Fragment {
+public class FollowFragment extends MyFragment {
     @BindView(R.id.container)
     ViewGroup rootViewGroup;
 
@@ -37,7 +38,7 @@ public class FollowFragment extends Fragment {
     ListView list_view;
 
     Context mContext;
-    List<SnsPerson> items = new ArrayList<>();
+    List<User> items = new ArrayList<>();
 
     @Nullable
     @Override
@@ -66,33 +67,33 @@ public class FollowFragment extends Fragment {
         namelist.add("OMG呵呵");
         namelist.add("ddd呵呵");
 
-        List<SnsPerson> normalItems=new ArrayList<>();
-        for (String name :namelist)
-        {
-            SnsPerson p=new SnsPerson();
-            p.name=name;
-            p.namePingyin= Utils.getLetter(name);
-            p.shortCut=Utils.getLetterShortCut(p.namePingyin);
-            normalItems.add(p);
-        }
+        List<User> normalItems=new ArrayList<>();
+//        for (String name :namelist)
+//        {
+//            SnsPerson p=new SnsPerson();
+//            p.name=name;
+//            p.namePingyin= Utils.getLetter(name);
+//            p.shortCut=Utils.getLetterShortCut(p.namePingyin);
+//            normalItems.add(p);
+//        }
         Collections.sort(normalItems, new MyCompare());
 
-        List<SnsPerson> starItems=new ArrayList<>();
+        List<User> starItems=new ArrayList<>();
         List<String> namelist2 = new ArrayList<>();
         namelist2.add("偏差工作");
         namelist2.add("完善相关");
-        for (String name :namelist2)
-        {
-            SnsPerson p=new SnsPerson();
-            p.name=name;
-            p.namePingyin= Utils.getLetter(name);
-            p.shortCut=Utils.getLetterShortCut(p.namePingyin);
-            starItems.add(p);
-        }
+//        for (String name :namelist2)
+//        {
+//            SnsPerson p=new SnsPerson();
+//            p.name=name;
+//            p.namePingyin= Utils.getLetter(name);
+//            p.shortCut=Utils.getLetterShortCut(p.namePingyin);
+//            starItems.add(p);
+//        }
         Collections.sort(starItems, new MyCompare());
-        for(SnsPerson person:starItems)
+        for(User person:starItems)
         {
-            person.shortCut="星标关注者";
+            person.nameFirstChar="星标关注者";
         }
         items=new ArrayList<>();
         items.addAll(starItems);
@@ -136,7 +137,7 @@ public class FollowFragment extends Fragment {
             return;
         }
         for (int i = 0; i < items.size(); i++) {
-            String ping = items.get(i).shortCut;
+            String ping = items.get(i).nameFirstChar;
             //将手指按下的字母与列表中相同字母开头的项找出来
             if (words.equals(ping)) {
                 //将列表选中哪一个

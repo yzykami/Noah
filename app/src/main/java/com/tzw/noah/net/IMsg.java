@@ -29,6 +29,8 @@ public class IMsg extends JsonTool implements Serializable {
 
     String jsonStr="";
 
+    public Object Data;
+
 
     public IMsg() {
         super();

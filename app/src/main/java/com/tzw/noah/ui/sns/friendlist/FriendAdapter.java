@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.models.User;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 
@@ -24,10 +25,10 @@ import java.util.List;
 public class FriendAdapter extends BaseAdapter {
 
     Context context;
-    List<SnsPerson> items;
+    List<User> items;
 //    List<Boolean> selected;
 
-    public FriendAdapter(Context context, List<SnsPerson> items) {
+    public FriendAdapter(Context context, List<User> items) {
         this.context = context;
         this.items = items;
     }
@@ -55,7 +56,7 @@ public class FriendAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.sns_friend_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.sns_friend_item, parent);
             holder = new ViewHolder();
             holder.tag = (TextView) convertView.findViewById(R.id.tag);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_name);
@@ -65,16 +66,16 @@ public class FriendAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        SnsPerson snsPerson = items.get(position);
-        holder.tv.setText(snsPerson.name);
+        User snsPerson = items.get(position);
+        holder.tv.setText(snsPerson.memberNickName);
         boolean isSame = false;
         String tag = "#";
 
-        String ping = snsPerson.shortCut;
+        String ping = snsPerson.nameFirstChar;
         String ping2 = "#";
 
         if (position != 0) {
-            ping2 = items.get(position-1).shortCut;
+            ping2 = items.get(position-1).nameFirstChar;
             isSame = ping.equals(ping2);
         } else {
 

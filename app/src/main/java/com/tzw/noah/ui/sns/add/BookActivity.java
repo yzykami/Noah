@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.models.User;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.utils.Utils;
@@ -43,7 +44,7 @@ public class BookActivity extends MyBaseActivity {
 
     Context mContext = BookActivity.this;
 
-    List<SnsPerson> items = new ArrayList<>();
+    List<User> items = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class BookActivity extends MyBaseActivity {
             p.name = name;
             p.namePingyin = Utils.getLetter(name);
             p.shortCut = "5个好友待添加";
-            items.add(p);
+//            items.add(p);
         }
 
         Collections.sort(items, new MyCompare());
