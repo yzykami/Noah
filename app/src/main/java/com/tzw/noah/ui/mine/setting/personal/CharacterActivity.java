@@ -114,7 +114,7 @@ public class CharacterActivity extends MyBaseActivity {
         NetHelper.getInstance().setUserInfo(body, new StringDialogCallback(this) {
             @Override
             public void onFailure(Call call, IOException e) {
-                toast(e.getMessage());
+                toast(getResources().getString(R.string.internet_fault));
             }
 
             @Override

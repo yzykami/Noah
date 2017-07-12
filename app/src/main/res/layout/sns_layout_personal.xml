@@ -82,6 +82,7 @@
                     </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/tv_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -208,7 +209,7 @@
                     android:textSize="@dimen/sp14" />
 
                 <TextView
-                    android:id="@+id/tv_habit"
+                    android:id="@+id/tv_character"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -322,7 +323,7 @@
                 android:layout_height="@dimen/pt5" />
 
             <TextView
-                android:id="@+id/tv_submit"
+                android:id="@+id/tv_btn1"
                 android:layout_width="fill_parent"
                 android:layout_height="36dp"
                 android:layout_marginLeft="@dimen/bj"
@@ -338,7 +339,7 @@
                 android:textSize="@dimen/text_content" />
 
             <TextView
-                android:id="@+id/tv_sendmsg"
+                android:id="@+id/tv_btn2"
                 android:layout_width="fill_parent"
                 android:layout_height="36dp"
                 android:layout_marginLeft="@dimen/bj"

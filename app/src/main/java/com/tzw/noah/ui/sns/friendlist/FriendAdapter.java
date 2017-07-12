@@ -56,7 +56,7 @@ public class FriendAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.sns_friend_item, parent);
+            convertView = LayoutInflater.from(context).inflate(R.layout.sns_friend_item, parent, false);
             holder = new ViewHolder();
             holder.tag = (TextView) convertView.findViewById(R.id.tag);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_name);
@@ -66,16 +66,20 @@ public class FriendAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        User snsPerson = items.get(position);
-        holder.tv.setText(snsPerson.memberNickName);
+        User user = items.get(position);
+        if (user.remarkName.isEmpty())
+            holder.tv.setText(user.memberNickName);
+        else
+            holder.tv.setText(user.remarkName);
+
         boolean isSame = false;
         String tag = "#";
 
-        String ping = snsPerson.nameFirstChar;
+        String ping = user.nameFirstChar;
         String ping2 = "#";
 
         if (position != 0) {
-            ping2 = items.get(position-1).nameFirstChar;
+            ping2 = items.get(position - 1).nameFirstChar;
             isSame = ping.equals(ping2);
         } else {
 

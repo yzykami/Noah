@@ -250,7 +250,7 @@ public class WIRequest {
     public void Delete(String method, final Callback callback) {
         BuildHeaderLoginKey();
         final String url = preUrl + method;
-        httptool.HttpGet(url, header, new Callback() {
+        httptool.HttpDelete(url, header, new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {
                 if (callback != null) {

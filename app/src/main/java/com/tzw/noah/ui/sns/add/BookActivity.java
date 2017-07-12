@@ -3,16 +3,10 @@ package com.tzw.noah.ui.sns.add;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
@@ -21,7 +15,6 @@ import com.tzw.noah.models.User;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.utils.Utils;
-import com.tzw.noah.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,8 +22,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
 
 /**
  * Created by yzy on 2017/6/30.
@@ -49,7 +40,7 @@ public class BookActivity extends MyBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sns_layout_book);
+        setContentView(R.layout.sns_layout_list);
         ButterKnife.bind(this);
 
         initdata();

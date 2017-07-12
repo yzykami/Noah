@@ -58,6 +58,8 @@
         <activity android:name=".ui.mine.setting.personal.SignActivity" />
         <activity android:name=".ui.mine.setting.CommonSizeActivity" />
         <activity android:name=".ui.sns.friendlist.FriendListActivity" />
+        <activity android:name=".ui.sns.friendlist.BlackListActivity" />
+        <activity android:name=".ui.sns.friendlist.NearbyListActivity" />
         <activity android:name=".ui.sns.add.AddActivity" />
         <activity android:name=".ui.sns.add.BookActivity" />
         <activity android:name=".ui.sns.add.GroupApplyActivity" />
@@ -65,6 +67,7 @@
         <activity android:name=".ui.sns.personal.PersonalActivity" />
         <activity android:name=".ui.sns.personal.PersonalMoreActivity" />
         <activity android:name=".ui.sns.personal.PersonalChatDetailActivity" />
+        <activity android:name=".ui.sns.personal.PersonalEditRemarkNameActivity" />
         <activity android:name=".ui.sns.group.GroupDetailActivity" />
         <activity android:name=".ui.sns.group.GroupMemberListActivity" />
         <activity android:name=".ui.sns.group.GroupManagerActivity" />
@@ -78,8 +81,7 @@
         <activity android:name=".ui.sns.group.GroupCreateActivity4" />
 
     </application>
-    <receiver
-        android:name="com.tzw.noah.broadcast.NetWorkStatusReceiver">
+    <receiver android:name="com.tzw.noah.broadcast.NetWorkStatusReceiver">
         <intent-filter>
             <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
         </intent-filter>

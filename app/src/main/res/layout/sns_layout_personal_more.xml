@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:id="@+id/rl_top"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         android:background="@color/myRed">
 
@@ -40,7 +40,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_top">
+        android:layout_below="@+id/rl_top">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,23 +53,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_edit_remark">
 
                 <ImageView
-                    android:id="@+id/iv_msg"
                     android:layout_width="wrap_content"
-                    android:layout_height="22dp"
+                    android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
-                    android:src="@drawable/btn1_selected" />
+                    android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/bj"
-                    android:layout_toLeftOf="@+id/iv_msg"
                     android:text="设置备注及标签"
                     android:textColor="@color/textDarkGray"
                     android:textSize="@dimen/sp14" />
@@ -115,10 +114,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
+                    android:onClick="handle_star"
                     android:src="@drawable/btn1_selected" />
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/bj"
@@ -140,10 +140,12 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
+
+                    android:onClick="handle_seeme"
                     android:src="@drawable/btn1_selected" />
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/bj"
@@ -159,15 +161,17 @@
                 android:background="@color/white">
 
                 <ImageView
+                    android:id="@+id/iv_seehim"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
+                    android:onClick="handle_seehim"
                     android:src="@drawable/btn1_selected" />
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/bj"
@@ -183,15 +187,17 @@
                 android:background="@color/white">
 
                 <ImageView
+                    android:id="@+id/iv_blacklist"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
+                    android:onClick="handle_black"
                     android:src="@drawable/btn1_selected" />
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/bj"
@@ -229,7 +235,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tv_submit"
+                android:id="@+id/tv_btn1"
                 android:layout_width="fill_parent"
                 android:layout_height="36dp"
                 android:layout_marginLeft="@dimen/bj"
@@ -239,13 +245,13 @@
                 android:background="@drawable/bg_red_fill_round"
                 android:gravity="center"
                 android:hint=""
-                android:onClick="handle_save"
+                android:onClick="handle_unfollow"
                 android:text="取消关注"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_content" />
 
             <TextView
-                android:id="@+id/tv_sendmsg"
+                android:id="@+id/tv_btn2"
                 android:layout_width="fill_parent"
                 android:layout_height="36dp"
                 android:layout_marginLeft="@dimen/bj"
@@ -255,7 +261,7 @@
                 android:background="@drawable/bg_red_border_round"
                 android:gravity="center"
                 android:hint=""
-                android:onClick="handle_save"
+                android:onClick="handle_unfans"
                 android:text="移除粉丝"
                 android:textColor="@color/myRed"
                 android:textSize="@dimen/text_content" />

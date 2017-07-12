@@ -187,7 +187,7 @@ public class PersonalSettingActivity extends MyBaseActivity {
         NetHelper.getInstance().memberLogout(Param.makeSingleParam("tokenCode", UserCache.getToken()), new StringDialogCallback(this) {
             @Override
             public void onFailure(Call call, IOException e) {
-                toast(e.getMessage());
+                toast(getResources().getString(R.string.internet_fault));
             }
 
             @Override

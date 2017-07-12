@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,7 +21,9 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
+import com.tzw.noah.utils.ViewUtils;
 import com.tzw.noah.widgets.WordNaviView;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
@@ -50,10 +53,11 @@ public class FriendFragment extends MyFragment {
     @BindView(R.id.list_view)
     ListView list_view;
 
+    String Tag = "FriendFragment";
     Context mContext;
     List<User> items = new ArrayList<>();
 
-    Activity activity;
+    MyBaseActivity activity;
     FriendAdapter adapter;
 
     @Nullable
@@ -96,7 +100,7 @@ public class FriendFragment extends MyFragment {
 
         Collections.sort(items, new MyCompare());
 
-         adapter = new FriendAdapter(mContext, items);
+        adapter = new FriendAdapter(mContext, items);
 
         list_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -110,35 +114,26 @@ public class FriendFragment extends MyFragment {
         tv.setText("好友推荐");
         list_view.addHeaderView(nextView);
 
-        new SnsManager(mContext).snsFriends(new StringDialogCallback(activity) {
-            @Override
-            public void onFailure(Call call, IOException e) {
+        list_view.addHeaderView(ViewUtils.getHeadView(inflater, container, R.drawable.sns_system_notice, "黑名单"));
 
-            }
-
+        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onResponse(IMsg iMsg) {
-                try {
-                    if (iMsg.isSucceed()) {
-                        if (iMsg.Data != null)
-                            items = (List<User>) iMsg.Data;
-                        else
-                            items = User.loadFriendList(iMsg);
-                        Collections.sort(items, new MyCompare());
-                        if (items != null && items.size() > 0) {
-                            adapter = new FriendAdapter(mContext, items);
-                            list_view.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-                        }
-                    } else {
-                        ((MyBaseActivity) activity).toast(iMsg.getMsg());
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position >= list_view.getHeaderViewsCount()) {
+                    Bundle bu = new Bundle();
+                    bu.putSerializable("DATA", items.get(position - list_view.getHeaderViewsCount()));
+                    activity.startActivity(PersonalActivity.class, bu);
+                } else {
+                    if (position == 0) {
+
+                    } else if (position == 1) {
+                        activity.startActivity(NearbyListActivity.class);
+                    } else if (position == 2) {
+                        activity.startActivity(BlackListActivity.class);
                     }
-                } catch (Exception e) {
-                    Log.log("FriendFragment", e);
                 }
             }
         });
-
 
         return view;
     }
@@ -146,12 +141,13 @@ public class FriendFragment extends MyFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity = (Activity) context;
+        activity = (MyBaseActivity) context;
         mContext = context;
     }
 
@@ -176,5 +172,43 @@ public class FriendFragment extends MyFragment {
                 return;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshListView();
+    }
+
+    private void refreshListView() {
+        new SnsManager(mContext).snsFriends(new StringDialogCallback(activity) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        if (iMsg.Data != null)
+                            items = (List<User>) iMsg.Data;
+                        else
+                            items = User.loadFriendList(iMsg);
+                        items = Utils.processUser(items);
+                        Collections.sort(items, new MyCompare());
+                        if (items != null && items.size() > 0) {
+                            adapter = new FriendAdapter(mContext, items);
+                            list_view.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        activity.toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(Tag, e);
+                }
+            }
+        });
     }
 }

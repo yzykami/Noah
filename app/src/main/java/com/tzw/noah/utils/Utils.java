@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.tzw.noah.AppContext;
 import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.models.User;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 
@@ -118,8 +119,7 @@ public class Utils {
     }
 
 
-    public static List<SnsPerson> makeData()
-    {
+    public static List<SnsPerson> makeData() {
         List<String> contentlist = new ArrayList<>();
         contentlist.add("你111");
         contentlist.add("你好在");
@@ -147,14 +147,24 @@ public class Utils {
         images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498646757823&di=ceb2ef896125f0f5ead9140c5e68cef7&imgtype=0&src=http%3A%2F%2Fpic.qqtn.com%2Fup%2F2016-3%2F2016030111061053440.jpg");
         images.add("http://www.feizl.com/upload2007/2015_07/1507201245222419.jpg");
 
-        List<SnsPerson> list =new ArrayList<>();
-        for (int i=0;i<contentlist.size()&&i<images.size();i++)
-        {
-            SnsPerson p =new SnsPerson();
-            p.name=contentlist.get(i);
-            p.headUrl=images.get(i);
+        List<SnsPerson> list = new ArrayList<>();
+        for (int i = 0; i < contentlist.size() && i < images.size(); i++) {
+            SnsPerson p = new SnsPerson();
+            p.name = contentlist.get(i);
+            p.headUrl = images.get(i);
             list.add(p);
         }
         return list;
+    }
+
+    public static List<User> processUser(List<User> items) {
+        for (int i = 0; i < items.size(); i++) {
+            User u = items.get(i);
+//            if (!u.remarkName.isEmpty())
+//                u.memberNickName = u.remarkName;
+            u.namePingyin = Utils.getLetter(u.remarkName);
+            u.nameFirstChar = Utils.getLetterShortCut(u.namePingyin);
+        }
+        return items;
     }
 }

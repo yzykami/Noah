@@ -6,6 +6,7 @@ import android.icu.text.DateFormat;
 
 import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.AppContext;
+import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.WIRequest;
 
@@ -42,15 +43,29 @@ public class UserCache {
                     field.set(user, prefs.getString(field.getName(), ""));
                 }
                 if (field.getType().equals(int.class)) {
-                    field.setInt(user, Integer.parseInt(prefs.getString(field.getName(), "0")));
+                    String s = prefs.getString(field.getName(), "0");
+                    int num = 0;
+                    try {
+                        num = Integer.parseInt(s);
+                    } catch (Exception e1) {
+
+                    }
+                    field.setInt(user, num);
                 }
                 if (field.getType().equals(double.class)) {
-                    double d = Double.parseDouble(prefs.getString(field.getName(), "0"));
+                    String s = prefs.getString(field.getName(), "0");
+                    double d = 0;
+                    try {
+                        d = Double.parseDouble(s);
+                    } catch (Exception e2) {
+
+                    }
                     field.setDouble(user, d);
                 }
             }
 
         } catch (Exception e) {
+            Log.log("UserCache", e);
         }
         return user;
     }

@@ -3,26 +3,31 @@ package com.tzw.noah.ui.sns.friendlist;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
+import com.tzw.noah.net.IMsg;
+import com.tzw.noah.net.StringDialogCallback;
+import com.tzw.noah.sdk.SnsManager;
+import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.WordNaviView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * Created by yzy on 2017/6/30.
@@ -37,8 +42,12 @@ public class FollowFragment extends MyFragment {
     @BindView(R.id.list_view)
     ListView list_view;
 
+    String Tag = "FollowFragment";
     Context mContext;
     List<User> items = new ArrayList<>();
+
+    MyBaseActivity activity;
+    FriendAdapter adapter;
 
     @Nullable
     @Override
@@ -98,7 +107,7 @@ public class FollowFragment extends MyFragment {
         items=new ArrayList<>();
         items.addAll(starItems);
         items.addAll(normalItems);
-        FriendAdapter adapter = new FriendAdapter(mContext, items);
+         adapter = new FriendAdapter(mContext, items);
 
         list_view.setAdapter(adapter);
 
@@ -111,6 +120,24 @@ public class FollowFragment extends MyFragment {
 //        tv_name.setText("好友推荐");
 //        list_view.addHeaderView(nextView);
 
+        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position >= list_view.getHeaderViewsCount()) {
+                    Bundle bu = new Bundle();
+                    bu.putSerializable("DATA", items.get(position - list_view.getHeaderViewsCount()));
+                    activity.startActivity(PersonalActivity.class, bu);
+                } else {
+                    if (position == 0) {
+
+                    } else if (position == 1) {
+
+                    } else if (position == 2) {
+                    }
+                }
+            }
+        });
+
         return view;
     }
 
@@ -122,6 +149,7 @@ public class FollowFragment extends MyFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        activity = (MyBaseActivity)context;
         mContext = context;
     }
 
@@ -146,5 +174,43 @@ public class FollowFragment extends MyFragment {
                 return;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshListView();
+    }
+
+    private void refreshListView() {
+        new SnsManager(mContext).snsFollow(new StringDialogCallback(activity) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        if (iMsg.Data != null)
+                            items = (List<User>) iMsg.Data;
+                        else
+                            items = User.loadFollowList(iMsg);
+                        items = Utils.processUser(items);
+                        Collections.sort(items, new MyCompare());
+                        if (items != null && items.size() > 0) {
+                            adapter = new FriendAdapter(mContext, items);
+                            list_view.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        activity.toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(Tag, e);
+                }
+            }
+        });
     }
 }

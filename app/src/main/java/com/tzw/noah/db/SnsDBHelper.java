@@ -81,7 +81,6 @@ public class SnsDBHelper extends SQLiteOpenHelper {
     public <T> List<T> queryAll(Class<T> t, String sql) {
         //sql = "SELECT * FROM Area"
         List<T> list = new ArrayList<>();
-        ArrayList<Area> Areas = new ArrayList<Area>();
         Cursor c = db.rawQuery(sql, null);
         try {
             Class tclass = Class.forName(t.getName());
@@ -229,9 +228,6 @@ public class SnsDBHelper extends SQLiteOpenHelper {
 
 
     public <T> void insertAndUpdate(T t, String tableName) {
-//        if (tList == null || tList.size() == 0)
-//            return;
-//        T t = tList.get(0);
         String sql = "";
         db.beginTransaction();  //开始事务
         try {
@@ -289,6 +285,83 @@ public class SnsDBHelper extends SQLiteOpenHelper {
                     }
                     String fname = field.getName();
                     Type ftype = field.getType();
+                    objs.add(field.get(t));
+                    sql += fname + "=?,";
+                }
+                sql = sql.substring(0, sql.length() - 1);
+                sql += " where " + tableIdName + " = " + tableIdValue;
+                db.execSQL(sql, objs.toArray(new Object[objs.size()]));
+            }
+            db.setTransactionSuccessful();  //设置事务成功完成
+        } catch (Exception e) {
+            Log.log("SnsDBHelper", e);
+        } finally {
+            db.endTransaction();    //结束事务
+        }
+    }
+
+
+    public <T> void insertAndUpdate(T t, List<String> columns, String tableName) {
+        String sql = "";
+        db.beginTransaction();  //开始事务
+        try {
+            String tableIdName = "";
+            Object tableIdValue = null;
+            Class tclass = Class.forName(t.getClass().getName());
+
+            Field[] fields = tclass.getDeclaredFields();
+
+            for (Field field : fields) {
+                Annotation a = field.getAnnotation(MyField.class);
+                if (a != null && a.toString().equals("@com.tzw.noah.db.MyField(name=id)")) {
+                    tableIdName = field.getName();
+                    tableIdValue = field.get(t);
+                }
+            }
+            if (tableIdValue == null) {
+                return;
+            }
+            sql = "select * from " + tableName + " where " + tableIdName + " = " + tableIdValue;
+            List<T> list_select = queryAll(tclass, sql);
+
+            //如果数据不存在 Insert
+            if (list_select == null || list_select.size() == 0) {
+                String column = " (";
+                String values = " (";
+                List<Object> objs = new ArrayList<>();
+                for (Field field : fields) {
+                    Annotation a = field.getAnnotation(MyField.class);
+                    if (a == null) {
+                        continue;
+                    }
+                    String fname = field.getName();
+                    Type ftype = field.getType();
+
+                    column += fname + ",";
+                    values += "?,";
+                    objs.add(field.get(t));
+                }
+
+                column = column.substring(0, column.length() - 1) + ") ";
+                values = values.substring(0, values.length() - 1) + ") ";
+
+                sql = "INSERT INTO " + tableName + column + " VALUES" + values;
+                db.execSQL(sql, objs.toArray(new Object[objs.size()]));
+            }
+            //如果已经存在 Update
+            else {
+                sql = "UPDATE " + tableName + " SET ";//+//""memberNo = ?,
+                List<Object> objs = new ArrayList<>();
+                for (Field field : fields) {
+                    Annotation a = field.getAnnotation(MyField.class);
+                    if (a == null) {
+                        continue;
+                    }
+                    String fname = field.getName();
+                    Type ftype = field.getType();
+                    if (!columns.contains(fname)) {
+                        continue;
+                    }
                     objs.add(field.get(t));
                     sql += fname + "=?,";
                 }
