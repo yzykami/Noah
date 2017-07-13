@@ -1,4 +1,4 @@
-package com.tzw.noah.ui.sns.friendlist;
+package com.tzw.noah.ui.sns.add;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.sns.friendlist.FriendAdapter;
+import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 
@@ -31,7 +33,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/7/12.
  */
 
-public class NearbyListActivity extends MyBaseActivity {
+public class NearbyListActivity extends MyBaseActivity implements AddAdapter.OnAddClickListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
@@ -40,9 +42,10 @@ public class NearbyListActivity extends MyBaseActivity {
 
     List<User> items = new ArrayList<>();
 
-    FriendAdapter adapter;
+    AddAdapter adapter;
 
     Context mContext = NearbyListActivity.this;
+    NearbyListActivity instance;
     String Tag = "NearbyListActivity";
 //    private AssemblyRecyclerAdapter adapter;
 
@@ -56,10 +59,12 @@ public class NearbyListActivity extends MyBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sns_layout_list);
         ButterKnife.bind(this);
-
+        instance = this;
         initdata();
         findview();
         initview();
+
+        refreshListView();
     }
 
     private void initdata() {
@@ -92,7 +97,6 @@ public class NearbyListActivity extends MyBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refreshListView();
     }
 
     private void refreshListView() {
@@ -113,7 +117,8 @@ public class NearbyListActivity extends MyBaseActivity {
                         items = Utils.processUser(items);
                         Collections.sort(items, new MyCompare());
                         if (items != null && items.size() > 0) {
-                            adapter = new FriendAdapter(mContext, items);
+                            adapter = new AddAdapter(mContext, items);
+                            adapter.setOnAddClickListener(instance);
                             list_view.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
                         }
@@ -125,5 +130,10 @@ public class NearbyListActivity extends MyBaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onAddClick(View v, int position) {
+        toast("sdda" + position);
     }
 }

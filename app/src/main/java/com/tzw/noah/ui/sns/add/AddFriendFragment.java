@@ -16,17 +16,22 @@ import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
+import com.tzw.noah.net.IMsg;
+import com.tzw.noah.net.StringDialogCallback;
+import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.sns.friendlist.FriendAdapter;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.WordNaviView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 import static com.tzw.noah.R.id.container;
 import static com.tzw.noah.R.id.list_view;
@@ -34,7 +39,7 @@ import static com.tzw.noah.R.id.list_view;
 /**
  * Created by yzy on 2017/6/29.
  */
-public class AddFriendFragment extends Fragment {
+public class AddFriendFragment extends Fragment implements AddAdapter.OnAddClickListener {
     @BindView(container)
     ViewGroup rootViewGroup;
 
@@ -47,14 +52,20 @@ public class AddFriendFragment extends Fragment {
     Context mContext;
     List<User> items = new ArrayList<>();
 
+    String Tag = "AddFriendFragment";
 
     AddActivity mActivity;
+
+    AddFriendFragment instance;
+
+    AddAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
+        instance = this;
         mActivity = (AddActivity) getActivity();
         View view = inflater.inflate(R.layout.sns_friendlist_friend, container, false);
         ButterKnife.bind(this, view);
@@ -114,21 +125,25 @@ public class AddFriendFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.log("itemclick", "view = " + view + ",position = " + position + ",id = " + id);
                 //search
-                if (position == 0) {
-                }
-                //附近的人
-                else if (position == 1) {
+                if (position >= list_view.getHeaderViewsCount()) {
 
-                }
-                //通讯录
-                else if (position == 2) {
-                    mActivity.startActivity(BookActivity.class);
-                }
-                //扫一扫
-                else if (position == 3) {
+                } else {
+                    if (position == 0) {
+                    }
+                    //附近的人
+                    else if (position == 1) {
+                        mActivity.startActivity(NearbyListActivity.class);
+                    }
+                    //通讯录
+                    else if (position == 2) {
+                        mActivity.startActivity(BookActivity.class);
+                    }
+                    //扫一扫
+                    else if (position == 3) {
 
-                } else if (position >= 4) {
+                    } else if (position >= 4) {
 
+                    }
                 }
             }
         });
@@ -177,5 +192,49 @@ public class AddFriendFragment extends Fragment {
                 return;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshListView();
+    }
+
+    private void refreshListView() {
+        new SnsManager(mContext).snsRecommendUser(new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mActivity.toast(getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        if (iMsg.Data != null)
+                            items = (List<User>) iMsg.Data;
+                        else
+                            items = User.loadRecommendUser(iMsg);
+                        items = Utils.processUser2(items, "好友推荐");
+                        Collections.sort(items, new MyCompare());
+                        if (items != null && items.size() > 0) {
+                            adapter = new AddAdapter(mContext, items);
+                            adapter.setOnAddClickListener(instance);
+                            list_view.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        mActivity.toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(Tag, e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onAddClick(View v, int position) {
+        mActivity.toast("sdda" + position);
     }
 }

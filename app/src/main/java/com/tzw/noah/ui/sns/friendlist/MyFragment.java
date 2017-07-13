@@ -16,7 +16,7 @@ public class MyFragment extends Fragment {
 
     public void initPinyin(List<User> list) {
         for (int i = 0; i < list.size(); i++) {
-            list.get(i).namePingyin = Utils.getLetter(list.get(i).memberNickName);
+            list.get(i).namePingyin = Utils.getLetter(list.get(i).getName());
         }
     }
 }

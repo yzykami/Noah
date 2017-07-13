@@ -16,12 +16,12 @@ public class MyCompare implements Comparator<User> {
     public int compare(User o1, User o2) {
         if(o1.namePingyin==null)
         {
-            o1.namePingyin= Utils.getLetter(o1.memberNickName);
+            o1.namePingyin= Utils.getLetter(o1.getName());
             o1.nameFirstChar =Utils.getLetterShortCut(o1.namePingyin);
         }
         if(o2.namePingyin==null)
         {
-            o2.namePingyin= Utils.getLetter(o1.memberNickName);
+            o2.namePingyin= Utils.getLetter(o1.getName());
             o2.nameFirstChar =Utils.getLetterShortCut(o2.namePingyin);
         }
         List<Character> lc1 = o1.namePingyin;
@@ -51,9 +51,9 @@ public class MyCompare implements Comparator<User> {
                 }
             }
         }
-        if (o1.memberNickName.length() < o2.memberNickName.length())
+        if (o1.getName().length() < o2.getName().length())
             return -1;
-        else if (o1.memberNickName.length() == o2.memberNickName.length())
+        else if (o1.getName().length() == o2.getName().length())
             return 0;
         return 1;
     }

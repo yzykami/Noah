@@ -94,7 +94,6 @@ public class PersonalActivity extends MyBaseActivity {
         if (bu != null) {
             user = (User) bu.getSerializable("DATA");
         }
-
     }
 
     private void findview() {
@@ -102,10 +101,7 @@ public class PersonalActivity extends MyBaseActivity {
     }
 
     private void initview() {
-        if(user.remarkName.isEmpty())
-        tv_name.setText(user.memberNickName);
-        else
-            tv_name.setText(user.remarkName);
+        tv_name.setText(user.getName());
         tv_id.setText("会员号: " + user.memberNo);
         String day = "";
         if (user.createTime.length() > 10) {
@@ -118,7 +114,21 @@ public class PersonalActivity extends MyBaseActivity {
         tv_job.setText(getWorkbyID(user.memberWork));
         tv_sign.setText(user.memberIntroduce);
 
-        tv_relate.setText("好友");
+        tv_relate.setText(user.getRelative());
+
+        if (user.getRelative().equals(User.RelativeType.Blacklist)) {
+            tv_btn1.setVisibility(View.GONE);
+            tv_btn2.setVisibility(View.GONE);
+        } else if (user.getRelative().equals(User.RelativeType.Fowllow) || user.getRelative().equals(User.RelativeType.Friend)) {
+            tv_btn1.setVisibility(View.GONE);
+            tv_btn2.setTextColor(getResources().getColor(R.color.white));
+            tv_btn2.setBackgroundResource(R.drawable.bg_red_fill_round);
+        } else {
+            tv_btn1.setVisibility(View.VISIBLE);
+            tv_btn2.setTextColor(getResources().getColor(R.color.myRed));
+            tv_btn2.setBackgroundResource(R.drawable.bg_red_border_round);
+        }
+
 
         scrollView.setOnScrollListener(new ListenedScrollView.OnScrollListener() {
                                            @Override
@@ -160,6 +170,10 @@ public class PersonalActivity extends MyBaseActivity {
     }
 
     public void handle_more(View view) {
+        if (user.getRelative().equals(User.RelativeType.Stranger)) {
+            toast("你们还是陌生人,不能查看更多");
+            return;
+        }
         Bundle bu = new Bundle();
         bu.putSerializable("DATA", user);
         startActivity(PersonalMoreActivity.class, bu);
@@ -234,5 +248,27 @@ public class PersonalActivity extends MyBaseActivity {
                 }
             }
         });
+    }
+
+    public void handle_btn1(View view) {
+        new SnsManager(mContext).snsAttention(user.memberNo, new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                toast(getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                if (iMsg.isSucceed()) {
+                    toast("关注成功");
+                    refreshView();
+                } else {
+                    toast(iMsg.getMsg());
+                }
+            }
+        });
+    }
+
+    public void handle_btn2(View view) {
     }
 }

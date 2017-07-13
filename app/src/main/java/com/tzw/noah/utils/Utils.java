@@ -160,10 +160,19 @@ public class Utils {
     public static List<User> processUser(List<User> items) {
         for (int i = 0; i < items.size(); i++) {
             User u = items.get(i);
-//            if (!u.remarkName.isEmpty())
-//                u.memberNickName = u.remarkName;
-            u.namePingyin = Utils.getLetter(u.remarkName);
+
+            u.namePingyin = Utils.getLetter(u.getName());
             u.nameFirstChar = Utils.getLetterShortCut(u.namePingyin);
+        }
+        return items;
+    }
+
+    public static List<User> processUser2(List<User> items, String tag) {
+        for (int i = 0; i < items.size(); i++) {
+            User u = items.get(i);
+
+            u.namePingyin = Utils.getLetter(u.getName());
+            u.nameFirstChar = tag;
         }
         return items;
     }

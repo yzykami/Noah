@@ -53,6 +53,8 @@ public class SampleImageViewHead extends SketchImageView {
 
         setOnLongClickListener(new LongClickShowDrawableInfoListener());
         getOptions().setImageShaper(new CircleImageShaper());
+        getOptions().setLoadingImage(R.drawable.sns_user_default);
+        getOptions().setErrorImage(R.drawable.sns_user_default);
     }
 
     @Override

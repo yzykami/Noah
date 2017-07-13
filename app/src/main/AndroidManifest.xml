@@ -59,10 +59,11 @@
         <activity android:name=".ui.mine.setting.CommonSizeActivity" />
         <activity android:name=".ui.sns.friendlist.FriendListActivity" />
         <activity android:name=".ui.sns.friendlist.BlackListActivity" />
-        <activity android:name=".ui.sns.friendlist.NearbyListActivity" />
+        <activity android:name=".ui.sns.friendlist.RecommendListActivity" />
         <activity android:name=".ui.sns.add.AddActivity" />
         <activity android:name=".ui.sns.add.BookActivity" />
         <activity android:name=".ui.sns.add.GroupApplyActivity" />
+        <activity android:name=".ui.sns.add.NearbyListActivity" />
         <activity android:name=".ui.sns.chat.ChatActivity" />
         <activity android:name=".ui.sns.personal.PersonalActivity" />
         <activity android:name=".ui.sns.personal.PersonalMoreActivity" />

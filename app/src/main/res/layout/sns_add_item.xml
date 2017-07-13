@@ -83,7 +83,7 @@
                 android:paddingLeft="@dimen/pt12"
                 android:paddingRight="@dimen/pt12"
                 android:paddingTop="@dimen/pt5"
-                android:text="添加"
+                android:text="关注"
                 android:textColor="@color/myRed"
                 android:textSize="@dimen/text_lable_small" />
         </LinearLayout>

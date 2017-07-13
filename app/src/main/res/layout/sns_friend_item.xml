@@ -31,7 +31,7 @@
             android:layout_height="@dimen/head"
             android:layout_margin="@dimen/headPadding"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_user"
+            android:src="@drawable/sns_user_default"
             app:type="circle" />
 
         <LinearLayout

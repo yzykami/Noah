@@ -9,13 +9,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.sns.add.AddAdapter;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 
@@ -29,10 +29,10 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 
 /**
- * Created by yzy on 2017/7/12.
+ * Created by yzy on 2017/7/13.
  */
 
-public class BlackListActivity extends MyBaseActivity {
+public class RecommendListActivity extends MyBaseActivity implements AddAdapter.OnAddClickListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
@@ -41,26 +41,29 @@ public class BlackListActivity extends MyBaseActivity {
 
     List<User> items = new ArrayList<>();
 
-    FriendAdapter adapter;
+    AddAdapter adapter;
 
-    Context mContext = BlackListActivity.this;
-    String Tag = "BlackListActivity";
+    Context mContext = RecommendListActivity.this;
+    RecommendListActivity instance;
+    String Tag = "RecommendListActivity";
 //    private AssemblyRecyclerAdapter adapter;
 
 //    int selectPage;
 //    Fragment[] fragmentList = null;
 
-    String title = "黑名单列表";
+    String title = "好友推荐";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sns_layout_list);
         ButterKnife.bind(this);
-
+        instance = this;
         initdata();
         findview();
         initview();
+
+        refreshListView();
     }
 
     private void initdata() {
@@ -93,11 +96,10 @@ public class BlackListActivity extends MyBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refreshListView();
     }
 
     private void refreshListView() {
-        new SnsManager(mContext).snsBlacks(new StringDialogCallback(mContext) {
+        new SnsManager(mContext).snsRecommendUser(new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));
@@ -110,11 +112,12 @@ public class BlackListActivity extends MyBaseActivity {
                         if (iMsg.Data != null)
                             items = (List<User>) iMsg.Data;
                         else
-                            items = User.loadBlackList(iMsg);
+                            items = User.loadRecommendUser(iMsg);
                         items = Utils.processUser(items);
                         Collections.sort(items, new MyCompare());
                         if (items != null && items.size() > 0) {
-                            adapter = new FriendAdapter(mContext, items);
+                            adapter = new AddAdapter(mContext, items);
+                            adapter.setOnAddClickListener(instance);
                             list_view.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
                         }
@@ -126,5 +129,10 @@ public class BlackListActivity extends MyBaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onAddClick(View v, int position) {
+        toast("sdda" + position);
     }
 }

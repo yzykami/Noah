@@ -73,13 +73,13 @@ public class PersonalMoreActivity extends MyBaseActivity {
         setBackground(iv_seehim, user.ifSeeHim);
         setBackground(iv_blacklist, user.isBlacklist);
 
-        if (user.relative == User.RelativeType.Stranger) {
+        if (user.getRelative() == User.RelativeType.Stranger||user.getRelative().equals(User.RelativeType.Blacklist)) {
             tv_btn1.setVisibility(View.GONE);
             tv_btn2.setVisibility(View.GONE);
-        } else if (user.relative == User.RelativeType.Fowllow) {
+        } else if (user.getRelative() == User.RelativeType.Fowllow) {
             tv_btn2.setVisibility(View.GONE);
 
-        } else if (user.relative == User.RelativeType.Fans) {
+        } else if (user.getRelative() == User.RelativeType.Fans) {
             tv_btn1.setVisibility(View.GONE);
             tv_btn2.setTextColor(getResources().getColor(R.color.white));
             tv_btn2.setBackgroundResource(R.drawable.bg_red_fill_round);
@@ -105,6 +105,15 @@ public class PersonalMoreActivity extends MyBaseActivity {
 
 
     public void handle_star(View view) {
+        if(user.getRelative().equals(User.RelativeType.Stranger)) {
+            toast("对方是陌生人");
+            return;
+        }
+        if(user.getRelative().equals(User.RelativeType.Blacklist))
+        {
+            toast("对方已被加入黑名单中");
+            return;
+        }
         final int status = user.ifStar;
         user.ifStar = status == 0 ? 1 : 0;
         new SnsManager(mContext).snsInfo(user, new StringDialogCallback(mContext) {
@@ -127,6 +136,15 @@ public class PersonalMoreActivity extends MyBaseActivity {
     }
 
     public void handle_seeme(View view) {
+        if(user.getRelative().equals(User.RelativeType.Stranger)) {
+            toast("对方是陌生人");
+            return;
+        }
+        if(user.getRelative().equals(User.RelativeType.Blacklist))
+        {
+            toast("对方已被加入黑名单中");
+            return;
+        }
         final int status = user.ifSeeMe;
         user.ifSeeMe = status == 0 ? 1 : 0;
         new SnsManager(mContext).snsInfo(user, new StringDialogCallback(mContext) {
@@ -149,6 +167,15 @@ public class PersonalMoreActivity extends MyBaseActivity {
     }
 
     public void handle_seehim(View view) {
+        if(user.getRelative().equals(User.RelativeType.Stranger)) {
+            toast("对方是陌生人");
+            return;
+        }
+        if(user.getRelative().equals(User.RelativeType.Blacklist))
+        {
+            toast("对方已被加入黑名单中");
+            return;
+        }
         final int status = user.ifSeeHim;
         user.ifSeeHim = status == 0 ? 1 : 0;
         new SnsManager(mContext).snsInfo(user, new StringDialogCallback(mContext) {
@@ -223,6 +250,9 @@ public class PersonalMoreActivity extends MyBaseActivity {
                     tv_btn1.setVisibility(View.GONE);
                     tv_btn2.setTextColor(getResources().getColor(R.color.white));
                     tv_btn2.setBackgroundResource(R.drawable.bg_red_fill_round);
+                    user.isAttention=false;
+                    if(user.getRelative().equals(User.RelativeType.Stranger))
+                        finish();
                 } else {
                     toast(iMsg.getMsg());
                 }
@@ -241,6 +271,9 @@ public class PersonalMoreActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 if (iMsg.isSucceed()) {
                     tv_btn2.setVisibility(View.GONE);
+                    user.isFans=false;
+                    if(user.getRelative().equals(User.RelativeType.Stranger))
+                        finish();
                 } else {
                     toast(iMsg.getMsg());
                 }

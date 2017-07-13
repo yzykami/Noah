@@ -76,12 +76,19 @@ public class User implements Serializable {
     @MyField
     public int ifSeeMe = 0;
 
-    public boolean isSelf=false;
-    public boolean isAttention=false;
-    public boolean isFans=false;
-    public boolean isBlacklist=false;
+    public boolean isSelf = false;
+    public boolean isAttention = false;
+    public boolean isFans = false;
+    public boolean isBlacklist = false;
     public String nameFirstChar = "";
     public List<Character> namePingyin;
+
+    public String getName() {
+        if (remarkName.isEmpty())
+            return memberNickName;
+        else
+            return remarkName;
+    }
 
     public static User load(IMsg iMsg) {
         return iMsg.getModel("detailsRObj", new User());
@@ -90,17 +97,34 @@ public class User implements Serializable {
 
     public int type = 0;
 
-    public int relative=0;
+    public String getRelative()
+    {
+        if (isBlacklist) {
+            return User.RelativeType.Blacklist;
+        } else {
+            if (isFans &&isAttention) {
+                return User.RelativeType.Friend;
+            } else if (isAttention) {
+                return User.RelativeType.Fowllow;
+            } else if (isFans) {
+                return User.RelativeType.Fans;
+            } else {
+                return User.RelativeType.Stranger;
+            }
+        }
+    }
 
     public static class Type {
         public static int Person = 0;
         public static int Group = 1;
     }
+
     public static class RelativeType {
-        public static int Stranger = 0;
-        public static int Friend = 1;
-        public static int Fowllow = 2;
-        public static int Fans = 1;
+        public static String Stranger = "陌生人";
+        public static String Friend = "好友";
+        public static String Fowllow = "关注";
+        public static String Fans = "粉丝";
+        public static String Blacklist = "黑名单";
     }
 
 
@@ -125,10 +149,12 @@ public class User implements Serializable {
         return iMsg.getModelList("blacksRObj", new TypeToken<List<User>>() {
         }.getType());
     }
+
     public static List<User> loadNearby(IMsg iMsg) {
         return iMsg.getModelList("nearbyRObj", new TypeToken<List<User>>() {
         }.getType());
     }
+
     public static List<User> loadRecommendUser(IMsg iMsg) {
         return iMsg.getModelList("recommendUserRObj", new TypeToken<List<User>>() {
         }.getType());

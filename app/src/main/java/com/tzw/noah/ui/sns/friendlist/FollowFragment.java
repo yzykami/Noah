@@ -186,7 +186,7 @@ public class FollowFragment extends MyFragment {
         new SnsManager(mContext).snsFollow(new StringDialogCallback(activity) {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                activity.toast(getResources().getString(R.string.internet_fault));
             }
 
             @Override

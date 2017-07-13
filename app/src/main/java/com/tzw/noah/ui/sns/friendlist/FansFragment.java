@@ -170,7 +170,7 @@ public class FansFragment extends MyFragment {
         new SnsManager(mContext).snsFans(new StringDialogCallback(activity) {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                activity.toast(getResources().getString(R.string.internet_fault));
             }
 
             @Override

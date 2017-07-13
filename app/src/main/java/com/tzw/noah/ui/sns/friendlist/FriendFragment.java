@@ -21,6 +21,7 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.sns.add.NearbyListActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.utils.ViewUtils;
@@ -127,7 +128,7 @@ public class FriendFragment extends MyFragment {
                     if (position == 0) {
 
                     } else if (position == 1) {
-                        activity.startActivity(NearbyListActivity.class);
+                        activity.startActivity(RecommendListActivity.class);
                     } else if (position == 2) {
                         activity.startActivity(BlackListActivity.class);
                     }
@@ -184,7 +185,7 @@ public class FriendFragment extends MyFragment {
         new SnsManager(mContext).snsFriends(new StringDialogCallback(activity) {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                activity.toast(getResources().getString(R.string.internet_fault));
             }
 
             @Override

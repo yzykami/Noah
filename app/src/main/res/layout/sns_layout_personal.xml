@@ -333,7 +333,7 @@
                 android:background="@drawable/bg_red_fill_round"
                 android:gravity="center"
                 android:hint=""
-                android:onClick="handle_save"
+                android:onClick="handle_btn1"
                 android:text="关注"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_content" />
@@ -349,7 +349,7 @@
                 android:background="@drawable/bg_red_border_round"
                 android:gravity="center"
                 android:hint=""
-                android:onClick="handle_save"
+                android:onClick="handle_btn2"
                 android:text="发消息"
                 android:textColor="@color/myRed"
                 android:textSize="@dimen/text_content" />

@@ -62,10 +62,7 @@ public class PersonalEditRemarkNameActivity extends MyBaseActivity {
     }
 
     private void initview() {
-        if (user.remarkName.isEmpty())
-            et_nickname.setText(user.memberNickName);
-        else
-            et_nickname.setText(user.remarkName);
+        et_nickname.setText(user.getName());
         iv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

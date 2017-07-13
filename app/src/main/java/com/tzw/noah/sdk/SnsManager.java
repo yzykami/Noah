@@ -367,4 +367,62 @@ public class SnsManager {
             });
         }
     }
+
+
+
+    ///////////////////////////////////////////////////////////////////
+    //////////////////////// 群组接口  /////////////////////////////////
+    ///////////////////////////////////////////////////////////////////
+
+
+
+    //获取我的好友列表
+    //sns/friends
+//    public void snsFriends(final Callback callback) {
+//        if (NetWorkUtils.isNetworkAvailable(mContext))
+//            NetHelper.getInstance().snsFriends(new Callback() {
+//                @Override
+//                public void onFailure(Call call, IOException e) {
+//                    if (callback != null) {
+//                        callback.onAfter();
+//                        callback.onFailure(call, e);
+//                    }
+//                }
+//
+//                @Override
+//                public void onResponse(IMsg iMsg) {
+//                    try {
+//                        //保存到本地数据库
+//                        if(iMsg.isSucceed()) {
+//                            List<User> userList = User.loadFriendList(iMsg);
+//                            iMsg.Data = userList;
+//                            snsDBManager.UpdateFriendList(userList);
+//                        }
+//                    } catch (Exception e) {
+//
+//                    }
+//                    callback.onAfter();
+//                    callback.onResponse(iMsg);
+//                }
+//            });
+//        else {
+//            new Handler().post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (callback != null) {
+//                        final IMsg iMsg = createImsg();
+//                        iMsg.Data = snsDBManager.getSnsFriendList();
+//                        mdelivery.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                callback.onAfter();
+//                                callback.onResponse(iMsg);
+//                            }
+//                        });
+//                    }
+//                }
+//            });
+//        }
+//    }
+
 }

@@ -60,6 +60,7 @@ public class FriendAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.tag = (TextView) convertView.findViewById(R.id.tag);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_name);
+            holder.tv_sign = (TextView) convertView.findViewById(R.id.tv_sign);
             holder.view = convertView;
             convertView.setTag(holder);
         } else {
@@ -67,10 +68,8 @@ public class FriendAdapter extends BaseAdapter {
         }
 
         User user = items.get(position);
-        if (user.remarkName.isEmpty())
-            holder.tv.setText(user.memberNickName);
-        else
-            holder.tv.setText(user.remarkName);
+        holder.tv.setText(user.getName());
+        holder.tv_sign.setText(user.memberIntroduce);
 
         boolean isSame = false;
         String tag = "#";
@@ -99,5 +98,6 @@ public class FriendAdapter extends BaseAdapter {
         public TextView tv;
         public View view;
         public TextView tag;
+        public TextView tv_sign;
     }
 }

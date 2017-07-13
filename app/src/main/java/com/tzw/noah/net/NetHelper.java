@@ -287,7 +287,7 @@ public class NetHelper {
     }
 
     //获取我的推荐的人列表
-    //sns/nearby
+    //sns/recommendUser
     public void snsRecommendUser(Callback callback) {
         String method = "sns/recommendUser";
         new WIRequest().Get(method, callback);
