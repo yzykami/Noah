@@ -1,6 +1,7 @@
 package com.tzw.noah.ui.sns.add;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,11 +14,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
+import com.tzw.noah.ui.sns.discuss.DiscussCreateActivity;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.ui.sns.group.GroupCreateActivity;
-import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.WordNaviView;
 
 import java.util.ArrayList;
@@ -28,7 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.tzw.noah.R.id.container;
-import static com.tzw.noah.R.id.list_view;
 
 /**
  * Created by yzy on 2017/6/29.
@@ -110,8 +109,15 @@ public class AddGroupFragment extends Fragment {
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 1) {
-                    mActivity.startActivity(GroupCreateActivity.class);
+                if (position >= list_view.getHeaderViewsCount()) {
+
+                } else {
+                    if (position == 1) {
+                        mActivity.startActivity(GroupCreateActivity.class);
+                    }
+                    if (position == 2) {
+                        mActivity.startActivityForResult(100, DiscussCreateActivity.class);
+                    }
                 }
             }
         });

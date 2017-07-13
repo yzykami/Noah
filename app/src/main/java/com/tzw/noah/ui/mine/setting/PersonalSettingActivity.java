@@ -82,7 +82,7 @@ public class PersonalSettingActivity extends MyBaseActivity {
 
     private void initview() {
         User user = UserCache.getUser();
-        tv_id.setText(user.memberId + "");
+        tv_id.setText(user.memberNo + "");
         tv_nickname.setText(user.memberNickName);
         String birth = user.memberBirthday;
         if (birth.equals("0000-00-00 00:00:00")) {

@@ -65,29 +65,8 @@ public class FansFragment extends MyFragment {
                 updateListView(words);
             }
         });
-        List<String> namelist = new ArrayList<>();
-        namelist.add("你111");
-        namelist.add("你好在");
-        namelist.add("耐111");
-        namelist.add("废柴");
-        namelist.add("风");
-        namelist.add("银");
-        namelist.add("辛巴");
-        namelist.add("2342辛巴");
-        namelist.add("啦啦");
-        namelist.add("❤啦啦");
-        namelist.add("OMG呵呵");
-        namelist.add("ddd呵呵");
 
         items=new ArrayList<>();
-//        for (String name :namelist)
-//        {
-//            SnsPerson p=new SnsPerson();
-//            p.name=name;
-//            p.namePingyin= Utils.getLetter(name);
-//            p.shortCut=Utils.getLetterShortCut(p.namePingyin);
-//            items.add(p);
-//        }
 
         Collections.sort(items, new MyCompare());
 

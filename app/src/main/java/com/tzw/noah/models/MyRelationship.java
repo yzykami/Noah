@@ -15,7 +15,7 @@ public class MyRelationship {
 
     @MyField(name = "id")
     public int memberNo;
-    @MyField
+
     public String createTime = "";
 
     public static List<MyRelationship> createList(List<User> userList)

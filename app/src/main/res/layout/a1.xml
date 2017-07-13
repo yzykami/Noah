@@ -103,6 +103,11 @@
             android:layout_height="@dimen/pt1"/>
 
         <include layout="@layout/sns_search_head"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt1"/>
+
+        <include layout="@layout/sns_friend_item"/>
 
         <View
             android:layout_width="match_parent"

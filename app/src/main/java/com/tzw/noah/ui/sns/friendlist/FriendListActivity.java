@@ -34,6 +34,8 @@ public class FriendListActivity extends MyBaseActivity {
     LinearLayout ll;
     @BindView(R.id.iv_detail)
     ImageView iv_add;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
 
     Context mContext = FriendListActivity.this;
 //    private AssemblyRecyclerAdapter adapter;
@@ -95,7 +97,18 @@ public class FriendListActivity extends MyBaseActivity {
                 fragmentList[selected] = new FansFragment();
             if (selected == 3)
                 fragmentList[selected] = new GroupFragment();
+
         }
+
+        if (selected == 0)
+            tv_title.setText("好友");
+        if (selected == 1)
+            tv_title.setText("关注");
+        if (selected == 2)
+            tv_title.setText("粉丝");
+        if (selected == 3)
+            tv_title.setText("群组");
+
 //        fragment.setArguments(getArguments(selected));
         transaction.replace(R.id.framelayout, fragmentList[selected]);
         transaction.commit();

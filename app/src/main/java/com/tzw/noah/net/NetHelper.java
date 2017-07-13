@@ -285,11 +285,80 @@ public class NetHelper {
         String method = "sns/nearby";
         new WIRequest().Get(method, callback);
     }
-
     //获取我的推荐的人列表
     //sns/recommendUser
     public void snsRecommendUser(Callback callback) {
         String method = "sns/recommendUser";
         new WIRequest().Get(method, callback);
     }
+
+    /////////////////////会话////////////////////////////////////
+
+    //创建多人会话
+    //sns/createDiscuss
+    public void snsCreateDiscuss(List<String> ids, Callback callback) {
+        List<Param> body = new ArrayList<>();
+        String idss = "";
+        for (int i = 0; i < ids.size(); i++) {
+            idss += ids.get(i) + ",";
+        }
+        body.add(new Param("members", idss));
+        String method = "sns/createDiscuss";
+        String bodyName = "discussSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    //添加多人会话
+    //sns/addUsersToDiscuss
+    public void snsAddUsersToDiscuss(int groupId, List<String> ids, Callback callback) {
+        List<Param> body = new ArrayList<>();
+        String idss = "";
+        for (int i = 0; i < ids.size(); i++) {
+            idss += ids.get(i) + ",";
+        }
+        body.add(new Param("goupId", groupId));
+        body.add(new Param("members", idss));
+        String method = "sns/addUsersToDiscuss";
+        String bodyName = "addToDiscussSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    // 移除多人会话
+    //sns/kickUsersFromDiscuss
+    public void snsKickUsersFromDiscuss(int groupId, List<String> ids, Callback callback) {
+        String method = "sns/kickUsersFromDiscuss" + "/" + groupId;
+        List<Param> body = new ArrayList<>();
+        String idss = "";
+        for (int i = 0; i < ids.size(); i++) {
+            idss += ids.get(i) + ",";
+        }
+        body.add(new Param("members", idss));
+        new WIRequest().Put(method, body, callback);
+    }
+
+    //修改多人会话资料
+    //sns/discussInfo
+    public void snsDiscussInfo(int groupId, List<Param> body, Callback callback) {
+        String method = "sns/discussInfo" + "/" + groupId;
+        String bodyName = "discussInfoSObj";
+        new WIRequest().Put(method, body, bodyName, callback);
+    }
+
+    // 移除多人会话
+    //sns/updateNickToDiscuss
+    public void snsUpdateNickToDiscuss(int groupId, String name, Callback callback) {
+        String method = "sns/updateNickToDiscuss" + "/" + groupId;
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("groupMemberNickName", name));
+        new WIRequest().Put(method, body, callback);
+    }
+
+    //获取我的多人会话和群列表
+    //sns/groups
+    public void snsGroups(Callback callback) {
+        String method = "sns/groups";
+        new WIRequest().Get(method, callback);
+    }
+
+
 }

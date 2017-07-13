@@ -5,11 +5,13 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.tzw.noah.db.SnsDBManager;
+import com.tzw.noah.models.Group;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
+import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.utils.NetWorkUtils;
 
 import java.io.IOException;
@@ -89,7 +91,7 @@ public class SnsManager {
                 public void onResponse(IMsg iMsg) {
                     try {
                         //保存到本地数据库
-                        if(iMsg.isSucceed()) {
+                        if (iMsg.isSucceed()) {
                             List<User> userList = User.loadFriendList(iMsg);
                             iMsg.Data = userList;
                             snsDBManager.UpdateFriendList(userList);
@@ -138,7 +140,7 @@ public class SnsManager {
                 public void onResponse(IMsg iMsg) {
                     try {
                         //保存到本地数据库
-                        if(iMsg.isSucceed()) {
+                        if (iMsg.isSucceed()) {
                             List<User> userList = User.loadFollowList(iMsg);
                             iMsg.Data = userList;
                             snsDBManager.UpdateFollowList(userList);
@@ -187,7 +189,7 @@ public class SnsManager {
                 public void onResponse(IMsg iMsg) {
                     try {
                         //保存到本地数据库
-                        if(iMsg.isSucceed()) {
+                        if (iMsg.isSucceed()) {
                             List<User> userList = User.loadFansList(iMsg);
                             iMsg.Data = userList;
                             snsDBManager.UpdateFansList(userList);
@@ -236,7 +238,7 @@ public class SnsManager {
                 public void onResponse(IMsg iMsg) {
                     try {
                         //保存到本地数据库
-                        if(iMsg.isSucceed()) {
+                        if (iMsg.isSucceed()) {
                             List<User> userList = User.loadBlackList(iMsg);
                             iMsg.Data = userList;
                             snsDBManager.UpdateBlacklist(userList);
@@ -290,12 +292,12 @@ public class SnsManager {
 
     public void snsInfo(final User user, final Callback callback) {
 //        if (NetWorkUtils.isNetworkAvailable(mContext))
-        List<Param> body=new ArrayList<>();
-        body.add(new Param("remarkName",user.remarkName));
-        body.add(new Param("ifStar",user.ifStar));
-        body.add(new Param("ifSeeHim",user.ifSeeHim));
-        body.add(new Param("ifSeeMe",user.ifSeeMe));
-        NetHelper.getInstance().snsInfo(user.memberNo,body, new Callback() {
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("remarkName", user.remarkName));
+        body.add(new Param("ifStar", user.ifStar));
+        body.add(new Param("ifSeeHim", user.ifSeeHim));
+        body.add(new Param("ifSeeMe", user.ifSeeMe));
+        NetHelper.getInstance().snsInfo(user.memberNo, body, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 if (callback != null) {
@@ -308,7 +310,7 @@ public class SnsManager {
             public void onResponse(IMsg iMsg) {
                 try {
                     //保存到本地数据库
-                    if(iMsg.isSucceed()) {
+                    if (iMsg.isSucceed()) {
                         snsDBManager.updateUser(user);
 
                     }
@@ -320,35 +322,35 @@ public class SnsManager {
             }
         });
     }
+
     public void snsDetail(final User user, final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
-        NetHelper.getInstance().snsDetails2(user.memberNo, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                if (callback != null) {
-                    callback.onAfter();
-                    callback.onFailure(call, e);
-                }
-            }
-
-            @Override
-            public void onResponse(IMsg iMsg) {
-                try {
-                    //保存到本地数据库
-                    if(iMsg.isSucceed()) {
-                        User u = User.load(iMsg);
-                        snsDBManager.updateUser(u);
-                        iMsg.Data=u;
+            NetHelper.getInstance().snsDetails2(user.memberNo, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    if (callback != null) {
+                        callback.onAfter();
+                        callback.onFailure(call, e);
                     }
-                } catch (Exception e) {
-
                 }
-                callback.onAfter();
-                callback.onResponse(iMsg);
-            }
-        });
-        else
-        {
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        //保存到本地数据库
+                        if (iMsg.isSucceed()) {
+                            User u = User.load(iMsg);
+                            snsDBManager.updateUser(u);
+                            iMsg.Data = u;
+                        }
+                    } catch (Exception e) {
+
+                    }
+                    callback.onAfter();
+                    callback.onResponse(iMsg);
+                }
+            });
+        else {
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
@@ -369,43 +371,48 @@ public class SnsManager {
     }
 
 
-
     ///////////////////////////////////////////////////////////////////
     //////////////////////// 群组接口  /////////////////////////////////
     ///////////////////////////////////////////////////////////////////
 
 
+    //创建多人会话
+    //sns/createDiscuss
+    public void snsCreateDiscuss(List<String> ids, StringDialogCallback callback) {
+        NetHelper.getInstance().snsCreateDiscuss(ids, callback);
+    }
 
-    //获取我的好友列表
-    //sns/friends
-//    public void snsFriends(final Callback callback) {
-//        if (NetWorkUtils.isNetworkAvailable(mContext))
-//            NetHelper.getInstance().snsFriends(new Callback() {
-//                @Override
-//                public void onFailure(Call call, IOException e) {
-//                    if (callback != null) {
-//                        callback.onAfter();
-//                        callback.onFailure(call, e);
-//                    }
-//                }
-//
-//                @Override
-//                public void onResponse(IMsg iMsg) {
-//                    try {
-//                        //保存到本地数据库
-//                        if(iMsg.isSucceed()) {
-//                            List<User> userList = User.loadFriendList(iMsg);
-//                            iMsg.Data = userList;
-//                            snsDBManager.UpdateFriendList(userList);
-//                        }
-//                    } catch (Exception e) {
-//
-//                    }
-//                    callback.onAfter();
-//                    callback.onResponse(iMsg);
-//                }
-//            });
-//        else {
+    //获取我的多人会话和群列表
+    //sns/groups
+    public void snsGroups(final Callback callback) {
+        if (NetWorkUtils.isNetworkAvailable(mContext))
+            NetHelper.getInstance().snsGroups(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    if (callback != null) {
+                        callback.onAfter();
+                        callback.onFailure(call, e);
+                    }
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        //保存到本地数据库
+                        if (iMsg.isSucceed()) {
+                            List<Group> userList = Group.loadDiscussList(iMsg);
+                            iMsg.Data = userList;
+                            //TODO 保存本地数据库
+                            //snsDBManager.UpdateFriendList(userList);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                    callback.onAfter();
+                    callback.onResponse(iMsg);
+                }
+            });
+        else {
 //            new Handler().post(new Runnable() {
 //                @Override
 //                public void run() {
@@ -422,7 +429,7 @@ public class SnsManager {
 //                    }
 //                }
 //            });
-//        }
-//    }
+        }
+    }
 
 }

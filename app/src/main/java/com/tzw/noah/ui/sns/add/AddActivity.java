@@ -1,6 +1,7 @@
 package com.tzw.noah.ui.sns.add;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -129,6 +130,14 @@ public class AddActivity extends MyBaseActivity {
                 child.setBackgroundColor(getResources().getColor(R.color.white));
                 child.setTextColor(getResources().getColor(R.color.myRed));
             }
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == 100) {
+            finish();
         }
     }
 }
