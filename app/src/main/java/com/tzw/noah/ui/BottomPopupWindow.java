@@ -135,6 +135,7 @@ public class BottomPopupWindow extends PopupWindow {
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
                         onItemClickListener.OnItemClick(finalI, item.title);
+                        dismiss();
                     }
                 }
             });

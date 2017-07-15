@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,31 +27,28 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 
 /**
- * Created by yzy on 2017/7/5.
+ * Created by yzy on 2017/7/15.
  */
 
-public class GroupEditNameActivity extends MyBaseActivity {
+public class GroupEditBulletinActivity extends MyBaseActivity {
 
     @BindView(R.id.rl_top)
     RelativeLayout rl_top;
+    @BindView(R.id.et_sign)
+    EditText et_sign;
     @BindView(R.id.tv_title)
     TextView tv_title;
-    @BindView(R.id.et_nickname)
-    EditText et_nickname;
-    @BindView(R.id.iv_delete)
-    ImageView iv_delete;
 
-    Context mContext = GroupEditNameActivity.this;
+    Context mContext = GroupEditBulletinActivity.this;
 
-    String Tag = "GroupEditNameActivity";
+    String Tag = "GroupEditBulletinActivity";
 
     Group group;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sns_layout_group_edit_name);
+        setContentView(R.layout.sns_layout_group_edit_introduce);
         ButterKnife.bind(this);
 
         initdata();
@@ -73,27 +69,14 @@ public class GroupEditNameActivity extends MyBaseActivity {
     }
 
     private void initview() {
-//        tv_title.setText("群昵称");
-        et_nickname.setHint("请输入您的群名称");
-        iv_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                et_nickname.setText("");
-            }
-        });
-        if (!group.myGroupMemberName.isEmpty()) {
-            et_nickname.setText(group.myGroupMemberName);
-        }
+        et_sign.setHint("请输入您的群公告");
     }
 
     public void handle_save(View view) {
-
         List<Param> body = new ArrayList<>();
-//        body.add(new Param("groupName", group.groupName));
-        body.add(new Param("groupName", et_nickname.getText().toString()));
+        body.add(new Param("groupName", group.groupName));
         body.add(new Param("groupTypeId", group.groupTypeId));
-//        body.add(new Param("groupIntroduction",group.groupIntroduction));
-//        body.add(new Param("groupBulletin",group.groupBulletin));
+        body.add(new Param("groupBulletin",et_sign.getText().toString()));
         new SnsManager(mContext).snsUpdateGroupInfo(group.groupId, body, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -104,14 +87,14 @@ public class GroupEditNameActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        group.groupName = et_nickname.getText().toString();
+                        group.groupBulletin = et_sign.getText().toString();
                         Bundle bu = new Bundle();
                         bu.putSerializable("DATA", group);
                         Intent intent = new Intent();
                         intent.putExtras(bu);
                         setResult(100, intent);
                         finish();
-                        toast("群名修改成功");
+                        toast("群公告修改成功");
                     } else {
                         toast(iMsg.getMsg());
                     }

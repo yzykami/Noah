@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tzw.noah.R;
+import com.tzw.noah.models.GroupMember;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.adapter.itemfactory.ChatListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
@@ -160,7 +161,7 @@ public class SnsMainActivity extends MyBaseActivity implements ChatListItemFacto
     }
 
     @Override
-    public void onSearchClick(int position, String optionsKey) {
+    public void onSearchClick(int position, Object optionsKey) {
         toast("position = " + position);
     }
 

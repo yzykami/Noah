@@ -317,7 +317,7 @@ public class NetHelper {
         for (int i = 0; i < ids.size(); i++) {
             idss += ids.get(i) + ",";
         }
-        body.add(new Param("goupId", groupId));
+        body.add(new Param("groupId", groupId));
         body.add(new Param("members", idss));
         String method = "sns/addUsersToDiscuss";
         String bodyName = "addToDiscussSObj";
@@ -345,7 +345,7 @@ public class NetHelper {
         new WIRequest().Put(method, body, bodyName, callback);
     }
 
-    // 移除多人会话
+    // 更新昵称多人会话
     //sns/updateNickToDiscuss
     public void snsUpdateNickToDiscuss(int groupId, String name, Callback callback) {
         String method = "sns/updateNickToDiscuss" + "/" + groupId;
@@ -364,8 +364,8 @@ public class NetHelper {
 
     //获取群成员（多人会话、群组）
     //sns/getMembers
-    public void snsGetMembers(int groupId,Callback callback) {
-        String method = "sns/getMembers/"+groupId;
+    public void snsGetMembers(int groupId, Callback callback) {
+        String method = "sns/getMembers?groupId=" + groupId;
         new WIRequest().Get(method, callback);
     }
 
@@ -376,12 +376,56 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
-    //添加黑名单
+    // 创建群
     //sns/createGroup
     public void snsCreateGroup(List<Param> body, Callback callback) {
         String method = "sns/createGroup";
         String bodyName = "groupSObj";
         new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    //邀请加群
+    //sns/addUsersToGroup
+    public void snsAddUsersToGroup(int groupId, List<String> ids, Callback callback) {
+        List<Param> body = new ArrayList<>();
+        String idss = "";
+        for (int i = 0; i < ids.size(); i++) {
+            idss += ids.get(i) + ",";
+        }
+        body.add(new Param("groupId", groupId));
+        body.add(new Param("members", idss));
+        String method = "sns/addUsersToGroup";
+        String bodyName = "addToGroupSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    // 移除群成员
+    //sns/kickUsersFromGroup
+    public void snsKickUsersFromGroup(int groupId, List<String> ids, Callback callback) {
+        String method = "sns/kickUsersFromGroup/" + groupId;
+        List<Param> body = new ArrayList<>();
+        String idss = "";
+        for (int i = 0; i < ids.size(); i++) {
+            idss += ids.get(i) + ",";
+        }
+        body.add(new Param("members", idss));
+        new WIRequest().Put(method, body, callback);
+    }
+
+    // 修改群昵称
+    //sns/updateNickToGroup
+    public void snsUpdateNickToGroup(int groupId, List<Param> body, Callback callback) {
+        String method = "sns/updateNickToGroup/" + groupId;
+        String bodyName = "changeNicknameSObj";
+        new WIRequest().Put(method, body, bodyName, callback);
+    }
+
+    // 更新群资料
+    //sns/updateGroupInfo
+    public void snsUpdateGroupInfo(int groupId, List<Param> body, Callback callback) {
+        String method = "sns/updateGroupInfo/" + groupId;
+        String bodyName = "groupInfoSObj";
+        new WIRequest().Put(method, body, bodyName, callback);
     }
 
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tzw.noah.R;
+import com.tzw.noah.models.GroupMember;
 
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
@@ -21,7 +22,7 @@ public class SearchHeadFactory extends AssemblyRecyclerItemFactory<SearchHeadFac
 
     @Override
     public boolean isTarget(Object o) {
-        return o instanceof String;
+        return o instanceof Object;
     }
 
     @Override
@@ -31,11 +32,11 @@ public class SearchHeadFactory extends AssemblyRecyclerItemFactory<SearchHeadFac
     }
 
     public interface OnItemClickListener {
-        void onSearchClick(int position, String optionsKey);
+        void onSearchClick(int position, Object optionsKey);
     }
 
-    public class SearchHeadItem extends BindAssemblyRecyclerItem<String> {
-//        @BindView(R.id.iv_head)
+    public class SearchHeadItem extends BindAssemblyRecyclerItem<Object> {
+        //        @BindView(R.id.iv_head)
 //        SampleImageView imageView;
         @BindView(R.id.container)
         ViewGroup rootViewGroup;
@@ -58,7 +59,7 @@ public class SearchHeadFactory extends AssemblyRecyclerItemFactory<SearchHeadFac
         }
 
         @Override
-        protected void onSetData(int i, String imageUri) {
+        protected void onSetData(int i, Object imageUri) {
 
         }
     }

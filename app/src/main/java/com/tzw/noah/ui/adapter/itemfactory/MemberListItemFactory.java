@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.models.GroupMember;
 
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
@@ -29,7 +30,7 @@ public class MemberListItemFactory extends AssemblyRecyclerItemFactory<MemberLis
 
     @Override
     public boolean isTarget(Object o) {
-        return o instanceof String;
+        return o instanceof GroupMember;
     }
 
     @Override
@@ -55,10 +56,10 @@ public class MemberListItemFactory extends AssemblyRecyclerItemFactory<MemberLis
     }
 
     public interface OnImageClickListener {
-        void onClickImage(int position, String optionsKey);
+        void onClickImage(int position, GroupMember optionsKey);
     }
 
-    public class MemberItem extends BindAssemblyRecyclerItem<String> {
+    public class MemberItem extends BindAssemblyRecyclerItem<GroupMember> {
         @BindView(R.id.iv_head)
         SampleImageViewHead imageView;
         @BindView(R.id.ll_user)
@@ -93,11 +94,10 @@ public class MemberListItemFactory extends AssemblyRecyclerItemFactory<MemberLis
         }
 
         @Override
-        protected void onSetData(int i, String imageUri) {
+        protected void onSetData(int i, GroupMember groupMember) {
 //            imageView.setNum(i);
-
-            imageView.displayImage(imageUri);
-
+            imageView.displayImage(groupMember.memberHeadUrl);
+            tv_name.setText(groupMember.getMemberName());
         }
     }
 }

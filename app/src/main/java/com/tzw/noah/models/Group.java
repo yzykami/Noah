@@ -49,8 +49,11 @@ public class Group implements Serializable {
     public int joinmode;
     @MyField
     public int ownerNo;
-
-    public int memberType;
+    @MyField
+    public String myGroupMemberName = "";
+    @MyField
+    public int myMemberType;
+    @MyField
     public int memberCount;
 
     public String tag = "";
@@ -68,5 +71,11 @@ public class Group implements Serializable {
     public static class Type {
         public static int GROUP = 1092;
         public static int DISCUSS = 1091;
+    }
+
+    public static class MemberType {
+        public static int OWNER = 0;
+        public static int MANAGER = 1;
+        public static int MEMBER = 2;
     }
 }

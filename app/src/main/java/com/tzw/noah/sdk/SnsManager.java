@@ -11,7 +11,7 @@ import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
-import com.tzw.noah.net.StringDialogCallback;
+import com.tzw.noah.net.WIRequest;
 import com.tzw.noah.utils.NetWorkUtils;
 
 import java.io.IOException;
@@ -444,10 +444,35 @@ public class SnsManager {
         NetHelper.getInstance().snsGroupType(callback);
     }
 
-    //获取群组的类别
+    //创建群组
     //sns/createGroup
     public void snsCreateGroup(List<Param> body, Callback callback) {
         NetHelper.getInstance().snsCreateGroup(body, callback);
+    }
+
+    //邀请加群
+    //sns/addUsersToGroup
+    public void snsAddUsersToGroup(int groupId, List<String> ids, Callback callback) {
+        NetHelper.getInstance().snsAddUsersToGroup(groupId, ids, callback);
+    }
+
+    // 移除群成员
+    //sns/kickUsersFromGroup
+    public void snsKickUsersFromGroup(int groupId, List<String> ids, Callback callback) {
+        NetHelper.getInstance().snsKickUsersFromGroup(groupId, ids, callback);
+    }
+
+
+    // 修改群昵称
+    //sns/updateNickToGroup
+    public void snsUpdateNickToGroup(int groupId, List<Param> body, Callback callback) {
+        NetHelper.getInstance().snsUpdateNickToGroup(groupId, body, callback);
+    }
+
+    // 更新群资料
+    //sns/updateGroupInfo
+    public void snsUpdateGroupInfo(int groupId, List<Param> body, Callback callback) {
+        NetHelper.getInstance().snsUpdateGroupInfo(groupId, body, callback);
     }
 
 }

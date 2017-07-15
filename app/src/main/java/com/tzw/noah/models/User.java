@@ -96,12 +96,13 @@ public class User implements Serializable {
 
     public int type = 0;
 
-    public String getRelative()
-    {
+    public String getRelative() {
+        if (isSelf)
+            return User.RelativeType.Myself;
         if (isBlacklist) {
             return User.RelativeType.Blacklist;
         } else {
-            if (isFans &&isAttention) {
+            if (isFans && isAttention) {
                 return User.RelativeType.Friend;
             } else if (isAttention) {
                 return User.RelativeType.Fowllow;
@@ -124,6 +125,7 @@ public class User implements Serializable {
         public static String Fowllow = "关注";
         public static String Fans = "粉丝";
         public static String Blacklist = "黑名单";
+        public static String Myself = "自己";
     }
 
 

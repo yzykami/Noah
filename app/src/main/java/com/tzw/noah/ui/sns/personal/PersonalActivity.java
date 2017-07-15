@@ -119,7 +119,7 @@ public class PersonalActivity extends MyBaseActivity {
         if (user.getRelative().equals(User.RelativeType.Blacklist)) {
             tv_btn1.setVisibility(View.GONE);
             tv_btn2.setVisibility(View.GONE);
-        } else if (user.getRelative().equals(User.RelativeType.Fowllow) || user.getRelative().equals(User.RelativeType.Friend)) {
+        } else if (user.getRelative().equals(User.RelativeType.Fowllow) || user.getRelative().equals(User.RelativeType.Friend) || user.getRelative().equals(User.RelativeType.Myself)) {
             tv_btn1.setVisibility(View.GONE);
             tv_btn2.setTextColor(getResources().getColor(R.color.white));
             tv_btn2.setBackgroundResource(R.drawable.bg_red_fill_round);
@@ -170,6 +170,10 @@ public class PersonalActivity extends MyBaseActivity {
     }
 
     public void handle_more(View view) {
+        if (user.getRelative().equals(User.RelativeType.Myself)) {
+            toast("本人无法查看更多");
+            return;
+        }
         if (user.getRelative().equals(User.RelativeType.Stranger)) {
             toast("你们还是陌生人,不能查看更多");
             return;

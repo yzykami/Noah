@@ -9,10 +9,21 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.tzw.noah.R;
+import com.tzw.noah.logger.Log;
+import com.tzw.noah.models.Group;
+import com.tzw.noah.net.IMsg;
+import com.tzw.noah.net.Param;
+import com.tzw.noah.net.StringDialogCallback;
+import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * Created by yzy on 2017/7/5.
@@ -27,6 +38,9 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
 
     Context mContext = GroupEditIntroduceActivity.this;
 
+    String Tag = "GroupEditIntroduceActivity";
+
+    Group group;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +54,11 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
     }
 
     private void initdata() {
+        Bundle bu = getIntent().getExtras();
+        if (bu != null) {
+            group = (Group) bu.getSerializable("DATA");
+        } else
+            group = new Group();
     }
 
     private void findview() {
@@ -50,11 +69,36 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
     }
 
     public void handle_save(View view) {
-        Intent intent = new Intent();
-        Bundle bu = new Bundle();
-        bu.putString("DATA", et_sign.getText().toString());
-        intent.putExtras(bu);
-        setResult(200, intent);
-        finish();
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("groupName", group.groupName));
+        body.add(new Param("groupTypeId", group.groupTypeId));
+        body.add(new Param("groupIntroduction",et_sign.getText().toString()));
+//        body.add(new Param("groupBulletin",group.groupBulletin));
+        new SnsManager(mContext).snsUpdateGroupInfo(group.groupId, body, new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                toast(getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        group.groupIntroduction = et_sign.getText().toString();
+                        Bundle bu = new Bundle();
+                        bu.putSerializable("DATA", group);
+                        Intent intent = new Intent();
+                        intent.putExtras(bu);
+                        setResult(100, intent);
+                        finish();
+                        toast("群介绍修改成功");
+                    } else {
+                        toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(Tag, e);
+                }
+            }
+        });
     }
 }

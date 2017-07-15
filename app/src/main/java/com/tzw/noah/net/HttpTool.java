@@ -77,7 +77,7 @@ public class HttpTool {
             execute = call.execute();
             String ret = execute.body().string();
             Log.httpcall(request, ret);
-            IMsg imsg=null;
+            IMsg imsg = null;
             if (execute.code() == 200)
                 imsg = IMsg.getInstance(ret);
             else
@@ -149,7 +149,7 @@ public class HttpTool {
             execute = call.execute();
             String ret = execute.body().string();
             Log.httpcall(request, ret);
-            IMsg imsg=null;
+            IMsg imsg = null;
             if (execute.code() == 200)
                 imsg = IMsg.getInstance(ret);
             else
@@ -212,7 +212,7 @@ public class HttpTool {
     }
 
     //HttpPOST异步请求
-    public void HttpPost(String url, Param[] headers, String json, final Callback callback) {
+    public void HttpPost(String url, Param[] headers, final String json, final Callback callback) {
 
         Request.Builder builder = new Request.Builder();
         MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
@@ -238,7 +238,7 @@ public class HttpTool {
             public void onFailure(Call call, IOException e) {
                 if (callback != null) {
                     callback.onFailure(call, e);
-                    Log.httpcall(request, e);
+                    Log.httpcall(request, e ,json);
                 }
             }
 
@@ -248,7 +248,7 @@ public class HttpTool {
                     IMsg imsg = null;
                     try {
                         String ret = response.body().string();
-                        Log.httpcall(request, ret);
+                        Log.httpcall(request, ret, json);
                         if (response.code() == 200)
                             imsg = IMsg.getInstance(ret);
                         else
@@ -256,7 +256,7 @@ public class HttpTool {
 
                     } catch (Exception e) {
                         imsg = CreateErrorMsgResponse(e.getMessage());
-                        Log.httpcall(request, e);
+                        Log.httpcall(request, e ,json);
                     }
                     callback.onResponse(imsg);
                 }
@@ -293,7 +293,7 @@ public class HttpTool {
             String ret = execute.body().string();
 
             Log.httpcall(request, ret, json);
-            IMsg imsg=null;
+            IMsg imsg = null;
             if (execute.code() == 200)
                 imsg = IMsg.getInstance(ret);
             else
@@ -308,7 +308,7 @@ public class HttpTool {
 
 
     //HttpPut异步请求
-    public void HttpPut(String url, Param[] headers, String json, final Callback callback) {
+    public void HttpPut(String url, Param[] headers, final String json, final Callback callback) {
 
         Request.Builder builder = new Request.Builder();
         MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
@@ -334,7 +334,7 @@ public class HttpTool {
             public void onFailure(Call call, IOException e) {
                 if (callback != null) {
                     callback.onFailure(call, e);
-                    Log.httpcall(request, e);
+                    Log.httpcall(request, e, json);
                 }
             }
 
@@ -344,14 +344,14 @@ public class HttpTool {
                     IMsg imsg = null;
                     try {
                         String ret = response.body().string();
-                        Log.httpcall(request, ret);
+                        Log.httpcall(request, ret, json);
                         if (response.code() == 200)
                             imsg = IMsg.getInstance(ret);
                         else
                             imsg = CreateErrorMsgResponse("服务器返回错误:" + response.code());
                     } catch (Exception e) {
                         imsg = CreateErrorMsgResponse(e.getMessage());
-                        Log.httpcall(request, e);
+                        Log.httpcall(request, e, json);
                     }
                     callback.onResponse(imsg);
                 }
@@ -359,7 +359,7 @@ public class HttpTool {
         });
     }
 
-    //HttpPOST同步请求
+    //HttpPUT同步请求
     public IMsg HttpPut(String url, Param[] headers, String json) {
         Request.Builder builder = new Request.Builder();
 
@@ -388,7 +388,7 @@ public class HttpTool {
             String ret = execute.body().string();
 
             Log.httpcall(request, ret, json);
-            IMsg imsg=null;
+            IMsg imsg = null;
             if (execute.code() == 200)
                 imsg = IMsg.getInstance(ret);
             else

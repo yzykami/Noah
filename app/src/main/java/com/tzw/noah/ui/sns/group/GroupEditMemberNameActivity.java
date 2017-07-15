@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
+import com.tzw.noah.models.GroupMember;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
@@ -28,10 +29,10 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 
 /**
- * Created by yzy on 2017/7/5.
+ * Created by yzy on 2017/7/15.
  */
 
-public class GroupEditNameActivity extends MyBaseActivity {
+public class GroupEditMemberNameActivity extends MyBaseActivity {
 
     @BindView(R.id.rl_top)
     RelativeLayout rl_top;
@@ -42,9 +43,9 @@ public class GroupEditNameActivity extends MyBaseActivity {
     @BindView(R.id.iv_delete)
     ImageView iv_delete;
 
-    Context mContext = GroupEditNameActivity.this;
+    Context mContext = GroupEditMemberNameActivity.this;
 
-    String Tag = "GroupEditNameActivity";
+    String Tag = "GroupEditMemberNameActivity";
 
     Group group;
 
@@ -73,8 +74,8 @@ public class GroupEditNameActivity extends MyBaseActivity {
     }
 
     private void initview() {
-//        tv_title.setText("群昵称");
-        et_nickname.setHint("请输入您的群名称");
+        tv_title.setText("群昵称");
+        et_nickname.setHint("请输入您的群昵称");
         iv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,12 +90,8 @@ public class GroupEditNameActivity extends MyBaseActivity {
     public void handle_save(View view) {
 
         List<Param> body = new ArrayList<>();
-//        body.add(new Param("groupName", group.groupName));
-        body.add(new Param("groupName", et_nickname.getText().toString()));
-        body.add(new Param("groupTypeId", group.groupTypeId));
-//        body.add(new Param("groupIntroduction",group.groupIntroduction));
-//        body.add(new Param("groupBulletin",group.groupBulletin));
-        new SnsManager(mContext).snsUpdateGroupInfo(group.groupId, body, new StringDialogCallback(mContext) {
+        body.add(new Param("groupMemberName", et_nickname.getText().toString()));
+        new SnsManager(mContext).snsUpdateNickToGroup(group.groupId, body, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));
@@ -104,14 +101,14 @@ public class GroupEditNameActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        group.groupName = et_nickname.getText().toString();
+                        group.myGroupMemberName = et_nickname.getText().toString();
                         Bundle bu = new Bundle();
                         bu.putSerializable("DATA", group);
                         Intent intent = new Intent();
                         intent.putExtras(bu);
                         setResult(100, intent);
                         finish();
-                        toast("群名修改成功");
+                        toast("群昵称修改成功");
                     } else {
                         toast(iMsg.getMsg());
                     }

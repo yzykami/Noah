@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.tzw.noah.AppContext;
+import com.tzw.noah.models.GroupMember;
 import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
 
@@ -175,5 +176,13 @@ public class Utils {
             u.nameFirstChar = tag;
         }
         return items;
+    }
+
+    public static void listAdd(List list, List list1) {
+        if (list == null)
+            return;
+        if (list1 == null || list1.size() == 0)
+            return;
+        list.addAll(list1);
     }
 }

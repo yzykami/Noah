@@ -127,7 +127,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_edit_groupname">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -164,6 +165,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
+                android:onClick="handle_edit_groupmembername"
                 android:background="@color/white">
 
                 <TextView
@@ -201,7 +203,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_edit_bulletin">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -235,7 +238,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/ll_manager"
+                android:id="@+id/rl_manager"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
@@ -269,12 +272,13 @@
                 android:background="@color/white">
 
                 <ImageView
-                    android:id="@+id/iv_msg"
+                    android:id="@+id/iv_top"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
+                    android:onClick="handle_top"
                     android:src="@drawable/btn1_selected" />
 
                 <TextView
@@ -282,7 +286,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/bj"
-                    android:layout_toLeftOf="@+id/iv_msg"
+                    android:layout_toLeftOf="@+id/iv_top"
                     android:text="置顶聊天"
                     android:textColor="@color/textDarkGray"
                     android:textSize="@dimen/sp14" />
@@ -311,6 +315,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
+                    android:onClick="handle_slient"
                     android:src="@drawable/btn1_selected" />
 
             </RelativeLayout>
@@ -399,7 +404,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_edit_introduce">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -415,6 +421,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+
+                android:onClick="handle_edit_introduce"
                 android:paddingBottom="@dimen/bj">
 
                 <TextView

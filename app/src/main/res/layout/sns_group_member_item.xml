@@ -20,7 +20,7 @@
             android:layout_width="@dimen/head"
             android:layout_height="@dimen/head"
             android:scaleType="centerCrop"
-            android:src="@drawable/sns_add_person"
+            android:src="@null"
             app:type="circle" />
 
 
@@ -28,15 +28,15 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/iv_head"
+            android:layout_alignRight="@id/iv_head"
             android:layout_below="@+id/iv_head"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_vertical"
-            android:layout_alignLeft="@id/iv_head"
-            android:layout_alignRight="@id/iv_head"
-            android:gravity="center"
-            android:text="昵称昵称昵称"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="1"
+            android:text=""
             android:textColor="@color/textDarkGray"
             android:textSize="@dimen/text_comment" />
 

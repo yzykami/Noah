@@ -53,7 +53,7 @@
             android:paddingRight="@dimen/pt10"
             android:paddingTop="@dimen/pt5"
             android:src="@drawable/sns_person_info"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 
