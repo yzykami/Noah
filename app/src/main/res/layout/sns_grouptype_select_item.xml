@@ -23,20 +23,24 @@
             android:layout_margin="@dimen/pt10"
             android:scaleType="centerCrop"
             android:src="@drawable/default_user"
-            app:type="circle" />
+            app:type="circle"
+            android:visibility="gone"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bj"
             android:layout_toLeftOf="@+id/llr"
             android:layout_toRightOf="@+id/iv_head"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/pt12"
+                android:paddingBottom="@dimen/pt12"
                 android:layout_gravity="center_vertical"
                 android:text="类别"
                 android:textColor="@color/textDarkGray"
@@ -59,7 +63,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/bj"
-                android:src="@drawable/sns_more_down" />
+                android:src="@drawable/mine_arrow_gray" />
 
         </LinearLayout>
     </RelativeLayout>

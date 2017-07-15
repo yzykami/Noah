@@ -155,13 +155,13 @@ public class FollowFragment extends MyFragment {
                             items = (List<User>) iMsg.Data;
                         else
                             items = User.loadFollowList(iMsg);
+                        if (items == null || items.size() == 0)
+                            items = new ArrayList<User>();
                         items = Utils.processUser(items);
                         Collections.sort(items, new MyCompare());
-                        if (items != null && items.size() > 0) {
-                            adapter = new FriendAdapter(mContext, items);
-                            list_view.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-                        }
+                        adapter = new FriendAdapter(mContext, items);
+                        list_view.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
                     } else {
                         activity.toast(iMsg.getMsg());
                     }

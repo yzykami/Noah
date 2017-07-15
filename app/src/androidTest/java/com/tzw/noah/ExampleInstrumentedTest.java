@@ -11,6 +11,7 @@ import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Area;
 import com.tzw.noah.models.DictList;
 import com.tzw.noah.models.User;
+import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
@@ -20,9 +21,12 @@ import com.tzw.noah.utils.FileUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
 
 import static org.junit.Assert.*;
 
@@ -255,5 +259,31 @@ public class ExampleInstrumentedTest {
         Log.init();
         o(AppContext.getContext().getFilesDir().getPath() + "/logs");
         NetHelper.getInstance().getBaseConfig();
+    }
+
+    @Test
+    public void test_grouptype()
+    {
+        final IMsg[] imsg1 = new IMsg[1];
+        NetHelper.getInstance().snsGroupType(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                o(iMsg.toString());
+                imsg1[0]=iMsg;
+            }
+        });
+
+        while (imsg1[0] == null) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

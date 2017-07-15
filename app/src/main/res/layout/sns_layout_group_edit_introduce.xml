@@ -45,7 +45,7 @@
             android:layout_marginRight="@dimen/bj"
             android:gravity="center"
             android:onClick="handle_save"
-            android:text="保存"
+            android:text="完成"
             android:textColor="@color/white"
             android:textSize="@dimen/text_title_right" />
     </RelativeLayout>

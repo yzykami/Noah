@@ -158,4 +158,10 @@ public class FriendListActivity extends MyBaseActivity {
             }
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        fragmentList[selectPage].onResume();
+    }
 }

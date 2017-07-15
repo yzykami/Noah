@@ -285,6 +285,7 @@ public class NetHelper {
         String method = "sns/nearby";
         new WIRequest().Get(method, callback);
     }
+
     //获取我的推荐的人列表
     //sns/recommendUser
     public void snsRecommendUser(Callback callback) {
@@ -360,5 +361,27 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
+
+    //获取群成员（多人会话、群组）
+    //sns/getMembers
+    public void snsGetMembers(int groupId,Callback callback) {
+        String method = "sns/getMembers/"+groupId;
+        new WIRequest().Get(method, callback);
+    }
+
+    //获取群组的类别
+    //sns/groupType
+    public void snsGroupType(Callback callback) {
+        String method = "sns/groupType";
+        new WIRequest().Get(method, callback);
+    }
+
+    //添加黑名单
+    //sns/createGroup
+    public void snsCreateGroup(List<Param> body, Callback callback) {
+        String method = "sns/createGroup";
+        String bodyName = "groupSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
 
 }

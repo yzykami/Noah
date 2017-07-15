@@ -5,47 +5,40 @@
     android:layout_height="match_parent"
     android:background="@color/bg_light">
 
-    <com.tzw.noah.widgets.ListenedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_top">
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_top"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/pt10"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginTop="@dimen/pt10"
+            android:onClick="handle_next"
+            android:text="让感兴趣的用户更容易发现你的群"
+            android:textColor="@color/textLightGray"
+            android:textSize="@dimen/sp14" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="@dimen/pt10"
-                android:layout_marginLeft="@dimen/bj"
-                android:onClick="handle_next"
-                android:layout_marginTop="@dimen/pt10"
-                android:text="让感兴趣的用户更容易发现你的群"
-                android:textColor="@color/textLightGray"
-                android:textSize="@dimen/sp14" />
-
-
-            <LinearLayout
-                android:id="@+id/ll_member"
+            <ListView
+                android:id="@+id/list_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <include layout="@layout/sns_grouptype_select_item" />
-
-
-            </LinearLayout>
-
-
+                android:layout_height="match_parent"
+                android:choiceMode="singleChoice"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:listSelector="@android:color/transparent"
+                android:scrollbarStyle="outsideOverlay"></ListView>
         </LinearLayout>
-    </com.tzw.noah.widgets.ListenedScrollView>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/rl_top"

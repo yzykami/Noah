@@ -21,6 +21,7 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.sns.group.GroupDetailActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.WordNaviView;
@@ -103,7 +104,7 @@ public class GroupFragment extends MyFragment {
                 if (position >= list_view.getHeaderViewsCount()) {
                     Bundle bu = new Bundle();
                     bu.putSerializable("DATA", items.get(position - list_view.getHeaderViewsCount()));
-//                    activity.startActivity(PersonalActivity.class, bu);
+                    activity.startActivity(GroupDetailActivity.class, bu);
                 } else {
                     if (position == 0) {
 
@@ -171,11 +172,11 @@ public class GroupFragment extends MyFragment {
 //                    }
 //                        items = Utils.processUser(items);
 //                        Collections.sort(items, new MyCompare());
-                        if (items != null && items.size() > 0) {
-                            adapter = new GroupAdapter(mContext, items);
-                            list_view.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-                        }
+                        if (items == null || items.size() == 0)
+                            items = new ArrayList<Group>();
+                        adapter = new GroupAdapter(mContext, items);
+                        list_view.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
                     } else {
                         activity.toast(iMsg.getMsg());
                     }

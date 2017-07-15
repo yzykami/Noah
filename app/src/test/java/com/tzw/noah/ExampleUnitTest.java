@@ -2,6 +2,10 @@ package com.tzw.noah;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.internal.$Gson$Types;
+import com.google.gson.internal.ObjectConstructor;
+import com.google.gson.reflect.TypeToken;
+import com.tzw.noah.models.GroupMember;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
@@ -12,6 +16,10 @@ import com.tzw.noah.sdk.SnsManager;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -173,8 +181,15 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testT(){
-        SnsManager sm = new SnsManager();
-        List<User> sp =sm.GetList(User.class);
+    public void testT() {
+
+        List<User> list = getModelList(null, null);
+        String a = "";
+        String ab = "";
+    }
+
+
+    public <T> T getModelList(String path, Type t) {
+        return (T) new ArrayList<Object>();
     }
 }

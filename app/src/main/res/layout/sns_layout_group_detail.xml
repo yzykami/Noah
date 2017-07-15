@@ -29,6 +29,9 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sns_group_bg_height"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:background="@color/mask"
                     android:scaleType="centerCrop" />
 
@@ -39,6 +42,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_group_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/bj"
@@ -47,7 +51,7 @@
                         android:textSize="@dimen/sp17" />
 
                     <TextView
-                        android:id="@+id/tv_group_num"
+                        android:id="@+id/tv_group_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/bj"
@@ -91,6 +95,7 @@
                     android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
+                    android:id="@+id/tv_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -144,6 +149,7 @@
                     android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
+                    android:id="@+id/tv_group_name1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -180,6 +186,7 @@
                     android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
+                    android:id="@+id/tv_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -216,6 +223,7 @@
                     android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
+                    android:id="@+id/tv_bulletin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -227,11 +235,12 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/ll_manager"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
-                android:onClick="handle_manager"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_manager">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -283,8 +292,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
-                android:background="@color/white"
-                android:onClick="handle_size">
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -297,6 +305,7 @@
 
 
                 <ImageView
+                    android:id="@+id/iv_slient"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
@@ -311,8 +320,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
-                android:background="@color/white"
-                android:onClick="handle_size">
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -333,14 +341,13 @@
                     android:src="@drawable/mine_arrow_gray" />
 
             </RelativeLayout>
-            v
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
-                android:background="@color/white"
-                android:onClick="handle_size">
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -366,8 +373,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
-                android:background="@color/white"
-                android:onClick="handle_size">
+                android:background="@color/white">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -393,8 +399,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/bj"
+                    android:text="群介绍"
+                    android:textColor="@color/textDarkGray"
+                    android:textSize="@dimen/sp14" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:onClick="handle_size">
+                android:paddingBottom="@dimen/bj">
+
+                <TextView
+                    android:id="@+id/tv_introduce"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/bj"
+                    android:layout_marginLeft="@dimen/bj"
+                    android:text=""
+                    android:textColor="@color/textDarkGray"
+                    android:textSize="@dimen/sp14" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/columnHeight"
+                android:layout_marginTop="@dimen/pt12"
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -427,7 +466,7 @@
                 android:gravity="center"
                 android:hint=""
                 android:onClick="handle_save"
-                android:text="删除并退出"
+                android:text="发消息"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_content" />
 

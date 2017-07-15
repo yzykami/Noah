@@ -45,10 +45,6 @@ public class BlackListActivity extends MyBaseActivity {
 
     Context mContext = BlackListActivity.this;
     String Tag = "BlackListActivity";
-//    private AssemblyRecyclerAdapter adapter;
-
-//    int selectPage;
-//    Fragment[] fragmentList = null;
 
     String title = "黑名单列表";
 

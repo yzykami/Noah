@@ -1,8 +1,11 @@
 package com.tzw.noah.ui.sns.group;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.tzw.noah.R;
@@ -19,6 +22,8 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
 
     @BindView(R.id.rl_top)
     RelativeLayout rl_top;
+    @BindView(R.id.et_sign)
+    EditText et_sign;
 
     Context mContext = GroupEditIntroduceActivity.this;
 
@@ -44,4 +49,12 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
     private void initview() {
     }
 
+    public void handle_save(View view) {
+        Intent intent = new Intent();
+        Bundle bu = new Bundle();
+        bu.putString("DATA", et_sign.getText().toString());
+        intent.putExtras(bu);
+        setResult(200, intent);
+        finish();
+    }
 }

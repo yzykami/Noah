@@ -378,7 +378,7 @@ public class SnsManager {
 
     //创建多人会话
     //sns/createDiscuss
-    public void snsCreateDiscuss(List<String> ids, StringDialogCallback callback) {
+    public void snsCreateDiscuss(List<String> ids, Callback callback) {
         NetHelper.getInstance().snsCreateDiscuss(ids, callback);
     }
 
@@ -430,6 +430,24 @@ public class SnsManager {
 //                }
 //            });
         }
+    }
+
+    //获取群成员（多人会话、群组）
+    //sns/getMembers
+    public void snsGetMembers(int groupId, Callback callback) {
+        NetHelper.getInstance().snsGetMembers(groupId, callback);
+    }
+
+    //获取群组的类别
+    //sns/groupType
+    public void snsGroupType(Callback callback) {
+        NetHelper.getInstance().snsGroupType(callback);
+    }
+
+    //获取群组的类别
+    //sns/createGroup
+    public void snsCreateGroup(List<Param> body, Callback callback) {
+        NetHelper.getInstance().snsCreateGroup(body, callback);
     }
 
 }

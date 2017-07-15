@@ -7,14 +7,24 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.logger.Log;
+import com.tzw.noah.models.Group;
+import com.tzw.noah.models.GroupMember;
+import com.tzw.noah.models.GroupType;
 import com.tzw.noah.models.SnsPerson;
+import com.tzw.noah.models.User;
+import com.tzw.noah.net.IMsg;
+import com.tzw.noah.net.StringDialogCallback;
+import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.BottomPopupWindow;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.utils.ViewUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +34,9 @@ import me.xiaopan.sketch.shaper.CircleImageShaper;
 import me.xiaopan.sketch.util.SketchUtils;
 import me.xiaopan.sketchsample.widget.SampleImageView;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
+import okhttp3.Call;
+
+import static com.tzw.noah.R.id.list_view;
 
 /**
  * Created by yzy on 2017/7/3.
@@ -34,10 +47,31 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
     RelativeLayout rl_top;
     @BindView(R.id.ll_member)
     LinearLayout ll_member;
+    @BindView(R.id.tv_group_name)
+    TextView tv_group_name;
+    @BindView(R.id.tv_group_id)
+    TextView tv_group_id;
+    @BindView(R.id.tv_group_name1)
+    TextView tv_group_name1;
+    @BindView(R.id.tv_nickname)
+    TextView tv_nickname;
+    @BindView(R.id.tv_bulletin)
+    TextView tv_bulletin;
+    @BindView(R.id.iv_msg)
+    ImageView iv_msg;
+    @BindView(R.id.iv_slient)
+    ImageView iv_slient;
+    @BindView(R.id.tv_introduce)
+    TextView tv_introduce;
+    @BindView(R.id.tv_count)
+    TextView tv_count;
+
 
     Context mContext = GroupDetailActivity.this;
     private List<SnsPerson> memberlist;
+    String Tag = "GroupDetailActivity";
 
+    Group group;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,10 +82,15 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
         initdata();
         findview();
         initview();
+        getMemberList();
     }
 
     private void initdata() {
-        ccc();
+        Bundle bu = getIntent().getExtras();
+        if (bu != null) {
+            group = (Group) bu.getSerializable("DATA");
+        } else
+            group = new Group();
     }
 
     private void findview() {
@@ -60,12 +99,13 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
 
     private void initview() {
         ll_member.removeAllViews();
-        for (int i = 0; i < 6 && i < memberlist.size(); i++) {
-            ll_member.addView(getMemberView(memberlist.get(i)));
-        }
+        tv_group_name.setText(group.groupName);
+        tv_group_name1.setText(group.groupName);
+        tv_introduce.setText(group.groupIntroduction);
+        tv_introduce.setText(group.memberCount + "人");
     }
 
-    private View getMemberView(SnsPerson snsPerson) {
+    private View getMemberView(GroupMember gm) {
 
         float span = getResources().getDimension(R.dimen.bj);
 
@@ -84,34 +124,10 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
         layoutParams.height = itemSize;
         layoutParams.setMargins(nn, 0, 0, nn / 2);
         iv.setLayoutParams(layoutParams);
-        iv.displayImage(snsPerson.headUrl);
+        iv.displayImage(gm.memberHeadUrl);
         return rl;
     }
 
-    public void ccc() {
-        List<String> images = new ArrayList<String>();
-        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498646800199&di=e588dafd6e16678d08e8404c7f6a5651&imgtype=0&src=http%3A%2F%2Fimg.qqzhi.com%2Fupload%2Fimg_2_1979295486D2113125476_23.jpg");
-        images.add("http://v1.qzone.cc/avatar/201405/10/17/00/536deaa6c35a9512.jpg!200x200.jpg");
-        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498646872650&di=8c968f968b9423051048d1eec7c5d598&imgtype=0&src=http%3A%2F%2Fimg.qqzhi.com%2Fupload%2Fimg_4_3520253239D3803949043_21.jpg");
-        images.add("http://img17.3lian.com/d/file/201702/22/1005a2e0825ffe290b3f697404ee8038.jpg");
-        images.add("https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=c89f6064a21ea8d38e227306a70b30cf/0824ab18972bd407ce9f04227f899e510eb30991.jpg");
-        images.add("drawable://" + R.drawable.sns_add_person);
-        images.add("http://www.adquan.com/upload/20151223/1450838259813154.jpg");
-        images.add("http://www.feizl.com/upload2007/2015_07/150720124522248.jpg");
-        images.add("http://pic.iqshw.com/d/file/gexingqqziyuan/touxiang/2016/03/17/8581e320e98e541ed03a8fcab51068fd.jpg");
-        images.add("http://www.feizl.com/upload2007/2015_07/1507201245222436.jpg");
-        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498646757823&di=ceb2ef896125f0f5ead9140c5e68cef7&imgtype=0&src=http%3A%2F%2Fpic.qqtn.com%2Fup%2F2016-3%2F2016030111061053440.jpg");
-        images.add("http://www.feizl.com/upload2007/2015_07/1507201245222419.jpg");
-        memberlist = new ArrayList<>();
-        for (String name : images) {
-            SnsPerson p = new SnsPerson();
-            p.headUrl = name;
-            p.name = "aaa";
-            p.namePingyin = Utils.getLetter(name);
-            p.shortCut = "好友推荐";
-            memberlist.add(p);
-        }
-    }
 
     public void handle_memberlist(View view) {
         startActivity(GroupMemberListActivity.class);
@@ -129,5 +145,44 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
 
     public void handle_manager(View view) {
         startActivity(GroupManagerActivity.class);
+    }
+
+    public void getMemberList() {
+
+        new SnsManager(mContext).snsGroupType(new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                toast(getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        List<GroupMember> items;
+                        if (iMsg.Data != null)
+                            items = (List<GroupMember>) iMsg.Data;
+                        else
+                            items = GroupMember.loadList(iMsg);
+                        if (items != null && items.size() > 0) {
+                            ll_member.removeAllViews();
+                            for (int i = 0; i < 4 && i < items.size(); i++) {
+                                items.get(i).memberHeadUrl = "drawable://" + R.drawable.sns_user_default;
+                                ll_member.addView(getMemberView(items.get(i)));
+                            }
+                            GroupMember gm = new GroupMember();
+                            gm.memberHeadUrl = "drawable://" + R.drawable.sns_add_person;
+                            ll_member.addView(getMemberView(gm));
+                            gm.memberHeadUrl = "drawable://" + R.drawable.sns_delete_person;
+                            ll_member.addView(getMemberView(gm));
+                        }
+                    } else {
+                        toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(Tag, e);
+                }
+            }
+        });
     }
 }

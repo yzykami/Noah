@@ -35,6 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/pt0"
+                android:onClick="handle_edit_introduce"
                 android:background="@color/white">
 
                 <ImageView
@@ -111,7 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/bj"
-                        android:text="填写群介绍"
+                        android:text="本地群"
                         android:textColor="@color/textDarkGray"
                         android:textSize="@dimen/sp14" />
 
@@ -126,7 +127,7 @@
                         android:layout_marginTop="@dimen/pt8"
                         android:ellipsize="end"
                         android:lines="1"
-                        android:text="描述这是一个怎样的群组"
+                        android:text="群地点周围10公里的人可以加入"
                         android:textColor="@color/textLightGray"
                         android:textSize="@dimen/sp12" />
                 </LinearLayout>

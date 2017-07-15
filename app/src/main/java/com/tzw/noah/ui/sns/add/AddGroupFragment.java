@@ -113,7 +113,7 @@ public class AddGroupFragment extends Fragment {
 
                 } else {
                     if (position == 1) {
-                        mActivity.startActivity(GroupCreateActivity.class);
+                        mActivity.startActivityForResult(100, GroupCreateActivity.class);
                     }
                     if (position == 2) {
                         mActivity.startActivityForResult(100, DiscussCreateActivity.class);

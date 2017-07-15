@@ -4,9 +4,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.internal.$Gson$Types;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -27,7 +34,7 @@ public class IMsg extends JsonTool implements Serializable {
     private JsonElement json;
     private JsonElement jobj;
 
-    String jsonStr="";
+    String jsonStr = "";
 
     public Object Data;
 
@@ -51,10 +58,12 @@ public class IMsg extends JsonTool implements Serializable {
     }
 
     public <T> T getModelList(String path, Type t) {
-//        Type t = o.getClass();
         Gson gson = new GsonBuilder().create();
-//        System.out.println(result.getAsJsonObject().getAsJsonArray(path).toString());
-        return gson.fromJson(result.getAsJsonObject().getAsJsonArray(path), t);
+        try {
+            return gson.fromJson(result.getAsJsonObject().getAsJsonArray(path), t);
+        } catch (Exception e) {
+            return (T) new ArrayList<Object>();
+        }
     }
 
     public String getValue(String path) {
@@ -62,10 +71,9 @@ public class IMsg extends JsonTool implements Serializable {
         return result.getAsJsonObject().getAsJsonPrimitive(path).getAsString();
     }
 
-    public IMsg getJsonObject(String path)
-    {
+    public IMsg getJsonObject(String path) {
         IMsg iMsg = new IMsg();
-        iMsg.result=this.result.getAsJsonObject().getAsJsonObject(path);
+        iMsg.result = this.result.getAsJsonObject().getAsJsonObject(path);
         return iMsg;
     }
 
