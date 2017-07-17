@@ -87,6 +87,8 @@
         <activity android:name=".ui.sns.group.GroupCreateActivity4" />
         <activity android:name=".ui.sns.group.GroupAddMemberActivity" />
         <activity android:name=".ui.sns.group.GroupRemoveMemberActivity" />
+        <activity android:name=".ui.sns.group.GroupEditJoinModeActivity" />
+        <activity android:name=".ui.sns.group.GroupTransferOwnerActivity" />
 
     </application>
     <receiver android:name="com.tzw.noah.broadcast.NetWorkStatusReceiver">

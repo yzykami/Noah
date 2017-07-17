@@ -369,6 +369,15 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
+    //移交群主（多人会话、群组）
+    //sns/transfer/
+    public void snsTransfer(int groupId, int memberNo, Callback callback) {
+        List<Param> body = Param.makeSingleParam("memberId",memberNo);
+        String method = "sns/transfer/" + groupId;
+        String bodyName = "changeOwnerSObj";
+        new WIRequest().Put(method, body, bodyName, callback);
+    }
+
     //获取群组的类别
     //sns/groupType
     public void snsGroupType(Callback callback) {
@@ -411,7 +420,6 @@ public class NetHelper {
         body.add(new Param("members", idss));
         new WIRequest().Put(method, body, callback);
     }
-
     // 修改群昵称
     //sns/updateNickToGroup
     public void snsUpdateNickToGroup(int groupId, List<Param> body, Callback callback) {
@@ -420,11 +428,47 @@ public class NetHelper {
         new WIRequest().Put(method, body, bodyName, callback);
     }
 
+    //群组:添加管理员
+    //sns/addManagersToGroup
+    public void snsAddManagersToGroup(int groupId, List<String> ids, Callback callback) {
+        List<Param> body = new ArrayList<>();
+        String idss = "";
+        for (int i = 0; i < ids.size(); i++) {
+            idss += ids.get(i) + ",";
+        }
+        body.add(new Param("groupId", groupId));
+        body.add(new Param("members", idss));
+        String method = "sns/addManagersToGroup";
+        String bodyName = "managerSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    // 移除群管理员
+    //sns/removeManagersFromGroup
+    public void snsRemoveManagersFromGroup(int groupId, List<String> ids, Callback callback) {
+        String method = "sns/removeManagersFromGroup/" + groupId;
+        List<Param> body = new ArrayList<>();
+        String idss = "";
+        for (int i = 0; i < ids.size(); i++) {
+            idss += ids.get(i) + ",";
+        }
+        body.add(new Param("members", idss));
+        new WIRequest().Put(method, body, callback);
+    }
+
     // 更新群资料
     //sns/updateGroupInfo
     public void snsUpdateGroupInfo(int groupId, List<Param> body, Callback callback) {
         String method = "sns/updateGroupInfo/" + groupId;
         String bodyName = "groupInfoSObj";
+        new WIRequest().Put(method, body, bodyName, callback);
+    }
+
+    //群组设置(是否允许成员邀请、是否允许匿名聊天、加群验证方式)
+    //sns/settingOfGroup
+    public void snsSettingOfGroup(int groupId, List<Param> body, Callback callback) {
+        String method = "sns/settingOfGroup/" + groupId;
+        String bodyName = "settingOfGroupSObj";
         new WIRequest().Put(method, body, bodyName, callback);
     }
 

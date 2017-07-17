@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.models.GroupMember;
 import com.tzw.noah.models.SnsPerson;
 
 import java.util.List;
@@ -17,13 +18,13 @@ import java.util.List;
  * Created by yzy on 2017/6/19.
  */
 
-public class GroupSelectAdminAdapter extends BaseAdapter {
+public class GroupMemberSelectAdapter extends BaseAdapter {
 
     Context context;
-    List<SnsPerson> items;
+    List<GroupMember> items;
     List<Boolean> selected;
 
-    public GroupSelectAdminAdapter(Context context, List<SnsPerson> items, List<Boolean> selected) {
+    public GroupMemberSelectAdapter(Context context, List<GroupMember> items, List<Boolean> selected) {
         this.context = context;
         this.items = items;
         this.selected = selected;
@@ -62,8 +63,8 @@ public class GroupSelectAdminAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        SnsPerson snsPerson=items.get(position);
-        String nickname = snsPerson.name;
+        GroupMember snsPerson=items.get(position);
+        String nickname = snsPerson.getMemberName();
         holder.tv.setText(nickname);
         boolean isSelected = selected.get(position);
         if (isSelected)

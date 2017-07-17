@@ -148,6 +148,10 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
         layoutParams.height = itemSize;
         layoutParams.setMargins(nn, 0, 0, nn / 2);
         iv.setLayoutParams(layoutParams);
+        if (gm.memberNo == -1) {
+            iv.getOptions().setLoadingImage(R.drawable.sns_add_person);
+            iv.getOptions().setErrorImage(R.drawable.sns_add_person);
+        }
         iv.displayImage(gm.memberHeadUrl);
 
         tv_name.setText(gm.getMemberName());
@@ -183,10 +187,6 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
     @Override
     public void OnItemClick(int position, String title) {
         toast(title);//"index = " + position + " : "+
-    }
-
-    public void handle_manager(View view) {
-        startActivity(GroupManagerActivity.class);
     }
 
     public void getMemberList() {
@@ -271,10 +271,16 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
         startActivityForResult(100, GroupEditMemberNameActivity.class, bu);
     }
 
+    public void handle_manager(View view) {
+        Bundle bu = new Bundle();
+        bu.putSerializable("DATA", group);
+        startActivityForResult(100, GroupManagerActivity.class, bu);
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 100)
+        if (requestCode == 100) {
             if (resultCode == 100) {
                 if (data != null) {
                     Bundle bu = data.getExtras();
@@ -283,13 +289,15 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
                         initview();
                     }
                 }
-            } else if (requestCode == 101) {
-                if (resultCode == 100) {
-                    getMemberList();
-                }
-
             }
+            //转让群
+            else if (resultCode == 200) {
+                finish();
+            }
+        } else if (requestCode == 101) {
+            if (resultCode == 100) {
+                getMemberList();
+            }
+        }
     }
-
-
 }

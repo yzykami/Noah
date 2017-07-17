@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.models.SnsPerson;
-import com.tzw.noah.models.User;
 
 import java.util.List;
 
@@ -18,13 +16,13 @@ import java.util.List;
  * Created by yzy on 2017/6/19.
  */
 
-public class MultiSelectAdapter extends BaseAdapter {
+public class StringSelectAdapter extends BaseAdapter {
 
     Context context;
-    List<User> items;
+    List<String> items;
     List<Boolean> selected;
 
-    public MultiSelectAdapter(Context context, List<User> items, List<Boolean> selected) {
+    public StringSelectAdapter(Context context, List<String> items, List<Boolean> selected) {
         this.context = context;
         this.items = items;
         this.selected = selected;
@@ -53,18 +51,17 @@ public class MultiSelectAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.sns_select_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.mine_settting_personal_nickname_item, null);
             holder = new ViewHolder();
             holder.iv = (ImageView) convertView.findViewById(R.id.iv);
-            holder.tv = (TextView) convertView.findViewById(R.id.tv_name);
+            holder.tv = (TextView) convertView.findViewById(R.id.tv);
             holder.view=convertView;
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        User user=items.get(position);
-        String nickname = user.getName();
+        String nickname = items.get(position);
         holder.tv.setText(nickname);
         boolean isSelected = selected.get(position);
         if (isSelected)

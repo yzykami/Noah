@@ -1,20 +1,38 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.daimajia.swipe.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_light">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/pt10"
+    app:clickToClose="true">
+
+    <LinearLayout
+        android:tag="Bottom1"
+        android:background="#66ddff00"
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/delete"
+            android:text="移除"
+            android:background="#C7C7CC"
+            android:paddingRight="@dimen/pt20"
+            android:paddingLeft="@dimen/pt20"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <RelativeLayout
+        android:tag="Hover"
         android:id="@+id/ll_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="@dimen/pt1">
+        android:layout_marginBottom="@dimen/pt0"
+        android:background="@color/white">
 
         <me.xiaopan.sketchsample.widget.SampleImageViewHead
             android:id="@+id/iv_head"
@@ -29,7 +47,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/llr"
             android:layout_toRightOf="@+id/iv_head"
             android:orientation="vertical">
 
@@ -43,24 +60,6 @@
                 android:textSize="@dimen/text_content" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/iv"
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/bj"
-                android:src="@drawable/listview_selected" />
-
-        </LinearLayout>
     </RelativeLayout>
-</RelativeLayout>
+
+</com.daimajia.swipe.SwipeLayout>

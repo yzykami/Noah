@@ -134,6 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
+                android:onClick="handle_slient"
                 android:background="@color/white">
 
                 <TextView
@@ -173,8 +174,10 @@
 
 
                 <ImageView
+                    android:id="@+id/iv_anonymous"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
+                    android:onClick="handle_anonymous"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
@@ -187,6 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
+                android:onClick="handle_joinmode"
                 android:background="@color/white">
 
                 <ImageView
@@ -199,13 +203,23 @@
                     android:src="@drawable/mine_arrow_gray" />
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/bj"
-                    android:layout_toLeftOf="@+id/iv_msg"
                     android:text="加群方式"
                     android:textColor="@color/textDarkGray"
+                    android:textSize="@dimen/sp14" />
+
+                <TextView
+                    android:id="@+id/tv_joinmode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/pt10"
+                    android:layout_toLeftOf="@+id/iv_msg"
+                    android:text=""
+                    android:textColor="@color/textLightGray"
                     android:textSize="@dimen/sp14" />
             </RelativeLayout>
 
@@ -227,8 +241,10 @@
 
 
                 <ImageView
+                    android:id="@+id/iv_findbyid"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
+                    android:onClick="handle_findbyid"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
@@ -255,6 +271,8 @@
 
 
                 <ImageView
+                    android:id="@+id/iv_invited"
+                    android:onClick="handle_invited"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
@@ -263,14 +281,13 @@
                     android:src="@drawable/btn1_selected" />
 
             </RelativeLayout>
-            v
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
                 android:background="@color/white"
-                android:onClick="handle_size">
+                android:onClick="handle_transfer">
 
                 <TextView
                     android:layout_width="wrap_content"

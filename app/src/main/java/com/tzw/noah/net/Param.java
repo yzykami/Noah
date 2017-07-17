@@ -43,10 +43,15 @@ public class Param {
         this.key = key;
     }
 
-    public static List<Param> makeSingleParam(String key, String value)
-    {
-        List<Param> list= new ArrayList<>();
-        list.add(new Param(key,value));
+    public static List<Param> makeSingleParam(String key, String value) {
+        List<Param> list = new ArrayList<>();
+        list.add(new Param(key, value));
+        return list;
+    }
+
+    public static List<Param> makeSingleParam(String key, int value) {
+        List<Param> list = new ArrayList<>();
+        list.add(new Param(key, value));
         return list;
     }
 }

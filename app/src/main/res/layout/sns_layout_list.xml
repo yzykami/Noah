@@ -56,6 +56,19 @@
             android:paddingTop="@dimen/pt5"
             android:src="@drawable/sns_add"
             android:visibility="gone" />
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="保存"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/bj"
+            android:textColor="@color/white"
+            android:onClick="handle_save"
+            android:textSize="@dimen/text_title_right"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

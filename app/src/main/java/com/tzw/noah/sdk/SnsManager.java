@@ -438,6 +438,12 @@ public class SnsManager {
         NetHelper.getInstance().snsGetMembers(groupId, callback);
     }
 
+    //移交群主（多人会话、群组）
+    //sns/transfer/
+    public void snsTransfer(int groupId, int memberNo, Callback callback) {
+        NetHelper.getInstance().snsTransfer(groupId, memberNo, callback);
+    }
+
     //获取群组的类别
     //sns/groupType
     public void snsGroupType(Callback callback) {
@@ -462,17 +468,34 @@ public class SnsManager {
         NetHelper.getInstance().snsKickUsersFromGroup(groupId, ids, callback);
     }
 
-
     // 修改群昵称
     //sns/updateNickToGroup
     public void snsUpdateNickToGroup(int groupId, List<Param> body, Callback callback) {
         NetHelper.getInstance().snsUpdateNickToGroup(groupId, body, callback);
     }
 
+    //群组:添加管理员
+    //sns/addManagersToGroup
+    public void snsAddManagersToGroup(int groupId, List<String> ids, Callback callback) {
+        NetHelper.getInstance().snsAddManagersToGroup(groupId, ids, callback);
+    }
+
+    // 移除群管理员
+    //sns/removeManagersFromGroup
+    public void snsRemoveManagersFromGroup(int groupId, List<String> ids, Callback callback) {
+        NetHelper.getInstance().snsRemoveManagersFromGroup(groupId, ids, callback);
+    }
+
     // 更新群资料
     //sns/updateGroupInfo
     public void snsUpdateGroupInfo(int groupId, List<Param> body, Callback callback) {
         NetHelper.getInstance().snsUpdateGroupInfo(groupId, body, callback);
+    }
+
+    //群组设置(是否允许成员邀请、是否允许匿名聊天、加群验证方式)
+    //sns/settingOfGroup
+    public void snsSettingOfGroup(int groupId, List<Param> body, Callback callback) {
+        NetHelper.getInstance().snsSettingOfGroup(groupId, body, callback);
     }
 
 }

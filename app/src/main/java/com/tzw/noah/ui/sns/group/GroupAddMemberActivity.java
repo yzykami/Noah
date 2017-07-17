@@ -17,7 +17,7 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.sns.MultiSelectAdapter;
+import com.tzw.noah.ui.sns.UserItemSelectAdapter;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.utils.Utils;
 
@@ -50,7 +50,7 @@ public class GroupAddMemberActivity extends MyBaseActivity {
     List<Boolean> selected;
     List<User> items;
     Map<Integer, User> memberItems;
-    private MultiSelectAdapter adapter;
+    private UserItemSelectAdapter adapter;
     private ImageView iv_delete;
     Group group;
 
@@ -105,7 +105,7 @@ public class GroupAddMemberActivity extends MyBaseActivity {
     private void initview() {
         tv_title.setText("邀请群成员");
         tv_right.setText("确定");
-        adapter = new MultiSelectAdapter(mContext, items, selected);
+        adapter = new UserItemSelectAdapter(mContext, items, selected);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -178,7 +178,7 @@ public class GroupAddMemberActivity extends MyBaseActivity {
                                 items.add(friendList.get(i));
                                 selected.add(Boolean.FALSE);
                             }
-                            adapter = new MultiSelectAdapter(mContext, items, selected);
+                            adapter = new UserItemSelectAdapter(mContext, items, selected);
                             list.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
                         }

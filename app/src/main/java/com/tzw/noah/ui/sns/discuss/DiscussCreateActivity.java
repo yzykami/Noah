@@ -1,6 +1,5 @@
 package com.tzw.noah.ui.sns.discuss;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +15,7 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.sns.MultiSelectAdapter;
+import com.tzw.noah.ui.sns.UserItemSelectAdapter;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.utils.Utils;
 
@@ -39,7 +38,7 @@ public class DiscussCreateActivity extends MyBaseActivity {
 
     List<Boolean> selected;
     List<User> items;
-    private MultiSelectAdapter adapter;
+    private UserItemSelectAdapter adapter;
     private ImageView iv_delete;
     private TextView tv_title;
 
@@ -77,7 +76,7 @@ public class DiscussCreateActivity extends MyBaseActivity {
 
     private void initview() {
 
-        adapter = new MultiSelectAdapter(mContext, items, selected);
+        adapter = new UserItemSelectAdapter(mContext, items, selected);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -144,7 +143,7 @@ public class DiscussCreateActivity extends MyBaseActivity {
                             for (int i = 0; i < items.size(); i++) {
                                 selected.add(Boolean.FALSE);
                             }
-                            adapter = new MultiSelectAdapter(mContext, items, selected);
+                            adapter = new UserItemSelectAdapter(mContext, items, selected);
                             list.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
                         }

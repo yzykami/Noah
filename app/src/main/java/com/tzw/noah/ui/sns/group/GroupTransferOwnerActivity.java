@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.DBManager;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
@@ -21,31 +22,37 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 
 /**
- * Created by yzy on 2017/6/22.
+ * Created by yzy on 2017/7/17.
  */
 
-public class GroupSelectAdminActivity extends MyBaseActivity {
+public class GroupTransferOwnerActivity extends MyBaseActivity {
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+    @BindView(R.id.tv_right)
+    TextView tv_right;
 
-    GroupSelectAdminActivity mContext = GroupSelectAdminActivity.this;
-    private ListView list;
+    @BindView(R.id.list_view)
+    ListView list_view;
+    GroupTransferOwnerActivity mContext = GroupTransferOwnerActivity.this;
 
     List<Boolean> selected;
     List<GroupMember> items;
     private GroupMemberSelectAdapter adapter;
     private ImageView iv_delete;
-    private TextView tv_title;
-    String Tag = "GroupSetAdminActivity";
+    String Tag = "GroupTransferOwnerActivity";
     Group group;
     Bundle bu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sns_layout_group_selectadmin);
-
+        setContentView(R.layout.sns_layout_list);
+        ButterKnife.bind(this);
 
         initdata();
         findview();
@@ -71,21 +78,27 @@ public class GroupSelectAdminActivity extends MyBaseActivity {
 
 
     private void findview() {
-        list = (ListView) findViewById(R.id.list);
 
         View headSearchView = getLayoutInflater().inflate(R.layout.sns_search_head, null, false);
-        list.addHeaderView(headSearchView);
+        list_view.addHeaderView(headSearchView);
     }
 
     private void initview() {
 
+        tv_title.setText("转让群组");
+        tv_right.setText("确定");
+        tv_right.setVisibility(View.VISIBLE);
+
         adapter = new GroupMemberSelectAdapter(mContext, items, selected);
-        list.setAdapter(adapter);
+        list_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selected.set(position - 1, !selected.get(position - 1));
+                for (int i = 0; i < items.size(); i++) {
+                    selected.set(i, Boolean.FALSE);
+                }
+                selected.set(position - 1, true);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -96,17 +109,17 @@ public class GroupSelectAdminActivity extends MyBaseActivity {
     }
 
     public void handle_save(View view) {
-        List<String> ids = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
         for (int i = 0; i < selected.size(); i++) {
             if (selected.get(i)) {
-                ids.add(items.get(i).memberNo + "");
+                ids.add(items.get(i).memberNo);
             }
         }
         if (ids.size() == 0) {
-            toast("需要至少选择一个人");
+            toast("请选择一个人");
             return;
         }
-        new SnsManager(mContext).snsAddManagersToGroup(group.groupId, ids, new StringDialogCallback(mContext) {
+        new SnsManager(mContext).snsTransfer(group.groupId, ids.get(0), new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));
@@ -116,8 +129,8 @@ public class GroupSelectAdminActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        toast("设置管理员成功");
-                        setResult(100);
+                        toast("群转让成功");
+                        setResult(200);
                         finish();
                     } else {
                         toast(iMsg.getMsg());
@@ -149,16 +162,20 @@ public class GroupSelectAdminActivity extends MyBaseActivity {
                         if (iMsg.Data != null)
                             items = (List<GroupMember>) iMsg.Data;
                         else
-                            items = GroupMember.loadMemberRObj(iMsg);
+                            items = GroupMember.loadList(iMsg);
                         if (items == null)
                             items = new ArrayList<GroupMember>();
+                        for (int i = 0; i < items.size(); i++) {
+                            if (items.get(i).memberNo == UserCache.getUser().memberNo)
+                                items.remove(i);
+                        }
 
                         selected = new ArrayList<>();
                         for (int i = 0; i < items.size(); i++) {
                             selected.add(Boolean.FALSE);
                         }
                         adapter = new GroupMemberSelectAdapter(mContext, items, selected);
-                        list.setAdapter(adapter);
+                        list_view.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     } else {
                         toast(iMsg.getMsg());
