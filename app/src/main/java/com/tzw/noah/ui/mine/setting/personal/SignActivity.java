@@ -62,7 +62,6 @@ public class SignActivity extends MyBaseActivity {
     private void initview() {
         et_sign.setText(UserCache.getUser().memberIntroduce);
         tv_count.setText((maxCount - UserCache.getUser().memberIntroduce.length())+"");
-
         et_sign.addTextChangedListener(new TextWatcher() {
             private CharSequence temp;
             private boolean isEdit = true;

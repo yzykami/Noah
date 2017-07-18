@@ -14,18 +14,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.logger.Log;
+import com.tzw.noah.models.Group;
 import com.tzw.noah.models.User;
+import com.tzw.noah.net.IMsg;
+import com.tzw.noah.net.StringDialogCallback;
+import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.sns.discuss.DiscussCreateActivity;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.ui.sns.group.GroupCreateActivity;
+import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.WordNaviView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 import static com.tzw.noah.R.id.container;
 
@@ -43,9 +51,11 @@ public class AddGroupFragment extends Fragment {
     ListView list_view;
 
     Context mContext;
-    List<User> items = new ArrayList<>();
-
+    List<Group> items = new ArrayList<>();
+    String Tag = "AddGroupFragment";
     AddActivity mActivity;
+
+    AddGroupAdapter adapter;
 
     @Nullable
     @Override
@@ -61,33 +71,10 @@ public class AddGroupFragment extends Fragment {
                 updateListView(words);
             }
         });
-        List<String> namelist = new ArrayList<>();
-        namelist.add("你111");
-        namelist.add("你好在");
-        namelist.add("耐111");
-        namelist.add("废柴");
-        namelist.add("风");
-        namelist.add("银");
-        namelist.add("辛巴");
-        namelist.add("2342辛巴");
-        namelist.add("啦啦");
-        namelist.add("❤啦啦");
-        namelist.add("OMG呵呵");
-        namelist.add("ddd呵呵");
 
         items = new ArrayList<>();
-//        for (String name : namelist) {
-//            SnsPerson p = new SnsPerson();
-//            p.name = name;
-//            p.namePingyin = Utils.getLetter(name);
-//            p.shortCut = "推荐";
-//            p.type = SnsPerson.Type.Group;
-//            items.add(p);
-//        }
 
-        Collections.sort(items, new MyCompare());
-
-        AddAdapter adapter = new AddAdapter(mContext, items);
+        adapter = new AddGroupAdapter(mContext, items);
 
         list_view.setAdapter(adapter);
 
@@ -100,10 +87,10 @@ public class AddGroupFragment extends Fragment {
         list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_group, "创建群组"));
         list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_create_multichat, "创建多人会话"));
 
-//        View headSpanView = inflater.inflate(R.layout.sns_span, container, false);
-//        TextView tv_time = (TextView) headSpanView.findViewById(R.id.tv_time);
-//        tv_time.setText("系统推荐");
-//        list_view.addHeaderView(headSpanView);
+        View headSpanView = inflater.inflate(R.layout.sns_span, container, false);
+        TextView tag = (TextView) headSpanView.findViewById(R.id.tag);
+        tag.setText("系统推荐");
+        list_view.addHeaderView(headSpanView);
 
         wordnavi.setVisibility(View.GONE);
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -156,7 +143,7 @@ public class AddGroupFragment extends Fragment {
             return;
         }
         for (int i = 0; i < items.size(); i++) {
-            String ping = items.get(i).nameFirstChar;
+            String ping = "";//items.get(i).nameFirstChar;
             //将手指按下的字母与列表中相同字母开头的项找出来
             if (words.equals(ping)) {
                 //将列表选中哪一个
@@ -165,5 +152,43 @@ public class AddGroupFragment extends Fragment {
                 return;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshListView();
+    }
+
+    private void refreshListView() {
+        new SnsManager(mContext).snsRecommendGroup(new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mActivity.toast(getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        if (iMsg.Data != null)
+                            items = (List<Group>) iMsg.Data;
+                        else
+                            items = Group.loadRecommendList(iMsg);
+//                        items = Utils.processUser(items);
+//                        Collections.sort(items, new MyCompare());
+                        if (items == null)
+                            items = new ArrayList<Group>();
+                        adapter = new AddGroupAdapter(mContext, items);
+                        list_view.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        mActivity.toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(Tag, e);
+                }
+            }
+        });
     }
 }

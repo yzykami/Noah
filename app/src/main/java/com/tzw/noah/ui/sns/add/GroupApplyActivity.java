@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.tzw.noah.R;
+import com.tzw.noah.models.Group;
 import com.tzw.noah.ui.MyBaseActivity;
 
 import butterknife.BindView;
@@ -21,7 +22,6 @@ import butterknife.ButterKnife;
 
 public class GroupApplyActivity extends MyBaseActivity {
 
-
     @BindView(R.id.framelayout)
     FrameLayout frameLayout;
 
@@ -30,6 +30,8 @@ public class GroupApplyActivity extends MyBaseActivity {
 
     int selectPage;
     Fragment[] fragmentList = null;
+
+    Group group;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +48,12 @@ public class GroupApplyActivity extends MyBaseActivity {
     private void initdata() {
         selectPage = 0;
         fragmentList = new Fragment[2];
+
+        Bundle bu = getIntent().getExtras();
+        if (bu != null) {
+            group = (Group) bu.getSerializable("DATA");
+        } else
+            group = new Group();
     }
 
     private void findview() {

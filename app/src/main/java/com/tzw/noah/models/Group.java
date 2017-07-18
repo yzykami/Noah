@@ -52,9 +52,11 @@ public class Group implements Serializable {
     @MyField
     public String myGroupMemberName = "";
     @MyField
-    public int myMemberType;
+    public int myMemberType=-1;
     @MyField
     public int memberCount;
+    @MyField
+    public String initialGroupName="";
 
     public String tag = "";
 
@@ -65,6 +67,11 @@ public class Group implements Serializable {
 
     public static List<Group> loadGroupList(IMsg iMsg) {
         return iMsg.getModelList("groupRObj", new TypeToken<List<Group>>() {
+        }.getType());
+    }
+
+    public static List<Group> loadRecommendList(IMsg iMsg) {
+        return iMsg.getModelList("recommendGroupRObj", new TypeToken<List<Group>>() {
         }.getType());
     }
 

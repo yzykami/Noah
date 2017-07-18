@@ -1,7 +1,6 @@
 package com.tzw.noah.ui.sns.friendlist;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -18,7 +17,7 @@ import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.add.AddAdapter;
-import com.tzw.noah.ui.sns.discuss.DiscussDetailActivity;
+import com.tzw.noah.ui.sns.add.AddGroupAdapter;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 
@@ -32,10 +31,10 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 
 /**
- * Created by yzy on 2017/7/13.
+ * Created by yzy on 2017/7/18.
  */
 
-public class DiscussListActivity extends MyBaseActivity {
+public class RecommendGroupListActivity extends MyBaseActivity implements AddGroupAdapter.OnAddClickListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
@@ -44,13 +43,17 @@ public class DiscussListActivity extends MyBaseActivity {
 
     List<Group> items = new ArrayList<>();
 
-    GroupAdapter adapter;
+    AddGroupAdapter adapter;
 
-    Context mContext = DiscussListActivity.this;
-    DiscussListActivity instance;
-    String Tag = "DiscussListActivity";
+    Context mContext = RecommendGroupListActivity.this;
+    RecommendGroupListActivity instance;
+    String Tag = "RecommendGroupListActivity";
+//    private AssemblyRecyclerAdapter adapter;
 
-    String title = "多人会话";
+//    int selectPage;
+//    Fragment[] fragmentList = null;
+
+    String title = "群组推荐";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +69,8 @@ public class DiscussListActivity extends MyBaseActivity {
     }
 
     private void initdata() {
+//        selectPage = 0;
+//        fragmentList = new Fragment[4];
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
             title = bu.getString("title");
@@ -84,7 +89,7 @@ public class DiscussListActivity extends MyBaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bu = new Bundle();
                 bu.putSerializable("DATA", items.get(position - list_view.getHeaderViewsCount()));
-                startActivityForResult(100, DiscussDetailActivity.class, bu);
+                startActivity(PersonalActivity.class, bu);
 
             }
         });
@@ -96,7 +101,7 @@ public class DiscussListActivity extends MyBaseActivity {
     }
 
     private void refreshListView() {
-        new SnsManager(mContext).snsGroups(new StringDialogCallback(this) {
+        new SnsManager(mContext).snsRecommendGroup(new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));
@@ -106,12 +111,18 @@ public class DiscussListActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        items = Group.loadDiscussList(iMsg);
-                        if (items != null && items.size() > 0) {
-                            adapter = new GroupAdapter(mContext, items);
-                            list_view.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-                        }
+                        if (iMsg.Data != null)
+                            items = (List<Group>) iMsg.Data;
+                        else
+                            items = Group.loadRecommendList(iMsg);
+//                        items = Utils.processUser(items);
+//                        Collections.sort(items, new MyCompare());
+                        if (items == null)
+                            items = new ArrayList<Group>();
+                        adapter = new AddGroupAdapter(mContext, items);
+                        adapter.setOnAddClickListener(instance);
+                        list_view.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
                     } else {
                         toast(iMsg.getMsg());
                     }
@@ -122,26 +133,8 @@ public class DiscussListActivity extends MyBaseActivity {
         });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 100) {
-            if (resultCode == 100) {
-                if (data != null) {
-                    Bundle bu = data.getExtras();
-                    if (bu != null) {
-                        Group group = (Group) bu.getSerializable("DATA");
-                        for (int i = 0; i < items.size(); i++) {
-                            Group item = items.get(i);
-                            if (item.groupId == group.groupId) {
-                                items.remove(i);
-                                break;
-                            }
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        }
+    @Override
+    public void onAddClick(View v, int position) {
+        toast("sdda" + position);
     }
 }

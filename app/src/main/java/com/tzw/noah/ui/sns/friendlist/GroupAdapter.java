@@ -67,7 +67,10 @@ public class GroupAdapter extends BaseAdapter {
         }
 
         Group group = items.get(position);
-        holder.tv.setText(group.groupName);
+        if (group.groupName.isEmpty())
+            holder.tv.setText(group.initialGroupName);
+        else
+            holder.tv.setText(group.groupName);
         holder.tv_sign.setText(group.groupIntroduction);
 
         boolean isSame = false;

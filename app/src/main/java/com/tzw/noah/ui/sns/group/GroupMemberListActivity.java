@@ -176,10 +176,12 @@ public class GroupMemberListActivity extends MyBaseActivity implements MemberLis
                         gm.memberNo = -1;
                         gm.memberHeadUrl = "drawable://" + R.drawable.sns_add_person;
                         items.add(gm);
-                        GroupMember gm2 = new GroupMember();
-                        gm2.memberNo = -2;
-                        gm2.memberHeadUrl = "drawable://" + R.drawable.sns_delete_person;
-                        items.add(gm2);
+                        if (group.myMemberType == Group.MemberType.MANAGER || group.myMemberType == Group.MemberType.OWNER) {
+                            GroupMember gm2 = new GroupMember();
+                            gm2.memberNo = -2;
+                            gm2.memberHeadUrl = "drawable://" + R.drawable.sns_delete_person;
+                            items.add(gm2);
+                        }
 
                         adapter.addAll(items);
 
@@ -208,10 +210,12 @@ public class GroupMemberListActivity extends MyBaseActivity implements MemberLis
             bu.putSerializable("DATA2", group);
             startActivity(GroupAddMemberActivity.class, bu);
         } else if (gm.memberNo == -2) {
-            Bundle bu = new Bundle();
-            bu.putSerializable("DATA", (ArrayList) adapter.getDataList());
-            bu.putSerializable("DATA2", group);
-            startActivity(GroupRemoveMemberActivity.class, bu);
+            if (group.myMemberType == Group.MemberType.MANAGER || group.myMemberType == Group.MemberType.OWNER) {
+                Bundle bu = new Bundle();
+                bu.putSerializable("DATA", (ArrayList) adapter.getDataList());
+                bu.putSerializable("DATA2", group);
+                startActivity(GroupRemoveMemberActivity.class, bu);
+            }
         } else {
             Bundle bu = new Bundle();
             User user = new User();

@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.net.IMsg;
@@ -35,6 +39,9 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
     RelativeLayout rl_top;
     @BindView(R.id.et_sign)
     EditText et_sign;
+    @BindView(R.id.tv_count)
+    TextView tv_count;
+    int maxCount = 150;
 
     Context mContext = GroupEditIntroduceActivity.this;
 
@@ -66,6 +73,39 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
     }
 
     private void initview() {
+        tv_count.setText(maxCount+"");
+        et_sign.addTextChangedListener(new TextWatcher() {
+            private CharSequence temp;
+            private boolean isEdit = true;
+            private int selectionStart;
+            private int selectionEnd;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int arg1, int arg2,
+                                          int arg3) {
+                temp = s;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int arg1, int arg2,
+                                      int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                selectionStart = et_sign.getSelectionStart();
+                selectionEnd = et_sign.getSelectionEnd();
+                if (temp.length() > maxCount) {
+
+
+                    s.delete(selectionStart - 1, selectionEnd);
+                    int tempSelection = selectionStart;
+                    et_sign.setText(s);
+                    et_sign.setSelection(tempSelection);
+                }
+                tv_count.setText((maxCount - temp.length()) + "");
+            }
+        });
     }
 
     public void handle_save(View view) {

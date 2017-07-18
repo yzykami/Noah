@@ -24,6 +24,7 @@ import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.group.GroupDetailActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
+import com.tzw.noah.utils.ViewUtils;
 import com.tzw.noah.widgets.WordNaviView;
 
 import java.io.IOException;
@@ -82,6 +83,7 @@ public class GroupFragment extends MyFragment {
 
         View headSearchView = inflater.inflate(R.layout.sns_span, container, false);
         list_view.addHeaderView(headSearchView);
+
         View nextView = inflater.inflate(R.layout.sns_next_operation_item, container, false);
         ImageView iv = (ImageView) nextView.findViewById(R.id.iv_head);
         TextView tv = (TextView) nextView.findViewById(R.id.tv_name);
@@ -96,6 +98,8 @@ public class GroupFragment extends MyFragment {
         tv2.setText("讨论组");
         list_view.addHeaderView(nextView2);
 
+        list_view.addHeaderView(ViewUtils.getHeadView(inflater,container,R.drawable.sns_create_group,"群消息"));
+
         wordnavi.setVisibility(View.GONE);
 
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,8 +113,10 @@ public class GroupFragment extends MyFragment {
                     if (position == 0) {
 
                     } else if (position == 1) {
-                        //activity.startActivity(BlackListActivity.class);
+                        activity.startActivity(RecommendGroupListActivity.class);
                     } else if (position == 2) {
+                        activity.startActivity(DiscussListActivity.class);
+                    }else if (position == 3) {
                         activity.startActivity(DiscussListActivity.class);
                     }
                 }

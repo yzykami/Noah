@@ -108,7 +108,9 @@ public class GroupManagerActivity extends MyBaseActivity {
     }
 
     public void handle_edit(View view) {
-        startActivity(GroupEditActivity.class, bu);
+        if (group.myMemberType == Group.MemberType.MANAGER || group.myMemberType == Group.MemberType.OWNER) {
+            startActivity(GroupEditActivity.class, bu);
+        }
     }
 
     public void handle_setadmin(View view) {

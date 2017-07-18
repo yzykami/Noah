@@ -199,9 +199,7 @@ public class GroupSetAdminActivity extends MyBaseActivity {
                     } else {
                         toast(iMsg.getMsg());
                     }
-                } catch (
-                        Exception e)
-
+                } catch (Exception e)
                 {
                     Log.log(Tag, e);
                 }

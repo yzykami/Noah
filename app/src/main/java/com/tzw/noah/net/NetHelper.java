@@ -293,6 +293,7 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
+
     /////////////////////会话////////////////////////////////////
 
     //创建多人会话
@@ -354,19 +355,19 @@ public class NetHelper {
         new WIRequest().Put(method, body, callback);
     }
 
-    //获取我的多人会话和群列表
-    //sns/groups
-    public void snsGroups(Callback callback) {
-        String method = "sns/groups";
-        new WIRequest().Get(method, callback);
-    }
-
-
     //获取群成员（多人会话、群组）
     //sns/getMembers
     public void snsGetMembers(int groupId, Callback callback) {
         String method = "sns/getMembers?groupId=" + groupId;
         new WIRequest().Get(method, callback);
+    }
+
+
+    //主动退出群（多人会话、群组）
+    //sns/quit/
+    public void snsQuit(int groupId, Callback callback) {
+        String method = "sns/quit/" + groupId;
+        new WIRequest().Put(method, null, callback);
     }
 
     //移交群主（多人会话、群组）
@@ -376,6 +377,27 @@ public class NetHelper {
         String method = "sns/transfer/" + groupId;
         String bodyName = "changeOwnerSObj";
         new WIRequest().Put(method, body, bodyName, callback);
+    }
+
+    //获取我的多人会话和群列表
+    //sns/groups
+    public void snsGroups(Callback callback) {
+        String method = "sns/groups";
+        new WIRequest().Get(method, callback);
+    }
+
+    //获取我的多人会话和群组信息通知
+    //sns/groupNotification
+    public void snsGroupNotification(Callback callback) {
+        String method = "sns/groupNotification";
+        new WIRequest().Get(method, callback);
+    }
+
+    //主动退出群（多人会话、群组）
+    //sns/dismiss/
+    public void snsDismiss(int groupId, Callback callback) {
+        String method = "sns/dismiss/" + groupId;
+        new WIRequest().Put(method, null, callback);
     }
 
     //获取群组的类别
@@ -464,6 +486,17 @@ public class NetHelper {
         new WIRequest().Put(method, body, bodyName, callback);
     }
 
+    // 申请加群
+    //sns/applyToGroup
+    public void snsApplyToGroup(int groupId,String msg, Callback callback) {
+        String method = "sns/applyToGroup";
+        String bodyName = "applyToGroupSObj";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("groupId", groupId));
+        body.add(new Param("message", msg));
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
     //群组设置(是否允许成员邀请、是否允许匿名聊天、加群验证方式)
     //sns/settingOfGroup
     public void snsSettingOfGroup(int groupId, List<Param> body, Callback callback) {
@@ -472,4 +505,10 @@ public class NetHelper {
         new WIRequest().Put(method, body, bodyName, callback);
     }
 
+    //获取我的推荐的人列表
+    //sns/recommendGroup
+    public void snsRecommendGroup(Callback callback) {
+        String method = "sns/recommendGroup";
+        new WIRequest().Get(method, callback);
+    }
 }

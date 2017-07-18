@@ -127,27 +127,53 @@ public class GroupAddMemberActivity extends MyBaseActivity {
             toast("需要至少选择一个人");
             return;
         }
-        new SnsManager(mContext).snsAddUsersToGroup(group.groupId, ids, new StringDialogCallback(mContext) {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                toast(getResources().getString(R.string.internet_fault));
-            }
-
-            @Override
-            public void onResponse(IMsg iMsg) {
-                try {
-                    if (iMsg.isSucceed()) {
-                        toast("邀请已发送");
-                        setResult(100);
-                        finish();
-                    } else {
-                        toast(iMsg.getMsg());
-                    }
-                } catch (Exception e) {
-                    Log.log(Tag, e);
+        if(group.groupAttribute==Group.Type.GROUP) {
+            new SnsManager(mContext).snsAddUsersToGroup(group.groupId, ids, new StringDialogCallback(mContext) {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    toast(getResources().getString(R.string.internet_fault));
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        if (iMsg.isSucceed()) {
+                            toast("邀请已发送");
+                            setResult(100);
+                            finish();
+                        } else {
+                            toast(iMsg.getMsg());
+                        }
+                    } catch (Exception e) {
+                        Log.log(Tag, e);
+                    }
+                }
+            });
+        }
+        else
+        {
+            new SnsManager(mContext).snsAddUsersToDiscuss(group.groupId, ids, new StringDialogCallback(mContext) {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    toast(getResources().getString(R.string.internet_fault));
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        if (iMsg.isSucceed()) {
+                            toast("添加成功");
+                            setResult(100);
+                            finish();
+                        } else {
+                            toast(iMsg.getMsg());
+                        }
+                    } catch (Exception e) {
+                        Log.log(Tag, e);
+                    }
+                }
+            });
+        }
     }
 
     private void refreshListView() {

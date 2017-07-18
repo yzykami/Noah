@@ -87,38 +87,68 @@ public class GroupEditNameActivity extends MyBaseActivity {
     }
 
     public void handle_save(View view) {
-
-        List<Param> body = new ArrayList<>();
+        if (group.groupAttribute == Group.Type.GROUP) {
+            List<Param> body = new ArrayList<>();
 //        body.add(new Param("groupName", group.groupName));
-        body.add(new Param("groupName", et_nickname.getText().toString()));
-        body.add(new Param("groupTypeId", group.groupTypeId));
+            body.add(new Param("groupName", et_nickname.getText().toString()));
+            body.add(new Param("groupTypeId", group.groupTypeId));
 //        body.add(new Param("groupIntroduction",group.groupIntroduction));
 //        body.add(new Param("groupBulletin",group.groupBulletin));
-        new SnsManager(mContext).snsUpdateGroupInfo(group.groupId, body, new StringDialogCallback(mContext) {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                toast(getResources().getString(R.string.internet_fault));
-            }
-
-            @Override
-            public void onResponse(IMsg iMsg) {
-                try {
-                    if (iMsg.isSucceed()) {
-                        group.groupName = et_nickname.getText().toString();
-                        Bundle bu = new Bundle();
-                        bu.putSerializable("DATA", group);
-                        Intent intent = new Intent();
-                        intent.putExtras(bu);
-                        setResult(100, intent);
-                        finish();
-                        toast("群名修改成功");
-                    } else {
-                        toast(iMsg.getMsg());
-                    }
-                } catch (Exception e) {
-                    Log.log(Tag, e);
+            new SnsManager(mContext).snsUpdateGroupInfo(group.groupId, body, new StringDialogCallback(mContext) {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    toast(getResources().getString(R.string.internet_fault));
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        if (iMsg.isSucceed()) {
+                            group.groupName = et_nickname.getText().toString();
+                            Bundle bu = new Bundle();
+                            bu.putSerializable("DATA", group);
+                            Intent intent = new Intent();
+                            intent.putExtras(bu);
+                            setResult(100, intent);
+                            finish();
+                            toast("群名修改成功");
+                        } else {
+                            toast(iMsg.getMsg());
+                        }
+                    } catch (Exception e) {
+                        Log.log(Tag, e);
+                    }
+                }
+            });
+        } else {
+            List<Param> body = new ArrayList<>();
+            body.add(new Param("groupName", et_nickname.getText().toString()));
+            new SnsManager(mContext).snsDiscussInfo(group.groupId, body, new StringDialogCallback(mContext) {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    toast(getResources().getString(R.string.internet_fault));
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        if (iMsg.isSucceed()) {
+                            group.groupName = et_nickname.getText().toString();
+                            Bundle bu = new Bundle();
+                            bu.putSerializable("DATA", group);
+                            Intent intent = new Intent();
+                            intent.putExtras(bu);
+                            setResult(100, intent);
+                            finish();
+                            toast("群名修改成功");
+                        } else {
+                            toast(iMsg.getMsg());
+                        }
+                    } catch (Exception e) {
+                        Log.log(Tag, e);
+                    }
+                }
+            });
+        }
     }
 }
