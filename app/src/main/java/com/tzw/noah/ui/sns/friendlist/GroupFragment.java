@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
+import com.tzw.noah.models.Notification;
 import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
@@ -22,6 +23,8 @@ import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.group.GroupDetailActivity;
+import com.tzw.noah.ui.sns.notification.NotificationCompare;
+import com.tzw.noah.ui.sns.notification.NotificationListActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.utils.ViewUtils;
@@ -117,7 +120,7 @@ public class GroupFragment extends MyFragment {
                     } else if (position == 2) {
                         activity.startActivity(DiscussListActivity.class);
                     }else if (position == 3) {
-                        activity.startActivity(DiscussListActivity.class);
+                        activity.startActivity(NotificationListActivity.class);
                     }
                 }
             }
@@ -180,6 +183,7 @@ public class GroupFragment extends MyFragment {
 //                        Collections.sort(items, new MyCompare());
                         if (items == null || items.size() == 0)
                             items = new ArrayList<Group>();
+
                         adapter = new GroupAdapter(mContext, items);
                         list_view.setAdapter(adapter);
                         adapter.notifyDataSetChanged();

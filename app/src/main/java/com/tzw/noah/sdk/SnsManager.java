@@ -456,6 +456,13 @@ public class SnsManager {
 //            });
         }
     }
+
+    //获取我的多人会话和群组信息通知
+    //sns/groupNotification
+    public void snsGroupNotification(Callback callback) {
+        NetHelper.getInstance().snsGroupNotification(callback);
+    }
+
     //主动退出群（多人会话、群组）
     //sns/quit/
     public void snsQuit(int groupId, Callback callback) {
@@ -466,12 +473,6 @@ public class SnsManager {
     //sns/transfer/
     public void snsTransfer(int groupId, int memberNo, Callback callback) {
         NetHelper.getInstance().snsTransfer(groupId, memberNo, callback);
-    }
-
-    //获取我的多人会话和群组信息通知
-    //sns/groupNotification
-    public void snsGroupNotification(Callback callback) {
-        NetHelper.getInstance().snsGroupNotification(callback);
     }
 
     //主动退出群（多人会话、群组）
@@ -536,9 +537,22 @@ public class SnsManager {
 
     // 更新群资料
     //sns/applyToGroup
-    public void snsApplyToGroup(int groupId,String msg, Callback callback) {
+    public void snsApplyToGroup(int groupId, String msg, Callback callback) {
         NetHelper.getInstance().snsApplyToGroup(groupId, msg, callback);
     }
+
+    //审批会员申请入群的请求
+    //sns/handleApplyToGroup
+    public void snsHandleApplyToGroup( List<Param> body, Callback callback) {
+        NetHelper.getInstance().snsHandleApplyToGroup( body, callback);
+    }
+
+    //是否同意邀请入群
+    //sns/handleInviteWithGroup
+    public void snsHandleInviteWithGroup( List<Param> body, Callback callback) {
+        NetHelper.getInstance().snsHandleInviteWithGroup( body, callback);
+    }
+
     //群组设置(是否允许成员邀请、是否允许匿名聊天、加群验证方式)
     //sns/settingOfGroup
     public void snsSettingOfGroup(int groupId, List<Param> body, Callback callback) {

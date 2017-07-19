@@ -373,7 +373,7 @@ public class NetHelper {
     //移交群主（多人会话、群组）
     //sns/transfer/
     public void snsTransfer(int groupId, int memberNo, Callback callback) {
-        List<Param> body = Param.makeSingleParam("memberId",memberNo);
+        List<Param> body = Param.makeSingleParam("memberId", memberNo);
         String method = "sns/transfer/" + groupId;
         String bodyName = "changeOwnerSObj";
         new WIRequest().Put(method, body, bodyName, callback);
@@ -442,6 +442,7 @@ public class NetHelper {
         body.add(new Param("members", idss));
         new WIRequest().Put(method, body, callback);
     }
+
     // 修改群昵称
     //sns/updateNickToGroup
     public void snsUpdateNickToGroup(int groupId, List<Param> body, Callback callback) {
@@ -488,13 +489,29 @@ public class NetHelper {
 
     // 申请加群
     //sns/applyToGroup
-    public void snsApplyToGroup(int groupId,String msg, Callback callback) {
+    public void snsApplyToGroup(int groupId, String msg, Callback callback) {
         String method = "sns/applyToGroup";
         String bodyName = "applyToGroupSObj";
         List<Param> body = new ArrayList<>();
         body.add(new Param("groupId", groupId));
         body.add(new Param("message", msg));
         new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    //审批会员申请入群的请求
+    //sns/handleApplyToGroup
+    public void snsHandleApplyToGroup(List<Param> body, Callback callback) {
+        String method = "sns/handleApplyToGroup";///" + groupId;
+        String bodyName = "handleApplyToGroupSObj";
+        new WIRequest().Put(method, body, bodyName, callback);
+    }
+
+    //是否同意邀请入群
+    //sns/handleInviteWithGroup
+    public void snsHandleInviteWithGroup(List<Param> body, Callback callback) {
+        String method = "sns/handleInviteWithGroup";///" + groupId;
+        String bodyName = "handleInviteWithGroupSObj";
+        new WIRequest().Put(method, body, bodyName, callback);
     }
 
     //群组设置(是否允许成员邀请、是否允许匿名聊天、加群验证方式)
