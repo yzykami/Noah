@@ -20,11 +20,13 @@ public class UserCache {
 
     private static String token = "";
     private static String loginKey = "";
+    private static long timeOffset = -12345678l;
     public static User user;
 
     protected static final String PREFS_FILE = "usercache.xml";
     protected static final String PREFS_TOKEN = "token";
     protected static final String PREFS_LOGINKEY = "loginkey";
+    protected static final String PREFS_TIMEOFFSET = "timeoffset";
 
     public static User getUser() {
         if (user != null)
@@ -125,6 +127,25 @@ public class UserCache {
         UserCache.loginKey = loginKey;
         WIRequest.LoginKey = loginKey;
         prefs.edit().putString(PREFS_LOGINKEY, loginKey).commit();
+    }
+
+    public static long getTimeOffset() {
+        if (timeOffset == -12345678l) {
+            Context context = AppContext.getContext();
+            final SharedPreferences prefs = context
+                    .getSharedPreferences(PREFS_FILE, 0);
+            timeOffset = prefs.getLong(PREFS_TIMEOFFSET, 0);
+        }
+        return timeOffset;
+    }
+
+    public static void setTimeOffset(long TimeOffset) {
+        Context context = AppContext.getContext();
+        final SharedPreferences prefs = context
+                .getSharedPreferences(PREFS_FILE, 0);
+        UserCache.timeOffset = TimeOffset;
+        WIRequest.TimeOffset = TimeOffset;
+        prefs.edit().putLong(PREFS_TIMEOFFSET, TimeOffset).commit();
     }
 
     public static boolean isLogin() {

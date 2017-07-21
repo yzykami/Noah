@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="2.0dip"
-                android:text="好友"
+                android:text="会话"
                 android:textColor="@color/mygray"
                 android:textSize="10.0dip" />
         </FrameLayout>

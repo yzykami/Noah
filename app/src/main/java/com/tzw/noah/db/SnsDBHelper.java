@@ -78,6 +78,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
         FileUtil.copyDBFromRaw();
     }
 
+    //查询Sql,返回查询集合
     public <T> List<T> queryAll(Class<T> t, String sql) {
         //sql = "SELECT * FROM Area"
         List<T> list = new ArrayList<>();
@@ -123,6 +124,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    //查询Sql, 只返回第一行
     public <T> T query(Class<T> t, String sql) {
         List<T> list = queryAll(t, sql);
         if (list != null && list.size() > 0) {
@@ -138,8 +140,8 @@ public class SnsDBHelper extends SQLiteOpenHelper {
         return null;
     }
 
-
-    public <T> void insert(List<T> tList, String tableName) {
+    //插入列表, 如果已存在,先删除在插入
+    public <T> void insertDeleteMode(List<T> tList, String tableName) {//condition
         if (tList == null || tList.size() == 0)
             return;
         T t = tList.get(0);
@@ -182,52 +184,8 @@ public class SnsDBHelper extends SQLiteOpenHelper {
         }
     }
 
-
-    public <T> void insertAndUpdate(List<T> tList, String tableName) {
-        if (tList == null || tList.size() == 0)
-            return;
-        T t = tList.get(0);
-        db.beginTransaction();  //开始事务
-        try {
-
-            Class tclass = Class.forName(t.getClass().getName());
-
-            Field[] fields = tclass.getDeclaredFields();
-            db.execSQL("delete from " + tableName);
-
-            String sql = "INSERT INTO " + tableName + " VALUES(null";
-            for (T tt : tList) {
-                String column = " (";
-                String values = " (";
-                List<Object> objs = new ArrayList<>();
-                for (Field field : fields) {
-                    Annotation a = field.getAnnotation(MyField.class);
-                    if (a == null) {
-                        continue;
-                    }
-                    String fname = field.getName();
-                    Type ftype = field.getType();
-
-                    column += fname + ",";
-                    values += "?,";
-                    objs.add(field.get(tt));
-                }
-
-                column = column.substring(0, column.length() - 1) + ") ";
-                values = values.substring(0, values.length() - 1) + ") ";
-
-                sql = "INSERT INTO " + tableName + column + " VALUES" + values;
-                db.execSQL(sql, objs.toArray(new Object[objs.size()]));
-            }
-            db.setTransactionSuccessful();  //设置事务成功完成
-        } catch (Exception e) {
-        } finally {
-            db.endTransaction();    //结束事务
-        }
-    }
-
-
-    public <T> void insertAndUpdate(T t, String tableName) {
+    //插入或者更新对象,全部列
+    public <T> void insertOrUpdate(T t, String tableName) {
         String sql = "";
         db.beginTransaction();  //开始事务
         try {
@@ -300,8 +258,8 @@ public class SnsDBHelper extends SQLiteOpenHelper {
         }
     }
 
-
-    public <T> void insertAndUpdate(T t, List<String> columns, String tableName) {
+    //插入或者更新对象,部分列
+    public <T> void insertOrUpdate(T t, List<String> columns, String tableName) {
         String sql = "";
         db.beginTransaction();  //开始事务
         try {

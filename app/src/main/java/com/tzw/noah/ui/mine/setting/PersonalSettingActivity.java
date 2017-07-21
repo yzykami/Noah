@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.netease.nim.demo.login.LogoutHelper;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.DBManager;
@@ -196,12 +197,16 @@ public class PersonalSettingActivity extends MyBaseActivity {
                     UserCache.setLoginkey("");
                     UserCache.setToken("");
                     toast("注销成功。");
+                    //云信登出
+                    LogoutHelper.logout();
                     setResult(LOGOUT);
                     finish();
                 } else if (imsg.getCode() == 1024) {
                     UserCache.setLoginkey("");
                     UserCache.setToken("");
                     toast("注销成功。");
+                    //云信登出
+                    LogoutHelper.logout();
                     setResult(LOGOUT);
                     finish();
                 } else {

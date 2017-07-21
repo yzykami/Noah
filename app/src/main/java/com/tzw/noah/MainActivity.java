@@ -60,7 +60,8 @@ public class MainActivity extends TabActivity {
                 .setContent(intent2));
 
         Intent intent3 = new Intent();
-        intent3.setClass(MainActivity.this, SnsMainActivity.class);
+//        intent3.setClass(MainActivity.this, SnsMainActivity.class);
+        intent3.setClass(MainActivity.this, com.netease.nim.demo.main.activity.MainActivity.class);
         tabHost.addTab(tabHost.newTabSpec("3").setIndicator("3").setContent(intent3));
 
         Intent intent4 = new Intent();

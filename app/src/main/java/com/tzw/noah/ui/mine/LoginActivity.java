@@ -1,5 +1,6 @@
 package com.tzw.noah.ui.mine;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,7 +9,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.netease.nim.demo.DemoCache;
+import com.netease.nim.demo.config.preference.Preferences;
+import com.netease.nim.demo.config.preference.UserPreferences;
+import com.netease.nim.demo.main.activity.MainActivity;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
+import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.netease.nimlib.sdk.AbortableFuture;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.SnsDBManager;
@@ -29,10 +44,10 @@ import java.util.List;
 
 public class LoginActivity extends MyBaseActivity {
 
-    public static int succeed=1;
+    public static int succeed = 1;
     String TAG = "LoginActivity";
     LoginActivity mycontext = LoginActivity.this;
-    String outData="";
+    String outData = "";
 
 
     private TextView tv_selectpwd;
@@ -61,7 +76,7 @@ public class LoginActivity extends MyBaseActivity {
 
     private void initdata() {
         Bundle bu = getIntent().getExtras();
-        if(bu!=null) {
+        if (bu != null) {
             outData = bu.getString("Data");
         }
     }
@@ -157,10 +172,9 @@ public class LoginActivity extends MyBaseActivity {
 
                     if (iMsg.isSucceed()) {
                         iMsg = NetHelper.getInstance().getUserDetails();
-                            if(iMsg.isSucceed())
-                        message.what = LOGIN_SUCCESS;
-                        else
-                        {
+                        if (iMsg.isSucceed())
+                            message.what = LOGIN_SUCCESS;
+                        else {
                             UserCache.setToken("");
                             UserCache.setLoginkey("");
                         }
@@ -176,7 +190,7 @@ public class LoginActivity extends MyBaseActivity {
 
             } catch (Exception e) {
 
-                com.tzw.noah.logger.Log.log(TAG,e);
+                com.tzw.noah.logger.Log.log(TAG, e);
                 Message message = new Message();
                 message.what = LOGIN_INTERNET_FAULT;
 
@@ -219,15 +233,17 @@ public class LoginActivity extends MyBaseActivity {
                         UserCache.setUser(user);
                         new DBInit().snsInit();
                         new SnsDBManager(mycontext).updateUser(user);
-//                        UserCache.setToken(UserCache.getToken());
-//                        UserCache.setLoginkey(UserCache.getLoginKey());
 
-                        if(!outData.isEmpty()) {
+                        //云信登录
+                        //
+                        nim_login(user.netEaseId + "", user.netEaseToken);
+
+                        if (!outData.isEmpty()) {
                             Intent intent = new Intent(mycontext, MineMainActivity.class);
                             startActivity(intent);
                         }
-                        setResult(LOGINSUCCEED);
-                        finish();
+//                        setResult(LOGINSUCCEED);
+//                        finish();
                     } else {
                         toast(iMsg.getMsg());
                     }
@@ -240,4 +256,84 @@ public class LoginActivity extends MyBaseActivity {
 
     };
 
+
+    private AbortableFuture<LoginInfo> loginRequest;
+
+    private void nim_login(String n_account, String n_token) {
+        DialogMaker.showProgressDialog(this, null, getString(com.netease.nim.demo.R.string.logining), true, new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                if (loginRequest != null) {
+                    loginRequest.abort();
+                    onLoginDone();
+                }
+            }
+        }).setCanceledOnTouchOutside(false);
+
+        // 云信只提供消息通道，并不包含用户资料逻辑。开发者需要在管理后台或通过服务器接口将用户帐号和token同步到云信服务器。
+        // 在这里直接使用同步到云信服务器的帐号和token登录。
+        // 这里为了简便起见，demo就直接使用了密码的md5作为token。
+        // 如果开发者直接使用这个demo，只更改appkey，然后就登入自己的账户体系的话，需要传入同步到云信服务器的token，而不是用户密码。
+        final String account = n_account;
+        final String token = n_token;
+        // 登录
+        loginRequest = NimUIKit.doLogin(new LoginInfo(account, token), new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo param) {
+                LogUtil.i(TAG, "login success");
+
+                onLoginDone();
+
+                DemoCache.setAccount(account);
+                saveLoginInfo(account, token);
+
+                // 初始化消息提醒配置
+                initNotificationConfig();
+
+                // 进入主界面
+                setResult(LOGINSUCCEED);
+                finish();
+            }
+
+            @Override
+            public void onFailed(int code) {
+                onLoginDone();
+                if (code == 302 || code == 404) {
+                    Toast.makeText(mycontext, com.netease.nim.demo.R.string.login_failed, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mycontext, "登录失败: " + code, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                Toast.makeText(mycontext, com.netease.nim.demo.R.string.login_exception, Toast.LENGTH_LONG).show();
+                onLoginDone();
+            }
+        });
+    }
+
+    private void onLoginDone() {
+        loginRequest = null;
+        DialogMaker.dismissProgressDialog();
+    }
+
+    private void saveLoginInfo(final String account, final String token) {
+        Preferences.saveUserAccount(account);
+        Preferences.saveUserToken(token);
+    }
+
+    private void initNotificationConfig() {
+        // 初始化消息提醒
+        NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
+
+        // 加载状态栏配置
+        StatusBarNotificationConfig statusBarNotificationConfig = UserPreferences.getStatusConfig();
+        if (statusBarNotificationConfig == null) {
+            statusBarNotificationConfig = DemoCache.getNotificationConfig();
+            UserPreferences.setStatusConfig(statusBarNotificationConfig);
+        }
+        // 更新配置
+        NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
+    }
 }

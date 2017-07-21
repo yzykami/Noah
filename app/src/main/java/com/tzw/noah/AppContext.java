@@ -3,6 +3,7 @@ package com.tzw.noah;
 import android.app.Application;
 import android.content.Context;
 
+import com.netease.nim.demo.NimApplication;
 import com.tzw.noah.cache.AppCache;
 import com.tzw.noah.db.SnsDBHelper;
 import com.tzw.noah.init.DBInit;
@@ -14,9 +15,11 @@ import com.tzw.noah.utils.NetWorkUtils;
  * Created by yzy on 2017/6/15.
  */
 
-public class AppContext extends Application {
+public class AppContext extends NimApplication{//Application {
 
     public static Context instance;
+
+
 
     @Override
     public void onCreate()
@@ -27,6 +30,7 @@ public class AppContext extends Application {
         AppCache.firstInstall();
         new DBInit().snsInit();
     }
+
 
     public static Context getContext()
     {

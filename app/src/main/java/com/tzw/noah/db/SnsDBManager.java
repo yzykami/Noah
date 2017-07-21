@@ -75,7 +75,7 @@ public class SnsDBManager {
     //更新列表, 抽取共性, 只有表名不同
     private void UpdateList(List<User> list, String tableName) {
         updateUserList(list);
-        helper.insert(MyRelationship.createList(list), tableName);
+        helper.insertDeleteMode(MyRelationship.createList(list), tableName);
     }
 
     //将获取到的列表,存入本地数据库中, 只更新获取的列
@@ -93,12 +93,12 @@ public class SnsDBManager {
 
     //更新用户全部属性
     public void updateUser(User user) {
-        helper.insertAndUpdate(user, UserTableName);
+        helper.insertOrUpdate(user, UserTableName);
     }
 
     //更新用户部分属性, 指定列名称
     private void updateUser(User user, List<String> columns) {
-        helper.insertAndUpdate(user, columns, UserTableName);
+        helper.insertOrUpdate(user, columns, UserTableName);
     }
 
     public boolean isInBlacklist(int id) {

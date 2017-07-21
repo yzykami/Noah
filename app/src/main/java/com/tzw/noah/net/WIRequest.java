@@ -28,7 +28,7 @@ public class WIRequest {
     private static String preUrl = "http://10.0.9.2:9094/";
     private static String AppId = "10101";
     private static String AppSecret = "FBC33F36A7146B21DF44EAA0D795D474";
-    private static Long TimeOffset = 0l;
+    public static Long TimeOffset = -12345678l;
     private static Long CurTime = 0l;
     private static String Sign = "";
     public static String LoginKey = "";
@@ -41,6 +41,10 @@ public class WIRequest {
     public WIRequest() {
         if (LoginKey.isEmpty()) {
             LoginKey = UserCache.getLoginKey();
+        }
+        if(TimeOffset==-12345678l)
+        {
+            TimeOffset = UserCache.getTimeOffset();
         }
         httptool = HttpTool.getInstance();
         mdelivery = new Handler(Looper.getMainLooper());
@@ -122,6 +126,7 @@ public class WIRequest {
 
     public void updateTimeoffset(IMsg mr) {
         TimeOffset = CurTime - mr.getServerTime();
+        UserCache.setTimeOffset(TimeOffset);
     }
 
 //    public IMsg GetNoLoginKey(String method) {

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -43,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/navi" />
+            android:src="@drawable/navi"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 </TabHost>

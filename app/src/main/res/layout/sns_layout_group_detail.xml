@@ -476,7 +476,7 @@
                 android:background="@drawable/bg_red_fill_round"
                 android:gravity="center"
                 android:hint=""
-                android:onClick="handle_save"
+                android:onClick="handle_send"
                 android:text="发消息"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_content" />

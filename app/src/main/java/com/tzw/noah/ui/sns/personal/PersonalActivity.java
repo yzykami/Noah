@@ -11,6 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.hp.hpl.sparta.Text;
+import com.netease.nim.demo.session.SessionHelper;
 import com.tzw.noah.R;
 import com.tzw.noah.db.DBManager;
 import com.tzw.noah.logger.Log;
@@ -274,5 +275,7 @@ public class PersonalActivity extends MyBaseActivity {
     }
 
     public void handle_btn2(View view) {
+        String account = user.netEaseId + "";
+        SessionHelper.startP2PSession(this, account);
     }
 }
