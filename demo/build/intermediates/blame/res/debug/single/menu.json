@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\build\\intermediates\\res\\merged\\debug\\menu\\custom_notification_activity_menu.xml",
+        "source": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\res\\menu\\custom_notification_activity_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\build\\intermediates\\res\\merged\\debug\\menu\\main_activity_menu.xml",
+        "source": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\res\\menu\\main_activity_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\build\\intermediates\\res\\merged\\debug\\menu\\global_search_menu.xml",
+        "source": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\res\\menu\\global_search_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\build\\intermediates\\res\\merged\\debug\\menu\\notification_menu.xml",
+        "source": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\res\\menu\\notification_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\build\\intermediates\\res\\merged\\debug\\menu\\message_activity_more_menu.xml",
+        "source": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\res\\menu\\message_activity_more_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\build\\intermediates\\res\\merged\\debug\\menu\\contacts_search_menu.xml",
+        "source": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\bundles\\default\\res\\menu\\contacts_search_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\build\\intermediates\\res\\merged\\debug\\menu\\rts_activity_menu.xml",
+        "source": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\demo\\res\\menu\\rts_activity_menu.xml"
+    }
+]

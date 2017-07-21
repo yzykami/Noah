@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\design_fab_in.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\d95b05f552e4d0b750780fd6ca7e88f56de3ab42\\output\\res\\anim\\design_fab_in.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_in_top.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\c6adfa536466d61ff88c3f88609820879d7f7b2d\\output\\res\\anim\\abc_slide_in_top.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\design_bottom_sheet_slide_in.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\d95b05f552e4d0b750780fd6ca7e88f56de3ab42\\output\\res\\anim\\design_bottom_sheet_slide_in.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\abc_fade_in.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\c6adfa536466d61ff88c3f88609820879d7f7b2d\\output\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\design_snackbar_out.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\d95b05f552e4d0b750780fd6ca7e88f56de3ab42\\output\\res\\anim\\design_snackbar_out.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\abc_popup_enter.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\c6adfa536466d61ff88c3f88609820879d7f7b2d\\output\\res\\anim\\abc_popup_enter.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\abc_popup_exit.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\c6adfa536466d61ff88c3f88609820879d7f7b2d\\output\\res\\anim\\abc_popup_exit.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\abc_shrink_fade_out_from_bottom.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\c6adfa536466d61ff88c3f88609820879d7f7b2d\\output\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\design_fab_out.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\d95b05f552e4d0b750780fd6ca7e88f56de3ab42\\output\\res\\anim\\design_fab_out.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\abc_fade_out.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\c6adfa536466d61ff88c3f88609820879d7f7b2d\\output\\res\\anim\\abc_fade_out.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_in_bottom.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\c6adfa536466d61ff88c3f88609820879d7f7b2d\\output\\res\\anim\\abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\design_bottom_sheet_slide_out.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\d95b05f552e4d0b750780fd6ca7e88f56de3ab42\\output\\res\\anim\\design_bottom_sheet_slide_out.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\abc_grow_fade_in_from_bottom.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\c6adfa536466d61ff88c3f88609820879d7f7b2d\\output\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\design_snackbar_in.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\d95b05f552e4d0b750780fd6ca7e88f56de3ab42\\output\\res\\anim\\design_snackbar_in.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_out_bottom.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\c6adfa536466d61ff88c3f88609820879d7f7b2d\\output\\res\\anim\\abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\sysadmin\\AndroidStudioProjects\\Noah\\uikit\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_out_top.xml",
+        "source": "C:\\Users\\sysadmin\\.android\\build-cache\\c6adfa536466d61ff88c3f88609820879d7f7b2d\\output\\res\\anim\\abc_slide_out_top.xml"
+    }
+]
