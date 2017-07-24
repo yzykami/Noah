@@ -4,13 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Notification;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.Param;
@@ -20,7 +17,6 @@ import com.tzw.noah.ui.MyBaseActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -92,7 +88,7 @@ public class NotificationDetailActivity extends MyBaseActivity {
 
     private void initview() {
 //        tv_title.setText(title);
-        if (notification.type == 0) {
+        if (notification.notificationType == 0) {
             if (notification.handleType == 0) {
                 tv.setText(notification.sourceNickName);
                 tv1.setText("邀请您加入: " + notification.groupName);
@@ -280,7 +276,7 @@ public class NotificationDetailActivity extends MyBaseActivity {
         tv_btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (notification.type == 0) {
+                if (notification.notificationType == 0) {
                     if (notification.handleType == 0) {
                         List<Param> body = new ArrayList<Param>();
                         body.add(new Param("groupId", notification.groupId));
@@ -309,7 +305,7 @@ public class NotificationDetailActivity extends MyBaseActivity {
 
                     }
                 }
-                if (notification.type == 1) {
+                if (notification.notificationType == 1) {
                     if (notification.handleType == 0) {
 
                     } else if (notification.handleType == 3) {
@@ -345,7 +341,7 @@ public class NotificationDetailActivity extends MyBaseActivity {
         tv_btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (notification.type == 0) {
+                if (notification.notificationType == 0) {
                     if (notification.handleType == 0) {
                         List<Param> body = new ArrayList<Param>();
                         body.add(new Param("groupId", notification.groupId));
@@ -374,7 +370,7 @@ public class NotificationDetailActivity extends MyBaseActivity {
 
                     }
                 }
-                if (notification.type == 1) {
+                if (notification.notificationType == 1) {
                     if (notification.handleType == 0) {
 
                     } else if (notification.handleType == 3) {

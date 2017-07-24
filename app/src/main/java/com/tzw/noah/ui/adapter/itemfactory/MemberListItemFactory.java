@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -96,7 +95,7 @@ public class MemberListItemFactory extends AssemblyRecyclerItemFactory<MemberLis
         @Override
         protected void onSetData(int i, GroupMember groupMember) {
 //            imageView.setNum(i);
-            imageView.displayImage(groupMember.memberHeadUrl);
+            imageView.displayImage(groupMember.memberHeadPic);
             tv_name.setText(groupMember.getMemberName());
         }
     }

@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.db.DBManager;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
@@ -146,12 +147,7 @@ public class GroupSelectAdminActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        if (iMsg.Data != null)
-                            items = (List<GroupMember>) iMsg.Data;
-                        else
-                            items = GroupMember.loadMemberRObj(iMsg);
-                        if (items == null)
-                            items = new ArrayList<GroupMember>();
+                        items= DataCenter.getInstance().getOwnerList();
 
                         selected = new ArrayList<>();
                         for (int i = 0; i < items.size(); i++) {

@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
@@ -134,12 +135,8 @@ public class GroupManagerActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        if (iMsg.Data != null)
-                            items = (List<GroupMember>) iMsg.Data;
-                        else
-                            items = GroupMember.loadManager(iMsg);
-                        if (items == null)
-                            items = new ArrayList<GroupMember>();
+
+                        items = DataCenter.getInstance().getManagerList();
                         tv_num.setText(items.size() + "/10");
                     } else {
                         toast(iMsg.getMsg());

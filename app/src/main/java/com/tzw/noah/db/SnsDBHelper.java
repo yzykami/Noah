@@ -57,7 +57,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
         try {
 
-            String sql = "select count(*) as c from sqlite_master where type ='table' and name ='" + tabName.trim() + "' ";
+            String sql = "select count(*) as c from sqlite_master where notificationType ='table' and name ='" + tabName.trim() + "' ";
             cursor = db.rawQuery(sql, null);
             if (cursor.moveToNext()) {
                 int count = cursor.getInt(0);
@@ -86,14 +86,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
         try {
             Class tclass = Class.forName(t.getName());
             Field[] fields = tclass.getDeclaredFields();
-            for (Field field : fields) {
-                Annotation a = field.getAnnotation(MyField.class);
-                if (a == null) {
-                    continue;
-                }
-                String fname = field.getName();
-                Type ftype = field.getType();
-            }
+
             while (c.moveToNext()) {
                 T ins = t.newInstance();
                 for (Field field : fields) {
@@ -101,6 +94,45 @@ public class SnsDBHelper extends SQLiteOpenHelper {
                     if (a == null) {
                         continue;
                     }
+                    String fname = field.getName();
+                    Type ftype = field.getType();
+                    if (ftype.equals(new TypeToken<String>() {
+                    }.getType())) {
+                        field.set(ins, c.getString(c.getColumnIndex(fname)));
+                    }
+                    if (ftype.equals(int.class)) {
+                        field.set(ins, c.getInt(c.getColumnIndex(fname)));
+                    }
+                    if (ftype.equals(double.class)) {
+                        field.set(ins, c.getDouble(c.getColumnIndex(fname)));
+                    }
+                }
+                list.add(ins);
+            }
+        } catch (Exception e) {
+        } finally {
+            if (c != null)
+                c.close();
+        }
+        return list;
+    }
+
+    //查询Sql,返回查询集合, 不判断MyField
+    public <T> List<T> queryAllNoMyField(Class<T> t, String sql) {
+        //sql = "SELECT * FROM Area"
+        List<T> list = new ArrayList<>();
+        Cursor c = db.rawQuery(sql, null);
+        try {
+            Class tclass = Class.forName(t.getName());
+            Field[] fields = tclass.getDeclaredFields();
+
+            while (c.moveToNext()) {
+                T ins = t.newInstance();
+                for (Field field : fields) {
+                    Annotation a = field.getAnnotation(MyField.class);
+//                    if (a == null) {
+//                        continue;
+//                    }
                     String fname = field.getName();
                     Type ftype = field.getType();
                     if (ftype.equals(new TypeToken<String>() {

@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.netease.nim.uikit.cache.DataCacheManager;
+import com.netease.nim.uikit.cache.NimUserInfoCache;
 import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.common.util.storage.StorageType;
@@ -20,6 +22,7 @@ import com.netease.nim.uikit.custom.DefalutTeamSessionCustomization;
 import com.netease.nim.uikit.custom.DefaultUserInfoProvider;
 import com.netease.nim.uikit.custom.DefaultContactProvider;
 import com.netease.nim.uikit.glide.ImageLoaderKit;
+import com.netease.nim.uikit.tzw_relative.GobalObserver;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.SessionEventListener;
 import com.netease.nim.uikit.session.activity.P2PMessageActivity;
@@ -43,6 +46,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -97,6 +101,10 @@ public final class NimUIKit {
 
     // 在线状态变化监听
     private static List<OnlineStateChangeListener> onlineStateChangeListeners;
+
+    //监听点击,回调让主App打开对应界面
+    private static GobalObserver gobalObserver;
+
 
     /**
      * 初始化UIKit, 用户信息、联系人信息使用 {@link DefaultUserInfoProvider}，{@link DefaultContactProvider}
@@ -546,5 +554,32 @@ public final class NimUIKit {
      */
     public static boolean enableOnlineState() {
         return onlineStateContentProvider != null;
+    }
+
+    public static void setGobalObserver(GobalObserver go) {
+        gobalObserver = go;
+    }
+
+    public static void onShowUser(Context context, String account) {
+        if (gobalObserver != null) {
+            String memberNo = "";
+            NimUserInfo nui = NimUserInfoCache.getInstance().getUserInfo(account);
+            try {
+                memberNo = (int) nui.getExtensionMap().get("memberNo") + "";
+            } catch (Exception e) {
+                Toast.makeText(context, "cant fetch nimUser, account = " + account, Toast.LENGTH_LONG).show();
+                return;
+            }
+            gobalObserver.onShowUser(context, memberNo);
+        }
+    }
+
+    public static void onShowTeam(Context context, String account) {
+        if (gobalObserver != null) {
+            String groupId = "";
+            Team team = TeamDataCache.getInstance().getTeamById(account);
+            team.getExtension();
+            gobalObserver.onShowTeam(context, account);
+        }
     }
 }

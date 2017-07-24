@@ -1,7 +1,6 @@
 package com.tzw.noah.models;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.AppContext;
@@ -34,7 +33,7 @@ public class Notification implements Serializable {
     public String handleInfo = "";
     public String handleTime = "";
     public String createTime = "";
-    public int type = 0;
+    public int notificationType = 0;
 
     public static List<Notification> loadList(IMsg iMsg) {
         List<Notification> list = new ArrayList<>();
@@ -42,7 +41,7 @@ public class Notification implements Serializable {
         List<Notification> list2 = load2(iMsg);
 
         for (int i = 0; i < list2.size(); i++) {
-            list2.get(i).type = 1;
+            list2.get(i).notificationType = 1;
         }
         Utils.listAdd(list, list1);
         Utils.listAdd(list, list2);

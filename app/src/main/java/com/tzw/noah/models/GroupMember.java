@@ -21,13 +21,29 @@ public class GroupMember implements Serializable {
     public int memberNo;
     public String memberNickName = "";
     public String memberIntroduce = "";
-    public String memberHeadUrl = "";
+    public String memberHeadPic = "";
     public int memberType = -1;
 
     public String getMemberName() {
         if (groupMemberName.isEmpty())
             return memberNickName;
         return groupMemberName;
+    }
+
+    public static List<User> createUserList(List<GroupMember> list) {
+        List<User> userList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            User u = new User();
+            GroupMember gm = list.get(i);
+            u.memberNo = gm.memberNo;
+//            u.memberId = gm.memberId;
+            u.netEaseId = gm.netEaseId;
+            u.memberNickName = gm.memberNickName;
+            u.memberIntroduce = gm.memberIntroduce;
+            u.memberHeadPic = gm.memberHeadPic;
+            userList.add(u);
+        }
+        return userList;
     }
 
     public static List<GroupMember> loadList(IMsg iMsg) {

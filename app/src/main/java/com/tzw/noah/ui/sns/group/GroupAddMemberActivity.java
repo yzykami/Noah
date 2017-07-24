@@ -86,7 +86,7 @@ public class GroupAddMemberActivity extends MyBaseActivity {
             User u = new User();
             u.memberNo = gm.memberNo;
             u.memberNickName = gm.getMemberName();
-            u.memberHeadPic = gm.memberHeadUrl;
+            u.memberHeadPic = gm.memberHeadPic;
             memberItems.put(u.memberNo, u);
         }
     }

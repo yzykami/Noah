@@ -17,7 +17,7 @@ package com.tzw.noah.widgets.wheelview;
 
 /**
  * The simple Array wheel adapter
- * @param <T> the element type
+ * @param <T> the element notificationType
  */
 public class ArrayWheelAdapter<T> implements WheelAdapter {
 	

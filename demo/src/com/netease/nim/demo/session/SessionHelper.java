@@ -348,7 +348,8 @@ public class SessionHelper {
             @Override
             public void onAvatarClicked(Context context, IMMessage message) {
                 // 一般用于打开用户资料页面
-                UserProfileActivity.start(context, message.getFromAccount());
+                NimUIKit.onShowUser(context, message.getFromAccount());
+//                UserProfileActivity.start(context, message.getFromAccount());
             }
 
             @Override

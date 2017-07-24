@@ -268,7 +268,8 @@ public class NetHelper {
     //获取个人资料，公开，不需要登录
     //sns/details/memberNo/
     public void snsDetails(int id, Callback callback) {
-        String method = "sns/details/memberNo/" + id;
+//        String method = "sns/details/memberNo/" + id;
+        String method = "sns/details/netEaseId/" + id;
         new WIRequest().Get(method, callback);
     }
 

@@ -4,15 +4,17 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.db.SnsDBManager;
 import com.tzw.noah.models.Group;
+import com.tzw.noah.models.GroupMember;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
-import com.tzw.noah.net.WIRequest;
 import com.tzw.noah.utils.NetWorkUtils;
+import com.tzw.noah.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,6 +96,7 @@ public class SnsManager {
                         if (iMsg.isSucceed()) {
                             List<User> userList = User.loadFriendList(iMsg);
                             iMsg.Data = userList;
+                            DataCenter.getInstance().setFriendList((List<User>) iMsg.Data);
                             snsDBManager.UpdateFriendList(userList);
                         }
                     } catch (Exception e) {
@@ -110,6 +113,7 @@ public class SnsManager {
                     if (callback != null) {
                         final IMsg iMsg = createImsg();
                         iMsg.Data = snsDBManager.getSnsFriendList();
+                        DataCenter.getInstance().setFriendList((List<User>) iMsg.Data);
                         mdelivery.post(new Runnable() {
                             @Override
                             public void run() {
@@ -143,6 +147,7 @@ public class SnsManager {
                         if (iMsg.isSucceed()) {
                             List<User> userList = User.loadFollowList(iMsg);
                             iMsg.Data = userList;
+                            DataCenter.getInstance().setFollowList((List<User>) iMsg.Data);
                             snsDBManager.UpdateFollowList(userList);
                         }
                     } catch (Exception e) {
@@ -159,6 +164,7 @@ public class SnsManager {
                     if (callback != null) {
                         final IMsg iMsg = createImsg();
                         iMsg.Data = snsDBManager.getSnsFollowList();
+                        DataCenter.getInstance().setFollowList((List<User>) iMsg.Data);
                         mdelivery.post(new Runnable() {
                             @Override
                             public void run() {
@@ -192,6 +198,7 @@ public class SnsManager {
                         if (iMsg.isSucceed()) {
                             List<User> userList = User.loadFansList(iMsg);
                             iMsg.Data = userList;
+                            DataCenter.getInstance().setFansList((List<User>) iMsg.Data);
                             snsDBManager.UpdateFansList(userList);
                         }
                     } catch (Exception e) {
@@ -208,6 +215,7 @@ public class SnsManager {
                     if (callback != null) {
                         final IMsg iMsg = createImsg();
                         iMsg.Data = snsDBManager.getSnsFansList();
+                        DataCenter.getInstance().setFansList((List<User>) iMsg.Data);
                         mdelivery.post(new Runnable() {
                             @Override
                             public void run() {
@@ -241,6 +249,7 @@ public class SnsManager {
                         if (iMsg.isSucceed()) {
                             List<User> userList = User.loadBlackList(iMsg);
                             iMsg.Data = userList;
+                            DataCenter.getInstance().setBlackList((List<User>) iMsg.Data);
                             snsDBManager.UpdateBlacklist(userList);
                         }
                     } catch (Exception e) {
@@ -257,6 +266,7 @@ public class SnsManager {
                     if (callback != null) {
                         final IMsg iMsg = createImsg();
                         iMsg.Data = snsDBManager.getSnsBlacklist();
+                        DataCenter.getInstance().setBlackList((List<User>) iMsg.Data);
                         mdelivery.post(new Runnable() {
                             @Override
                             public void run() {
@@ -425,10 +435,14 @@ public class SnsManager {
                     try {
                         //保存到本地数据库
                         if (iMsg.isSucceed()) {
-                            List<Group> userList = Group.loadDiscussList(iMsg);
-                            iMsg.Data = userList;
-                            //TODO 保存本地数据库
-                            //snsDBManager.UpdateFriendList(userList);
+                            List<Group> groupList = Group.loadGroupList(iMsg);
+                            List<Group> discussList = Group.loadDiscussList(iMsg);
+                            DataCenter.getInstance().setGroupList(groupList);
+                            DataCenter.getInstance().setDiscussList(discussList);
+                            List<Group> list = new ArrayList<>();
+                            Utils.listAdd(list, groupList);
+                            Utils.listAdd(list, discussList);
+                            snsDBManager.UpdateGroupList(list);
                         }
                     } catch (Exception e) {
 
@@ -438,22 +452,27 @@ public class SnsManager {
                 }
             });
         else {
-//            new Handler().post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (callback != null) {
-//                        final IMsg iMsg = createImsg();
-//                        iMsg.Data = snsDBManager.getSnsFriendList();
-//                        mdelivery.post(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                callback.onAfter();
-//                                callback.onResponse(iMsg);
-//                            }
-//                        });
-//                    }
-//                }
-//            });
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (callback != null) {
+                        final IMsg iMsg = createImsg();
+
+                        List<Group> groupList = snsDBManager.getGroupList();
+                        List<Group> discussList = snsDBManager.getDiscussList();
+                        DataCenter.getInstance().setGroupList(groupList);
+                        DataCenter.getInstance().setDiscussList(discussList);
+
+                        mdelivery.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onAfter();
+                                callback.onResponse(iMsg);
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 
@@ -483,8 +502,83 @@ public class SnsManager {
 
     //获取群成员（多人会话、群组）
     //sns/getMembers
-    public void snsGetMembers(int groupId, Callback callback) {
-        NetHelper.getInstance().snsGetMembers(groupId, callback);
+    public void snsGetMembers(final int groupId, final Callback callback) {
+
+        if (NetWorkUtils.isNetworkAvailable(mContext))
+            NetHelper.getInstance().snsGetMembers(groupId,new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    if (callback != null) {
+                        callback.onAfter();
+                        callback.onFailure(call, e);
+                    }
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        //保存到本地数据库
+                        if (iMsg.isSucceed()) {
+                            List<GroupMember> ownerList = GroupMember.loadOwner(iMsg);
+                            List<GroupMember> managerList = GroupMember.loadManager(iMsg);
+                            List<GroupMember> memberList = GroupMember.loadMemberRObj(iMsg);
+                            DataCenter.getInstance().setOwnerList(ownerList);
+                            DataCenter.getInstance().setManagerList(managerList);
+                            DataCenter.getInstance().setMemberList(memberList);
+                            List<GroupMember> list = new ArrayList<>();
+                            Utils.listAdd(list, ownerList);
+                            Utils.listAdd(list, managerList);
+                            Utils.listAdd(list, memberList);
+                            DataCenter.getInstance().setGroupMemberList(list);
+
+                            snsDBManager.UpdateGroupMemberlist(list);
+
+                            iMsg.Data = list;
+                        }
+                    } catch (Exception e) {
+
+                    }
+                    callback.onAfter();
+                    callback.onResponse(iMsg);
+                }
+            });
+        else {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (callback != null) {
+                        final IMsg iMsg = createImsg();
+
+                        List<GroupMember> ownerList = snsDBManager.getOwnerList(groupId);
+                        List<GroupMember> managerList = snsDBManager.getManagerList(groupId);
+                        List<GroupMember> memberList = snsDBManager.getMemberList(groupId);
+
+                        DataCenter.getInstance().setOwnerList(ownerList);
+                        DataCenter.getInstance().setManagerList(managerList);
+                        DataCenter.getInstance().setMemberList(memberList);
+
+                        List<GroupMember> list = new ArrayList<>();
+                        Utils.listAdd(list, ownerList);
+                        Utils.listAdd(list, managerList);
+                        Utils.listAdd(list, memberList);
+
+                        DataCenter.getInstance().setGroupMemberList(list);
+
+                        iMsg.Data=list;
+
+                        mdelivery.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onAfter();
+                                callback.onResponse(iMsg);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+//        NetHelper.getInstance().snsGetMembers(groupId, callback);
     }
 
     //获取群组的类别
@@ -535,7 +629,7 @@ public class SnsManager {
         NetHelper.getInstance().snsUpdateGroupInfo(groupId, body, callback);
     }
 
-    // 更新群资料
+    // 申请加群
     //sns/applyToGroup
     public void snsApplyToGroup(int groupId, String msg, Callback callback) {
         NetHelper.getInstance().snsApplyToGroup(groupId, msg, callback);
@@ -543,14 +637,14 @@ public class SnsManager {
 
     //审批会员申请入群的请求
     //sns/handleApplyToGroup
-    public void snsHandleApplyToGroup( List<Param> body, Callback callback) {
-        NetHelper.getInstance().snsHandleApplyToGroup( body, callback);
+    public void snsHandleApplyToGroup(List<Param> body, Callback callback) {
+        NetHelper.getInstance().snsHandleApplyToGroup(body, callback);
     }
 
     //是否同意邀请入群
     //sns/handleInviteWithGroup
-    public void snsHandleInviteWithGroup( List<Param> body, Callback callback) {
-        NetHelper.getInstance().snsHandleInviteWithGroup( body, callback);
+    public void snsHandleInviteWithGroup(List<Param> body, Callback callback) {
+        NetHelper.getInstance().snsHandleInviteWithGroup(body, callback);
     }
 
     //群组设置(是否允许成员邀请、是否允许匿名聊天、加群验证方式)

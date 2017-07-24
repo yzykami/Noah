@@ -12,19 +12,16 @@ import android.widget.TextView;
 
 import com.netease.nim.uikit.NimUIKit;
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
-import com.tzw.noah.models.GroupType;
-import com.tzw.noah.models.SnsPerson;
-import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.BottomPopupWindow;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.utils.Utils;
-import com.tzw.noah.utils.ViewUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,13 +29,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.xiaopan.sketch.shaper.CircleImageShaper;
-import me.xiaopan.sketch.util.SketchUtils;
-import me.xiaopan.sketchsample.widget.SampleImageView;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 import okhttp3.Call;
-
-import static com.tzw.noah.R.id.list_view;
 
 /**
  * Created by yzy on 2017/7/3.
@@ -153,7 +145,7 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
             iv.getOptions().setLoadingImage(R.drawable.sns_add_person);
             iv.getOptions().setErrorImage(R.drawable.sns_add_person);
         }
-        iv.displayImage(gm.memberHeadUrl);
+        iv.displayImage(gm.memberHeadPic);
 
         tv_name.setText(gm.getMemberName());
         if (gm.memberNo == -1) {
@@ -255,23 +247,18 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        if (iMsg.Data != null)
-                            items = (List<GroupMember>) iMsg.Data;
-                        else
-                            items = GroupMember.loadList(iMsg);
-                        if (items != null && items.size() > 0) {
+                        items = DataCenter.getInstance().getGroupMemberList();
                             ll_member.removeAllViews();
                             for (int i = 0; i < 5 && i < items.size(); i++) {
-                                items.get(i).memberHeadUrl = "drawable://" + R.drawable.sns_user_default;
+                                items.get(i).memberHeadPic = "drawable://" + R.drawable.sns_user_default;
                                 ll_member.addView(getMemberView(items.get(i)));
                             }
                             GroupMember gm = new GroupMember();
                             gm.memberNo = -1;
-                            gm.memberHeadUrl = "drawable://" + R.drawable.sns_add_person;
+                            gm.memberHeadPic = "drawable://" + R.drawable.sns_add_person;
                             ll_member.addView(getMemberView(gm));
-//                            gm.memberHeadUrl = "drawable://" + R.drawable.sns_delete_person;
+//                            gm.memberHeadPic = "drawable://" + R.drawable.sns_delete_person;
 //                            ll_member.addView(getMemberView(gm));
-                        }
                     } else {
                         toast(iMsg.getMsg());
                     }

@@ -6,23 +6,20 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
-import com.tzw.noah.models.SnsPerson;
-import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +45,7 @@ public class GroupSetAdminActivity extends MyBaseActivity {
 
     Context mContext = GroupSetAdminActivity.this;
 
-    private List<GroupMember> memberlist;
+    private List<GroupMember> items;
 
     String Tag = "GroupSetAdminActivity";
     Group group;
@@ -72,7 +69,7 @@ public class GroupSetAdminActivity extends MyBaseActivity {
             group = (Group) bu.getSerializable("DATA");
         } else
             group = new Group();
-        memberlist = new ArrayList<>();
+        items = new ArrayList<>();
 
 
     }
@@ -93,7 +90,7 @@ public class GroupSetAdminActivity extends MyBaseActivity {
         SampleImageViewHead iv_head = (SampleImageViewHead) sl.findViewById(R.id.iv_head);
         TextView tv_name = (TextView) sl.findViewById(R.id.tv_name);
         tv_name.setText(groupMember.getMemberName());
-        iv_head.displayImage(groupMember.memberHeadUrl);
+        iv_head.displayImage(groupMember.memberHeadPic);
 
         sl.addDrag(SwipeLayout.DragEdge.Right, sl.findViewById(R.id.bottom_wrapper));
 
@@ -153,17 +150,17 @@ public class GroupSetAdminActivity extends MyBaseActivity {
         ll_member.removeAllViews();
         GroupMember gm = new GroupMember();
         gm.groupMemberName = "hehe";
-//        memberlist.add(gm);
-//        memberlist.add(gm);
-        for (int i = 0; i < memberlist.size(); i++) {
-            ll_member.addView(getMemberView(memberlist.get(i)));
+//        items.add(gm);
+//        items.add(gm);
+        for (int i = 0; i < items.size(); i++) {
+            ll_member.addView(getMemberView(items.get(i)));
             View span = new View(mContext);
             span.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (getResources().getDimension(R.dimen.pt1) + 0.5f)));
             span.setBackgroundColor(getResources().getColor(R.color.bg_light));
             ll_member.addView(span);
         }
-        tv_num.setText("管理员(" + memberlist.size() + "/10)");
-        if (memberlist.size() == 0) {
+        tv_num.setText("管理员(" + items.size() + "/10)");
+        if (items.size() == 0) {
             tv_num.setText("管理员");
         }
     }
@@ -189,12 +186,7 @@ public class GroupSetAdminActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        if (iMsg.Data != null)
-                            memberlist = (List<GroupMember>) iMsg.Data;
-                        else
-                            memberlist = GroupMember.loadManager(iMsg);
-                        if (memberlist == null)
-                            memberlist = new ArrayList<GroupMember>();
+                        items= DataCenter.getInstance().getManagerList();
                         initManagerListView();
                     } else {
                         toast(iMsg.getMsg());

@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
@@ -168,7 +168,7 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
             iv.getOptions().setLoadingImage(R.drawable.sns_add_person);
             iv.getOptions().setErrorImage(R.drawable.sns_add_person);
         }
-        iv.displayImage(gm.memberHeadUrl);
+        iv.displayImage(gm.memberHeadPic);
 
         tv_name.setText(gm.getMemberName());
         if (gm.memberNo == -1) {
@@ -227,7 +227,7 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
                         } else {
                             toast(iMsg.getMsg());
                         }
-                    }catch (Exception e ) {
+                    } catch (Exception e) {
                         Log.log(Tag, e);
                     }
                 }
@@ -254,7 +254,7 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
                         } else {
                             toast(iMsg.getMsg());
                         }
-                    }catch (Exception e ) {
+                    } catch (Exception e) {
                         Log.log(Tag, e);
                     }
                 }
@@ -280,23 +280,19 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        if (iMsg.Data != null)
-                            items = (List<GroupMember>) iMsg.Data;
-                        else
-                            items = GroupMember.loadList(iMsg);
-                        if (items != null && items.size() > 0) {
-                            ll_member.removeAllViews();
-                            for (int i = 0; i < 5 && i < items.size(); i++) {
-                                items.get(i).memberHeadUrl = "drawable://" + R.drawable.sns_user_default;
-                                ll_member.addView(getMemberView(items.get(i)));
-                            }
-                            GroupMember gm = new GroupMember();
-                            gm.memberNo = -1;
-                            gm.memberHeadUrl = "drawable://" + R.drawable.sns_add_person;
-                            ll_member.addView(getMemberView(gm));
-//                            gm.memberHeadUrl = "drawable://" + R.drawable.sns_delete_person;
-//                            ll_member.addView(getMemberView(gm));
+                        items = DataCenter.getInstance().getGroupMemberList();
+
+                        ll_member.removeAllViews();
+                        for (int i = 0; i < 5 && i < items.size(); i++) {
+                            items.get(i).memberHeadPic = "drawable://" + R.drawable.sns_user_default;
+                            ll_member.addView(getMemberView(items.get(i)));
                         }
+                        GroupMember gm = new GroupMember();
+                        gm.memberNo = -1;
+                        gm.memberHeadPic = "drawable://" + R.drawable.sns_add_person;
+                        ll_member.addView(getMemberView(gm));
+//                            gm.memberHeadPic = "drawable://" + R.drawable.sns_delete_person;
+//                            ll_member.addView(getMemberView(gm));
                     } else {
                         toast(iMsg.getMsg());
                     }
@@ -327,7 +323,7 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
     }
 
     public void handle_edit_groupname(View view) {
-        if (group.myMemberType==Group.MemberType.MEMBER)
+        if (group.myMemberType == Group.MemberType.MEMBER)
             return;
         Bundle bu = new Bundle();
         bu.putSerializable("DATA", group);
@@ -335,15 +331,15 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
     }
 
     public void handle_edit_introduce(View view) {
-        if (group.myMemberType==Group.MemberType.MEMBER)
-        return;
+        if (group.myMemberType == Group.MemberType.MEMBER)
+            return;
         Bundle bu = new Bundle();
         bu.putSerializable("DATA", group);
         startActivityForResult(100, GroupEditIntroduceActivity.class, bu);
     }
 
     public void handle_edit_bulletin(View view) {
-        if (group.myMemberType==Group.MemberType.MEMBER)
+        if (group.myMemberType == Group.MemberType.MEMBER)
             return;
         Bundle bu = new Bundle();
         bu.putSerializable("DATA", group);

@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.DBManager;
 import com.tzw.noah.logger.Log;
@@ -159,12 +160,8 @@ public class GroupTransferOwnerActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        if (iMsg.Data != null)
-                            items = (List<GroupMember>) iMsg.Data;
-                        else
-                            items = GroupMember.loadList(iMsg);
-                        if (items == null)
-                            items = new ArrayList<GroupMember>();
+
+                        items= DataCenter.getInstance().getGroupMemberList();
                         for (int i = 0; i < items.size(); i++) {
                             if (items.get(i).memberNo == UserCache.getUser().memberNo)
                                 items.remove(i);

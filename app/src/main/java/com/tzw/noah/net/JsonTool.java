@@ -51,7 +51,7 @@ public class JsonTool {
     public static Type getSuperclassTypeParameter(Class<?> subclass) {
         Type superclass = subclass.getGenericSuperclass();
         if (superclass instanceof Class) {
-            throw new RuntimeException("Missing type parameter.");
+            throw new RuntimeException("Missing notificationType parameter.");
         }
         ParameterizedType parameterized = (ParameterizedType) superclass;
         return $Gson$Types.canonicalize(parameterized.getActualTypeArguments()[0]);

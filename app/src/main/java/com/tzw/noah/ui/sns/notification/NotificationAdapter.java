@@ -9,13 +9,11 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.Notification;
-import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.sns.add.GroupApplyActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,7 +93,7 @@ public class NotificationAdapter extends BaseAdapter {
         holder.tv.setText(notification.sourceNickName);
 
         holder.tv2.setText(notification.handleInfo);
-        if (notification.type == 0) {
+        if (notification.notificationType == 0) {
             if (notification.handleType == 0) {
                 holder.tv.setText(notification.sourceNickName);
                 holder.tv1.setText("邀请您加入: " + notification.groupName);
@@ -264,7 +262,7 @@ public class NotificationAdapter extends BaseAdapter {
         holder.tv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (notification.type == 0) {
+                if (notification.notificationType == 0) {
                     if (notification.handleType == 0) {
                         List<Param> body = new ArrayList<Param>();
                         body.add(new Param("groupId", notification.groupId));
@@ -292,7 +290,7 @@ public class NotificationAdapter extends BaseAdapter {
 
                     }
                 }
-                if (notification.type == 1) {
+                if (notification.notificationType == 1) {
                     if (notification.handleType == 0) {
 
                     } else if (notification.handleType == 3) {
@@ -320,7 +318,7 @@ public class NotificationAdapter extends BaseAdapter {
                         });
                     }
                 }
-//                if (notification.type == User.Type.Person) {
+//                if (notification.notificationType == User.Type.Person) {
 //                    new SnsManager(context).snsAttention(notification.memberNo, new StringDialogCallback(myBaseActivity) {
 //                        @Override
 //                        public void onFailure(Call call, IOException e) {

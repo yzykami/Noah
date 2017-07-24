@@ -13,7 +13,7 @@ import java.util.List;
 
 public class User implements Serializable {
 
-    public int memberId;
+//    public int memberId;
     @MyField(name = "id")
     public int memberNo;
     @MyField

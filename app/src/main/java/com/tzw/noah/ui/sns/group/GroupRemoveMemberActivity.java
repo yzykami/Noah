@@ -85,7 +85,7 @@ public class GroupRemoveMemberActivity extends MyBaseActivity {
             User u = new User();
             u.memberNo = gm.memberNo;
             u.memberNickName = gm.getMemberName();
-            u.memberHeadPic = gm.memberHeadUrl;
+            u.memberHeadPic = gm.memberHeadPic;
             if (gm.memberNo == UserCache.getUser().memberNo || gm.memberNo < 0)
                 continue;
             items.add(u);

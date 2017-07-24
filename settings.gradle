@@ -1,1 +1,1 @@
-include ':app', ':mylibrary', ':timeselector', ':uikit', ':demo'
+include ':app', ':mylibrary', ':timeselector', ':uikit', ':demo', ':datacache'

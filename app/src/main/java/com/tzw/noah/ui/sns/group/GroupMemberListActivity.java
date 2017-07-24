@@ -5,11 +5,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
@@ -18,13 +18,10 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.adapter.itemfactory.ChatListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.MemberListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
 import com.tzw.noah.ui.sns.add.AddActivity;
-import com.tzw.noah.ui.sns.chat.ChatActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
-import com.tzw.noah.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +30,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
@@ -164,22 +160,18 @@ public class GroupMemberListActivity extends MyBaseActivity implements MemberLis
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
+
                         List<GroupMember> items;
-                        if (iMsg.Data != null)
-                            items = (List<GroupMember>) iMsg.Data;
-                        else
-                            items = GroupMember.loadList(iMsg);
-                        if (items == null)
-                            items = new ArrayList<GroupMember>();
+                        items = DataCenter.getInstance().getGroupMemberList();
 
                         GroupMember gm = new GroupMember();
                         gm.memberNo = -1;
-                        gm.memberHeadUrl = "drawable://" + R.drawable.sns_add_person;
+                        gm.memberHeadPic = "drawable://" + R.drawable.sns_add_person;
                         items.add(gm);
                         if (group.myMemberType == Group.MemberType.MANAGER || group.myMemberType == Group.MemberType.OWNER) {
                             GroupMember gm2 = new GroupMember();
                             gm2.memberNo = -2;
-                            gm2.memberHeadUrl = "drawable://" + R.drawable.sns_delete_person;
+                            gm2.memberHeadPic = "drawable://" + R.drawable.sns_delete_person;
                             items.add(gm2);
                         }
 
@@ -221,7 +213,7 @@ public class GroupMemberListActivity extends MyBaseActivity implements MemberLis
             User user = new User();
             user.memberNo = gm.memberNo;
             user.memberNickName = gm.getMemberName();
-            user.memberHeadPic = gm.memberHeadUrl;
+            user.memberHeadPic = gm.memberHeadPic;
             bu.putSerializable("DATA", user);
             startActivity(PersonalActivity.class, bu);
         }

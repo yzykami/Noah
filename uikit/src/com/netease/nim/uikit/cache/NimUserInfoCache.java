@@ -6,6 +6,7 @@ import android.util.Log;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.UIKitLogTag;
 import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.netease.nim.uikit.tzw_relative.User;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -188,12 +189,25 @@ public class NimUserInfoCache {
      * @return
      */
     public String getUserDisplayName(String account) {
+
+        String tzwAliasNamme = getTZWAlias(account);
+        if (!TextUtils.isEmpty(tzwAliasNamme)) {
+            return tzwAliasNamme;
+        }
         String alias = getAlias(account);
         if (!TextUtils.isEmpty(alias)) {
             return alias;
         }
 
         return getUserName(account);
+    }
+
+    public String getTZWAlias(String account) {
+        User user = TZWUserCache.getInstance().getFriendByAccount(account);
+        if (user != null && !TextUtils.isEmpty(user.getName())) {
+            return user.getName();
+        }
+        return null;
     }
 
     public String getAlias(String account) {

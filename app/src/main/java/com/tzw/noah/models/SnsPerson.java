@@ -26,7 +26,7 @@ public class SnsPerson {
     public boolean isBlock = false;
     @MyField(name = "unReadNum")
     public int unReadNum = 0;
-    @MyField(name = "type")
+    @MyField(name = "notificationType")
     public int type = 0;
 
     @MyField(name = "memberId")
