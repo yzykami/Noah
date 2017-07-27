@@ -4,6 +4,7 @@
     android:id="@+id/welcome_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/pt50"
     android:orientation="vertical">
 
 </LinearLayout>

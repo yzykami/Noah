@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.UIKitLogTag;
 import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.netease.nim.uikit.tzw_relative.Group;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -219,6 +220,21 @@ public class TeamDataCache {
     }
 
     public String getTeamName(String teamId) {
+        Group group  = TZWTeamCache.getInstance().getTeamByAccount(teamId);
+        if(group!=null)
+        {
+            String teamName="";
+            teamName =group.groupName;
+            if(!TextUtils.isEmpty(teamName))
+                return teamName;
+
+            teamName =group.initialGroupName;
+            if(!TextUtils.isEmpty(teamName)) {
+                return teamName;
+            }
+
+        }
+
         Team team = getTeamById(teamId);
         return team == null ? teamId : TextUtils.isEmpty(team.getName()) ? team.getId() : team
                 .getName();

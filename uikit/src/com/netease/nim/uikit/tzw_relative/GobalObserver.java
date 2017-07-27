@@ -9,11 +9,11 @@ import com.netease.nim.uikit.cache.SimpleCallback;
  */
 
 public interface GobalObserver {
-    void onShowUser(Context context, String account);
+    void onShowUser(Context context, String account, int memberNo);
 
-    void onShowTeam(Context context, String account);
+    void onShowTeam(Context context, String account, int memberNo);
 
-//    void onGetUserInfo(SimpleCallback callback);
+    void onItemAddClick(Context context);
 //
 //    void onGetTeamInfo(SimpleCallback callback);
 }

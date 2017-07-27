@@ -160,7 +160,7 @@ public class MainActivity extends UI {
 
     @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
     public void onBasicPermissionSuccess() {
-        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
         MPermission.printMPermissionResult(false, this, BASIC_PERMISSIONS);
     }
 
@@ -176,7 +176,7 @@ public class MainActivity extends UI {
         showMainFragment();
 
         // 聊天室初始化
-        ChatRoomHelper.init();
+        //ChatRoomHelper.init();
 
         LogUtil.ui("NIM SDK cache path=" + NIMClient.getSdkStorageDirPath());
     }

@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.netease.nim.uikit.cache.SimpleCallback;
 import com.netease.nim.uikit.tzw_relative.GobalObserver;
 import com.tzw.noah.models.User;
+import com.tzw.noah.ui.sns.add.AddActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 
@@ -17,17 +18,17 @@ import com.tzw.noah.utils.Utils;
 
 public class GobalObserverImpl implements GobalObserver {
     @Override
-    public void onShowUser(Context context, String acount) {
+    public void onShowUser(Context context, String acount, int memberNo) {
         Toast.makeText(context, "onShowUser", Toast.LENGTH_LONG).show();
         int netEaseId = Utils.String2Int(acount);
 
         if (netEaseId == 0) {
-
             Toast.makeText(context, "用户id不正确", Toast.LENGTH_LONG).show();
             return;
         }
         User user = new User();
         user.netEaseId = netEaseId;
+        user.memberNo = memberNo;
         Bundle bu = new Bundle();
         bu.putSerializable("DATA", user);
         Intent intent = new Intent(context, PersonalActivity.class);
@@ -36,7 +37,13 @@ public class GobalObserverImpl implements GobalObserver {
     }
 
     @Override
-    public void onShowTeam(Context context, String acount) {
+    public void onShowTeam(Context context, String acount, int groupId) {
         Toast.makeText(context, "onShowTeam", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onItemAddClick(Context context) {
+        Intent intent = new Intent(context, AddActivity.class);
+        context.startActivity(intent);
     }
 }

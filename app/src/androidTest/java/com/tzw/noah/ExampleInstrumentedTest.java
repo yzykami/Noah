@@ -224,7 +224,7 @@ public class ExampleInstrumentedTest {
         User u = new User();
         u.areaId=1;
         u.createTime="123123";
-        u.memberId=10;
+//        u.memberId=10;
         u.totalBonus=0.12;
         u.memberNickName="haha";
 

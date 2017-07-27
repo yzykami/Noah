@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.netease.nim.uikit.cache.DataCacheManager;
 import com.netease.nim.uikit.cache.NimUserInfoCache;
+import com.netease.nim.uikit.cache.TZWUserCache;
 import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.common.util.storage.StorageType;
@@ -34,6 +35,7 @@ import com.netease.nim.uikit.session.viewholder.MsgViewHolderBase;
 import com.netease.nim.uikit.session.viewholder.MsgViewHolderFactory;
 import com.netease.nim.uikit.team.activity.AdvancedTeamInfoActivity;
 import com.netease.nim.uikit.team.activity.NormalTeamInfoActivity;
+import com.netease.nim.uikit.tzw_relative.User;
 import com.netease.nim.uikit.uinfo.UserInfoHelper;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
@@ -564,13 +566,18 @@ public final class NimUIKit {
         if (gobalObserver != null) {
             String memberNo = "";
             NimUserInfo nui = NimUserInfoCache.getInstance().getUserInfo(account);
+            User user = TZWUserCache.getInstance().getFriendByAccount(account);
+            if (user != null) {
+                gobalObserver.onShowUser(context, account, user.memberNo);
+                return;
+            }
             try {
                 memberNo = (int) nui.getExtensionMap().get("memberNo") + "";
             } catch (Exception e) {
                 Toast.makeText(context, "cant fetch nimUser, account = " + account, Toast.LENGTH_LONG).show();
                 return;
             }
-            gobalObserver.onShowUser(context, memberNo);
+            gobalObserver.onShowUser(context, account, 0);
         }
     }
 
@@ -579,7 +586,7 @@ public final class NimUIKit {
             String groupId = "";
             Team team = TeamDataCache.getInstance().getTeamById(account);
             team.getExtension();
-            gobalObserver.onShowTeam(context, account);
+            gobalObserver.onShowTeam(context, account, 0);
         }
     }
 }

@@ -1,12 +1,15 @@
 package com.netease.nim.demo.main.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.netease.nim.demo.NimDemo;
 import com.netease.nim.demo.R;
 import com.netease.nim.demo.common.ui.viewpager.FadeInOutPageTransformer;
 import com.netease.nim.demo.common.ui.viewpager.PagerSlidingTabStrip;
@@ -44,6 +47,10 @@ public class HomeFragment extends TFragment implements OnPageChangeListener, Rem
 
     private View rootView;
 
+    private ImageView iv_add;
+
+    private Context mContext;
+
     public HomeFragment() {
         setContainerId(R.id.welcome_container);
     }
@@ -68,6 +75,12 @@ public class HomeFragment extends TFragment implements OnPageChangeListener, Rem
         registerSystemMessageObservers(true);
         requestSystemMessageUnreadCount();
         initUnreadCover();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -115,6 +128,13 @@ public class HomeFragment extends TFragment implements OnPageChangeListener, Rem
     private void findViews() {
         tabs = findView(R.id.tabs);
         pager = findView(R.id.main_tab_pager);
+        iv_add = findView(R.id.iv_add);
+        iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NimDemo.onItemAddClick(mContext);
+            }
+        });
     }
 
     @Override

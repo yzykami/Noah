@@ -57,7 +57,7 @@ public class Group implements Serializable {
     //@MyField
     public String initialGroupName="";
 
-    public String tag = "";
+//    public String tag = "";
 
 //    public static List<Group> loadDiscussList(IMsg iMsg) {
 //        return iMsg.getModelList("discussRObj", new TypeToken<List<Group>>() {
