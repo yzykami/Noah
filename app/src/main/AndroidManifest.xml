@@ -6,74 +6,75 @@
     <!-- 加入应用需要的权限 -->
     <!-- 网络相关 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <!-- 手机状态 -->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <!-- 读写文件 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- 多媒体 -->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <!-- SDK权限申明, 第三方APP接入时，请将com.netease.nim.demo替换为自己的包名 -->
     <!-- 和下面的uses-permission一起加入到你的AndroidManifest文件中。 -->
     <!--<permission-->
-        <!--android:name="com.netease.nim.demo.permission.RECEIVE_MSG"-->
-        <!--android:protectionLevel="signature"/>-->
+    <!--android:name="com.netease.nim.demo.permission.RECEIVE_MSG"-->
+    <!--android:protectionLevel="signature"/>-->
 
     <!--&lt;!&ndash; 接受SDK消息广播权限， 第三方APP接入时，请将com.netease.nim.demo替换为自己的包名 &ndash;&gt;-->
     <!--<uses-permission android:name="com.netease.nim.demo.permission.RECEIVE_MSG"/>-->
 
     <!--&lt;!&ndash; 小米推送 &ndash;&gt;-->
     <!--<permission-->
-        <!--android:name="com.netease.nim.demo.permission.MIPUSH_RECEIVE"-->
-        <!--android:protectionLevel="signature"/>-->
+    <!--android:name="com.netease.nim.demo.permission.MIPUSH_RECEIVE"-->
+    <!--android:protectionLevel="signature"/>-->
     <!--<uses-permission android:name="com.netease.nim.demo.permission.MIPUSH_RECEIVE"/>-->
 
     <application
         android:name="com.tzw.noah.AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        tools:replace="Android:icon, android:theme"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Design.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        tools:replace="Android:icon, android:theme">
 
         <!-- 如果IDE是Eclipse，此处可将build.gradle中的AMAP_KEY定义拷贝过来。 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value=""/>
+            android:value="" />
 
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="a996579f2169989ee3d71dad8b4eaae1"/>
+            android:value="a996579f2169989ee3d71dad8b4eaae1" />
 
         <!--<uses-library-->
-            <!--android:name="com.google.android.maps"-->
-            <!--android:required="false"/>-->
+        <!--android:name="com.google.android.maps"-->
+        <!--android:required="false"/>-->
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:name=".WelcomeActivity"
+            android:label="@string/app_name"
+            android:theme="@style/WelcomeEntranceActionBarTheme1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -81,69 +82,262 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.home.HomeMainActivity" />
-        <activity android:name=".ui.circle.CirileMainActivity" />
-        <activity android:name=".ui.service.ServiceMainActivity" />
-        <activity android:name=".ui.friend.FriendMainActivity" />
-        <activity android:name=".ui.sns.SnsMainActivity" />
-        <activity android:name=".ui.mine.MineMainActivity" />
-        <activity android:name=".ui.mine.LoginActivity" />
-        <activity android:name=".ui.mine.RegisterActivity" />
-        <activity android:name=".ui.mine.AboutActivity" />
-        <activity android:name=".ui.mine.FeedbackActivity" />
-        <activity android:name=".ui.mine.setting.SettingActivity" />
-        <activity android:name=".ui.mine.setting.PersonalSettingActivity" />
-        <activity android:name=".ui.mine.setting.CommonActivity" />
-        <activity android:name=".ui.mine.setting.SafeActivity" />
-        <activity android:name=".ui.mine.setting.SafeDeviceActivity" />
-        <activity android:name=".ui.mine.setting.SafePwdActivity" />
-        <activity android:name=".ui.mine.setting.personal.NickNameActivity" />
-        <activity android:name=".ui.mine.setting.personal.BirthdayActivity" />
-        <activity android:name=".ui.mine.setting.personal.AreaProvinceActivity" />
-        <activity android:name=".ui.mine.setting.personal.AreaCityActivity" />
-        <activity android:name=".ui.mine.setting.personal.AreaTownActivity" />
-        <activity android:name=".ui.mine.setting.personal.SexActivity" />
-        <activity android:name=".ui.mine.setting.personal.InterestActivity" />
-        <activity android:name=".ui.mine.setting.personal.CharacterActivity" />
-        <activity android:name=".ui.mine.setting.personal.WorkActivity" />
-        <activity android:name=".ui.mine.setting.personal.SignActivity" />
-        <activity android:name=".ui.mine.setting.CommonSizeActivity" />
-        <activity android:name=".ui.sns.friendlist.FriendListActivity" />
-        <activity android:name=".ui.sns.friendlist.BlackListActivity" />
-        <activity android:name=".ui.sns.friendlist.RecommendListActivity" />
-        <activity android:name=".ui.sns.friendlist.RecommendGroupListActivity" />
-        <activity android:name=".ui.sns.friendlist.DiscussListActivity" />
-        <activity android:name=".ui.sns.add.AddActivity" />
-        <activity android:name=".ui.sns.add.BookActivity" />
-        <activity android:name=".ui.sns.add.GroupApplyActivity" />
-        <activity android:name=".ui.sns.add.NearbyListActivity" />
-        <activity android:name=".ui.sns.discuss.DiscussCreateActivity" />
-        <activity android:name=".ui.sns.discuss.DiscussDetailActivity" />
-        <activity android:name=".ui.sns.chat.ChatActivity" />
-        <activity android:name=".ui.sns.personal.PersonalActivity" />
-        <activity android:name=".ui.sns.personal.PersonalMoreActivity" />
-        <activity android:name=".ui.sns.personal.PersonalChatDetailActivity" />
-        <activity android:name=".ui.sns.personal.PersonalEditRemarkNameActivity" />
-        <activity android:name=".ui.sns.group.GroupDetailActivity" />
-        <activity android:name=".ui.sns.group.GroupMemberListActivity" />
-        <activity android:name=".ui.sns.group.GroupManagerActivity" />
-        <activity android:name=".ui.sns.group.GroupEditActivity" />
-        <activity android:name=".ui.sns.group.GroupEditNameActivity" />
-        <activity android:name=".ui.sns.group.GroupEditIntroduceActivity" />
-        <activity android:name=".ui.sns.group.GroupEditBulletinActivity" />
-        <activity android:name=".ui.sns.group.GroupEditMemberNameActivity" />
-        <activity android:name=".ui.sns.group.GroupSetAdminActivity" />
-        <activity android:name=".ui.sns.group.GroupSelectAdminActivity" />
-        <activity android:name=".ui.sns.group.GroupCreateActivity" />
-        <activity android:name=".ui.sns.group.GroupTypeSelectActivity" />
-        <activity android:name=".ui.sns.group.GroupCreateActivity2" />
-        <activity android:name=".ui.sns.group.GroupCreateActivity4" />
-        <activity android:name=".ui.sns.group.GroupAddMemberActivity" />
-        <activity android:name=".ui.sns.group.GroupRemoveMemberActivity" />
-        <activity android:name=".ui.sns.group.GroupEditJoinModeActivity" />
-        <activity android:name=".ui.sns.group.GroupTransferOwnerActivity" />
-        <activity android:name=".ui.sns.notification.NotificationListActivity" />
-        <activity android:name=".ui.sns.notification.NotificationDetailActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.home.HomeMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.circle.CirileMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.service.ServiceMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.friend.FriendMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.SnsMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.MineMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.AboutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.FeedbackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.SettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.PersonalSettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.CommonActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.SafeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.SafeDeviceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.SafePwdActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.personal.NickNameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.personal.BirthdayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.personal.AreaProvinceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.personal.AreaCityActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.personal.AreaTownActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.personal.SexActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.personal.InterestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.personal.CharacterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.personal.WorkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.personal.SignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.setting.CommonSizeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.friendlist.FriendListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.friendlist.BlackListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.friendlist.RecommendListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.friendlist.RecommendGroupListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.friendlist.DiscussListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.add.AddActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.add.BookActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.add.GroupApplyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.add.NearbyListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.discuss.DiscussCreateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.discuss.DiscussDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.chat.ChatActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.personal.PersonalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.personal.PersonalMoreActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.personal.PersonalChatDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.personal.PersonalEditRemarkNameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupMemberListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupManagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupEditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupEditNameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupEditIntroduceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupEditBulletinActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupEditMemberNameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupSetAdminActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupSelectAdminActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupCreateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupTypeSelectActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupCreateActivity2"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupCreateActivity4"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupAddMemberActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupRemoveMemberActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupEditJoinModeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.group.GroupTransferOwnerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.notification.NotificationListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.notification.NotificationDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

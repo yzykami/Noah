@@ -2,6 +2,10 @@ package com.tzw.noah.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.util.Log;
 
 import com.tzw.noah.AppContext;
@@ -11,6 +15,7 @@ import com.tzw.noah.models.User;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -184,5 +189,113 @@ public class Utils {
         if (list1 == null || list1.size() == 0)
             return;
         list.addAll(list1);
+    }
+
+
+    public static Bitmap getSmallBitmap(String filePath)
+    {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, 400, 400);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        options.inPreferredConfig= Bitmap.Config.RGB_565;
+
+        Bitmap bm = BitmapFactory.decodeFile(filePath, options);
+        if(bm == null){
+            return  null;
+        }
+        int degree = readPictureDegree(filePath);
+        bm = rotateBitmap(bm,degree) ;
+        ByteArrayOutputStream baos = null ;
+        try{
+            baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+            byte[] b=baos.toByteArray();
+
+            bm=BitmapFactory.decodeByteArray(b, 0, b.length);
+//            Log.d("debug", b.length+"");
+//
+//            baos = new ByteArrayOutputStream();
+//            bm.compress(Bitmap.CompressFormat.JPEG, 30, baos);
+//            b=baos.toByteArray();
+//
+//            bm=BitmapFactory.decodeByteArray(b, 0, b.length);
+            // Log.d("debug", "第二遍  = "+b.length+"");
+        }finally{
+            try {
+                if(baos != null)
+                    baos.close() ;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return bm ;
+    }
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
+    {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        // Out.print("reqWidth=" + reqWidth + ",reqHeight=" + reqHeight);
+        // Out.print("width=" + width + ",height=" + height);
+
+        if (height > reqHeight || width > reqWidth)
+        {
+
+            // Calculate ratios of height and width to requested height and
+            // width
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will
+            // guarantee
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+
+        return inSampleSize;
+    }
+
+    public static int readPictureDegree(String path) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap,int degress) {
+        if (bitmap != null) {
+            Matrix m = new Matrix();
+            m.postRotate(degress);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), m, true);
+            return bitmap;
+        }
+        return bitmap;
     }
 }

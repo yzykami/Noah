@@ -5,13 +5,13 @@ import com.netease.nimlib.sdk.ServerAddresses;
 /**
  * 网易云信私有化配置项
  */
-class PrivatizationConfig {
+public class PrivatizationConfig {
 
-    static ServerAddresses getServerAddresses() {
+    public static ServerAddresses getServerAddresses() {
         return null;
     }
 
-    static String getAppKey() {
+    public static String getAppKey() {
         return null;
     }
 }

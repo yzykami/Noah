@@ -1,22 +1,47 @@
 package com.tzw.noah.ui.mine;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nim.demo.contact.activity.UserProfileSettingActivity;
+import com.netease.nim.uikit.common.media.picker.PickImageHelper;
+import com.netease.nim.uikit.session.SessionCustomization;
+import com.netease.nim.uikit.session.constant.Extras;
+import com.netease.nim.uikit.session.module.Container;
 import com.tzw.noah.R;
+import com.tzw.noah.action.ImageAction;
 import com.tzw.noah.cache.UserCache;
+import com.tzw.noah.db.SnsDBManager;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
+import com.tzw.noah.net.IMsg;
+import com.tzw.noah.net.NetHelper;
+import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.mine.setting.SettingActivity;
 import com.tzw.noah.ui.sns.add.AddActivity;
 import com.tzw.noah.ui.sns.friendlist.FriendListActivity;
+import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.CircleImageView;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import me.xiaopan.sketchsample.widget.SampleImageViewHead;
+import okhttp3.Call;
 
 /**
  * Created by yzy on 2017/6/8.
@@ -35,7 +60,9 @@ public class MineMainActivity extends MyBaseActivity {
     private TextView tv_airtle_num;
     private TextView tv_reply_num;
     private User user;
-    private ImageView iv_head;
+    private SampleImageViewHead iv_head;
+
+    SessionCustomization customization = new SessionCustomization();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +83,25 @@ public class MineMainActivity extends MyBaseActivity {
         tv_circle_num = (TextView) findViewById(R.id.tv_circle_num);
         tv_airtle_num = (TextView) findViewById(R.id.tv_airtle_num);
         tv_reply_num = (TextView) findViewById(R.id.tv_reply_num);
-        iv_head = (ImageView) findViewById(R.id.iv_head);
+        iv_head = (SampleImageViewHead) findViewById(R.id.iv_head);
+
+        iv_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PickImageHelper.PickImageOption option = new PickImageHelper.PickImageOption();
+                option.titleResId = com.netease.nim.demo.R.string.set_head_image;
+                option.crop = true;
+                option.multiSelect = false;
+                option.cropOutputImageWidth = 720;
+                option.cropOutputImageHeight = 720;
+                PickImageHelper.pickImage(MineMainActivity.this, PICK_AVATAR_REQUEST, option);
+            }
+        });
     }
 
     private void initview() {
+
+
         user = UserCache.getUser();
         boolean islogin = isLogin();
         if (islogin) {
@@ -70,7 +112,7 @@ public class MineMainActivity extends MyBaseActivity {
             }
             sign += "积分 " + user.growth;
             tv_sign.setText(sign);
-            iv_head.setImageResource(R.drawable.mine_login_user);
+            iv_head.displayImage( user.memberHeadPic);
 //            ((CircleImageView)iv_head).setNum(99);
             tv_login.setVisibility(View.GONE);
         } else {
@@ -144,5 +186,106 @@ public class MineMainActivity extends MyBaseActivity {
         Bundle bu = new Bundle();
         bu.putInt("DATA", 3);
         startActivity(FriendListActivity.class, bu);
+    }
+
+
+    private static final int PICK_AVATAR_REQUEST = 0x0E;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == PICK_AVATAR_REQUEST) {
+            String path = data.getStringExtra(com.netease.nim.uikit.session.constant.Extras.EXTRA_FILE_PATH);
+            updateAvatar(path);
+        }
+    }
+
+    public void updateAvatar(String path) {
+        if (TextUtils.isEmpty(path)) {
+            return;
+        }
+
+        File file = new File(path);
+
+        if (file == null) {
+            return;
+        }
+        Log.log(TAG, file.length() + "");
+        Bitmap bm = Utils.getSmallBitmap(path);
+
+        Map<String, File> fileBody = new HashMap<>();
+        fileBody.put("headPortraits", file);
+        NetHelper.getInstance().userReplaceThePicture(fileBody, new StringDialogCallback(this) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+                toast(getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        User user = User.load(iMsg);
+                        UserCache.setUser(user);
+                        new SnsDBManager(mycontext).updateUser(user);
+                        initview();
+                        toast("头像上传成功");
+                    } else {
+                        toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(TAG, e);
+                }
+            }
+        });
+    }
+
+//    private static Boolean isExit = false;
+//    Handler mHandler = new Handler() {
+//
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            isExit = false;
+//        }
+//    };
+//
+//    private void exit() {
+//        if (!isExit) {
+//            isExit = true;
+//            Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+//            // 利用handler延迟发送更改状态信息
+//            mHandler.sendEmptyMessageDelayed(0, 2000);
+//        } else {
+//            finish();
+//            System.exit(0);
+//        }
+//    }
+//
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+//            exit();
+//            return false;
+//        }
+//        return super.dispatchKeyEvent(event);
+//    }
+
+    // 退出时间
+    private long currentBackPressedTime = 0;
+    // 退出间隔
+    private static final int BACK_PRESSED_INTERVAL = 2000;
+    //重写onBackPressed()方法,继承自退出的方法
+    @Override
+    public void onBackPressed() {
+        // 判断时间间隔
+        if (System.currentTimeMillis()- currentBackPressedTime > BACK_PRESSED_INTERVAL) {
+            currentBackPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+        } else {
+            // 退出
+            finish();
+        }
     }
 }

@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,6 +45,8 @@ import com.netease.nimlib.sdk.mixpush.MixPushService;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import java.util.ArrayList;
+
+import android.os.Handler;
 
 /**
  * 主界面
@@ -187,18 +191,7 @@ public class MainActivity extends UI {
         onParseIntent();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mainFragment != null) {
-            if (mainFragment.onBackPressed()) {
-                return;
-            } else {
-                moveTaskToBack(true);
-            }
-        } else {
-            super.onBackPressed();
-        }
-    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -307,5 +300,68 @@ public class MainActivity extends UI {
         // 启动登录
         LoginActivity.start(this);
         finish();
+    }
+
+
+//    private static Boolean isExit = false;
+//    Handler mHandler = new Handler() {
+//
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            isExit = false;
+//        }
+//    };
+//    private void exit() {
+//        if (!isExit) {
+//            isExit = true;
+//            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+//                    Toast.LENGTH_SHORT).show();
+//            // 利用handler延迟发送更改状态信息
+//            mHandler.sendEmptyMessageDelayed(0, 2000);
+//        } else {
+//            finish();
+//            System.exit(0);
+//        }
+//    }
+//
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK
+//                && event.getAction() == KeyEvent.ACTION_DOWN) {
+//            exit();
+//            return false;
+//        }
+//        return super.dispatchKeyEvent(event);
+//    }
+
+    //    @Override
+//    public void onBackPressed() {
+//        if (mainFragment != null) {
+//            if (mainFragment.onBackPressed()) {
+//                return;
+//            } else {
+//                moveTaskToBack(true);
+//            }
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
+
+    // 退出时间
+    private long currentBackPressedTime = 0;
+    // 退出间隔
+    private static final int BACK_PRESSED_INTERVAL = 2000;
+    //重写onBackPressed()方法,继承自退出的方法
+    @Override
+    public void onBackPressed() {
+        // 判断时间间隔
+        if (System.currentTimeMillis()- currentBackPressedTime > BACK_PRESSED_INTERVAL) {
+            currentBackPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+        } else {
+            // 退出
+            finish();
+        }
     }
 }

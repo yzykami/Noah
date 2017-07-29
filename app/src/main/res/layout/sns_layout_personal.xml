@@ -363,6 +363,7 @@
     <RelativeLayout
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/toolbar_padding_top"
         android:layout_height="@dimen/title_height">
 
         <TextView

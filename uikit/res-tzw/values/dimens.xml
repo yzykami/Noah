@@ -55,7 +55,7 @@
     <dimen name="text_big28">28sp</dimen>
     <dimen name="text_big24">24sp</dimen>
     <dimen name="text_big20">20sp</dimen>
-    <dimen name="text_title">16sp</dimen>
+    <dimen name="text_title">18sp</dimen>
     <dimen name="text_title_big">20sp</dimen>
     <dimen name="text_content">14sp</dimen>
     <dimen name="text_comment">12sp</dimen>
@@ -68,7 +68,7 @@
     <dimen name="pt25">25dp</dimen>
     <dimen name="columnHeight">44dp</dimen>
     <dimen name="pt50">50dp</dimen>
-    <dimen name="title_height">50dp</dimen>
+    <dimen name="title_height">44dp</dimen>
     <dimen name="text_title_right">15sp</dimen>
     <dimen name="head">50dp</dimen>
     <dimen name="headtext">60dp</dimen>
@@ -79,7 +79,7 @@
     <dimen name="sns_dialog_corners">8dp</dimen>
     <dimen name="sns_dialog_corners_padding">5.5dp</dimen>
     <dimen name="sns_dialog_corners_text_padding">9dp</dimen>
-    <dimen name="sns_input_btn">20dp</dimen>
+    <dimen name="sns_input_btn">26dp</dimen>
 
 
     <dimen name="sns_dialog_corners_me">-1.5dp</dimen>

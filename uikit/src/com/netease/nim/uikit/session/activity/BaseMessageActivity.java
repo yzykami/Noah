@@ -1,7 +1,12 @@
 package com.netease.nim.uikit.session.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -9,14 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.common.activity.UI;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
+import com.netease.nim.uikit.permission.BaseMPermission;
+import com.netease.nim.uikit.permission.MPermission;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
+import com.netease.nimlib.sdk.avchat.AVChatManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -103,5 +116,52 @@ public abstract class BaseMessageActivity extends UI {
 
         toolbar.addView(view, new Toolbar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT, Gravity.RIGHT | Gravity.CENTER));
     }
+
+    /**
+     * ************************************ 权限检查 ***************************************
+     */
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void checkPermission() {
+        List<String> lackPermissions = new ArrayList<>();//AVChatManager.getInstance().checkPermission(BaseMessageActivity.this);
+        String p1 = Manifest.permission.RECORD_AUDIO;
+        lackPermissions.add(Manifest.permission.RECORD_AUDIO);
+        lackPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        lackPermissions = BaseMPermission.getDeniedPermissions(this,lackPermissions.toArray(new String[lackPermissions.size()]));
+        if (lackPermissions.isEmpty()) {
+            onBasicPermissionSuccess();
+        } else {
+            String[] permissions = new String[lackPermissions.size()];
+            for (int i = 0; i < lackPermissions.size(); i++) {
+                permissions[i] = lackPermissions.get(i);
+            }
+            MPermission.with(this)
+                    .setRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                    .permissions(permissions)
+                    .request();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    private static final int BASIC_PERMISSION_REQUEST_CODE = 0x100;
+    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionSuccess() {
+        onAudioPermissionChecked();
+    }
+
+    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+    @OnMPermissionNeverAskAgain(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionFailed() {
+        Toast.makeText(this, "音视频通话所需权限未全部授权，部分功能可能无法正常运行！", Toast.LENGTH_SHORT).show();
+        onAudioPermissionChecked();
+    }
+
+    private void onAudioPermissionChecked() {
+    }
+
 
 }

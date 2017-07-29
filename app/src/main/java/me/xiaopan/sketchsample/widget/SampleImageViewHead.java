@@ -357,8 +357,8 @@ public class SampleImageViewHead extends SketchImageView {
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return false;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        return false;
+//    }
 }

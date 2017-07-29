@@ -9,10 +9,12 @@ import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.utils.MyMD5;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 
@@ -330,11 +332,11 @@ public class WIRequest {
      * @param bodyName 请求参数SOBJ的名称
      * @param callback 回调接口
      */
-    public void Post(final String method, final List<Param> body, final String bodyName, final Callback callback) {
+    public void Post(final String method, final List<Param> body, Map<String,File> fileBody, final String bodyName, final Callback callback) {
         BuildHeaderLoginKey(body, bodyName);
         final String url = preUrl + method;
         callback.onBefore();
-        httptool.HttpPost(url, header, jsonBody, new Callback() {
+        httptool.HttpPost(url, header, jsonBody,fileBody, new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {
                 if (callback != null) {
@@ -381,15 +383,27 @@ public class WIRequest {
         });
     }
 
-    /*异步调用，body不包含SOBJ名称
+    /*异步调用，body不包含SOBJ名称,不含文件
      *
      * @param method 接口名称
      * @param body 请求参数
      * @param callback 回调接口
      */
     public void Post(String method, List<Param> body, Callback callback) {
-        Post(method, body, "", callback);
+        Post(method, body, null, "", callback);
     }
+
+    /*异步调用，body不包含SOBJ名称,不含文件
+     *
+     * @param method 接口名称
+     * @param body 请求参数
+     * @param callback 回调接口
+     */
+    public void Post(String method, List<Param> body,String bodyName, Callback callback) {
+        Post(method, body, null, bodyName, callback);
+    }
+
+
 
 
     /*同步调用

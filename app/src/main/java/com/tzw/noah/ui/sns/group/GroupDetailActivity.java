@@ -2,9 +2,11 @@ package com.tzw.noah.ui.sns.group;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -78,7 +80,10 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sns_layout_group_detail);
         ButterKnife.bind(this);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
         initdata();
         findview();
         initview();
@@ -248,15 +253,15 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
                 try {
                     if (iMsg.isSucceed()) {
                         items = DataCenter.getInstance().getGroupMemberList();
-                            ll_member.removeAllViews();
-                            for (int i = 0; i < 5 && i < items.size(); i++) {
-                                items.get(i).memberHeadPic = "drawable://" + R.drawable.sns_user_default;
-                                ll_member.addView(getMemberView(items.get(i)));
-                            }
-                            GroupMember gm = new GroupMember();
-                            gm.memberNo = -1;
-                            gm.memberHeadPic = "drawable://" + R.drawable.sns_add_person;
-                            ll_member.addView(getMemberView(gm));
+                        ll_member.removeAllViews();
+                        for (int i = 0; i < 5 && i < items.size(); i++) {
+                            items.get(i).memberHeadPic = "drawable://" + R.drawable.sns_user_default;
+                            ll_member.addView(getMemberView(items.get(i)));
+                        }
+                        GroupMember gm = new GroupMember();
+                        gm.memberNo = -1;
+                        gm.memberHeadPic = "drawable://" + R.drawable.sns_add_person;
+                        ll_member.addView(getMemberView(gm));
 //                            gm.memberHeadPic = "drawable://" + R.drawable.sns_delete_person;
 //                            ll_member.addView(getMemberView(gm));
                     } else {

@@ -9,10 +9,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -211,17 +213,34 @@ public class HttpTool {
         return imsg;
     }
 
+    private static final MediaType MEDIA_TYPE_IMAGE = MediaType.parse("image/*");
+
     //HttpPOST异步请求
-    public void HttpPost(String url, Param[] headers, final String json, final Callback callback) {
+    public void HttpPost(String url, Param[] headers, final String json, Map<String,File> fileBody, final Callback callback) {
 
         Request.Builder builder = new Request.Builder();
         MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody requestBody = null;
-        if (json != null && !json.equals("")) {
-            requestBody = RequestBody.create(MEDIA_TYPE_JSON, json);
-            builder.post(requestBody);
+        if (fileBody == null || fileBody.size() == 0) {
+            if (json != null && !json.equals("")) {
+                requestBody = RequestBody.create(MEDIA_TYPE_JSON, json);
+                builder.post(requestBody);
+            } else {
+                builder.post(Util.EMPTY_REQUEST);
+            }
         } else {
-            builder.post(Util.EMPTY_REQUEST);
+            MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+            for (Map.Entry<String, File> entry : fileBody.entrySet()) {
+                if (entry.getValue() != null) {
+                    if (entry.getValue() instanceof File) {
+                        File f = (File) entry.getValue();
+                        multipartBodyBuilder.addFormDataPart(entry.getKey(), f.getName(),
+                                RequestBody.create(MEDIA_TYPE_IMAGE, f));
+                    }
+                }
+            }
+            requestBody=multipartBodyBuilder.build();
+            builder.post(requestBody);
         }
 
         for (Param param : headers) {
@@ -238,7 +257,7 @@ public class HttpTool {
             public void onFailure(Call call, IOException e) {
                 if (callback != null) {
                     callback.onFailure(call, e);
-                    Log.httpcall(request, e ,json);
+                    Log.httpcall(request, e, json);
                 }
             }
 
@@ -256,7 +275,7 @@ public class HttpTool {
 
                     } catch (Exception e) {
                         imsg = CreateErrorMsgResponse(e.getMessage());
-                        Log.httpcall(request, e ,json);
+                        Log.httpcall(request, e, json);
                     }
                     callback.onResponse(imsg);
                 }

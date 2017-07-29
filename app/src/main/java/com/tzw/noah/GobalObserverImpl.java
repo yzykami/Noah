@@ -19,7 +19,7 @@ import com.tzw.noah.utils.Utils;
 public class GobalObserverImpl implements GobalObserver {
     @Override
     public void onShowUser(Context context, String acount, int memberNo) {
-        Toast.makeText(context, "onShowUser", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "onShowUser", Toast.LENGTH_LONG).show();
         int netEaseId = Utils.String2Int(acount);
 
         if (netEaseId == 0) {
@@ -29,11 +29,17 @@ public class GobalObserverImpl implements GobalObserver {
         User user = new User();
         user.netEaseId = netEaseId;
         user.memberNo = memberNo;
-        Bundle bu = new Bundle();
-        bu.putSerializable("DATA", user);
-        Intent intent = new Intent(context, PersonalActivity.class);
-        intent.putExtras(bu);
-        context.startActivity(intent);
+        if(memberNo==0)
+        {
+
+        }
+        else {
+            Bundle bu = new Bundle();
+            bu.putSerializable("DATA", user);
+            Intent intent = new Intent(context, PersonalActivity.class);
+            intent.putExtras(bu);
+            context.startActivity(intent);
+        }
     }
 
     @Override

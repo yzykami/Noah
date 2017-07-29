@@ -1,8 +1,11 @@
 package com.tzw.noah;
 
+import android.Manifest;
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +15,21 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.netease.nim.uikit.permission.BaseMPermission;
+import com.netease.nim.uikit.permission.MPermission;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
 import com.tzw.noah.ui.circle.CirileMainActivity;
 import com.tzw.noah.ui.friend.FriendMainActivity;
 import com.tzw.noah.ui.home.HomeMainActivity;
 import com.tzw.noah.ui.mine.MineMainActivity;
 import com.tzw.noah.ui.service.ServiceMainActivity;
 import com.tzw.noah.ui.sns.SnsMainActivity;
+
+import java.util.logging.Handler;
 
 public class MainActivity extends TabActivity {
 
@@ -38,17 +49,30 @@ public class MainActivity extends TabActivity {
     private ImageView iv_navi;
     private View tab1;
 
+    private Context mContext = MainActivity.this;
+    private MainActivity instance;
+    private static android.os.Handler mDelivery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        instance = this;
         setContentView(R.layout.activity_main);
+        mDelivery = new android.os.Handler(Looper.getMainLooper());
+        requestBasicPermission();
+        waitLoading();
+
+    }
+
+    private void waitLoading() {
+        iv_navi = (ImageView) findViewById(R.id.iv_navi);
+        iv_navi.setVisibility(View.GONE);
         initview();
 
     }
 
     private void initview() {
+
         tabHost = getTabHost();
         Intent intent1 = new Intent();
         intent1.setClass(MainActivity.this, HomeMainActivity.class);
@@ -106,6 +130,32 @@ public class MainActivity extends TabActivity {
             public void run() {
                 iv_navi.setVisibility(View.GONE);
 //                tab1.setVisibility(View.VISIBLE);
+//                mdelivery.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final String[] BASIC_PERMISSIONS = new String[]{
+//                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                                Manifest.permission.READ_EXTERNAL_STORAGE,
+//                                Manifest.permission.CAMERA,
+//                                Manifest.permission.RECORD_AUDIO,
+//                                Manifest.permission.READ_PHONE_STATE,
+//                                Manifest.permission.INTERNET,
+//                                Manifest.permission.ACCESS_NETWORK_STATE,
+//                                Manifest.permission.ACCESS_WIFI_STATE,
+//                                Manifest.permission.CHANGE_WIFI_STATE,
+//                                Manifest.permission.ACCESS_FINE_LOCATION,
+//                                Manifest.permission.ACCESS_COARSE_LOCATION,
+//                                Manifest.permission.WRITE_SETTINGS,
+//                                Manifest.permission.VIBRATE,
+//                                Manifest.permission.WAKE_LOCK,
+//                                Manifest.permission.BLUETOOTH,
+//                                Manifest.permission.BLUETOOTH_ADMIN,
+//                                Manifest.permission.CHANGE_CONFIGURATION,
+//                                Manifest.permission.MODIFY_AUDIO_SETTINGS
+//                        };
+//                        BaseMPermission.getDeniedPermissions(instance, BASIC_PERMISSIONS);
+//                    }
+//                });
             }
         }, 1500);
 
@@ -211,5 +261,47 @@ public class MainActivity extends TabActivity {
         tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
         tab_mine_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
 
+    }
+
+
+    /**
+     * 基本权限管理
+     */
+    private final String[] BASIC_PERMISSIONS = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+
+    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
+
+    private void requestBasicPermission() {
+        MPermission.printMPermissionResult(true, this, BASIC_PERMISSIONS);
+        MPermission.with(MainActivity.this)
+                .setRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                .permissions(BASIC_PERMISSIONS)
+                .request();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionSuccess() {
+//        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
+        MPermission.printMPermissionResult(false, this, BASIC_PERMISSIONS);
+    }
+
+    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+    @OnMPermissionNeverAskAgain(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionFailed() {
+        Toast.makeText(this, "未全部授权，部分功能可能无法正常运行！", Toast.LENGTH_SHORT).show();
+        MPermission.printMPermissionResult(false, this, BASIC_PERMISSIONS);
     }
 }

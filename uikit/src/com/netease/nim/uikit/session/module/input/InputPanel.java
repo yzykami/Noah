@@ -3,8 +3,11 @@ package com.netease.nim.uikit.session.module.input;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Spannable;
@@ -31,9 +34,14 @@ import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.common.util.string.StringUtil;
+import com.netease.nim.uikit.permission.MPermission;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
 import com.netease.nim.uikit.recent.AitHelper;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.actions.BaseAction;
+import com.netease.nim.uikit.session.activity.BaseMessageActivity;
 import com.netease.nim.uikit.session.emoji.EmoticonPickerView;
 import com.netease.nim.uikit.session.emoji.IEmoticonSelectedListener;
 import com.netease.nim.uikit.session.emoji.MoonUtil;
@@ -41,6 +49,7 @@ import com.netease.nim.uikit.session.module.Container;
 import com.netease.nim.uikit.team.model.TeamExtras;
 import com.netease.nim.uikit.team.model.TeamRequestCode;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.avchat.AVChatManager;
 import com.netease.nimlib.sdk.media.record.AudioRecorder;
 import com.netease.nimlib.sdk.media.record.IAudioRecordCallback;
 import com.netease.nimlib.sdk.media.record.RecordType;
@@ -620,7 +629,10 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     /**
      * 初始化AudioRecord
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initAudioRecord() {
+        //TODO 权限判断
+        ((BaseMessageActivity)container.activity).checkPermission();
         if (audioMessageHelper == null) {
             audioMessageHelper = new AudioRecorder(container.activity, RecordType.AAC, AudioRecorder.DEFAULT_MAX_AUDIO_RECORD_TIME_SECOND, this);
         }

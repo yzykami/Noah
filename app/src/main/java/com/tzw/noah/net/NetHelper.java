@@ -5,8 +5,10 @@ import android.content.Context;
 import com.tzw.noah.AppContext;
 import com.tzw.noah.utils.DeviceUuidFactory;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yzy on 2017/6/14.
@@ -178,6 +180,12 @@ public class NetHelper {
     public void getUserDevice(List<Param> body, Callback callback) {
         String method = "user/device";
         new WIRequest().Post(method, body, callback);
+    }
+
+    //user/replaceThePicture
+    public void userReplaceThePicture(Map<String,File> fileBody, Callback callback) {
+        String method = "user/replaceThePicture";
+        new WIRequest().Post(method, null, fileBody, "", callback);
     }
 
     /////////////////////////////////////////////////////////////////////////////////

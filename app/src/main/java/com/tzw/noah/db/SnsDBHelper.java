@@ -67,7 +67,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
             }
 
         } catch (Exception e) {
-            // TODO: handle exception
+            Log.log("tableIsExist", e);
         }
         return result;
     }
@@ -82,8 +82,9 @@ public class SnsDBHelper extends SQLiteOpenHelper {
     public <T> List<T> queryAll(Class<T> t, String sql) {
         //sql = "SELECT * FROM Area"
         List<T> list = new ArrayList<>();
-        Cursor c = db.rawQuery(sql, null);
+        Cursor c = null;
         try {
+            c = db.rawQuery(sql, null);
             Class tclass = Class.forName(t.getName());
             Field[] fields = tclass.getDeclaredFields();
 
@@ -110,6 +111,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
                 list.add(ins);
             }
         } catch (Exception e) {
+            Log.log("queryAll", e);
         } finally {
             if (c != null)
                 c.close();
@@ -121,8 +123,9 @@ public class SnsDBHelper extends SQLiteOpenHelper {
     public <T> List<T> queryAllNoMyField(Class<T> t, String sql) {
         //sql = "SELECT * FROM Area"
         List<T> list = new ArrayList<>();
-        Cursor c = db.rawQuery(sql, null);
+        Cursor c = null;
         try {
+            c = db.rawQuery(sql, null);
             Class tclass = Class.forName(t.getName());
             Field[] fields = tclass.getDeclaredFields();
 
@@ -149,6 +152,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
                 list.add(ins);
             }
         } catch (Exception e) {
+            Log.log("queryAllNoMyField", e);
         } finally {
             if (c != null)
                 c.close();
@@ -211,6 +215,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
             }
             db.setTransactionSuccessful();  //设置事务成功完成
         } catch (Exception e) {
+            Log.log("insertDeleteMode", e);
         } finally {
             db.endTransaction();    //结束事务
         }
@@ -284,7 +289,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
             }
             db.setTransactionSuccessful();  //设置事务成功完成
         } catch (Exception e) {
-            Log.log("SnsDBHelper", e);
+            Log.log("insertOrUpdate", e);
         } finally {
             db.endTransaction();    //结束事务
         }
@@ -361,7 +366,7 @@ public class SnsDBHelper extends SQLiteOpenHelper {
             }
             db.setTransactionSuccessful();  //设置事务成功完成
         } catch (Exception e) {
-            Log.log("SnsDBHelper", e);
+            Log.log("insertOrUpdate", e);
         } finally {
             db.endTransaction();    //结束事务
         }
