@@ -13,8 +13,10 @@ import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.common.fragment.TFragment;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.actions.BaseAction;
+import com.netease.nim.uikit.session.actions.ChoosePhotoAction;
 import com.netease.nim.uikit.session.actions.ImageAction;
 import com.netease.nim.uikit.session.actions.LocationAction;
+import com.netease.nim.uikit.session.actions.TakePhotoAction;
 import com.netease.nim.uikit.session.actions.VideoAction;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.module.Container;
@@ -236,13 +238,15 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     // 操作面板集合
     protected List<BaseAction> getActionList() {
         List<BaseAction> actions = new ArrayList<>();
-        actions.add(new ImageAction());
+//        actions.add(new ImageAction());
+        actions.add(new ChoosePhotoAction());
+        actions.add(new TakePhotoAction());
         actions.add(new VideoAction());
         actions.add(new LocationAction());
 
-        if (customization != null && customization.actions != null) {
-            actions.addAll(customization.actions);
-        }
+//        if (customization != null && customization.actions != null) {
+//            actions.addAll(customization.actions);
+//        }
         return actions;
     }
 

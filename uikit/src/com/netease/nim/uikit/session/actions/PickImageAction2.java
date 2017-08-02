@@ -1,5 +1,6 @@
 package com.netease.nim.uikit.session.actions;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -22,7 +23,7 @@ import java.io.File;
 /**
  * Created by zhoujianghua on 2015/7/31.
  */
-public abstract class PickImageAction extends BaseAction {
+public abstract class PickImageAction2 extends BaseAction {
 
     private static final int PICK_IMAGE_COUNT = 9;
     private static final int PORTRAIT_IMAGE_WIDTH = 720;
@@ -32,18 +33,19 @@ public abstract class PickImageAction extends BaseAction {
 
     private boolean multiSelect;
     private boolean crop = false;
+    private int requestCode;
 
     protected abstract void onPicked(File file);
 
-    protected PickImageAction(int iconResId, int titleId, boolean multiSelect) {
+    protected PickImageAction2(int iconResId, int titleId, boolean multiSelect) {
         super(iconResId, titleId);
         this.multiSelect = multiSelect;
     }
 
     @Override
     public void onClick() {
-        int requestCode = makeRequestCode(RequestCode.PICK_IMAGE);
-        showSelector(getTitleId(), requestCode, multiSelect, tempFile());
+        requestCode = makeRequestCode(RequestCode.PICK_IMAGE);
+//        showSelector(getTitleId(), requestCode, multiSelect, tempFile());
     }
 
     private String tempFile() {
@@ -67,6 +69,43 @@ public abstract class PickImageAction extends BaseAction {
         PickImageHelper.pickImage(getActivity(), requestCode, option);
     }
 
+
+    protected void takePhoto() {
+        PickImageHelper.PickImageOption option = getOptions();
+
+        int from = PickImageActivity.FROM_CAMERA;
+        if (!option.crop) {
+            PickImageActivity.start(getActivity(), requestCode, from, option.outputPath, option.multiSelect, 1,
+                    true, false, 0, 0);
+        } else {
+            PickImageActivity.start(getActivity(), requestCode, from, option.outputPath, false, 1,
+                    false, true, option.cropOutputImageWidth, option.cropOutputImageHeight);
+        }
+    }
+    protected void choosePhoto() {
+        PickImageHelper.PickImageOption option = getOptions();
+        int from = PickImageActivity.FROM_LOCAL;
+        if (!option.crop) {
+            PickImageActivity.start(getActivity(), requestCode, from, option.outputPath, option.multiSelect,
+                    option.multiSelectMaxCount, true, false, 0, 0);
+        } else {
+            PickImageActivity.start(getActivity(), requestCode, from, option.outputPath, false, 1,
+                    false, true, option.cropOutputImageWidth, option.cropOutputImageHeight);
+        }
+    }
+
+
+    private PickImageHelper.PickImageOption getOptions() {
+        PickImageHelper.PickImageOption option = new PickImageHelper.PickImageOption();
+        option.titleResId = getTitleId();
+        option.multiSelect = multiSelect;
+        option.multiSelectMaxCount = PICK_IMAGE_COUNT;
+        option.crop = crop;
+        option.cropOutputImageWidth = PORTRAIT_IMAGE_WIDTH;
+        option.cropOutputImageHeight = PORTRAIT_IMAGE_WIDTH;
+        option.outputPath = tempFile();
+        return option;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

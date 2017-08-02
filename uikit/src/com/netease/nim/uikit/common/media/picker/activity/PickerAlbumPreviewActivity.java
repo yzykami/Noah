@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,6 +93,10 @@ public class PickerAlbumPreviewActivity extends UI implements OnClickListener, O
 	private ImageButton previewSelectBtn;
 
 	private int mutiSelectLimitSize;
+
+	private ImageView iv_back;
+	private ImageView iv_add;
+	private TextView tv_title;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,8 +108,24 @@ public class PickerAlbumPreviewActivity extends UI implements OnClickListener, O
 		proceedExtras();
 		initActionBar();
 		initUI();
+		initTopViews();
 	}
-	
+	private void initTopViews() {
+		iv_back = (ImageView) findViewById(R.id.iv_back);
+		iv_add = (ImageView) findViewById(R.id.iv_add);
+		tv_title = (TextView) findViewById(R.id.tv_title);
+		tv_title.setText("");
+		iv_back.setVisibility(View.VISIBLE);
+		iv_back.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		iv_add.setVisibility(View.VISIBLE);
+		iv_add.setImageResource(R.drawable.nim_picker_image_selected);
+	}
+
 	private void proceedExtras(){
 		Intent intent = getIntent();
 		isSupportOriginal = intent.getBooleanExtra(Extras.EXTRA_SUPPORT_ORIGINAL, false);
@@ -122,6 +143,7 @@ public class PickerAlbumPreviewActivity extends UI implements OnClickListener, O
 	private void initActionBar(){
 		previewSelectBtn = (ImageButton) findViewById(R.id.picker_image_preview_photos_select);
 		previewSelectBtn.setOnClickListener(this);
+
 	}
 	
 	private void initUI(){		
@@ -157,17 +179,21 @@ public class PickerAlbumPreviewActivity extends UI implements OnClickListener, O
 		PhotoInfo photo = photoLists.get(index);
 		if(photo.isChoose()){
 			previewSelectBtn.setImageResource(R.drawable.nim_picker_image_selected);
+			iv_add.setImageResource(R.drawable.nim_picker_image_selected);
 		}else{
 			previewSelectBtn.setImageResource(R.drawable.nim_picker_preview_unselected);
+			iv_add.setImageResource(R.drawable.nim_picker_preview_unselected);
 		}
 	}
 	
 	private void setTitleIndex(int index) {
 		if (totalSize <= 0) {
 			setTitle("");
+			tv_title.setText("");
 		}else {
 			index++;
 			setTitle(index + "/" + totalSize);
+			tv_title.setText(index + "/" + totalSize);
 		}
 	}
 	
@@ -247,8 +273,10 @@ public class PickerAlbumPreviewActivity extends UI implements OnClickListener, O
 	private void updatePreviewSelectBtnStatus(boolean isChoose){
 		if(isChoose){
 			previewSelectBtn.setImageResource(R.drawable.nim_picker_image_selected);
+			iv_add.setImageResource(R.drawable.nim_picker_image_selected);
 		}else{
 			previewSelectBtn.setImageResource(R.drawable.nim_picker_preview_unselected);
+			iv_add.setImageResource(R.drawable.nim_picker_preview_unselected);
 		}
 	}
 	

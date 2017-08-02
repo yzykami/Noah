@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <me.xiaopan.sketchsample.widget.SampleImageView
                     android:id="@+id/iv_bg"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/sns_group_bg_height"
@@ -99,6 +99,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:onClick="handle_select_picture"
                     android:layout_width="@dimen/head"
                     android:layout_height="@dimen/head"
                     android:layout_marginLeft="@dimen/bj"

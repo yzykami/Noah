@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,6 +60,10 @@ public class PickerAlbumActivity extends UI implements OnAlbumItemClickListener,
 
     private boolean isAlbumPage;
 
+    private ImageView iv_back;
+    private ImageView iv_add;
+    private TextView tv_title;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +71,25 @@ public class PickerAlbumActivity extends UI implements OnAlbumItemClickListener,
 
         ToolBarOptions options = new ToolBarOptions();
         setToolBar(R.id.toolbar, options);
-
+        initTopViews();
         proceedExtra();
         initActionBar();
         initUI();
+    }
+
+    private void initTopViews() {
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_add = (ImageView) findViewById(R.id.iv_add);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title.setText("相册");
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        iv_add.setVisibility(View.GONE);
     }
 
     private void proceedExtra() {
@@ -134,6 +154,7 @@ public class PickerAlbumActivity extends UI implements OnAlbumItemClickListener,
         }
         // update title
         setTitle(info.getAlbumName());
+        tv_title.setText(info.getAlbumName());
         isAlbumPage = false;
     }
 
@@ -253,6 +274,7 @@ public class PickerAlbumActivity extends UI implements OnAlbumItemClickListener,
 
     private void backToAlbumPage() {
         setTitle(R.string.picker_image_folder);
+        tv_title.setText("相册");
         isAlbumPage = true;
         pickerAlbumLayout.setVisibility(View.VISIBLE);
         pickerPhotosLayout.setVisibility(View.GONE);

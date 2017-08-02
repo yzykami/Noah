@@ -221,6 +221,7 @@ public class HttpTool {
         Request.Builder builder = new Request.Builder();
         MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody requestBody = null;
+
         if (fileBody == null || fileBody.size() == 0) {
             if (json != null && !json.equals("")) {
                 requestBody = RequestBody.create(MEDIA_TYPE_JSON, json);

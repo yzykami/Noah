@@ -87,13 +87,14 @@ public class AddAdapter extends BaseAdapter {
 
         final User user = items.get(position);
 
-        if (user.type == User.Type.Person) {
-            holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_group_default);
-            holder.iv_head.getOptions().setErrorImage(R.drawable.sns_group_default);
-        } else {
+//        if (user.type == User.Type.Person) {
+//            holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_group_default);
+//            holder.iv_head.getOptions().setErrorImage(R.drawable.sns_group_default);
+//        } else {
             holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_user_default);
             holder.iv_head.getOptions().setErrorImage(R.drawable.sns_user_default);
-        }
+            holder.iv_head.displayImage(user.memberHeadPic);
+//        }
 
         holder.tv.setText(user.getName());
         holder.tv_sign.setText(user.memberIntroduce);

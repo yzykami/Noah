@@ -244,6 +244,7 @@
     <string name="other">其他</string>
     <string name="phone_number">手机号码</string>
     <string name="set_head_image">设置头像</string>
+    <string name="set_team_image">设置群头像</string>
     <string name="user_info_update_success">设置成功</string>
     <string name="user_info_update_cancel">取消更新</string>
     <string name="user_info_update_failed">设置失败，请重试</string>

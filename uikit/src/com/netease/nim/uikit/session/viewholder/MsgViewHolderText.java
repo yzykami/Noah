@@ -35,7 +35,9 @@ public class MsgViewHolderText extends MsgViewHolderBase {
         layoutDirection();
 
         TextView bodyTextView = findViewById(R.id.nim_message_item_text_body);
-        bodyTextView.setTextColor(isReceivedMessage() ? Color.BLACK : Color.WHITE);
+//        bodyTextView.setTextColor(isReceivedMessage() ? Color.BLACK : Color.BLACK);
+        int textColor = Color.parseColor("#666666");
+        bodyTextView.setTextColor(textColor);
         bodyTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,10 +53,10 @@ public class MsgViewHolderText extends MsgViewHolderBase {
         TextView bodyTextView = findViewById(R.id.nim_message_item_text_body);
         if (isReceivedMessage()) {
             bodyTextView.setBackgroundResource(R.drawable.nim_message_item_left_selector);
-            bodyTextView.setPadding(ScreenUtil.dip2px(15), ScreenUtil.dip2px(8), ScreenUtil.dip2px(10), ScreenUtil.dip2px(8));
+            bodyTextView.setPadding(ScreenUtil.dip2px(16), ScreenUtil.dip2px(6), ScreenUtil.dip2px(10), ScreenUtil.dip2px(6));
         } else {
             bodyTextView.setBackgroundResource(R.drawable.nim_message_item_right_selector);
-            bodyTextView.setPadding(ScreenUtil.dip2px(10), ScreenUtil.dip2px(8), ScreenUtil.dip2px(15), ScreenUtil.dip2px(8));
+            bodyTextView.setPadding(ScreenUtil.dip2px(10), ScreenUtil.dip2px(6), ScreenUtil.dip2px(16), ScreenUtil.dip2px(6));
         }
     }
 

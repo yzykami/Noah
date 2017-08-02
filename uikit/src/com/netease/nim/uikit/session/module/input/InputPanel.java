@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -351,6 +353,10 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
         messageInputBar.setVisibility(View.VISIBLE);
 
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textAudioSwitchLayout.getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.editTextMessage);
+        textAudioSwitchLayout.setLayoutParams(params);
+
         if (needShowInput) {
             uiHandler.postDelayed(showTextRunnable, SHOW_LAYOUT_DELAY);
         } else {
@@ -382,6 +388,10 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
         switchToAudioButtonInInputBar.setVisibility(View.GONE);
         switchToTextButtonInInputBar.setVisibility(View.VISIBLE);
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textAudioSwitchLayout.getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.audioTextSwitchLayout);
+        textAudioSwitchLayout.setLayoutParams(params);
     }
 
     // 点击“+”号按钮，切换更多布局和键盘
@@ -632,7 +642,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void initAudioRecord() {
         //TODO 权限判断
-        ((BaseMessageActivity)container.activity).checkPermission();
+        ((BaseMessageActivity) container.activity).checkPermission();
         if (audioMessageHelper == null) {
             audioMessageHelper = new AudioRecorder(container.activity, RecordType.AAC, AudioRecorder.DEFAULT_MAX_AUDIO_RECORD_TIME_SECOND, this);
         }
@@ -659,7 +669,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
         audioMessageHelper.completeRecord(cancel);
         audioRecordBtn.setText(R.string.record_audio);
-        audioRecordBtn.setBackgroundResource(R.drawable.nim_message_input_edittext_box);
+        audioRecordBtn.setBackgroundResource(R.drawable.bg_gray_border);
         stopAudioRecordAnim();
     }
 
@@ -729,7 +739,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         }
 
         audioRecordBtn.setText(R.string.record_audio_end);
-        audioRecordBtn.setBackgroundResource(R.drawable.nim_message_input_edittext_box_pressed);
+        audioRecordBtn.setBackgroundResource(R.drawable.bg_gray_border_pressed);
 
         updateTimerTip(false); // 初始化语音动画状态
         playAudioRecordAnim();

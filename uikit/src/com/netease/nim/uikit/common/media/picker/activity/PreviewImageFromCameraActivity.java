@@ -43,6 +43,11 @@ public class PreviewImageFromCameraActivity extends UI {
 	private String origImageFilePath;
 
 	private String btnText;
+	private ImageView iv_back;
+	private ImageView iv_add;
+	private TextView tv_title;
+	private TextView tv_right;
+
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,6 +61,36 @@ public class PreviewImageFromCameraActivity extends UI {
 		findViews();
 		initSendBtn();
 		showPicture();
+		initTopViews();
+	}
+
+	private void initTopViews() {
+		iv_back = (ImageView) findViewById(R.id.iv_back);
+		iv_add = (ImageView) findViewById(R.id.iv_add);
+		tv_title = (TextView) findViewById(R.id.tv_title);
+		tv_right = (TextView) findViewById(R.id.tv_right);
+		tv_title.setText("拍摄");
+		iv_back.setVisibility(View.VISIBLE);
+		iv_back.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		iv_add.setVisibility(View.GONE);
+		tv_right.setVisibility(View.VISIBLE);
+		tv_right.setText("重拍");
+		tv_right.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				deleteTempFile();
+				Intent intent = new Intent();
+				intent.setClass(PreviewImageFromCameraActivity.this, getIntent().getClass());
+				intent.putExtra(RESULT_RETAKE, true);
+				setResult(RESULT_OK, intent);
+				PreviewImageFromCameraActivity.this.finish();
+			}
+		});
 	}
 
 	private void findViews() {

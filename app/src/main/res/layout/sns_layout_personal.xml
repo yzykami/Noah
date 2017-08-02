@@ -55,6 +55,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_gravity="center"
+                        android:scaleType="centerCrop"
                         android:background="@drawable/sns_user_default" />
 
                     <RelativeLayout
@@ -73,12 +74,13 @@
                             android:textSize="@dimen/sp17" />
 
                         <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
+                            android:id="@+id/iv_sex"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/pt5"
                             android:layout_toRightOf="@+id/tv_name"
-                            android:src="@drawable/sns_book" />
+                            android:src="@drawable/sns_sex_male" />
                     </RelativeLayout>
 
                     <TextView

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -69,6 +70,8 @@ public class PersonalActivity extends MyBaseActivity {
     ListenedScrollView scrollView;
     @BindView(R.id.iv_head)
     SampleImageViewHead iv_head;
+    @BindView(R.id.iv_sex)
+    ImageView iv_sex;
     @BindView(R.id.rl_top)
     RelativeLayout rl_top;
 
@@ -109,6 +112,7 @@ public class PersonalActivity extends MyBaseActivity {
 
     private void initview() {
         tv_name.setText(user.getName());
+        iv_head.displayImage(user.memberHeadPic);
         tv_id.setText("会员号: " + user.memberNo);
         String day = "";
         if (user.createTime.length() > 10) {
@@ -120,6 +124,10 @@ public class PersonalActivity extends MyBaseActivity {
         tv_character.setText(getCharacterByID(user.memberCharacter));
         tv_job.setText(getWorkbyID(user.memberWork));
         tv_sign.setText(user.memberIntroduce);
+        if(user.memberSex==1)
+        {
+            iv_sex.setImageResource(R.drawable.sns_sex_female);
+        }
 
         tv_relate.setText(user.getRelative());
 

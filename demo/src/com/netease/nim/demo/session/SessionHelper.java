@@ -235,9 +235,9 @@ public class SessionHelper {
 
             // 定制加号点开后可以包含的操作， 默认已经有图片，视频等消息了
             ArrayList<BaseAction> actions = new ArrayList<>();
-            actions.add(new SnapChatAction());
-            actions.add(new GuessAction());
-            actions.add(new FileAction());
+//            actions.add(new SnapChatAction());
+//            actions.add(new GuessAction());
+//            actions.add(new FileAction());
             myP2pCustomization.actions = actions;
             myP2pCustomization.withSticker = true;
             // 定制ActionBar右边的按钮，可以加多个
@@ -265,10 +265,10 @@ public class SessionHelper {
             TeamAVChatHelper.sharedInstance().registerObserver(true);
 
             ArrayList<BaseAction> actions = new ArrayList<>();
-            actions.add(avChatAction);
-            actions.add(new GuessAction());
-            actions.add(new FileAction());
-            actions.add(new TipAction());
+//            actions.add(avChatAction);
+//            actions.add(new GuessAction());
+//            actions.add(new FileAction());
+//            actions.add(new TipAction());
 
             teamCustomization = new SessionCustomization() {
                 @Override

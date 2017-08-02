@@ -91,9 +91,12 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sns_layout_group_detail);
+        setContentView(R.layout.sns_layout_discuss_detail);
         ButterKnife.bind(this);
-
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+//            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+//        }
         initdata();
         findview();
         initview();

@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.common.activity.UI;
@@ -24,6 +26,10 @@ public class CropImageActivity extends UI {
     private String filePath;
 
     private CropImageView cropImageView;
+
+    private ImageView iv_back;
+    private ImageView iv_add;
+    private TextView tv_title;
 
     public static void startForData(Activity activity, String srcFile, int outputX, int outputY, int requestCode) {
         Intent intent = new Intent(activity, CropImageActivity.class);
@@ -52,12 +58,25 @@ public class CropImageActivity extends UI {
         ToolBarOptions options = new ToolBarOptions();
         options.titleId = R.string.crop;
         setToolBar(R.id.toolbar, options);
-
+        initTopViews();
         processIntent();
 
         initCropImageView();
     }
-
+    private void initTopViews() {
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_add = (ImageView) findViewById(R.id.iv_add);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title.setText("裁剪");
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        iv_add.setVisibility(View.GONE);
+    }
     @Override
     protected void onDestroy() {
         cropImageView.clear();

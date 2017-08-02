@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.cache.FriendDataCache;
 import com.netease.nim.uikit.cache.SimpleCallback;
@@ -44,6 +46,10 @@ public class TeamMessageActivity extends BaseMessageActivity {
     private TeamMessageFragment fragment;
 
     private Class<? extends Activity> backToClass;
+    private ImageView iv_back;
+    private ImageView iv_add;
+    private TextView tv_title;
+    Context mContext;
 
     public static void start(Context context, String tid, SessionCustomization customization,
                              Class<? extends Activity> backToClass, IMMessage anchor) {
@@ -63,16 +69,38 @@ public class TeamMessageActivity extends BaseMessageActivity {
     protected void findViews() {
         invalidTeamTipView = findView(R.id.invalid_team_tip);
         invalidTeamTipText = findView(R.id.invalid_team_text);
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mContext = this;
         backToClass = (Class<? extends Activity>) getIntent().getSerializableExtra(Extras.EXTRA_BACK_TO_CLASS);
         findViews();
-
+        initTopViews();
         registerTeamUpdateObserver(true);
+    }
+
+    private void initTopViews() {
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_add = (ImageView) findViewById(R.id.iv_add);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title.setText("");
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NimUIKit.onShowTeam(mContext, sessionId);
+            }
+        });
+        iv_add.setImageResource(R.drawable.sns_group_info);
     }
 
     @Override
@@ -129,7 +157,12 @@ public class TeamMessageActivity extends BaseMessageActivity {
         team = d;
         fragment.setTeam(team);
 
-        setTitle(team == null ? sessionId : team.getName() + "(" + team.getMemberCount() + "人)");
+        String title = "";
+        String teamName = TeamDataCache.getInstance().getTeamName(sessionId);
+        if (teamName.length() > 15)
+            teamName = teamName.substring(0, 15) + "...";
+        setTitle(title = team == null ? sessionId : teamName + "(" + team.getMemberCount() + "人)");
+        tv_title.setText(title);
 
         invalidTeamTipText.setText(team.getType() == TeamTypeEnum.Normal ? R.string.normal_team_invalid_tip : R.string.team_invalid_tip);
         invalidTeamTipView.setVisibility(team.isMyTeam() ? View.GONE : View.VISIBLE);

@@ -88,13 +88,15 @@ public class MineMainActivity extends MyBaseActivity {
         iv_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PickImageHelper.PickImageOption option = new PickImageHelper.PickImageOption();
-                option.titleResId = com.netease.nim.demo.R.string.set_head_image;
-                option.crop = true;
-                option.multiSelect = false;
-                option.cropOutputImageWidth = 720;
-                option.cropOutputImageHeight = 720;
-                PickImageHelper.pickImage(MineMainActivity.this, PICK_AVATAR_REQUEST, option);
+                if(isLogin()) {
+                    PickImageHelper.PickImageOption option = new PickImageHelper.PickImageOption();
+                    option.titleResId = com.netease.nim.demo.R.string.set_head_image;
+                    option.crop = true;
+                    option.multiSelect = false;
+                    option.cropOutputImageWidth = 720;
+                    option.cropOutputImageHeight = 720;
+                    PickImageHelper.pickImage(MineMainActivity.this, PICK_AVATAR_REQUEST, option);
+                }
             }
         });
     }
@@ -126,7 +128,7 @@ public class MineMainActivity extends MyBaseActivity {
             });
             tv_name.setText("未登录");
             tv_sign.setText("1秒登录，专享个性化服务");
-            iv_head.setImageResource(R.drawable.default_user);
+            iv_head.setImageResource(R.drawable.sns_user_default);
         }
     }
 
@@ -210,8 +212,9 @@ public class MineMainActivity extends MyBaseActivity {
         if (file == null) {
             return;
         }
-        Log.log(TAG, file.length() + "");
+        Log.log(TAG, "上传头像大小 = "+file.length() + "");
         Bitmap bm = Utils.getSmallBitmap(path);
+        Log.log(TAG, "上传头像大小 = "+bm.getByteCount() + "");
 
         Map<String, File> fileBody = new HashMap<>();
         fileBody.put("headPortraits", file);

@@ -537,4 +537,11 @@ public class NetHelper {
         String method = "sns/recommendGroup";
         new WIRequest().Get(method, callback);
     }
+
+    //更新多人会话和群组头像
+    //sns/uploadIconToGroup
+    public void snsUploadIconToGroup(int groupId, Map<String,File> fileBody, Callback callback) {
+        String method = "sns/uploadIconToGroup/"+groupId;
+        new WIRequest().Post(method, null, fileBody, "", callback);
+    }
 }

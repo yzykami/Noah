@@ -18,6 +18,9 @@ import net.sourceforge.pinyin4j.PinyinHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.sketchsample.widget.SampleImageView;
+import me.xiaopan.sketchsample.widget.SampleImageViewHead;
+
 /**
  * Created by yzy on 2017/6/29.
  */
@@ -60,6 +63,7 @@ public class FriendAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.tag = (TextView) convertView.findViewById(R.id.tag);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_name);
+            holder.iv_head = (SampleImageViewHead) convertView.findViewById(R.id.iv_head);
             holder.tv_sign = (TextView) convertView.findViewById(R.id.tv_sign);
             holder.view = convertView;
             convertView.setTag(holder);
@@ -70,6 +74,7 @@ public class FriendAdapter extends BaseAdapter {
         User user = items.get(position);
         holder.tv.setText(user.getName());
         holder.tv_sign.setText(user.memberIntroduce);
+        holder.iv_head.displayImage(user.memberHeadPic);
 
         boolean isSame = false;
         String tag = "#";
@@ -99,5 +104,6 @@ public class FriendAdapter extends BaseAdapter {
         public View view;
         public TextView tag;
         public TextView tv_sign;
+        public SampleImageViewHead iv_head;
     }
 }

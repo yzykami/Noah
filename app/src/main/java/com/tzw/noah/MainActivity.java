@@ -89,7 +89,7 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(tabHost.newTabSpec("3").setIndicator("3").setContent(intent3));
 
         Intent intent4 = new Intent();
-        intent4.setClass(MainActivity.this, ServiceMainActivity.class);
+        intent4.setClass(MainActivity.this, SnsMainActivity.class);//ServiceMainActivity.class);
         tabHost.addTab(tabHost.newTabSpec("4").setIndicator("4").setContent(intent4));
 
         Intent intent5 = new Intent();

@@ -31,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.xiaopan.sketchsample.widget.SampleImageView;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 import okhttp3.Call;
 
@@ -63,6 +64,8 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
     TextView tv_introduce;
     @BindView(R.id.tv_count)
     TextView tv_count;
+    @BindView(R.id.iv_bg)
+    SampleImageView iv_bg;
 
     boolean isIvTop = false;
     boolean isIvSlient = false;
@@ -124,6 +127,10 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
             rl_manager.setVisibility(View.GONE);
         setBackground(iv_top, isIvTop);
         setBackground(iv_slient, isIvSlient);
+
+        iv_bg.getOptions().setErrorImage(R.drawable.sns_group_bg);
+        iv_bg.getOptions().setLoadingImage(R.drawable.sns_group_bg);
+        iv_bg.displayImage(group.groupHeader);
     }
 
     private View getMemberView(GroupMember gm) {

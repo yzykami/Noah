@@ -3,6 +3,9 @@ package com.netease.nim.uikit.session.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -36,6 +39,10 @@ import java.util.Set;
 public class P2PMessageActivity extends BaseMessageActivity {
 
     private boolean isResume = false;
+    ImageView iv_back;
+    ImageView iv_add;
+    private TextView tv_title;
+    Context mContext;
 
     public static void start(Context context, String contactId, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
@@ -54,6 +61,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mContext = this;
         // 单聊特例话数据，包括个人信息，
         requestBuddyInfo();
         displayOnlineState();
@@ -81,7 +89,26 @@ public class P2PMessageActivity extends BaseMessageActivity {
     }
 
     private void requestBuddyInfo() {
-        setTitle(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+        String username;
+        setTitle(username = UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_add = (ImageView) findViewById(R.id.iv_add);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title.setText(username);
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NimUIKit.onShowUser(mContext, sessionId);
+            }
+        });
+        iv_add.setImageResource(R.drawable.sns_person_info);
     }
 
     private void registerObservers(boolean register) {

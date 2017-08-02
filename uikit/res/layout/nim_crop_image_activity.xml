@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        android:visibility="gone">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -20,12 +21,15 @@
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+    <include
+        android:id="@+id/rl_top"
+        layout="@layout/tzw_top" />
 
     <com.netease.nim.uikit.common.ui.imageview.CropImageView
         android:id="@+id/cropable_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/app_bar_layout" />
+        android:layout_below="@id/rl_top" />
 
 
     <LinearLayout

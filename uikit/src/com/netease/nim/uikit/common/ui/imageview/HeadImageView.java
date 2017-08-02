@@ -7,6 +7,9 @@ import android.util.AttributeSet;
 import com.bumptech.glide.Glide;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
+import com.netease.nim.uikit.cache.TZWTeamCache;
+import com.netease.nim.uikit.cache.TeamDataCache;
+import com.netease.nim.uikit.tzw_relative.Group;
 import com.netease.nimlib.sdk.nos.model.NosThumbParam;
 import com.netease.nimlib.sdk.nos.util.NosThumbImageUtil;
 import com.netease.nimlib.sdk.team.model.Team;
@@ -49,7 +52,15 @@ public class HeadImageView extends CircleImageView {
      * @param team 群
      */
     public void loadTeamIconByTeam(final Team team) {
-        doLoadImage(team != null ? team.getIcon() : null, R.drawable.nim_avatar_group, DEFAULT_AVATAR_THUMB_SIZE);
+        Group group = TZWTeamCache.getInstance().getTeamByAccount(team.getId());
+        if (group != null) {
+            if (group.groupAttribute == Group.Type.GROUP) {
+                doLoadImage(team != null ? team.getIcon() : null, R.drawable.nim_avatar_group, DEFAULT_AVATAR_THUMB_SIZE);
+            } else {
+                doLoadImage(team != null ? team.getIcon() : null, R.drawable.sns_discuss_default, DEFAULT_AVATAR_THUMB_SIZE);
+            }
+        } else
+            doLoadImage(team != null ? team.getIcon() : null, R.drawable.nim_avatar_group, DEFAULT_AVATAR_THUMB_SIZE);
     }
 
     /**

@@ -20,7 +20,7 @@ public class VideoAction extends BaseAction {
     protected VideoMessageHelper videoMessageHelper;
 
     public VideoAction() {
-        super(R.drawable.nim_message_plus_video_selector, R.string.input_panel_video);
+        super(R.drawable.sns_icon_takevideo, R.string.input_panel_video);
 
     }
 

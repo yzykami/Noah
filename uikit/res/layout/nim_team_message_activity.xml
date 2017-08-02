@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
+        android:visibility="gone"
         app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
@@ -19,7 +20,9 @@
             android:background="?attr/colorPrimary"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
     </android.support.design.widget.AppBarLayout>
-
+    <include
+        android:id="@+id/rl_top"
+        layout="@layout/tzw_top" />
     <RelativeLayout
         android:id="@+id/invalid_team_tip"
         android:layout_width="match_parent"

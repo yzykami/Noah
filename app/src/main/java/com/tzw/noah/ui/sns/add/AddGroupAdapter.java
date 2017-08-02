@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
@@ -79,6 +80,10 @@ public class AddGroupAdapter extends BaseAdapter {
             holder.tv_add = (TextView) convertView.findViewById(R.id.tv_add);
             holder.tv_sign = (TextView) convertView.findViewById(R.id.tv_sign);
             holder.iv_head = (SampleImageViewHead) convertView.findViewById(R.id.iv_head);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.iv_head.getLayoutParams();
+            layoutParams.width = (int) (context.getResources().getDimension(R.dimen.groupHead) + 0.5f);
+            layoutParams.height = (int) (context.getResources().getDimension(R.dimen.groupHead) + 0.5f);
+            holder.iv_head.setLayoutParams(layoutParams);
             holder.view = convertView;
             convertView.setTag(holder);
         } else {

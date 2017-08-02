@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
@@ -14,6 +15,7 @@ import com.tzw.noah.models.User;
 import java.util.List;
 
 import me.xiaopan.sketchsample.widget.SampleImageView;
+import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 
 /**
  * Created by yzy on 2017/6/29.
@@ -58,8 +60,7 @@ public class GroupAdapter extends BaseAdapter {
             holder.tag = (TextView) convertView.findViewById(R.id.tag);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_name);
             holder.tv_sign = (TextView) convertView.findViewById(R.id.tv_sign);
-            holder.iv_head = (SampleImageView) convertView.findViewById(R.id.iv_head);
-            holder.iv_head.setImageResource(R.drawable.sns_group_default);
+            holder.iv_head = (SampleImageViewHead) convertView.findViewById(R.id.iv_head);
             holder.view = convertView;
             convertView.setTag(holder);
         } else {
@@ -72,6 +73,27 @@ public class GroupAdapter extends BaseAdapter {
         else
             holder.tv.setText(group.groupName);
         holder.tv_sign.setText(group.groupIntroduction);
+
+        if(group.groupAttribute==Group.Type.GROUP)
+        {
+            holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_group_default);
+            holder.iv_head.getOptions().setErrorImage(R.drawable.sns_group_default);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.iv_head.getLayoutParams();
+            layoutParams.width = (int) (context.getResources().getDimension(R.dimen.groupHead) + 0.5f);
+            layoutParams.height = (int) (context.getResources().getDimension(R.dimen.groupHead) + 0.5f);
+            holder.iv_head.setLayoutParams(layoutParams);
+        }
+        else
+        {
+            holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_discuss_default);
+            holder.iv_head.getOptions().setErrorImage(R.drawable.sns_discuss_default);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.iv_head.getLayoutParams();
+            layoutParams.width = (int) (context.getResources().getDimension(R.dimen.head) + 0.5f);
+            layoutParams.height = (int) (context.getResources().getDimension(R.dimen.head) + 0.5f);
+            holder.iv_head.setLayoutParams(layoutParams);
+        }
+
+        holder.iv_head.displayImage(group.groupHeader);
 
         boolean isSame = false;
         String tag = "";
@@ -101,6 +123,6 @@ public class GroupAdapter extends BaseAdapter {
         public View view;
         public TextView tag;
         public TextView tv_sign;
-        public SampleImageView iv_head;
+        public SampleImageViewHead iv_head;
     }
 }

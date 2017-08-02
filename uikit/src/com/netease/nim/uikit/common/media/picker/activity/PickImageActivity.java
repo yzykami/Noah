@@ -10,8 +10,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.common.activity.UI;
 import com.netease.nim.uikit.common.media.picker.model.PhotoInfo;
@@ -37,6 +41,10 @@ public class PickImageActivity extends UI {
     private static final int REQUEST_CODE_CAMERA = FROM_CAMERA;
 
     private boolean inited = false;
+
+    private ImageView iv_back;
+    private ImageView iv_add;
+    private TextView tv_title;
 
     public static void start(Activity activity, int requestCode, int from, String outPath) {
         Intent intent = new Intent(activity, PickImageActivity.class);
@@ -66,8 +74,22 @@ public class PickImageActivity extends UI {
         setContentView(R.layout.nim_pick_image_activity);
         ToolBarOptions options = new ToolBarOptions();
         setToolBar(R.id.toolbar, options);
+//        initTopViews();
     }
-
+    private void initTopViews() {
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_add = (ImageView) findViewById(R.id.iv_add);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title.setText("相册");
+        iv_back.setVisibility(View.VISIBLE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        iv_add.setVisibility(View.GONE);
+    }
     @Override
     protected void onResume() {
         super.onResume();
