@@ -273,6 +273,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
+                android:visibility="gone"
                 android:background="@color/white">
 
                 <ImageView
@@ -299,7 +300,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
-                android:layout_marginTop="@dimen/pt1"
+                android:layout_marginTop="@dimen/pt12"
                 android:background="@color/white">
 
                 <TextView
@@ -329,6 +330,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
+                android:visibility="gone"
                 android:background="@color/white">
 
                 <TextView
@@ -356,6 +358,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
+                android:visibility="gone"
                 android:background="@color/white">
 
                 <TextView
@@ -382,6 +385,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
+                android:visibility="gone"
                 android:background="@color/white">
 
                 <TextView

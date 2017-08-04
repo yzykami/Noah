@@ -166,8 +166,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
-                android:onClick="handle_edit_groupmembername"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:onClick="handle_edit_groupmembername">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -270,7 +270,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv_top"
@@ -296,7 +297,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
-                android:layout_marginTop="@dimen/pt1"
+                android:layout_marginTop="@dimen/pt12"
                 android:background="@color/white">
 
                 <TextView
@@ -326,7 +327,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -353,6 +355,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
+                android:visibility="gone"
                 android:background="@color/white">
 
                 <TextView
@@ -379,6 +382,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
+                android:visibility="gone"
                 android:background="@color/white">
 
                 <TextView
@@ -388,7 +392,7 @@
                     android:layout_marginLeft="@dimen/bj"
                     android:text="清空聊天记录"
                     android:textColor="@color/textDarkGray"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp14"/>
 
 
                 <ImageView
@@ -453,7 +457,8 @@
                     android:layout_marginLeft="@dimen/bj"
                     android:text="投诉"
                     android:textColor="@color/textDarkGray"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp14"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="wrap_content"

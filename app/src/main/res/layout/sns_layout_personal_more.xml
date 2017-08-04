@@ -79,7 +79,8 @@
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt15"
                 android:background="@color/white"
-                android:onClick="handle_size">
+                android:onClick="handle_size"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -131,6 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"
+                android:visibility="gone"
                 android:background="@color/white">
 
                 <ImageView
@@ -157,6 +159,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/pt1"
                 android:background="@color/white">
 
@@ -212,6 +215,7 @@
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
                 android:background="@color/white"
+                android:visibility="gone"
                 android:onClick="handle_size">
 
                 <TextView

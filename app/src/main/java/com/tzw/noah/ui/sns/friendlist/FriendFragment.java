@@ -23,6 +23,7 @@ import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.add.NearbyListActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
+import com.tzw.noah.ui.sns.relationrecord.RelationRecordListActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.utils.ViewUtils;
 import com.tzw.noah.widgets.WordNaviView;
@@ -95,6 +96,8 @@ public class FriendFragment extends MyFragment {
 
         list_view.addHeaderView(ViewUtils.getHeadView(inflater, container, R.drawable.sns_system_notice, "黑名单"));
 
+        list_view.addHeaderView(ViewUtils.getHeadView(inflater, container, R.drawable.sns_create_group, "好友通知"));
+
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,6 +112,8 @@ public class FriendFragment extends MyFragment {
                         activity.startActivity(RecommendListActivity.class);
                     } else if (position == 2) {
                         activity.startActivity(BlackListActivity.class);
+                    } else if (position == 3) {
+                        activity.startActivity(RelationRecordListActivity.class);
                     }
                 }
             }

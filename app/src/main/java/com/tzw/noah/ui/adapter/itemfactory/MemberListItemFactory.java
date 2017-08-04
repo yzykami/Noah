@@ -72,7 +72,7 @@ public class MemberListItemFactory extends AssemblyRecyclerItemFactory<MemberLis
 
         @Override
         protected void onConfigViews(Context context) {
-            ll_user.setOnClickListener(new View.OnClickListener() {
+            imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onImageClickListener != null) {

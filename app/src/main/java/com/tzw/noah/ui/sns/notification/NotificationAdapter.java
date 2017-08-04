@@ -95,6 +95,7 @@ public class NotificationAdapter extends BaseAdapter {
         holder.tv2.setText(notification.handleInfo);
         if (notification.notificationType == 0) {
             if (notification.handleType == 0) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.sourceNickName);
                 holder.tv1.setText("邀请您加入: " + notification.groupName);
                 holder.tv2.setVisibility(View.GONE);
@@ -103,6 +104,7 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setBackgroundDrawable(myBaseActivity.getResources().getDrawable(R.drawable.bg_red_border_round));
                 holder.tv_add.setVisibility(View.VISIBLE);
             } else if (notification.handleType == 1) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.sourceNickName);
                 holder.tv1.setText("邀请您加入: " + notification.groupName);
                 holder.tv2.setVisibility(View.GONE);
@@ -111,6 +113,7 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.textLightGray));
                 holder.tv_add.setBackgroundColor(myBaseActivity.getResources().getColor(R.color.white));
             } else if (notification.handleType == 2) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.sourceNickName);
                 holder.tv1.setText("邀请您加入: " + notification.groupName);
                 holder.tv2.setVisibility(View.GONE);
@@ -119,6 +122,7 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.textLightGray));
                 holder.tv_add.setBackgroundColor(myBaseActivity.getResources().getColor(R.color.white));
             } else if (notification.handleType == 3) {
+                holder.iv_head.displayImage(notification.memberHeadPic);
                 holder.tv.setText(notification.memberNickName);
                 holder.tv1.setText("申请加入: " + notification.groupName);
                 holder.tv2.setText(notification.requestInfo);
@@ -128,6 +132,7 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.myRed));
                 holder.tv_add.setBackgroundDrawable(myBaseActivity.getResources().getDrawable(R.drawable.bg_red_border_round));
             } else if (notification.handleType == 4) {
+                holder.iv_head.displayImage(notification.handleMemberHeadPic);
                 holder.tv.setText(notification.groupName);
                 holder.tv1.setText("已拒绝您加入群");
                 holder.tv2.setText("处理者: " + notification.handleNickName);
@@ -137,12 +142,14 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.textLightGray));
                 holder.tv_add.setBackgroundColor(myBaseActivity.getResources().getColor(R.color.white));
             } else if (notification.handleType == 5) {
+                holder.iv_head.displayImage(notification.handleMemberHeadPic);
                 holder.tv.setText(notification.groupName);
                 holder.tv1.setText("已同意你的申请");
                 holder.tv2.setText("处理者: " + notification.handleNickName);
                 holder.tv2.setVisibility(View.VISIBLE);
                 holder.tv_add.setVisibility(View.GONE);
             } else if (notification.handleType == 6) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.groupName);
                 holder.tv1.setText("已将你移出群");
                 holder.tv2.setText("处理者: " + notification.sourceNickName);
@@ -154,18 +161,21 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv2.setVisibility(View.GONE);
                 holder.tv_add.setVisibility(View.GONE);
             } else if (notification.handleType == 8) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.groupName);
                 holder.tv1.setText("已将你设为管理员");
                 holder.tv2.setText("处理者: " + notification.sourceNickName);
                 holder.tv2.setVisibility(View.VISIBLE);
                 holder.tv_add.setVisibility(View.GONE);
             } else if (notification.handleType == 9) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.groupName);
                 holder.tv1.setText("已取消你的管理员");
                 holder.tv2.setText("处理者: " + notification.sourceNickName);
                 holder.tv2.setVisibility(View.VISIBLE);
                 holder.tv_add.setVisibility(View.GONE);
             } else if (notification.handleType == 10) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.groupName);
                 holder.tv1.setText("已将你设为群主");
                 holder.tv2.setText("处理者: " + notification.sourceNickName);
@@ -174,6 +184,7 @@ public class NotificationAdapter extends BaseAdapter {
             }
         } else {
             if (notification.handleType == 0) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.sourceNickName);
                 holder.tv1.setText("邀请您加入: " + notification.groupName);
                 holder.tv2.setVisibility(View.GONE);
@@ -182,6 +193,7 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.myRed));
                 holder.tv_add.setBackgroundDrawable(myBaseActivity.getResources().getDrawable(R.drawable.bg_red_border_round));
             } else if (notification.handleType == 1) {
+                holder.iv_head.displayImage(notification.memberHeadPic);
                 holder.tv.setText(notification.memberNickName);
                 holder.tv1.setText("已拒绝加入: " + notification.groupName);
                 holder.tv2.setText("邀请人: " + notification.sourceNickName);
@@ -191,6 +203,7 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.textLightGray));
                 holder.tv_add.setBackgroundColor(myBaseActivity.getResources().getColor(R.color.white));
             } else if (notification.handleType == 2) {
+                holder.iv_head.displayImage(notification.memberHeadPic);
                 holder.tv.setText(notification.memberNickName);
                 holder.tv1.setText("已同意加入: " + notification.groupName);
                 holder.tv2.setText("邀请人: " + notification.sourceNickName);
@@ -200,6 +213,7 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.textLightGray));
                 holder.tv_add.setBackgroundColor(myBaseActivity.getResources().getColor(R.color.white));
             } else if (notification.handleType == 3) {
+                holder.iv_head.displayImage(notification.memberHeadPic);
                 holder.tv.setText(notification.memberNickName);
                 holder.tv1.setText("申请加入: " + notification.groupName);
                 holder.tv2.setText(notification.requestInfo);
@@ -209,6 +223,7 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.myRed));
                 holder.tv_add.setBackgroundDrawable(myBaseActivity.getResources().getDrawable(R.drawable.bg_red_border_round));
             } else if (notification.handleType == 4) {
+                holder.iv_head.displayImage(notification.memberHeadPic);
                 holder.tv.setText(notification.memberNickName);
                 holder.tv1.setText("申请加入:" + notification.groupName + "");
                 holder.tv2.setText("处理者: " + notification.handleNickName);
@@ -218,6 +233,7 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.textLightGray));
                 holder.tv_add.setBackgroundColor(myBaseActivity.getResources().getColor(R.color.white));
             } else if (notification.handleType == 5) {
+                holder.iv_head.displayImage(notification.memberHeadPic);
                 holder.tv.setText(notification.memberNickName);
                 holder.tv1.setText("申请加入:" + notification.groupName + "");
                 holder.tv2.setText("处理者: " + notification.handleNickName);
@@ -227,6 +243,7 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.textLightGray));
                 holder.tv_add.setBackgroundColor(myBaseActivity.getResources().getColor(R.color.white));
             } else if (notification.handleType == 6) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.groupName);
                 holder.tv1.setText("已将你移出群");
                 holder.tv2.setText("处理者: " + notification.sourceNickName);
@@ -238,18 +255,21 @@ public class NotificationAdapter extends BaseAdapter {
                 holder.tv2.setVisibility(View.GONE);
                 holder.tv_add.setVisibility(View.GONE);
             } else if (notification.handleType == 8) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.groupName);
                 holder.tv1.setText("已将你设为管理员");
                 holder.tv2.setText("处理者: " + notification.sourceNickName);
                 holder.tv2.setVisibility(View.VISIBLE);
                 holder.tv_add.setVisibility(View.GONE);
             } else if (notification.handleType == 9) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.groupName);
                 holder.tv1.setText("已取消你的管理员");
                 holder.tv2.setText("处理者: " + notification.sourceNickName);
                 holder.tv2.setVisibility(View.VISIBLE);
                 holder.tv_add.setVisibility(View.GONE);
             } else if (notification.handleType == 10) {
+                holder.iv_head.displayImage(notification.sourceMemberHeadPic);
                 holder.tv.setText(notification.groupName);
                 holder.tv1.setText("已将你设为群主");
                 holder.tv2.setText("处理者: " + notification.sourceNickName);

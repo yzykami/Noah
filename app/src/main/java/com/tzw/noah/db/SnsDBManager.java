@@ -215,4 +215,9 @@ public class SnsDBManager {
         String sql = "select * from groupMember where groupId ='" + groupId + "' and memberType ='" + Group.MemberType.MEMBER + "'";
         return helper.queryAll(GroupMember.class, sql);
     }
+
+    public Group getGroup(int groupId) {
+        String sql = "select * from groupInfo where groupId ='" + groupId + "'";
+        return helper.query(Group.class, sql);
+    }
 }

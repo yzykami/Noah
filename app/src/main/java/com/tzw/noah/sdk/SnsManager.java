@@ -475,11 +475,71 @@ public class SnsManager {
             });
         }
     }
+    //获取我的多人会话和群列表
+    //sns/snsGroupDetails
+    public void snsGroupDetails(final int groupId, final Callback callback) {
+        if (NetWorkUtils.isNetworkAvailable(mContext))
+            NetHelper.getInstance().snsGroupDetails(groupId, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    if (callback != null) {
+                        callback.onAfter();
+                        callback.onFailure(call, e);
+                    }
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        //保存到本地数据库
+                        if (iMsg.isSucceed()) {
+                            Group group = Group.load(iMsg);
+                            List<Group> list =new ArrayList<Group>();
+                            list.add(group);
+                            snsDBManager.UpdateGroupList(list);
+                            DataCenter.getInstance().setGroup(group);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                    callback.onAfter();
+                    callback.onResponse(iMsg);
+                }
+            });
+        else {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (callback != null) {
+                        final IMsg iMsg = createImsg();
+
+                        Group group = snsDBManager.getGroup(groupId);
+                        DataCenter.getInstance().setGroup(group);
+
+                        mdelivery.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onAfter();
+                                callback.onResponse(iMsg);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+
 
     //获取我的多人会话和群组信息通知
     //sns/groupNotification
     public void snsGroupNotification(Callback callback) {
         NetHelper.getInstance().snsGroupNotification(callback);
+    }
+    //获取我的多人会话和群组信息通知
+    //sns/relationRecords
+    public void snsRelationRecords(Callback callback) {
+        NetHelper.getInstance().snsRelationRecords(callback);
     }
 
     //主动退出群（多人会话、群组）

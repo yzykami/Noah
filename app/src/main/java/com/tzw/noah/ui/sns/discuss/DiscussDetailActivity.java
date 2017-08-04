@@ -17,6 +17,7 @@ import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
+import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
@@ -30,6 +31,7 @@ import com.tzw.noah.ui.sns.group.GroupEditNameActivity;
 import com.tzw.noah.ui.sns.group.GroupManagerActivity;
 import com.tzw.noah.ui.sns.group.GroupMemberListActivity;
 import com.tzw.noah.ui.sns.group.GroupTransferOwnerActivity;
+import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 
 import java.io.IOException;
@@ -76,6 +78,8 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
     TextView tv_introduce;
     @BindView(R.id.tv_count)
     TextView tv_count;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
 
     boolean isIvTop = false;
     boolean isIvSlient = false;
@@ -117,10 +121,11 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
 
     private void initview() {
         ll_member.removeAllViews();
-        String groupName = "未设置";
+        String groupName = group.initialGroupName;
         if (!group.groupName.isEmpty()) groupName = group.groupName;
         tv_group_name.setText(groupName);
         tv_group_name1.setText(groupName);
+        tv_title.setText(groupName);
         tv_group_id.setText("群号: " + group.groupId);
         tv_count.setText(group.memberCount + "人");
         String nickname = "未设置";
@@ -149,7 +154,7 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
         rl_introduce2.setVisibility(View.GONE);
     }
 
-    private View getMemberView(GroupMember gm) {
+    private View getMemberView(final GroupMember gm) {
 
         float span = getResources().getDimension(R.dimen.bj);
 
@@ -176,18 +181,26 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
         iv.displayImage(gm.memberHeadPic);
 
         tv_name.setText(gm.getMemberName());
-        if (gm.memberNo == -1) {
-            rl.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                if (gm.memberNo == -1) {
                     Bundle bu = new Bundle();
                     bu.putSerializable("DATA", (ArrayList) items);
                     bu.putSerializable("DATA2", group);
                     startActivity(GroupAddMemberActivity.class, bu);
+                } else {
+                    User user = new User();
+                    user.memberNo = gm.memberNo;
+                    user.memberNickName = gm.getMemberName();
+                    user.memberHeadPic = gm.memberHeadPic;
+                    Bundle bu = new Bundle();
+                    bu.putSerializable("DATA", user);
+                    startActivity(PersonalActivity.class, bu);
                 }
-            });
-        }
+            }
+        });
         return rl;
     }
 
@@ -200,9 +213,9 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
 
     public void handle_more(View view) {
         if (group.myMemberType == Group.MemberType.OWNER) {
-            BottomPopupWindow.create(this, this).addItem("分享群").addItem("举报").addItem("转让该群").addItem("解散该群", R.color.myRed).show();
+            BottomPopupWindow.create(this, this).addItem("转让该群").addItem("解散该群", R.color.myRed).show();//.addItem("分享群").addItem("举报")
         } else
-            BottomPopupWindow.create(this, this).addItem("分享群").addItem("举报").addItem("退出该群", R.color.myRed).show();
+            BottomPopupWindow.create(this, this).addItem("退出该群", R.color.myRed).show();//.addItem("分享群").addItem("举报")
     }
 
     @Override
@@ -289,7 +302,7 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
 
                         ll_member.removeAllViews();
                         for (int i = 0; i < 5 && i < items.size(); i++) {
-                            items.get(i).memberHeadPic = "drawable://" + R.drawable.sns_user_default;
+//                            items.get(i).memberHeadPic = "drawable://" + R.drawable.sns_user_default;
                             ll_member.addView(getMemberView(items.get(i)));
                         }
                         GroupMember gm = new GroupMember();

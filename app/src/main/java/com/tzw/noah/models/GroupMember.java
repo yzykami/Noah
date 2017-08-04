@@ -1,6 +1,7 @@
 package com.tzw.noah.models;
 
 import com.google.gson.reflect.TypeToken;
+import com.tzw.noah.db.MyField;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.utils.Utils;
 
@@ -14,14 +15,22 @@ import java.util.List;
 
 public class GroupMember implements Serializable {
 
+    @MyField
     public int groupId;
-    public int memberId;
+//    @MyField
+//    public int memberId;
+    @MyField
     public String groupMemberName = "";
+    @MyField
     public int netEaseId;
+    @MyField
     public int memberNo;
+    @MyField
     public String memberNickName = "";
     public String memberIntroduce = "";
+    @MyField
     public String memberHeadPic = "";
+    @MyField
     public int memberType = -1;
 
     public String getMemberName() {

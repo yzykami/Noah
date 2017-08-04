@@ -159,6 +159,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
                 android:background="@color/white">
@@ -198,6 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt1"
+                android:visibility="gone"
                 android:background="@color/white">
 
                 <TextView

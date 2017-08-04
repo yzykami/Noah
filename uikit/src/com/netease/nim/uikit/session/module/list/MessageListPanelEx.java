@@ -757,12 +757,13 @@ public class MessageListPanelEx {
             // 5 trans
             longClickItemVoidToText(selectedItem, alertDialog, msgType);
 
-            if (!NimUIKit.getMsgForwardFilter().shouldIgnore(selectedItem) && !recordOnly) {
-                // 6 forward to person
-                longClickItemForwardToPerson(selectedItem, alertDialog);
-                // 7 forward to team
-                longClickItemForwardToTeam(selectedItem, alertDialog);
-            }
+            //TODO 转发消息功能暂时注释
+//            if (!NimUIKit.getMsgForwardFilter().shouldIgnore(selectedItem) && !recordOnly) {
+//                // 6 forward to person
+//                longClickItemForwardToPerson(selectedItem, alertDialog);
+//                // 7 forward to team
+//                longClickItemForwardToTeam(selectedItem, alertDialog);
+//            }
         }
 
         // 长按菜单项--重发

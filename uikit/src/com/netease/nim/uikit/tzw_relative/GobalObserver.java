@@ -11,7 +11,7 @@ import com.netease.nim.uikit.cache.SimpleCallback;
 public interface GobalObserver {
     void onShowUser(Context context, String account, int memberNo);
 
-    void onShowTeam(Context context, String account, int memberNo);
+    void onShowTeam(Context context, String account, int memberNo, Group group);
 
     void onItemAddClick(Context context);
 //

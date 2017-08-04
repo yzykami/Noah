@@ -14,6 +14,8 @@ import com.tzw.noah.models.User;
 
 import java.util.List;
 
+import me.xiaopan.sketchsample.widget.SampleImageViewHead;
+
 /**
  * Created by yzy on 2017/6/19.
  */
@@ -57,6 +59,7 @@ public class UserItemSelectAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.iv = (ImageView) convertView.findViewById(R.id.iv);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_name);
+            holder.iv_head = (SampleImageViewHead) convertView.findViewById(R.id.iv_head);
             holder.view=convertView;
             convertView.setTag(holder);
         } else {
@@ -66,6 +69,9 @@ public class UserItemSelectAdapter extends BaseAdapter {
         User user=items.get(position);
         String nickname = user.getName();
         holder.tv.setText(nickname);
+        holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_user_default);
+        holder.iv_head.getOptions().setErrorImage(R.drawable.sns_user_default);
+        holder.iv_head.displayImage(user.memberHeadPic);
         boolean isSelected = selected.get(position);
         if (isSelected)
             holder.iv.setVisibility(View.VISIBLE);
@@ -85,6 +91,7 @@ public class UserItemSelectAdapter extends BaseAdapter {
         public TextView tv;
         public ImageView iv;
         public View view;
+        public SampleImageViewHead iv_head;
     }
 
 }

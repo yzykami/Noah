@@ -395,10 +395,24 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
+    //获取我的群详情
+    //sns/groupDetails
+    public void snsGroupDetails(int groupId,Callback callback) {
+        String method = "sns/groupDetails/"+groupId;
+        new WIRequest().Get(method, callback);
+    }
+
     //获取我的多人会话和群组信息通知
     //sns/groupNotification
     public void snsGroupNotification(Callback callback) {
         String method = "sns/groupNotification";
+        new WIRequest().Get(method, callback);
+    }
+
+    //获取个人消息,好友关系变化
+    //sns/relationRecords
+    public void snsRelationRecords(Callback callback) {
+        String method = "sns/relationRecords";
         new WIRequest().Get(method, callback);
     }
 

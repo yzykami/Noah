@@ -19,6 +19,7 @@ import java.util.List;
 public class Notification implements Serializable {
 
     public String memberNickName = "";
+    public String memberHeadPic = "";
     public int memberNo;
     public int groupId;
     public String groupName = "";
@@ -26,10 +27,12 @@ public class Notification implements Serializable {
     public int sourceType;
     public int sourceNo;
     public String sourceNickName = "";
+    public String sourceMemberHeadPic = "";
     public String requestInfo;
     public int handleType;
     public int handleNo;
     public String handleNickName = "";
+    public String handleMemberHeadPic = "";
     public String handleInfo = "";
     public String handleTime = "";
     public String createTime = "";

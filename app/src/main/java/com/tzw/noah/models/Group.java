@@ -74,6 +74,10 @@ public class Group implements Serializable {
         return iMsg.getModelList("recommendGroupRObj", new TypeToken<List<Group>>() {
         }.getType());
     }
+    public static Group load(IMsg iMsg) {
+        return iMsg.getModelList("groupDetailsRObj", new TypeToken<Group>() {
+        }.getType());
+    }
 
     public static class Type {
         public static int GROUP = 1092;

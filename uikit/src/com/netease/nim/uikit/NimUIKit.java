@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.netease.nim.uikit.cache.DataCacheManager;
 import com.netease.nim.uikit.cache.NimUserInfoCache;
+import com.netease.nim.uikit.cache.TZWTeamCache;
 import com.netease.nim.uikit.cache.TZWUserCache;
 import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nim.uikit.common.util.log.LogUtil;
@@ -35,6 +36,7 @@ import com.netease.nim.uikit.session.viewholder.MsgViewHolderBase;
 import com.netease.nim.uikit.session.viewholder.MsgViewHolderFactory;
 import com.netease.nim.uikit.team.activity.AdvancedTeamInfoActivity;
 import com.netease.nim.uikit.team.activity.NormalTeamInfoActivity;
+import com.netease.nim.uikit.tzw_relative.Group;
 import com.netease.nim.uikit.tzw_relative.User;
 import com.netease.nim.uikit.uinfo.UserInfoHelper;
 import com.netease.nimlib.sdk.AbortableFuture;
@@ -586,7 +588,8 @@ public final class NimUIKit {
             String groupId = "";
             Team team = TeamDataCache.getInstance().getTeamById(account);
             team.getExtension();
-            gobalObserver.onShowTeam(context, account, 0);
+            Group group = TZWTeamCache.getInstance().getTeamByAccount(account);
+            gobalObserver.onShowTeam(context, account, 0, group);
         }
     }
 }

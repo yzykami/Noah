@@ -1,10 +1,9 @@
-package com.tzw.noah.ui.sns.notification;
+package com.tzw.noah.ui.sns.relationrecord;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +14,8 @@ import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.sns.notification.NotificationAdapter;
+import com.tzw.noah.ui.sns.notification.NotificationListActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,14 +23,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 import okhttp3.Call;
 
 /**
- * Created by yzy on 2017/7/13.
+ * Created by yzy on 2017/8/4.
  */
 
-public class NotificationDetailActivity extends MyBaseActivity {
+public class RelationRecordDetailActivity extends MyBaseActivity {
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.tv_name)
@@ -44,8 +44,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
     TextView tv_btn2;
     @BindView(R.id.tv_btn1)
     TextView tv_btn1;
-    @BindView(R.id.iv_head)
-    SampleImageViewHead iv_head;
     @BindView(R.id.ll)
     LinearLayout ll;
 
@@ -53,15 +51,15 @@ public class NotificationDetailActivity extends MyBaseActivity {
 
     NotificationAdapter adapter;
 
-    Context mContext = NotificationDetailActivity.this;
-    NotificationDetailActivity instance;
-    String Tag = "NotificationListActivity";
+    Context mContext = RelationRecordDetailActivity.this;
+    RelationRecordDetailActivity instance;
+    String Tag = "RelationRecordDetailActivity";
 //    private AssemblyRecyclerAdapter adapter;
 
 //    int selectPage;
 //    Fragment[] fragmentList = null;
 
-    String title = "我的群组信息通知";
+    String title = "个人系统消息";
     Notification notification;
     int position;
 
@@ -94,7 +92,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
 //        tv_title.setText(title);
         if (notification.notificationType == 0) {
             if (notification.handleType == 0) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.sourceNickName);
                 tv1.setText("邀请您加入: " + notification.groupName);
                 tv2.setVisibility(View.GONE);
@@ -104,7 +101,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_red_border_round));
 
             } else if (notification.handleType == 1) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.sourceNickName);
                 tv1.setText("邀请您加入: " + notification.groupName);
                 tv2.setVisibility(View.GONE);
@@ -114,7 +110,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setTextColor(getResources().getColor(R.color.textLightGray));
                 tv_add.setBackgroundColor(getResources().getColor(R.color.white));
             } else if (notification.handleType == 2) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.sourceNickName);
                 tv1.setText("邀请您加入: " + notification.groupName);
                 tv2.setVisibility(View.GONE);
@@ -124,7 +119,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setTextColor(getResources().getColor(R.color.textLightGray));
                 tv_add.setBackgroundColor(getResources().getColor(R.color.white));
             } else if (notification.handleType == 3) {
-                iv_head.displayImage(notification.memberHeadPic);
                 tv.setText(notification.memberNickName);
                 tv1.setText("申请加入: " + notification.groupName);
                 tv2.setText(notification.requestInfo);
@@ -134,7 +128,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setTextColor(getResources().getColor(R.color.myRed));
                 tv_add.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_red_border_round));
             } else if (notification.handleType == 4) {
-                iv_head.displayImage(notification.handleMemberHeadPic);
                 tv.setText(notification.groupName);
                 tv1.setText("已拒绝您加入群");
                 tv2.setText("处理者: " + notification.handleNickName);
@@ -145,7 +138,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setTextColor(getResources().getColor(R.color.textLightGray));
                 tv_add.setBackgroundColor(getResources().getColor(R.color.white));
             } else if (notification.handleType == 5) {
-                iv_head.displayImage(notification.handleMemberHeadPic);
                 tv.setText(notification.groupName);
                 tv1.setText("已同意你的申请");
                 tv2.setText("处理者: " + notification.handleNickName);
@@ -153,7 +145,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setVisibility(View.GONE);
                 ll.setVisibility(View.GONE);
             } else if (notification.handleType == 6) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.groupName);
                 tv1.setText("已将你移出群");
                 tv2.setText("处理者: " + notification.sourceNickName);
@@ -167,7 +158,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setVisibility(View.GONE);
                 ll.setVisibility(View.GONE);
             } else if (notification.handleType == 8) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.groupName);
                 tv1.setText("已将你设为管理员");
                 tv2.setText("处理者: " + notification.sourceNickName);
@@ -175,7 +165,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setVisibility(View.GONE);
                 ll.setVisibility(View.GONE);
             } else if (notification.handleType == 9) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.groupName);
                 tv1.setText("已取消你的管理员");
                 tv2.setText("处理者: " + notification.sourceNickName);
@@ -183,7 +172,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setVisibility(View.GONE);
                 ll.setVisibility(View.GONE);
             } else if (notification.handleType == 10) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.groupName);
                 tv1.setText("已将你设为群主");
                 tv2.setText("处理者: " + notification.sourceNickName);
@@ -193,7 +181,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
             }
         } else {
             if (notification.handleType == 0) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.sourceNickName);
                 tv1.setText("邀请您加入: " + notification.groupName);
                 tv2.setVisibility(View.GONE);
@@ -202,7 +189,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setTextColor(getResources().getColor(R.color.myRed));
                 tv_add.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_red_border_round));
             } else if (notification.handleType == 1) {
-                iv_head.displayImage(notification.memberHeadPic);
                 tv.setText(notification.memberNickName);
                 tv1.setText("已拒绝加入: " + notification.groupName);
                 tv2.setText("邀请人: " + notification.sourceNickName);
@@ -213,7 +199,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setTextColor(getResources().getColor(R.color.textLightGray));
                 tv_add.setBackgroundColor(getResources().getColor(R.color.white));
             } else if (notification.handleType == 2) {
-                iv_head.displayImage(notification.memberHeadPic);
                 tv.setText(notification.memberNickName);
                 tv1.setText("已同意加入: " + notification.groupName);
                 tv2.setText("邀请人: " + notification.sourceNickName);
@@ -224,7 +209,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setTextColor(getResources().getColor(R.color.textLightGray));
                 tv_add.setBackgroundColor(getResources().getColor(R.color.white));
             } else if (notification.handleType == 3) {
-                iv_head.displayImage(notification.memberHeadPic);
                 tv.setText(notification.memberNickName);
                 tv1.setText("申请加入: " + notification.groupName);
                 tv2.setText(notification.requestInfo);
@@ -234,7 +218,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setTextColor(getResources().getColor(R.color.myRed));
                 tv_add.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_red_border_round));
             } else if (notification.handleType == 4) {
-                iv_head.displayImage(notification.memberHeadPic);
                 tv.setText(notification.memberNickName);
                 tv1.setText("申请加入:" + notification.groupName + "");
                 tv2.setText("处理者: " + notification.handleNickName);
@@ -245,7 +228,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setTextColor(getResources().getColor(R.color.textLightGray));
                 tv_add.setBackgroundColor(getResources().getColor(R.color.white));
             } else if (notification.handleType == 5) {
-                iv_head.displayImage(notification.memberHeadPic);
                 tv.setText(notification.memberNickName);
                 tv1.setText("申请加入:" + notification.groupName + "");
                 tv2.setText("处理者: " + notification.handleNickName);
@@ -256,7 +238,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setTextColor(getResources().getColor(R.color.textLightGray));
                 tv_add.setBackgroundColor(getResources().getColor(R.color.white));
             } else if (notification.handleType == 6) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.groupName);
                 tv1.setText("已将你移出群");
                 tv2.setText("处理者: " + notification.sourceNickName);
@@ -270,7 +251,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setVisibility(View.GONE);
                 ll.setVisibility(View.GONE);
             } else if (notification.handleType == 8) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.groupName);
                 tv1.setText("已将你设为管理员");
                 tv2.setText("处理者: " + notification.sourceNickName);
@@ -278,7 +258,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setVisibility(View.GONE);
                 ll.setVisibility(View.GONE);
             } else if (notification.handleType == 9) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.groupName);
                 tv1.setText("已取消你的管理员");
                 tv2.setText("处理者: " + notification.sourceNickName);
@@ -286,7 +265,6 @@ public class NotificationDetailActivity extends MyBaseActivity {
                 tv_add.setVisibility(View.GONE);
                 ll.setVisibility(View.GONE);
             } else if (notification.handleType == 10) {
-                iv_head.displayImage(notification.sourceMemberHeadPic);
                 tv.setText(notification.groupName);
                 tv1.setText("已将你设为群主");
                 tv2.setText("处理者: " + notification.sourceNickName);
