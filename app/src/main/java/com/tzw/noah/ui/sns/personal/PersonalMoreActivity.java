@@ -199,7 +199,7 @@ public class PersonalMoreActivity extends MyBaseActivity {
 
     public void handle_black(View view) {
         if(user.isBlacklist) {
-            new SnsManager(mContext).snsRemoveBlacklist(user.memberNo, new StringDialogCallback(mContext) {
+            new SnsManager(mContext).snsRemoveBlacklist(user, new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     toast(getResources().getString(R.string.internet_fault));
@@ -218,7 +218,7 @@ public class PersonalMoreActivity extends MyBaseActivity {
         }
         else
         {
-            new SnsManager(mContext).snsBlacklist(user.memberNo, new StringDialogCallback(mContext) {
+            new SnsManager(mContext).snsBlacklist(user, new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     toast(getResources().getString(R.string.internet_fault));
@@ -272,6 +272,7 @@ public class PersonalMoreActivity extends MyBaseActivity {
                 if (iMsg.isSucceed()) {
                     tv_btn2.setVisibility(View.GONE);
                     user.isFans=false;
+
                     if(user.getRelative().equals(User.RelativeType.Stranger))
                         finish();
                 } else {

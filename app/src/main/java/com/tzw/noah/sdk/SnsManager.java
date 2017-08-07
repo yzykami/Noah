@@ -48,32 +48,238 @@ public class SnsManager {
     }
 
     //添加关注
-    public void snsAttention(int memberNo, Callback callback) {
-        NetHelper.getInstance().snsAttention(memberNo, callback);
+    public void snsAttention(final User user, final Callback callback) {
+        NetHelper.getInstance().snsAttention(user.memberNo, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (callback != null) {
+                    callback.onAfter();
+                    callback.onFailure(call, e);
+                }
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    //保存到本地数据库
+                    if (iMsg.isSucceed()) {
+                        List<User> followList = DataCenter.getInstance().getFollowList();
+                        List<User> fansList = DataCenter.getInstance().getFansList();
+                        List<User> friendList = DataCenter.getInstance().getFriendList();
+
+                        user.isAttention = true;
+                        followList.add(user);
+                        DataCenter.getInstance().setFollowList(followList);
+                        snsDBManager.UpdateFollowList(followList);
+
+                        for (int i = 0; i < fansList.size(); i++) {
+                            if (fansList.get(i).memberNo == user.memberNo) {
+                                friendList.add(user);
+                                DataCenter.getInstance().setFriendList(friendList);
+                                snsDBManager.UpdateFriendList(friendList);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+                callback.onAfter();
+                callback.onResponse(iMsg);
+            }
+        });
     }
 
     //取消关注
     //sns/unfollow/{memberNo}
-    public void snsUnfollow(int memberNo, Callback callback) {
-        NetHelper.getInstance().snsUnfollow(memberNo, callback);
+    public void snsUnfollow(final int memberNo, final Callback callback) {
+        NetHelper.getInstance().snsUnfollow(memberNo, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (callback != null) {
+                    callback.onAfter();
+                    callback.onFailure(call, e);
+                }
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    //保存到本地数据库
+                    if (iMsg.isSucceed()) {
+                        List<User> followList = DataCenter.getInstance().getFollowList();
+                        List<User> friendList = DataCenter.getInstance().getFriendList();
+
+                        for (int i = 0; i < followList.size(); i++) {
+                            if (followList.get(i).memberNo == memberNo) {
+                                followList.remove(i);
+                                DataCenter.getInstance().setFollowList(followList);
+                                snsDBManager.UpdateFollowList(followList);
+                                break;
+                            }
+                        }
+                        for (int i = 0; i < friendList.size(); i++) {
+                            if (friendList.get(i).memberNo == memberNo) {
+                                friendList.remove(i);
+                                DataCenter.getInstance().setFriendList(friendList);
+                                snsDBManager.UpdateFriendList(friendList);
+                                break;
+                            }
+                        }
+
+                    }
+                } catch (Exception e) {
+
+                }
+                callback.onAfter();
+                callback.onResponse(iMsg);
+            }
+        });
     }
+
 
     //移除粉丝
     //sns/removeFans/{memberNo}
-    public void snsRemoveFans(int memberNo, Callback callback) {
-        NetHelper.getInstance().snsRemoveFans(memberNo, callback);
+    public void snsRemoveFans(final int memberNo, final Callback callback) {
+        NetHelper.getInstance().snsRemoveFans(memberNo, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (callback != null) {
+                    callback.onAfter();
+                    callback.onFailure(call, e);
+                }
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    //保存到本地数据库
+                    if (iMsg.isSucceed()) {
+                        List<User> fansList = DataCenter.getInstance().getFansList();
+                        List<User> friendList = DataCenter.getInstance().getFriendList();
+
+                        for (int i = 0; i < fansList.size(); i++) {
+                            if (fansList.get(i).memberNo == memberNo) {
+                                fansList.remove(i);
+                                DataCenter.getInstance().setFansList(fansList);
+                                snsDBManager.UpdateFansList(fansList);
+                                break;
+                            }
+                        }
+                        for (int i = 0; i < friendList.size(); i++) {
+                            if (friendList.get(i).memberNo == memberNo) {
+                                friendList.remove(i);
+                                DataCenter.getInstance().setFriendList(friendList);
+                                snsDBManager.UpdateFriendList(friendList);
+                                break;
+                            }
+                        }
+
+                    }
+                } catch (Exception e) {
+
+                }
+                callback.onAfter();
+                callback.onResponse(iMsg);
+            }
+        });
     }
 
     //添加黑名单
     //sns/blacklist
-    public void snsBlacklist(int userid, Callback callback) {
-        NetHelper.getInstance().snsBlacklist(userid, callback);
+    public void snsBlacklist(final User user, final Callback callback) {
+        NetHelper.getInstance().snsBlacklist(user.memberNo, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (callback != null) {
+                    callback.onAfter();
+                    callback.onFailure(call, e);
+                }
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    //保存到本地数据库
+                    if (iMsg.isSucceed()) {
+                        List<User> blackList = DataCenter.getInstance().getBlackList();
+                        List<User> friendList = DataCenter.getInstance().getFriendList();
+
+                        user.isBlacklist = true;
+                        blackList.add(user);
+                        DataCenter.getInstance().setBlackList(blackList);
+                        snsDBManager.UpdateBlacklist(blackList);
+
+                        for (int i = 0; i < friendList.size(); i++) {
+                            if (friendList.get(i).memberNo == user.memberNo) {
+                                friendList.remove(i);
+                                DataCenter.getInstance().setFriendList(friendList);
+                                snsDBManager.UpdateFriendList(friendList);
+                                break;
+                            }
+                        }
+
+                    }
+                } catch (Exception e) {
+
+                }
+                callback.onAfter();
+                callback.onResponse(iMsg);
+            }
+        });
     }
 
     //移除黑名单
     //sns/removeBlacklist/{memberNo}
-    public void snsRemoveBlacklist(int memberNo, Callback callback) {
-        NetHelper.getInstance().snsRemoveBlacklist(memberNo, callback);
+    public void snsRemoveBlacklist(final User user, final Callback callback) {
+        NetHelper.getInstance().snsRemoveBlacklist(user.memberNo, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (callback != null) {
+                    callback.onAfter();
+                    callback.onFailure(call, e);
+                }
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    //保存到本地数据库
+                    if (iMsg.isSucceed()) {
+                        List<User> blackList = DataCenter.getInstance().getBlackList();
+                        List<User> friendList = DataCenter.getInstance().getFriendList();
+                        List<User> followList = DataCenter.getInstance().getFollowList();
+                        List<User> fansList = DataCenter.getInstance().getFansList();
+
+                        user.isBlacklist = false;
+                        for (int i = 0; i < blackList.size(); i++) {
+                            if (blackList.get(i).memberNo == user.memberNo) {
+                                blackList.remove(i);
+                                DataCenter.getInstance().setBlackList(blackList);
+                                snsDBManager.UpdateBlacklist(blackList);
+                                break;
+                            }
+                        }
+
+                        if (user.isFans && user.isAttention) {
+                            friendList.add(user);
+                            DataCenter.getInstance().setFriendList(friendList);
+                            snsDBManager.UpdateFriendList(friendList);
+                            followList.add(user);
+                            DataCenter.getInstance().setFollowList(followList);
+                            snsDBManager.UpdateFollowList(followList);
+                            fansList.add(user);
+                            DataCenter.getInstance().setFansList(fansList);
+                            snsDBManager.UpdateFansList(fansList);
+                        }
+
+                    }
+                } catch (Exception e) {
+                }
+                callback.onAfter();
+                callback.onResponse(iMsg);
+            }
+        });
     }
 
     //获取我的好友列表
@@ -282,8 +488,71 @@ public class SnsManager {
 
     //获取我的好友,关注,粉丝,黑名单列表
     //sns/myList
-    public void snsMyList(Callback callback) {
-        NetHelper.getInstance().snsMyList(callback);
+    public void snsMyList(final Callback callback) {
+        if (NetWorkUtils.isNetworkAvailable(mContext))
+            NetHelper.getInstance().snsMyList(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    if (callback != null) {
+                        callback.onAfter();
+                        callback.onFailure(call, e);
+                    }
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        //保存到本地数据库
+                        if (iMsg.isSucceed()) {
+                            List<User> friendList = User.loadMyList_Friend(iMsg);
+                            List<User> followList = User.loadMyList_Follow(iMsg);
+                            List<User> fansList = User.loadMyList_Fans(iMsg);
+                            List<User> blackList = User.loadMyList_Black(iMsg);
+                            DataCenter.getInstance().setFriendList(friendList);
+                            DataCenter.getInstance().setFollowList(followList);
+                            DataCenter.getInstance().setFansList(fansList);
+                            DataCenter.getInstance().setBlackList(blackList);
+                            snsDBManager.UpdateFriendList(friendList);
+                            snsDBManager.UpdateFollowList(followList);
+                            snsDBManager.UpdateFansList(fansList);
+                            snsDBManager.UpdateBlacklist(blackList);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                    callback.onAfter();
+                    callback.onResponse(iMsg);
+                }
+            });
+        else {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (callback != null) {
+                        final IMsg iMsg = createImsg();
+                        iMsg.Data = snsDBManager.getSnsFriendList();
+                        List<User> friendList = snsDBManager.getSnsFriendList();
+                        List<User> followList = snsDBManager.getSnsFollowList();
+                        List<User> fansList = snsDBManager.getSnsFansList();
+                        List<User> blackList = snsDBManager.getSnsBlacklist();
+
+                        DataCenter.getInstance().setFriendList(friendList);
+                        DataCenter.getInstance().setFollowList(followList);
+                        DataCenter.getInstance().setFansList(fansList);
+                        DataCenter.getInstance().setBlackList(blackList);
+
+                        mdelivery.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onAfter();
+                                callback.onResponse(iMsg);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+//        NetHelper.getInstance().snsMyList(callback);
     }
 
     //获取附近的人,不用做缓存
@@ -475,6 +744,7 @@ public class SnsManager {
             });
         }
     }
+
     //获取我的多人会话和群列表
     //sns/snsGroupDetails
     public void snsGroupDetails(final int groupId, final Callback callback) {
@@ -494,7 +764,7 @@ public class SnsManager {
                         //保存到本地数据库
                         if (iMsg.isSucceed()) {
                             Group group = Group.load(iMsg);
-                            List<Group> list =new ArrayList<Group>();
+                            List<Group> list = new ArrayList<Group>();
                             list.add(group);
                             snsDBManager.UpdateGroupList(list);
                             DataCenter.getInstance().setGroup(group);
@@ -530,12 +800,12 @@ public class SnsManager {
     }
 
 
-
     //获取我的多人会话和群组信息通知
     //sns/groupNotification
     public void snsGroupNotification(Callback callback) {
         NetHelper.getInstance().snsGroupNotification(callback);
     }
+
     //获取我的多人会话和群组信息通知
     //sns/relationRecords
     public void snsRelationRecords(Callback callback) {
@@ -565,7 +835,7 @@ public class SnsManager {
     public void snsGetMembers(final int groupId, final Callback callback) {
 
         if (NetWorkUtils.isNetworkAvailable(mContext))
-            NetHelper.getInstance().snsGetMembers(groupId,new Callback() {
+            NetHelper.getInstance().snsGetMembers(groupId, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     if (callback != null) {
@@ -624,7 +894,7 @@ public class SnsManager {
 
                         DataCenter.getInstance().setGroupMemberList(list);
 
-                        iMsg.Data=list;
+                        iMsg.Data = list;
 
                         mdelivery.post(new Runnable() {
                             @Override

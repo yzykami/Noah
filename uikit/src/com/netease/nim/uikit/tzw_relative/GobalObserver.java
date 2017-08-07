@@ -14,6 +14,8 @@ public interface GobalObserver {
     void onShowTeam(Context context, String account, int memberNo, Group group);
 
     void onItemAddClick(Context context);
+
+    void onUnreadNumChanged(Object o);
 //
 //    void onGetTeamInfo(SimpleCallback callback);
 }

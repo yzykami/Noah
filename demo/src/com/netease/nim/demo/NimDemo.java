@@ -28,4 +28,11 @@ public final class NimDemo {
             gobalObserver.onItemAddClick(context);
         }
     }
+
+    public static void onUnreadNumChanged(Object o)
+    {
+        if (gobalObserver != null) {
+            gobalObserver.onUnreadNumChanged(o);
+        }
+    }
 }

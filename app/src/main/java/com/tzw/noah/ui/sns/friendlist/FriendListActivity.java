@@ -42,6 +42,7 @@ public class FriendListActivity extends MyBaseActivity {
 
     int selectPage;
     Fragment[] fragmentList = null;
+    private boolean firstLoad = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -131,11 +132,6 @@ public class FriendListActivity extends MyBaseActivity {
             TextView child = (TextView) ll.getChildAt(i);
             if (child.equals(v)) {
                 clickindex = i;
-                child.setTextColor(getResources().getColor(R.color.white));
-                child.setBackgroundColor(getResources().getColor(R.color.myRed));
-            } else {
-                child.setBackgroundColor(getResources().getColor(R.color.white));
-                child.setTextColor(getResources().getColor(R.color.myRed));
             }
         }
         if (clickindex == selectPage) {
@@ -143,17 +139,25 @@ public class FriendListActivity extends MyBaseActivity {
         } else {
             selectPage = clickindex;
             showFragment(selectPage);
+            setTag(selectPage);
         }
     }
+
 
     public void setTag(int index) {
         for (int i = 0; i < ll.getChildCount(); i++) {
             TextView child = (TextView) ll.getChildAt(i);
             if (i == index) {
                 child.setTextColor(getResources().getColor(R.color.white));
-                child.setBackgroundColor(getResources().getColor(R.color.myRed));
+                child.setBackgroundColor(getResources().getColor(R.color.transParent));
             } else {
-                child.setBackgroundColor(getResources().getColor(R.color.white));
+                if (i == 0) {
+                    child.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_red_border_left_round));
+                } else if (i == ll.getChildCount() - 1) {
+                    child.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_red_boder_right_round));
+                } else {
+                    child.setBackgroundColor(getResources().getColor(R.color.white));
+                }
                 child.setTextColor(getResources().getColor(R.color.myRed));
             }
         }
@@ -163,5 +167,13 @@ public class FriendListActivity extends MyBaseActivity {
     protected void onResume() {
         super.onResume();
 //        fragmentList[selectPage].onResume();
+    }
+
+    public boolean firstLoad() {
+        if (firstLoad) {
+            firstLoad = false;
+            return true;
+        }
+        return false;
     }
 }

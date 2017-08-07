@@ -56,6 +56,8 @@ public class DropManager {
 
     private IDropListener listener; // 红点拖拽动画监听器
 
+    private Context mContext;
+
     private boolean enable;
     private int[] explosionResIds = new int[]{
             R.drawable.explosion_one,
@@ -67,6 +69,7 @@ public class DropManager {
 
     // interface
     public void init(Context context, DropCover dropCover, DropCover.IDropCompletedListener listener) {
+        mContext = context;
         this.isTouchable = true;
         this.statusBarHeight = ScreenUtil.getStatusBarHeight(context);
         this.dropCover = dropCover;
@@ -171,7 +174,7 @@ public class DropManager {
     public Paint getCirclePaint() {
         if (circlePaint == null) {
             circlePaint = new Paint();
-            circlePaint.setColor(Color.RED);
+            circlePaint.setColor(Color.parseColor("#DA251C"));
             circlePaint.setAntiAlias(true);
         }
 

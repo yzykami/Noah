@@ -132,7 +132,7 @@ public class AddAdapter extends BaseAdapter {
 //                    mOnAddClickListener.onAddClick(v, position);
 
                 if (user.type == User.Type.Person) {
-                    new SnsManager(context).snsAttention(user.memberNo, new StringDialogCallback(myBaseActivity) {
+                    new SnsManager(context).snsAttention(user, new StringDialogCallback(myBaseActivity) {
                         @Override
                         public void onFailure(Call call, IOException e) {
                             myBaseActivity.toast(myBaseActivity.getResources().getString(R.string.internet_fault));

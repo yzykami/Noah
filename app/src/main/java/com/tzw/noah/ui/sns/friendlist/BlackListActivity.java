@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
@@ -84,12 +85,19 @@ public class BlackListActivity extends MyBaseActivity {
 
             }
         });
+
+        items= DataCenter.getInstance().getBlackList();
+        items = Utils.processUser(items);
+        Collections.sort(items, new MyCompare());
+        adapter = new FriendAdapter(mContext, items);
+        list_view.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        refreshListView();
+//        refreshListView();
     }
 
     private void refreshListView() {

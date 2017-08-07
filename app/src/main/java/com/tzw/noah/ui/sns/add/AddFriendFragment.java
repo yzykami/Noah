@@ -75,28 +75,8 @@ public class AddFriendFragment extends Fragment implements AddAdapter.OnAddClick
                 updateListView(words);
             }
         });
-        List<String> namelist = new ArrayList<>();
-        namelist.add("你111");
-        namelist.add("你好在");
-        namelist.add("耐111");
-        namelist.add("废柴");
-        namelist.add("风");
-        namelist.add("银");
-        namelist.add("辛巴");
-        namelist.add("2342辛巴");
-        namelist.add("啦啦");
-        namelist.add("❤啦啦");
-        namelist.add("OMG呵呵");
-        namelist.add("ddd呵呵");
 
         items = new ArrayList<>();
-//        for (String name : namelist) {
-//            SnsPerson p = new SnsPerson();
-//            p.name = name;
-//            p.namePingyin = Utils.getLetter(name);
-//            p.shortCut = "好友推荐";
-//            items.add(p);
-//        }
 
         Collections.sort(items, new MyCompare());
 
@@ -107,11 +87,14 @@ public class AddFriendFragment extends Fragment implements AddAdapter.OnAddClick
         View headSearchView = inflater.inflate(R.layout.sns_search_head, container, false);
         TextView tv = (TextView) headSearchView.findViewById(R.id.tv);
         tv.setText("手机号/微信号");
-        list_view.addHeaderView(headSearchView);
+//        list_view.addHeaderView(headSearchView);
+
+        View spanView = inflater.inflate(R.layout.sns_span, container, false);
+        list_view.addHeaderView(spanView);
 
         list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_create_group, "添加附近的朋友"));
-        list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_book, "手机通讯录"));
-        list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_scan, "扫一扫"));
+//        list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_book, "手机通讯录"));
+//        list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_scan, "扫一扫"));
 
 //        View headSpanView = inflater.inflate(R.layout.sns_span, container, false);
 //        TextView tv_time = (TextView) headSpanView.findViewById(R.id.tv_time);

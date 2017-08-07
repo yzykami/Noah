@@ -11,17 +11,28 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nim.demo.main.helper.SystemMessageUnreadManager;
+import com.netease.nim.demo.main.reminder.ReminderItem;
+import com.netease.nim.demo.main.reminder.ReminderManager;
+import com.netease.nim.demo.main.reminder.ReminderSettings;
+import com.netease.nim.uikit.common.ui.drop.DropFake;
+import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 import com.netease.nim.uikit.permission.BaseMPermission;
 import com.netease.nim.uikit.permission.MPermission;
 import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
 import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
 import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.msg.SystemMessageObserver;
+import com.netease.nimlib.sdk.msg.SystemMessageService;
 import com.tzw.noah.ui.circle.CirileMainActivity;
 import com.tzw.noah.ui.friend.FriendMainActivity;
 import com.tzw.noah.ui.home.HomeMainActivity;
@@ -31,7 +42,7 @@ import com.tzw.noah.ui.sns.SnsMainActivity;
 
 import java.util.logging.Handler;
 
-public class MainActivity extends TabActivity {
+public class MainActivity extends TabActivity implements ReminderManager.UnreadNumChangedCallback {
 
     private TabHost tabHost;
 
@@ -50,8 +61,12 @@ public class MainActivity extends TabActivity {
     private View tab1;
 
     private Context mContext = MainActivity.this;
-    private MainActivity instance;
+    private static MainActivity instance;
     private static android.os.Handler mDelivery;
+
+    public static MainActivity getInstance() {
+        return instance;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +76,15 @@ public class MainActivity extends TabActivity {
         mDelivery = new android.os.Handler(Looper.getMainLooper());
         requestBasicPermission();
         waitLoading();
-
+//        registerMsgUnreadInfoObserver(true);
+//        registerSystemMessageObservers(true);
+//        requestSystemMessageUnreadCount();
     }
 
     private void waitLoading() {
         iv_navi = (ImageView) findViewById(R.id.iv_navi);
-        iv_navi.setVisibility(View.GONE);
+        iv_navi.setVisibility(View.VISIBLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         initview();
 
     }
@@ -129,35 +147,9 @@ public class MainActivity extends TabActivity {
             @Override
             public void run() {
                 iv_navi.setVisibility(View.GONE);
-//                tab1.setVisibility(View.VISIBLE);
-//                mdelivery.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        final String[] BASIC_PERMISSIONS = new String[]{
-//                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                                Manifest.permission.READ_EXTERNAL_STORAGE,
-//                                Manifest.permission.CAMERA,
-//                                Manifest.permission.RECORD_AUDIO,
-//                                Manifest.permission.READ_PHONE_STATE,
-//                                Manifest.permission.INTERNET,
-//                                Manifest.permission.ACCESS_NETWORK_STATE,
-//                                Manifest.permission.ACCESS_WIFI_STATE,
-//                                Manifest.permission.CHANGE_WIFI_STATE,
-//                                Manifest.permission.ACCESS_FINE_LOCATION,
-//                                Manifest.permission.ACCESS_COARSE_LOCATION,
-//                                Manifest.permission.WRITE_SETTINGS,
-//                                Manifest.permission.VIBRATE,
-//                                Manifest.permission.WAKE_LOCK,
-//                                Manifest.permission.BLUETOOTH,
-//                                Manifest.permission.BLUETOOTH_ADMIN,
-//                                Manifest.permission.CHANGE_CONFIGURATION,
-//                                Manifest.permission.MODIFY_AUDIO_SETTINGS
-//                        };
-//                        BaseMPermission.getDeniedPermissions(instance, BASIC_PERMISSIONS);
-//                    }
-//                });
+                instance.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
-        }, 1500);
+        }, 150);
 
         selectUserTag();
     }
@@ -247,7 +239,14 @@ public class MainActivity extends TabActivity {
     };
 
     private void selectUserTag() {
-        tabHost.setCurrentTabByTag("5");
+        tabHost.setCurrentTabByTag("3");
+        tabHost.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                tabHost.setCurrentTabByTag("5");
+            }
+        }, 120);
+
 
         iv_home.setImageResource(R.drawable.tab_home);
         iv_circle.setImageResource(R.drawable.tab_circle);
@@ -303,5 +302,68 @@ public class MainActivity extends TabActivity {
     public void onBasicPermissionFailed() {
         Toast.makeText(this, "未全部授权，部分功能可能无法正常运行！", Toast.LENGTH_SHORT).show();
         MPermission.printMPermissionResult(false, this, BASIC_PERMISSIONS);
+    }
+
+    public void onUnreadNumChanged(ReminderItem item) {
+        ImageView indicatorView = (ImageView) findViewById(R.id.tab_new_indicator);
+        final DropFake unreadTV = ((DropFake) findViewById(R.id.tab_new_msg_label));
+        unreadTV.setRadius(ScreenUtil.dip2px(8));
+
+        if (item == null || unreadTV == null || indicatorView == null) {
+            unreadTV.setVisibility(View.GONE);
+            indicatorView.setVisibility(View.GONE);
+            return;
+        }
+        int unread = 0;
+        if (item == null) {
+            unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
+        } else
+            unread = item.unread();
+
+        boolean indicator = item.indicator();
+        unreadTV.setVisibility(unread > 0 ? View.VISIBLE : View.GONE);
+        indicatorView.setVisibility(indicator ? View.VISIBLE : View.GONE);
+        if (unread > 0) {
+            unreadTV.setRadius(ScreenUtil.dip2px(8));
+            unreadTV.setText(String.valueOf(ReminderSettings.unreadMessageShowRule(unread)));
+        }
+    }
+
+    /**
+     * 注册未读消息数量观察者
+     */
+    private void registerMsgUnreadInfoObserver(boolean register) {
+        if (register) {
+            ReminderManager.getInstance().registerUnreadNumChangedCallback(this);
+        } else {
+            ReminderManager.getInstance().unregisterUnreadNumChangedCallback(this);
+        }
+    }
+
+    /**
+     * 注册/注销系统消息未读数变化
+     *
+     * @param register
+     */
+    private void registerSystemMessageObservers(boolean register) {
+        NIMClient.getService(SystemMessageObserver.class).observeUnreadCountChange(sysMsgUnreadCountChangedObserver,
+                register);
+    }
+
+    private Observer<Integer> sysMsgUnreadCountChangedObserver = new Observer<Integer>() {
+        @Override
+        public void onEvent(Integer unreadCount) {
+            SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unreadCount);
+            ReminderManager.getInstance().updateContactUnreadNum(unreadCount);
+        }
+    };
+
+    /**
+     * 查询系统消息未读数
+     */
+    private void requestSystemMessageUnreadCount() {
+        int unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
+        SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unread);
+        ReminderManager.getInstance().updateContactUnreadNum(unread);
     }
 }

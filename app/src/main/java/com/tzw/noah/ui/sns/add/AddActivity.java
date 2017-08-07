@@ -57,10 +57,9 @@ public class AddActivity extends MyBaseActivity {
     private void initdata() {
         selectPage = 0;
         fragmentList = new Fragment[2];
-        Bundle bu =getIntent().getExtras();
-        if(bu !=null)
-        {
-            selectPage=bu.getInt("DATA");
+        Bundle bu = getIntent().getExtras();
+        if (bu != null) {
+            selectPage = bu.getInt("DATA");
         }
     }
 
@@ -105,11 +104,7 @@ public class AddActivity extends MyBaseActivity {
             TextView child = (TextView) ll.getChildAt(i);
             if (child.equals(v)) {
                 clickindex = i;
-                child.setTextColor(getResources().getColor(R.color.white));
-                child.setBackgroundColor(getResources().getColor(R.color.myRed));
             } else {
-                child.setBackgroundColor(getResources().getColor(R.color.white));
-                child.setTextColor(getResources().getColor(R.color.myRed));
             }
         }
         if (clickindex == selectPage) {
@@ -117,6 +112,7 @@ public class AddActivity extends MyBaseActivity {
         } else {
             selectPage = clickindex;
             showFragment(selectPage);
+            setTag(selectPage);
         }
     }
 
@@ -125,9 +121,15 @@ public class AddActivity extends MyBaseActivity {
             TextView child = (TextView) ll.getChildAt(i);
             if (i == index) {
                 child.setTextColor(getResources().getColor(R.color.white));
-                child.setBackgroundColor(getResources().getColor(R.color.myRed));
+                child.setBackgroundColor(getResources().getColor(R.color.transParent));
             } else {
-                child.setBackgroundColor(getResources().getColor(R.color.white));
+                if (i == 0) {
+                    child.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_red_border_left_round));
+                } else if (i == ll.getChildCount() - 1) {
+                    child.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_red_boder_right_round));
+                } else {
+                    child.setBackgroundColor(getResources().getColor(R.color.white));
+                }
                 child.setTextColor(getResources().getColor(R.color.myRed));
             }
         }

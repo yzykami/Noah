@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.netease.nim.demo.main.reminder.ReminderItem;
 import com.netease.nim.uikit.cache.SimpleCallback;
 import com.netease.nim.uikit.tzw_relative.GobalObserver;
 import com.netease.nim.uikit.tzw_relative.Group;
@@ -120,5 +121,17 @@ public class GobalObserverImpl implements GobalObserver {
     public void onItemAddClick(Context context) {
         Intent intent = new Intent(context, AddActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onUnreadNumChanged(Object o) {
+        if(MainActivity.getInstance()==null)
+        {
+            return;
+        }
+        else
+        {
+            MainActivity.getInstance().onUnreadNumChanged((ReminderItem )o);
+        }
     }
 }

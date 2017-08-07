@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
@@ -59,7 +60,7 @@ public class FriendFragment extends MyFragment {
     Context mContext;
     List<User> items = new ArrayList<>();
 
-    MyBaseActivity activity;
+    FriendListActivity activity;
     FriendAdapter adapter;
 
     @Nullable
@@ -76,17 +77,18 @@ public class FriendFragment extends MyFragment {
             }
         });
 
-        items = new ArrayList<>();
-
+        items = DataCenter.getInstance().getFriendList();
+        items = Utils.processUser(items);
         Collections.sort(items, new MyCompare());
-
         adapter = new FriendAdapter(mContext, items);
-
         list_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
         View headSearchView = inflater.inflate(R.layout.sns_search_head, container, false);
-        list_view.addHeaderView(headSearchView);
+//        list_view.addHeaderView(headSearchView);
+        View spanView = inflater.inflate(R.layout.sns_span, container, false);
+        list_view.addHeaderView(spanView);
+
         View nextView = inflater.inflate(R.layout.sns_next_operation_item, container, false);
         ImageView iv = (ImageView) nextView.findViewById(R.id.iv_head);
         TextView tv = (TextView) nextView.findViewById(R.id.tv_name);
@@ -119,6 +121,7 @@ public class FriendFragment extends MyFragment {
             }
         });
 
+
         return view;
     }
 
@@ -131,7 +134,7 @@ public class FriendFragment extends MyFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity = (MyBaseActivity) context;
+        activity = (FriendListActivity) context;
         mContext = context;
     }
 
@@ -161,11 +164,14 @@ public class FriendFragment extends MyFragment {
     @Override
     public void onResume() {
         super.onResume();
-        refreshListView();
+        if(activity.firstLoad())
+            refreshListView();
+        else
+            refreshListView2();
     }
 
     private void refreshListView() {
-        new SnsManager(mContext).snsFriends(new StringDialogCallback(activity) {
+        new SnsManager(mContext).snsMyList(new StringDialogCallback(activity) {
             @Override
             public void onFailure(Call call, IOException e) {
                 activity.toast(getResources().getString(R.string.internet_fault));
@@ -175,12 +181,7 @@ public class FriendFragment extends MyFragment {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        if (iMsg.Data != null)
-                            items = (List<User>) iMsg.Data;
-                        else
-                            items = User.loadFriendList(iMsg);
-                        if (items == null || items.size() == 0)
-                            items = new ArrayList<User>();
+                        items = DataCenter.getInstance().getFriendList();
                         items = Utils.processUser(items);
                         Collections.sort(items, new MyCompare());
                         adapter = new FriendAdapter(mContext, items);
@@ -194,5 +195,14 @@ public class FriendFragment extends MyFragment {
                 }
             }
         });
+    }
+
+    private void refreshListView2() {
+        items = DataCenter.getInstance().getFriendList();
+        items = Utils.processUser(items);
+        Collections.sort(items, new MyCompare());
+        adapter = new FriendAdapter(mContext, items);
+//        list_view.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

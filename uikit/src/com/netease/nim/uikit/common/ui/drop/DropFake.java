@@ -57,6 +57,11 @@ public class DropFake extends View {
         }
     }
 
+    public void setRadius(int radius)
+    {
+        this.radius = radius;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

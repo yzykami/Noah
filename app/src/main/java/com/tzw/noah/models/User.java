@@ -130,10 +130,8 @@ public class User implements Serializable {
 
 
     public static List<User> loadFriendList(IMsg iMsg) {
-        IMsg iMsg2 = iMsg.getJsonObject("");
         return iMsg.getModelList("friendsRObj", new TypeToken<List<User>>() {
         }.getType());
-//        return iMsg.getModelList("friendsRObj",new TypeToken<User>(){}.getType());
     }
 
     public static List<User> loadFansList(IMsg iMsg) {
@@ -163,6 +161,21 @@ public class User implements Serializable {
 
 
     public static List<User> loadMyList_Friend(IMsg iMsg) {
+        IMsg iMsg2 = iMsg.getJsonObject("");
+        return iMsg.getModelList("friendsRObj", new TypeToken<List<User>>() {
+        }.getType());
+    }
+    public static List<User> loadMyList_Follow(IMsg iMsg) {
+        IMsg iMsg2 = iMsg.getJsonObject("");
+        return iMsg.getModelList("concernRObj", new TypeToken<List<User>>() {
+        }.getType());
+    }
+    public static List<User> loadMyList_Fans(IMsg iMsg) {
+        IMsg iMsg2 = iMsg.getJsonObject("");
+        return iMsg.getModelList("fansRObj", new TypeToken<List<User>>() {
+        }.getType());
+    }
+    public static List<User> loadMyList_Black(IMsg iMsg) {
         IMsg iMsg2 = iMsg.getJsonObject("");
         return iMsg.getModelList("blacksRObj", new TypeToken<List<User>>() {
         }.getType());

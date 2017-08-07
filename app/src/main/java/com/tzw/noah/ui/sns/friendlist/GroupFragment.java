@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.Notification;
@@ -60,6 +61,8 @@ public class GroupFragment extends MyFragment {
     GroupAdapter adapter;
     MyBaseActivity activity;
 
+    boolean firstLoad = true;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -75,17 +78,13 @@ public class GroupFragment extends MyFragment {
         });
 
 
-        items = new ArrayList<>();
-//
-
-//        Collections.sort(items, new MyCompare());
-
+        items = DataCenter.getInstance().getGroupList();
         adapter = new GroupAdapter(mContext, items);
-
         list_view.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
-        View headSearchView = inflater.inflate(R.layout.sns_span, container, false);
-        list_view.addHeaderView(headSearchView);
+        View spanView = inflater.inflate(R.layout.sns_span, container, false);
+        list_view.addHeaderView(spanView);
 
         View nextView = inflater.inflate(R.layout.sns_next_operation_item, container, false);
         ImageView iv = (ImageView) nextView.findViewById(R.id.iv_head);
@@ -101,7 +100,7 @@ public class GroupFragment extends MyFragment {
         tv2.setText("讨论组");
         list_view.addHeaderView(nextView2);
 
-        list_view.addHeaderView(ViewUtils.getHeadView(inflater,container,R.drawable.sns_create_group,"群消息"));
+        list_view.addHeaderView(ViewUtils.getHeadView(inflater, container, R.drawable.sns_create_group, "群消息"));
 
         wordnavi.setVisibility(View.GONE);
 
@@ -119,7 +118,7 @@ public class GroupFragment extends MyFragment {
                         activity.startActivity(RecommendGroupListActivity.class);
                     } else if (position == 2) {
                         activity.startActivity(DiscussListActivity.class);
-                    }else if (position == 3) {
+                    } else if (position == 3) {
                         activity.startActivity(NotificationListActivity.class);
                     }
                 }
@@ -153,7 +152,10 @@ public class GroupFragment extends MyFragment {
     @Override
     public void onResume() {
         super.onResume();
-        refreshListView();
+        if (firstLoad == true) {
+            refreshListView();
+            firstLoad = false;
+        }
     }
 
     private void refreshListView() {
@@ -167,23 +169,7 @@ public class GroupFragment extends MyFragment {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-//                        if (iMsg.Data != null)
-//                            items = (List<Group>) iMsg.Data;
-//                        else {
-//                            List<Group> list1 = Group.loadDiscussList(iMsg);
-//                            List<Group> list2 = Group.loadGroupList(iMsg);
-//                            items = new ArrayList<Group>();
-//                            if (list1 != null && list1.size() > 0)
-//                                items.addAll(list1);
-//                            if (list2 != null && list2.size() > 0)
-//                                items.addAll(list2);
-                        items = Group.loadGroupList(iMsg);
-//                    }
-//                        items = Utils.processUser(items);
-//                        Collections.sort(items, new MyCompare());
-                        if (items == null || items.size() == 0)
-                            items = new ArrayList<Group>();
-
+                        items = DataCenter.getInstance().getGroupList();
                         adapter = new GroupAdapter(mContext, items);
                         list_view.setAdapter(adapter);
                         adapter.notifyDataSetChanged();

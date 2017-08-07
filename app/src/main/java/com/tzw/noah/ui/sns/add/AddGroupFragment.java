@@ -81,8 +81,9 @@ public class AddGroupFragment extends Fragment {
         View headSearchView = inflater.inflate(R.layout.sns_search_head, container, false);
         TextView tv = (TextView) headSearchView.findViewById(R.id.tv);
         tv.setText("简介/群名称");
-        list_view.addHeaderView(headSearchView);
-
+//        list_view.addHeaderView(headSearchView);
+        View spanView = inflater.inflate(R.layout.sns_span, container, false);
+        list_view.addHeaderView(spanView);
 
         list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_group, "创建群组"));
         list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_create_multichat, "创建多人会话"));

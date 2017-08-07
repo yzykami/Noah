@@ -75,6 +75,7 @@ public class HomeFragment extends TFragment implements OnPageChangeListener, Rem
         registerSystemMessageObservers(true);
         requestSystemMessageUnreadCount();
         initUnreadCover();
+//        enableMsgNotification(false);
     }
 
     @Override
@@ -233,9 +234,11 @@ public class HomeFragment extends TFragment implements OnPageChangeListener, Rem
     @Override
     public void onUnreadNumChanged(ReminderItem item) {
         MainTab tab = MainTab.fromReminderId(item.getId());
+        NimDemo.onUnreadNumChanged(item);
         if (tab != null) {
             tabs.updateTab(tab.tabIndex, item);
         }
+
     }
 
     /**

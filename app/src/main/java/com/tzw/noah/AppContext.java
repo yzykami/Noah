@@ -240,7 +240,7 @@ public class AppContext extends Application { //NimApplication {//Application {
     private StatusBarNotificationConfig loadStatusBarNotificationConfig() {
         StatusBarNotificationConfig config = new StatusBarNotificationConfig();
         // 点击通知需要跳转到的界面
-        config.notificationEntrance = WelcomeActivity.class;
+        config.notificationEntrance = MainActivity.class;
         config.notificationSmallIconId = com.netease.nim.demo.R.drawable.ic_stat_notify_msg;
         config.notificationColor = getResources().getColor(com.netease.nim.demo.R.color.color_blue_3a9efb);
         // 通知铃声的uri字符串

@@ -270,7 +270,7 @@ public class PersonalActivity extends MyBaseActivity {
     }
 
     public void handle_btn1(View view) {
-        new SnsManager(mContext).snsAttention(user.memberNo, new StringDialogCallback(mContext) {
+        new SnsManager(mContext).snsAttention(user, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));

@@ -41,6 +41,8 @@ public class DataCenter {
     List<GroupMember> memberList;
 
     public List<User> getFriendList() {
+        if (friendList == null)
+            return new ArrayList<>();
         return friendList;
     }
 
@@ -49,6 +51,8 @@ public class DataCenter {
     }
 
     public List<User> getFollowList() {
+        if (followList == null)
+            return new ArrayList<>();
         return followList;
     }
 
@@ -57,6 +61,8 @@ public class DataCenter {
     }
 
     public List<User> getFansList() {
+        if (fansList == null)
+            return new ArrayList<>();
         return fansList;
     }
 
@@ -65,6 +71,8 @@ public class DataCenter {
     }
 
     public List<User> getBlackList() {
+        if (blackList == null)
+            return new ArrayList<>();
         return blackList;
     }
 
@@ -73,6 +81,8 @@ public class DataCenter {
     }
 
     public List<Group> getGroupList() {
+        if (groupList == null)
+            return new ArrayList<>();
         return groupList;
     }
 
@@ -81,6 +91,8 @@ public class DataCenter {
     }
 
     public List<Group> getDiscussList() {
+        if (discussList == null)
+            return new ArrayList<>();
         return discussList;
     }
 
@@ -97,7 +109,7 @@ public class DataCenter {
     }
 
     public List<GroupMember> getGroupMemberList() {
-        if(groupMemberList ==null)
+        if (groupMemberList == null)
             return new ArrayList<>();
         return groupMemberList;
     }
@@ -107,7 +119,7 @@ public class DataCenter {
     }
 
     public List<GroupMember> getOwnerList() {
-        if(ownerList==null)
+        if (ownerList == null)
             return new ArrayList<>();
         return ownerList;
     }
@@ -117,7 +129,7 @@ public class DataCenter {
     }
 
     public List<GroupMember> getManagerList() {
-        if(managerList==null)
+        if (managerList == null)
             return new ArrayList<>();
         return managerList;
     }
@@ -127,7 +139,7 @@ public class DataCenter {
     }
 
     public List<GroupMember> getMemberList() {
-        if(memberList ==null)
+        if (memberList == null)
             return new ArrayList<>();
         return memberList;
     }

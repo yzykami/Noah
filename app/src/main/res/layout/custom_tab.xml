@@ -89,6 +89,27 @@
                 android:text="会话"
                 android:textColor="@color/mygray"
                 android:textSize="10.0dip" />
+
+            <ImageView
+                android:id="@+id/tab_new_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center"
+                android:contentDescription="@string/empty"
+                android:layout_marginLeft="@dimen/pt10"
+                android:src="@drawable/nim_main_tab_new_message_notify"
+                android:visibility="gone"/>
+
+            <com.netease.nim.uikit.common.ui.drop.DropFake
+                android:id="@+id/tab_new_msg_label"
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:layout_gravity="top|center"
+                android:layout_marginLeft="@dimen/pt10"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:visibility="gone"/>
         </FrameLayout>
 
         <FrameLayout
