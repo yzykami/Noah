@@ -565,7 +565,7 @@ public class MainActivity extends BaseActivity implements AppListFragment.GetApp
                             padding);
                 }
                 textView.setGravity(Gravity.CENTER);
-                textView.setTextColor(context.getResources().getColorStateList(R.color.tab));
+                textView.setTextColor(context.getResources().getColorStateList(R.color.textLightGray));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
                 viewGroup.addView(textView);
                 number++;

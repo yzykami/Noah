@@ -1,1 +1,1 @@
-include ':app', ':mylibrary', ':timeselector', ':uikit', ':demo', ':datacache'
+include ':app', ':mylibrary', ':timeselector', ':uikit', ':demo', ':datacache', ':PagerSlidingTabStripLibrary'

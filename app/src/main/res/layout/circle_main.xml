@@ -1,24 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.tzw.noah.MainActivity">
+    android:layout_marginBottom="@dimen/pt50"
+    android:background="@color/bg_light">
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/myRed">
 
-        <TextView
-            android:id="@+id/message"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bg_white_border"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tv_title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="发现"
+                            android:paddingTop="@dimen/pt5"
+                            android:paddingBottom="@dimen/pt5"
+                            android:paddingLeft="@dimen/pt25"
+                            android:paddingRight="@dimen/pt25"
+                            android:background="@drawable/bg_white_border_left"
+                            android:textColor="@color/myRed"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/tv_title2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/pt5"
+                            android:paddingBottom="@dimen/pt5"
+                            android:paddingLeft="@dimen/pt25"
+                            android:paddingRight="@dimen/pt25"
+                            android:gravity="center"
+                            android:text="板块"
+                            android:textColor="@color/white"
+                            android:background="@color/transparent"
+                            android:textSize="16sp" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="@dimen/btn_title_width"
+                    android:layout_height="@dimen/btn_title_height"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/title_left_btn_left_bj"
+                    android:clickable="true"
+                    android:onClick="handle_back"
+                    android:paddingBottom="@dimen/pt8"
+                    android:paddingLeft="@dimen/pt13"
+                    android:paddingRight="@dimen/pt13"
+                    android:paddingTop="@dimen/pt8"
+                    android:visibility="gone"
+                    android:src="@drawable/back_white" />
+
+                <ImageView
+                    android:id="@+id/iv_detail"
+                    android:layout_width="@dimen/btn_title_width"
+                    android:layout_height="@dimen/btn_title_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/title_right_btn_right_bj"
+                    android:onClick="handle_info"
+                    android:paddingBottom="@dimen/pt5"
+                    android:paddingLeft="@dimen/pt10"
+                    android:paddingRight="@dimen/pt10"
+                    android:paddingTop="@dimen/pt5"
+                    android:src="@drawable/sns_add"
+                    android:visibility="visible" />
+
+        </RelativeLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_below="@id/rl_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="圈子"/>
+            android:layout_height="match_parent">
 
+        </android.support.v4.view.ViewPager>
 
-
-</LinearLayout>
+</RelativeLayout>

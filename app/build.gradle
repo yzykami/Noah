@@ -61,4 +61,5 @@ dependencies {
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     compile project(':uikit')
     compile project(':demo')
+    compile project(path: ':PagerSlidingTabStripLibrary')
 }

@@ -15,16 +15,12 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 
 /**
  * Created by yzy on 2017/6/8.
  */
 
-public class CirileMainActivity extends MyBaseActivity implements ViewPager.OnPageChangeListener {
+public class CirileDetailActivity extends MyBaseActivity implements ViewPager.OnPageChangeListener {
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -33,7 +29,7 @@ public class CirileMainActivity extends MyBaseActivity implements ViewPager.OnPa
     @BindView(R.id.tv_title2)
     TextView tv_title2;
 
-    Context mContext = CirileMainActivity.this;
+    Context mContext = CirileDetailActivity.this;
 
 
     @Override

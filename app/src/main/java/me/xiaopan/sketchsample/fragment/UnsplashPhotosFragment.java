@@ -99,7 +99,7 @@
 //    }
 //
 //    @Override
-//    public void onClickImage(int position, UnsplashImage image, String optionsKey) {
+//    public void onClickItem(int position, UnsplashImage image, String optionsKey) {
 //        // 含有这些信息时，说明这张图片不仅仅是缩小，而是会被改变，因此不能用作loading图了
 //        if (optionsKey.contains("Resize")
 //                || optionsKey.contains("ImageProcessor")

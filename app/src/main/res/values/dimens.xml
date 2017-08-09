@@ -60,6 +60,7 @@
     <dimen name="text_title">18sp</dimen>
     <dimen name="text_title_big">20sp</dimen>
     <dimen name="text_content">14sp</dimen>
+    <dimen name="text_content_title">15sp</dimen>
     <dimen name="text_comment">12sp</dimen>
     <dimen name="text_lable">14sp</dimen>
     <dimen name="text_lable_small">11sp</dimen>
@@ -94,4 +95,5 @@
     <dimen name="title_left_btn_left_bj">2dp</dimen>
     <dimen name="title_right_btn_right_bj">5dp</dimen>
     <dimen name="toolbar_padding_top">25dp</dimen>
+    <dimen name="head_circle">36dp</dimen>
 </resources>

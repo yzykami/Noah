@@ -168,7 +168,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
                 iv_mine.setImageResource(R.drawable.tab_mine);
 
 
-                tab_home_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
+                tab_home_text.setTextColor(getResources().getColorStateList(R.color.myRed));
                 tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_service_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
@@ -184,7 +184,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
                 iv_mine.setImageResource(R.drawable.tab_mine);
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-                tab_circle_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
+                tab_circle_text.setTextColor(getResources().getColorStateList(R.color.myRed));
                 tab_service_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_mine_text.setTextColor(getResources().getColorStateList(R.color.mygray));
@@ -201,7 +201,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-                tab_friend_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
+                tab_friend_text.setTextColor(getResources().getColorStateList(R.color.myRed));
                 tab_service_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_mine_text.setTextColor(getResources().getColorStateList(R.color.mygray));
             } else if (arg0 == layout4) {
@@ -216,7 +216,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-                tab_service_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
+                tab_service_text.setTextColor(getResources().getColorStateList(R.color.myRed));
                 tab_mine_text.setTextColor(getResources().getColorStateList(R.color.mygray));
             } else if (arg0 == layout5) {
 
@@ -232,7 +232,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
                 tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_service_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-                tab_mine_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
+                tab_mine_text.setTextColor(getResources().getColorStateList(R.color.myRed));
             }
 
         }
@@ -258,7 +258,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
         tab_service_text.setTextColor(getResources().getColorStateList(R.color.mygray));
         tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-        tab_mine_text.setTextColor(getResources().getColorStateList(R.color.tabcolorbg));
+        tab_mine_text.setTextColor(getResources().getColorStateList(R.color.myRed));
 
     }
 

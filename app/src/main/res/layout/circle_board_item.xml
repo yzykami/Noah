@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_light">
+
+    <RelativeLayout
+        android:id="@+id/ll_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tag"
+        android:layout_marginBottom="@dimen/pt1"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <me.xiaopan.sketchsample.widget.SampleImageViewHead
+            android:id="@+id/iv_head"
+            android:layout_width="@dimen/head"
+            android:layout_height="@dimen/head"
+            android:layout_margin="@dimen/headPadding"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sns_user_default"
+            app:type="circle" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/llr"
+            android:layout_toRightOf="@+id/iv_head"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="圈子类型"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/text_content" />
+
+            <TextView
+                android:id="@+id/tv_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/pt4"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="主贴10万 回帖100万"
+                android:textColor="@color/mygray"
+                android:textSize="@dimen/text_lable_small" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/headPadding"
+            android:layout_marginRight="@dimen/headPadding"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="加入"
+                android:paddingTop="@dimen/pt5"
+                android:paddingBottom="@dimen/pt5"
+                android:paddingRight="@dimen/pt12"
+                android:paddingLeft="@dimen/pt12"
+                android:textColor="@color/myRed"
+                android:background="@drawable/bg_red_border_round"
+                android:textSize="@dimen/text_lable_small" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
