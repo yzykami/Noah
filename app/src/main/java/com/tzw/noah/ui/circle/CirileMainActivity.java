@@ -59,7 +59,7 @@ public class CirileMainActivity extends MyBaseActivity implements ViewPager.OnPa
 
     private void initview() {
         ArrayList<Fragment> list_fragment = new ArrayList<>();
-        list_fragment.add(new PostListFragment());
+        list_fragment.add(new PostListFragment().setMode(PostListFragment.CIRCLE));
         list_fragment.add(new BoardMainFragment());
         FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), list_fragment);
         viewPager.setAdapter(adapter);
@@ -69,13 +69,13 @@ public class CirileMainActivity extends MyBaseActivity implements ViewPager.OnPa
         tv_title1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(0,true);
+                viewPager.setCurrentItem(0, true);
             }
         });
         tv_title2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(1,true);
+                viewPager.setCurrentItem(1, true);
             }
         });
     }
@@ -108,5 +108,8 @@ public class CirileMainActivity extends MyBaseActivity implements ViewPager.OnPa
             tv_title1.setBackgroundDrawable(getResources().getDrawable(R.color.transParent));
 
         }
+    }
+
+    public void handle_info(View view) {
     }
 }

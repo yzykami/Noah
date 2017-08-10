@@ -75,6 +75,7 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
     };
     // @formatter:on
     private LinearLayout.LayoutParams expandedTabLayoutParams;
+    private LinearLayout.LayoutParams defaultTabLayoutParams;
 
     private final PageListener pageListener = new PageListener();
     public ViewPager.OnPageChangeListener delegatePageListener;
@@ -200,7 +201,7 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
         dividerPaint.setAntiAlias(true);
         dividerPaint.setStrokeWidth(dividerWidth);
 
-//        defaultTabLayoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        defaultTabLayoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         expandedTabLayoutParams = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
 
         if (locale == null) {
@@ -304,6 +305,7 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         txtParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        txtParams.setMargins(tabPadding, 0, tabPadding, 0);
         if (pager.getAdapter() instanceof LayoutProvider) {
             LayoutProvider layoutProvider = (LayoutProvider) pager.getAdapter();
             for (Integer rule : layoutProvider.getPageRule(position)) {
@@ -602,9 +604,9 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
 
             View v = tabsContainer.getChildAt(i);
 
-            //v.setLayoutParams(defaultTabLayoutParams);
+            v.setLayoutParams(defaultTabLayoutParams);
             //my modify
-            v.setLayoutParams(expandedTabLayoutParams);
+//            v.setLayoutParams(expandedTabLayoutParams);
             v.setBackgroundResource(tabBackgroundResId);
             if (shouldExpand) {
                 v.setPadding(0, 0, 0, 0);
@@ -665,13 +667,17 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
 
         int myWidth = getMeasuredWidth();
         int childWidth = 0;
+        int maxWidth = 0;
         for (int i = 0; i < tabCount; i++) {
-            childWidth += tabsContainer.getChildAt(i).getMeasuredWidth();
+            int width = tabsContainer.getChildAt(i).getMeasuredWidth();
+            childWidth += width;
+            if (width >= maxWidth)
+                maxWidth = width;
         }
 
         if (!checkedTabWidths && childWidth > 0 && myWidth > 0) {
 
-            if (childWidth <= myWidth) {
+            if (childWidth <= myWidth && myWidth / tabCount > maxWidth) {
                 if (!setTabLayoutParams()) {
                     for (int i = 0; i < tabCount; i++) {
                         tabsContainer.getChildAt(i).setLayoutParams(expandedTabLayoutParams);

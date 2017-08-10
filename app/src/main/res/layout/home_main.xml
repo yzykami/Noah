@@ -6,20 +6,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/bg_light"
     tools:context="com.tzw.noah.MainActivity">
 
-    <TextView
-        android:id="@+id/message"
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/myRed">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="台州网"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_title" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/btn_title_width"
+            android:layout_height="@dimen/btn_title_height"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_left_btn_left_bj"
+            android:clickable="true"
+            android:onClick="handle_back"
+            android:paddingBottom="@dimen/pt8"
+            android:paddingLeft="@dimen/pt13"
+            android:paddingRight="@dimen/pt13"
+            android:paddingTop="@dimen/pt8"
+            android:src="@drawable/back_white"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_detail"
+            android:layout_width="@dimen/btn_title_width"
+            android:layout_height="@dimen/btn_title_height"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/title_right_btn_right_bj"
+            android:clickable="true"
+            android:onClick="handle_add"
+            android:paddingBottom="@dimen/pt5"
+            android:paddingLeft="@dimen/pt10"
+            android:paddingRight="@dimen/pt10"
+            android:paddingTop="@dimen/pt5"
+            android:src="@drawable/sns_add"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+    <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="主页"
+        android:layout_height="@dimen/pager_sliding_tab_strip_height"
+        style="@style/pagertab_style"
         android:visibility="visible" />
 
-
-
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabs" />
 
 </LinearLayout>

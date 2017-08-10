@@ -8,10 +8,13 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 import com.tzw.noah.R;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.widgets.scrollablelayout.ScrollableLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,18 +27,18 @@ public class CirileDetailActivity extends MyBaseActivity implements ViewPager.On
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-    @BindView(R.id.tv_title1)
-    TextView tv_title1;
-    @BindView(R.id.tv_title2)
-    TextView tv_title2;
+    @BindView(R.id.tabs)
+    AdvancedPagerSlidingTabStrip tabStrip;
+    @BindView(R.id.sl_root)
+    ScrollableLayout sl_root;
 
     Context mContext = CirileDetailActivity.this;
-
+    FragmentViewPagerAdapter fragmentAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.circle_main);
+        setContentView(R.layout.circle_layout_detail);
         ButterKnife.bind(this);
 
         initdata();
@@ -54,26 +57,26 @@ public class CirileDetailActivity extends MyBaseActivity implements ViewPager.On
     }
 
     private void initview() {
-        ArrayList<Fragment> list_fragment = new ArrayList<>();
-        list_fragment.add(new PostListFragment());
-        list_fragment.add(new BoardMainFragment());
-        FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), list_fragment);
-        viewPager.setAdapter(adapter);
-        viewPager.setOnPageChangeListener(this);
 
 
-        tv_title1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(0,true);
-            }
-        });
-        tv_title2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(1,true);
-            }
-        });
+        if (fragmentAdapter == null) {
+//            String[] filePaths = ImageOrientationCorrectTestFileGenerator.getInstance(getContext()).getFilePaths();
+            ArrayList<Fragment> fragments = new ArrayList<>();
+            fragments.add(new PostListFragment().setMode(PostListFragment.CIRCLEDETAIL));
+            fragments.add(new PostListFragment().setMode(PostListFragment.CIRCLEDETAIL));
+//            fragments.add(new BoardFragment());
+//            fragments.add(new BoardFragment());
+//            for (int w = 0; w < filePaths.length; w++) {
+//                fragments[w] = ImageOrientationTestFragment.build(filePaths[w]);
+//            }
+            List<String> titles = new ArrayList<>();
+            titles.add("最新发表");
+            titles.add("最新回复");
+            fragmentAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
+        }
+        viewPager.setAdapter(fragmentAdapter);
+        tabStrip.setViewPager(viewPager);
+        sl_root.getHelper().setCurrentScrollableContainer((PostListFragment) fragmentAdapter.getItem(0));
     }
 
     @Override
@@ -83,6 +86,7 @@ public class CirileDetailActivity extends MyBaseActivity implements ViewPager.On
 
     @Override
     public void onPageSelected(int position) {
+        sl_root.getHelper().setCurrentScrollableContainer((PostListFragment) fragmentAdapter.getItem(position));
         setSelectPage(position);
     }
 
@@ -92,17 +96,8 @@ public class CirileDetailActivity extends MyBaseActivity implements ViewPager.On
     }
 
     private void setSelectPage(int index) {
-        if (index == 0) {
-            tv_title1.setTextColor(getResources().getColor(R.color.myRed));
-            tv_title1.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_white_border_left));
-            tv_title2.setTextColor(getResources().getColor(R.color.white));
-            tv_title2.setBackgroundDrawable(getResources().getDrawable(R.color.transParent));
-        } else {
-            tv_title2.setTextColor(getResources().getColor(R.color.myRed));
-            tv_title2.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_white_border_right));
-            tv_title1.setTextColor(getResources().getColor(R.color.white));
-            tv_title1.setBackgroundDrawable(getResources().getDrawable(R.color.transParent));
+    }
 
-        }
+    public void handle_more(View view) {
     }
 }

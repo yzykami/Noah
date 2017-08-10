@@ -1,14 +1,18 @@
 package com.netease.nim.uikit.common.media.picker.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,9 +25,15 @@ import com.netease.nim.uikit.common.activity.UI;
 import com.netease.nim.uikit.common.media.picker.model.PhotoInfo;
 import com.netease.nim.uikit.common.media.picker.model.PickerContract;
 import com.netease.nim.uikit.model.ToolBarOptions;
+import com.netease.nim.uikit.permission.BaseMPermission;
+import com.netease.nim.uikit.permission.MPermission;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
 import com.netease.nim.uikit.session.constant.Extras;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PickImageActivity extends UI {
@@ -144,6 +154,11 @@ public class PickImageActivity extends UI {
 
     private void pickFromCamera() {
         try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                checkPermission();
+                if(!isPermission())
+                    return;
+            }
             String outPath = getIntent().getStringExtra(Extras.EXTRA_FILE_PATH);
             if (TextUtils.isEmpty(outPath)) {
                 Toast.makeText(this, R.string.sdcard_not_enough_error, Toast.LENGTH_LONG).show();
@@ -310,5 +325,62 @@ public class PickImageActivity extends UI {
             default:
                 break;
         }
+    }
+
+
+    /**
+     * ************************************ 权限检查 ***************************************
+     */
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void checkPermission() {
+        List<String> lackPermissions = new ArrayList<>();//AVChatManager.getInstance().checkPermission(BaseMessageActivity.this);
+        lackPermissions.add(Manifest.permission.CAMERA);
+        lackPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        lackPermissions = BaseMPermission.getDeniedPermissions(this,lackPermissions.toArray(new String[lackPermissions.size()]));
+        if (lackPermissions.isEmpty()) {
+            onBasicPermissionSuccess();
+        } else {
+            String[] permissions = new String[lackPermissions.size()];
+            for (int i = 0; i < lackPermissions.size(); i++) {
+                permissions[i] = lackPermissions.get(i);
+            }
+            MPermission.with(this)
+                    .setRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                    .permissions(permissions)
+                    .request();
+        }
+    }
+
+    public boolean isPermission() {
+        List<String> lackPermissions = new ArrayList<>();//AVChatManager.getInstance().checkPermission(BaseMessageActivity.this);
+        lackPermissions.add(Manifest.permission.CAMERA);
+        lackPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        lackPermissions = BaseMPermission.getDeniedPermissions(this, lackPermissions.toArray(new String[lackPermissions.size()]));
+        if (lackPermissions.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    private static final int BASIC_PERMISSION_REQUEST_CODE = 0x100;
+    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionSuccess() {
+        onAudioPermissionChecked();
+    }
+
+    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+    @OnMPermissionNeverAskAgain(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionFailed() {
+        Toast.makeText(this, "拍摄所需权限未全部授权，无法拍摄！", Toast.LENGTH_SHORT).show();
+        onAudioPermissionChecked();
+    }
+
+    private void onAudioPermissionChecked() {
     }
 }

@@ -16,5 +16,6 @@ public class WelcomeActivity extends MyBaseActivity {
         setContentView(R.layout.activity_main);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }

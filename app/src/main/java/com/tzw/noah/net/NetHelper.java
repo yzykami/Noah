@@ -183,7 +183,7 @@ public class NetHelper {
     }
 
     //user/replaceThePicture
-    public void userReplaceThePicture(Map<String,File> fileBody, Callback callback) {
+    public void userReplaceThePicture(Map<String, File> fileBody, Callback callback) {
         String method = "user/replaceThePicture";
         new WIRequest().Post(method, null, fileBody, "", callback);
     }
@@ -295,6 +295,17 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
+    //获取我的附近的人列表
+    //sns/nearby
+    public void snsNearby2(double lat, double lng, Callback callback) {
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("lat", lat + ""));
+        body.add(new Param("lng", lng + ""));
+        String bodyName = "coordinatesSObj";
+        String method = "sns/nearby2";
+        new WIRequest().Post(method, body,bodyName, callback);
+    }
+
     //获取我的推荐的人列表
     //sns/recommendUser
     public void snsRecommendUser(Callback callback) {
@@ -397,8 +408,8 @@ public class NetHelper {
 
     //获取我的群详情
     //sns/groupDetails
-    public void snsGroupDetails(int groupId,Callback callback) {
-        String method = "sns/groupDetails/"+groupId;
+    public void snsGroupDetails(int groupId, Callback callback) {
+        String method = "sns/groupDetails/" + groupId;
         new WIRequest().Get(method, callback);
     }
 
@@ -554,8 +565,8 @@ public class NetHelper {
 
     //更新多人会话和群组头像
     //sns/uploadIconToGroup
-    public void snsUploadIconToGroup(int groupId, Map<String,File> fileBody, Callback callback) {
-        String method = "sns/uploadIconToGroup/"+groupId;
+    public void snsUploadIconToGroup(int groupId, Map<String, File> fileBody, Callback callback) {
+        String method = "sns/uploadIconToGroup/" + groupId;
         new WIRequest().Post(method, null, fileBody, "", callback);
     }
 }

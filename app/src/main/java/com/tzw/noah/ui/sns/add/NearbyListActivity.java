@@ -54,6 +54,8 @@ public class NearbyListActivity extends MyBaseActivity implements AddAdapter.OnA
 
     String title = "附近的人";
 
+    double lat,lng;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +74,9 @@ public class NearbyListActivity extends MyBaseActivity implements AddAdapter.OnA
 //        fragmentList = new Fragment[4];
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
-            title = bu.getString("title");
+//            title = bu.getString("title");
+            lat =bu.getDouble("lat");
+            lng =bu.getDouble("lng");
         }
     }
 
@@ -100,7 +104,7 @@ public class NearbyListActivity extends MyBaseActivity implements AddAdapter.OnA
     }
 
     private void refreshListView() {
-        new SnsManager(mContext).snsNearby(new StringDialogCallback(mContext) {
+        new SnsManager(mContext).snsNearby2(lat, lng ,new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));

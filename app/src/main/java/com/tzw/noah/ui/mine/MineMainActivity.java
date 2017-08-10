@@ -1,11 +1,15 @@
 package com.tzw.noah.ui.mine;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -16,6 +20,11 @@ import android.widget.Toast;
 
 import com.netease.nim.demo.contact.activity.UserProfileSettingActivity;
 import com.netease.nim.uikit.common.media.picker.PickImageHelper;
+import com.netease.nim.uikit.permission.BaseMPermission;
+import com.netease.nim.uikit.permission.MPermission;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.module.Container;
@@ -37,7 +46,9 @@ import com.tzw.noah.widgets.CircleImageView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;

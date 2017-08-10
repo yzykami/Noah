@@ -560,6 +560,11 @@ public class SnsManager {
         NetHelper.getInstance().snsNearby(callback);
     }
 
+    //获取附近的人,不用做缓存
+    public void snsNearby2(double lat, double lng, Callback callback) {
+        NetHelper.getInstance().snsNearby2(lat, lng, callback);
+    }
+
     //获取推荐的人,不用做缓存
     public void snsRecommendUser(Callback callback) {
         NetHelper.getInstance().snsRecommendUser(callback);

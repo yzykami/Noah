@@ -82,8 +82,15 @@ public class BoardMainFragment extends Fragment implements ViewPager.OnPageChang
             fragments.add(new BoardFragment());
             fragments.add(new BoardFragment());
             fragments.add(new BoardFragment());
-//            fragments.add(new BoardFragment());
-//            fragments.add(new BoardFragment());
+            fragments.add(new BoardFragment());
+            fragments.add(new BoardFragment());
+            fragments.add(new BoardFragment());
+            fragments.add(new BoardFragment());
+            fragments.add(new BoardFragment());
+            fragments.add(new BoardFragment());
+            fragments.add(new BoardFragment());
+            fragments.add(new BoardFragment());
+            fragments.add(new BoardFragment());
 //            for (int w = 0; w < filePaths.length; w++) {
 //                fragments[w] = ImageOrientationTestFragment.build(filePaths[w]);
 //            }
@@ -93,8 +100,15 @@ public class BoardMainFragment extends Fragment implements ViewPager.OnPageChang
             titles.add("情感");
             titles.add("娱乐");
             titles.add("汽车");
-//            titles.add("房产");
-//            titles.add("体育");
+            titles.add("房产");
+            titles.add("体育");
+            titles.add("推荐");
+            titles.add("美食");
+            titles.add("情感");
+            titles.add("娱乐");
+            titles.add("汽车");
+            titles.add("房产");
+            titles.add("体育");
             fragmentAdapter = new FragmentViewPagerAdapter(getChildFragmentManager(), fragments, titles);
         }
         viewPager.setAdapter(fragmentAdapter);

@@ -1,6 +1,7 @@
 package com.tzw.noah.ui.sns.add;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -115,7 +116,21 @@ public class AddFriendFragment extends Fragment implements AddAdapter.OnAddClick
                     }
                     //附近的人
                     else if (position == 1) {
-                        mActivity.startActivity(NearbyListActivity.class);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            mActivity.checkPermission();
+                            if (!mActivity.isPermission())
+                                return;
+                            else
+                                mActivity.initLocalManager();
+                        }
+                        mActivity.toast("lat = " + mActivity.lat + ", lng = " + mActivity.lng);
+                        if (mActivity.lat != 0 && mActivity.lng != 0) {
+                            Bundle bu = new Bundle();
+                            bu.putDouble("lat", mActivity.lat);
+                            bu.putDouble("lng", mActivity.lng);
+                            mActivity.startActivity(NearbyListActivity.class, bu);
+                        } else
+                            mActivity.toast("正在定位,请稍后重试!");
                     }
                     //通讯录
                     else if (position == 2) {
