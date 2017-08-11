@@ -39,8 +39,12 @@ public class MyBaseActivity extends AppCompatActivity {
         return UserCache.isLogin();
     }
 
+    boolean isNeedLogin = true;
+
     public boolean checkLogin(int real_requestcode, Class<?> cls, Bundle bu) {
         synchronized (this) {
+            if (!isNeedLogin)
+                return true;
             if (isLogin())
                 return true;
             else {
@@ -72,6 +76,13 @@ public class MyBaseActivity extends AppCompatActivity {
     }
 
     public void startActivity(Class<?> cls) {
+        isNeedLogin = true;
+        startActivity(cls, null);
+    }
+
+    //不需要登录
+    public void startActivity2(Class<?> cls) {
+        isNeedLogin = false;
         startActivity(cls, null);
     }
 

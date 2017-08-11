@@ -5,6 +5,8 @@ import com.netease.nim.demo.chatroom.helper.ChatRoomHelper;
 import com.netease.nim.uikit.LoginSyncDataStatusObserver;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.common.ui.drop.DropManager;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.auth.AuthService;
 
 /**
  * 注销帮助类
@@ -18,5 +20,6 @@ public class LogoutHelper {
         DemoCache.clear();
         LoginSyncDataStatusObserver.getInstance().reset();
         DropManager.getInstance().destroy();
+        NIMClient.getService(AuthService.class).logout();
     }
 }

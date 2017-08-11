@@ -52,7 +52,9 @@ public class HeadImageView extends CircleImageView {
      * @param team 群
      */
     public void loadTeamIconByTeam(final Team team) {
-        Group group = TZWTeamCache.getInstance().getTeamByAccount(team.getId());
+        Group group =null;
+        if(team!=null)
+            group =TZWTeamCache.getInstance().getTeamByAccount(team.getId());
         if (group != null) {
             if (group.groupAttribute == Group.Type.GROUP) {
                 doLoadImage(team != null ? team.getIcon() : null, R.drawable.nim_avatar_group, DEFAULT_AVATAR_THUMB_SIZE);

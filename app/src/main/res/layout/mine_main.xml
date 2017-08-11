@@ -295,6 +295,7 @@
                     android:paddingTop="@dimen/pt12"
                     android:paddingBottom="@dimen/pt12"
                     android:layout_height="wrap_content"
+                    android:onClick="handle_circle"
                     android:layout_weight="1"
                     android:orientation="vertical">
 

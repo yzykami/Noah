@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/bg_light"
@@ -16,10 +17,10 @@
             android:id="@+id/iv_head"
             android:layout_width="@dimen/head_circle"
             android:layout_height="@dimen/head_circle"
-            android:layout_marginBottom="@dimen/bj"
+            android:layout_marginBottom="@dimen/pt4"
             android:layout_marginLeft="@dimen/bj"
             android:layout_marginRight="@dimen/headPadding"
-            android:layout_marginTop="@dimen/bj"
+            android:layout_marginTop="@dimen/headPadding"
             android:scaleType="centerCrop"
             android:src="@drawable/sns_user_default" />
 
@@ -57,16 +58,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/pt4">
 
         <TextView
             android:id="@+id/tv_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="@dimen/pt4"
             android:layout_marginLeft="@dimen/bj"
-            android:layout_marginTop="@dimen/pt4"
             android:background="@drawable/bg_red_border_round_2dp"
             android:gravity="center"
             android:paddingBottom="@dimen/pt1"
@@ -82,9 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="@dimen/pt4"
             android:layout_marginLeft="@dimen/bj"
-            android:layout_marginTop="@dimen/pt4"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="文章标题"
@@ -96,16 +94,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/pt2">
 
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="@dimen/pt4"
             android:layout_marginLeft="@dimen/bj"
-            android:layout_marginTop="@dimen/pt4"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="文章内容"
@@ -119,7 +116,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/pt4">
+        android:paddingTop="@dimen/pt4">
 
     </LinearLayout>
 
@@ -165,7 +162,7 @@
                 android:layout_marginLeft="@dimen/pt4"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="消息"
+                android:text="1001"
                 android:textColor="@color/textLightGray"
                 android:textSize="@dimen/text_lable_small" />
         </LinearLayout>
@@ -193,7 +190,7 @@
                 android:layout_marginLeft="@dimen/pt4"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="收藏"
+                android:text="8822"
                 android:textColor="@color/textLightGray"
                 android:textSize="@dimen/text_lable_small" />
         </LinearLayout>

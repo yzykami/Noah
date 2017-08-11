@@ -33,7 +33,7 @@ public class CircleListItemFactory extends AssemblyRecyclerItemFactory<CircleLis
 
     public CircleListItemFactory(OnImageClickListener onImageClickListener, int mode) {
         this.onImageClickListener = onImageClickListener;
-        mode = mode;
+        this.mode = mode;
     }
 
     @Override
@@ -52,6 +52,8 @@ public class CircleListItemFactory extends AssemblyRecyclerItemFactory<CircleLis
     }
 
     public class CircleItem extends BindAssemblyRecyclerItem<String> {
+        @BindView(R.id.container)
+        LinearLayout container;
         @BindView(R.id.iv_head)
         SampleImageViewHead imageView;
         @BindView(R.id.ll_user)
@@ -68,7 +70,7 @@ public class CircleListItemFactory extends AssemblyRecyclerItemFactory<CircleLis
         @Override
         protected void onConfigViews(Context context) {
             mContext = context;
-            ll_user.setOnClickListener(new View.OnClickListener() {
+            container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onImageClickListener != null) {

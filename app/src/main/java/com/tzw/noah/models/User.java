@@ -74,13 +74,15 @@ public class User implements Serializable {
     public int ifSeeHim = 0;
     @MyField
     public int ifSeeMe = 0;
-
     public boolean isSelf = false;
+
     public boolean isAttention = false;
     public boolean isFans = false;
     public boolean isBlacklist = false;
     public String nameFirstChar = "";
     public List<Character> namePingyin;
+    public int friends = 0;
+    public int groups = 0;
 
     public String getName() {
         if (remarkName.isEmpty())

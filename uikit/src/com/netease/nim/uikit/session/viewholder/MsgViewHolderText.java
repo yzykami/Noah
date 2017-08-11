@@ -54,9 +54,11 @@ public class MsgViewHolderText extends MsgViewHolderBase {
         if (isReceivedMessage()) {
             bodyTextView.setBackgroundResource(R.drawable.nim_message_item_left_selector);
             bodyTextView.setPadding(ScreenUtil.dip2px(16), ScreenUtil.dip2px(6), ScreenUtil.dip2px(10), ScreenUtil.dip2px(6));
+//            bodyTextView.setPadding(ScreenUtil.dip2px(0), ScreenUtil.dip2px(6), ScreenUtil.dip2px(0), ScreenUtil.dip2px(6));
         } else {
             bodyTextView.setBackgroundResource(R.drawable.nim_message_item_right_selector);
             bodyTextView.setPadding(ScreenUtil.dip2px(10), ScreenUtil.dip2px(6), ScreenUtil.dip2px(16), ScreenUtil.dip2px(6));
+//            bodyTextView.setPadding(ScreenUtil.dip2px(0), ScreenUtil.dip2px(6), ScreenUtil.dip2px(0), ScreenUtil.dip2px(6));
         }
     }
 

@@ -34,6 +34,7 @@ public class CirileDetailActivity extends MyBaseActivity implements ViewPager.On
 
     Context mContext = CirileDetailActivity.this;
     FragmentViewPagerAdapter fragmentAdapter;
+    ArrayList<Fragment> fragments;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class CirileDetailActivity extends MyBaseActivity implements ViewPager.On
 
         if (fragmentAdapter == null) {
 //            String[] filePaths = ImageOrientationCorrectTestFileGenerator.getInstance(getContext()).getFilePaths();
-            ArrayList<Fragment> fragments = new ArrayList<>();
+            fragments = new ArrayList<>();
             fragments.add(new PostListFragment().setMode(PostListFragment.CIRCLEDETAIL));
             fragments.add(new PostListFragment().setMode(PostListFragment.CIRCLEDETAIL));
 //            fragments.add(new BoardFragment());
@@ -75,8 +76,9 @@ public class CirileDetailActivity extends MyBaseActivity implements ViewPager.On
             fragmentAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
         }
         viewPager.setAdapter(fragmentAdapter);
+        tabStrip.setOnPageChangeListener(this);
         tabStrip.setViewPager(viewPager);
-        sl_root.getHelper().setCurrentScrollableContainer((PostListFragment) fragmentAdapter.getItem(0));
+        sl_root.getHelper().setCurrentScrollableContainer((PostListFragment) fragments.get(0));
     }
 
     @Override
@@ -86,7 +88,7 @@ public class CirileDetailActivity extends MyBaseActivity implements ViewPager.On
 
     @Override
     public void onPageSelected(int position) {
-        sl_root.getHelper().setCurrentScrollableContainer((PostListFragment) fragmentAdapter.getItem(position));
+        sl_root.getHelper().setCurrentScrollableContainer((PostListFragment) fragments.get(position));
         setSelectPage(position);
     }
 

@@ -28,10 +28,12 @@ import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.module.Container;
+import com.tzw.noah.MainActivity;
 import com.tzw.noah.R;
 import com.tzw.noah.action.ImageAction;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.SnsDBManager;
+import com.tzw.noah.init.DBInit;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
@@ -74,6 +76,7 @@ public class MineMainActivity extends MyBaseActivity {
     private SampleImageViewHead iv_head;
 
     SessionCustomization customization = new SessionCustomization();
+    private boolean isFirstLoad = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +102,7 @@ public class MineMainActivity extends MyBaseActivity {
         iv_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isLogin()) {
+                if (isLogin()) {
                     PickImageHelper.PickImageOption option = new PickImageHelper.PickImageOption();
                     option.titleResId = com.netease.nim.demo.R.string.set_head_image;
                     option.crop = true;
@@ -125,9 +128,11 @@ public class MineMainActivity extends MyBaseActivity {
             }
             sign += "积分 " + user.growth;
             tv_sign.setText(sign);
-            iv_head.displayImage( user.memberHeadPic);
+            iv_head.displayImage(user.memberHeadPic);
 //            ((CircleImageView)iv_head).setNum(99);
             tv_login.setVisibility(View.GONE);
+            tv_friend_num.setText(user.friends + "");
+            tv_group_num.setText(user.groups + "");
         } else {
             tv_login.setVisibility(View.VISIBLE);
             tv_login.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +145,8 @@ public class MineMainActivity extends MyBaseActivity {
             tv_name.setText("未登录");
             tv_sign.setText("1秒登录，专享个性化服务");
             iv_head.setImageResource(R.drawable.sns_user_default);
+            tv_friend_num.setText("0");
+            tv_group_num.setText("0");
         }
     }
 
@@ -189,6 +196,35 @@ public class MineMainActivity extends MyBaseActivity {
         super.onResume();
         Log.log(TAG, "onResume");
         initview();
+        if (isLogin())
+            if (isFirstLoad) {
+                isFirstLoad = false;
+                fetchUserDetails();
+            }
+    }
+
+    private void fetchUserDetails() {
+        NetHelper.getInstance().getUserDetails(new StringDialogCallback(this) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                toast(getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                if (iMsg.isSucceed()) {
+                    try {
+                        User user = User.load(iMsg);
+                        UserCache.setUser(user);
+                        initview();
+                    } catch (Exception e) {
+                        Log.log(TAG, e);
+                    }
+                } else {
+                    toast(iMsg.getMsg());
+                }
+            }
+        });
     }
 
     public void handle_friendlist(View view) {
@@ -201,6 +237,9 @@ public class MineMainActivity extends MyBaseActivity {
         startActivity(FriendListActivity.class, bu);
     }
 
+    public void handle_circle(View view) {
+        MainActivity.getInstance().selectTag(1);
+    }
 
     private static final int PICK_AVATAR_REQUEST = 0x0E;
 
@@ -223,9 +262,9 @@ public class MineMainActivity extends MyBaseActivity {
         if (file == null) {
             return;
         }
-        Log.log(TAG, "上传头像大小 = "+file.length() + "");
+        Log.log(TAG, "上传头像大小 = " + file.length() + "");
         Bitmap bm = Utils.getSmallBitmap(path);
-        Log.log(TAG, "上传头像大小 = "+bm.getByteCount() + "");
+        Log.log(TAG, "上传头像大小 = " + bm.getByteCount() + "");
 
         Map<String, File> fileBody = new HashMap<>();
         fileBody.put("headPortraits", file);
@@ -290,11 +329,12 @@ public class MineMainActivity extends MyBaseActivity {
     private long currentBackPressedTime = 0;
     // 退出间隔
     private static final int BACK_PRESSED_INTERVAL = 2000;
+
     //重写onBackPressed()方法,继承自退出的方法
     @Override
     public void onBackPressed() {
         // 判断时间间隔
-        if (System.currentTimeMillis()- currentBackPressedTime > BACK_PRESSED_INTERVAL) {
+        if (System.currentTimeMillis() - currentBackPressedTime > BACK_PRESSED_INTERVAL) {
             currentBackPressedTime = System.currentTimeMillis();
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
         } else {
@@ -302,4 +342,6 @@ public class MineMainActivity extends MyBaseActivity {
             finish();
         }
     }
+
+
 }

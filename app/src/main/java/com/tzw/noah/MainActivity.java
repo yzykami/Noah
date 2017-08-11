@@ -40,6 +40,8 @@ import com.tzw.noah.ui.mine.MineMainActivity;
 import com.tzw.noah.ui.service.ServiceMainActivity;
 import com.tzw.noah.ui.sns.SnsMainActivity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Handler;
 
 public class MainActivity extends TabActivity implements ReminderManager.UnreadNumChangedCallback {
@@ -47,6 +49,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
     private TabHost tabHost;
 
     private FrameLayout layout1, layout2, layout3, layout4, layout5;
+    private List<FrameLayout> frameLayoutList=new ArrayList<>();
     private TextView tab_home_text;
     private TextView tab_friend_text;
     private TextView tab_service_text;
@@ -125,6 +128,12 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         layout3.setOnClickListener(l);
         layout4.setOnClickListener(l);
         layout5.setOnClickListener(l);
+
+        frameLayoutList.add(layout1);
+        frameLayoutList.add(layout2);
+        frameLayoutList.add(layout3);
+        frameLayoutList.add(layout4);
+        frameLayoutList.add(layout5);
 
 
         tab_home_text = (TextView) findViewById(R.id.tab_home_text);
@@ -260,6 +269,11 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
         tab_mine_text.setTextColor(getResources().getColorStateList(R.color.myRed));
 
+    }
+
+    public void selectTag(int index)
+    {
+        frameLayoutList.get(index).callOnClick();
     }
 
 

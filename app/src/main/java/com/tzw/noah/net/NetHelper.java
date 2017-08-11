@@ -163,6 +163,12 @@ public class NetHelper {
     }
 
     //user/details
+    public void getUserDetails(Callback callback) {
+        String method = "user/details";
+        new WIRequest().Post(method, null, callback);
+    }
+
+    //user/details
     public void setUserInfo(List<Param> body, Callback callback) {
         String method = "user/info";
         String bodyName = "infoSObj";
@@ -303,7 +309,7 @@ public class NetHelper {
         body.add(new Param("lng", lng + ""));
         String bodyName = "coordinatesSObj";
         String method = "sns/nearby2";
-        new WIRequest().Post(method, body,bodyName, callback);
+        new WIRequest().Post(method, body, bodyName, callback);
     }
 
     //获取我的推荐的人列表

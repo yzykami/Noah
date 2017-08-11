@@ -34,6 +34,7 @@ import com.tzw.noah.ui.sns.friendlist.MyFragment;
 import com.tzw.noah.ui.sns.friendlist.RecommendListActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.ui.sns.relationrecord.RelationRecordListActivity;
+import com.tzw.noah.ui.webview.WebViewActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.utils.ViewUtils;
 import com.tzw.noah.widgets.WordNaviView;
@@ -237,7 +238,7 @@ public class PostListFragment extends Fragment implements CircleListItemFactory.
 
     @Override
     public void onClickImage(int position, String optionsKey) {
-
+        activity.startActivity2(WebViewActivity.class);
     }
 
     @Override
