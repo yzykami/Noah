@@ -217,6 +217,21 @@ public class Utils {
         return items;
     }
 
+    public static List<User> processUserStar(List<User> items) {
+        List<User> starList = new ArrayList<>();
+
+        for (int i = 0; i < items.size(); i++) {
+            User u = items.get(i);
+            if(u.ifStar==0) {
+                User clone = User.Clone(u);
+                clone.nameFirstChar = "星标";
+                starList.add(clone);
+            }
+        }
+        starList.addAll(items);
+        return starList;
+    }
+
     public static void listAdd(List list, List list1) {
         if (list == null)
             return;

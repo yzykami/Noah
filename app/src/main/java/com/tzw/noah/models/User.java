@@ -1,10 +1,14 @@
 package com.tzw.noah.models;
 
+import android.content.Context;
+
 import com.google.gson.reflect.TypeToken;
+import com.tzw.noah.AppContext;
 import com.tzw.noah.db.MyField;
 import com.tzw.noah.net.IMsg;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -181,5 +185,22 @@ public class User implements Serializable {
         IMsg iMsg2 = iMsg.getJsonObject("");
         return iMsg.getModelList("blacksRObj", new TypeToken<List<User>>() {
         }.getType());
+    }
+
+    public static User Clone(User user)
+    {
+        User clone=new User();
+        try {
+            Class c = Class.forName("com.tzw.noah.models.User");
+            Field[] fields = c.getDeclaredFields();
+            Context context = AppContext.getContext();
+            for (Field field : fields) {
+                if (field.get(user) != null)
+                    field.set(clone,field.get(user));
+            }
+        } catch (Exception e) {
+
+        }
+        return clone;
     }
 }

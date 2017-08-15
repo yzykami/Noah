@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.widget.FrameLayout;
@@ -14,7 +15,11 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
 import com.tzw.noah.ui.sns.add.AddActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,23 +30,25 @@ import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
  * Created by yzy on 2017/6/26.
  */
 
-public class FriendListActivity extends MyBaseActivity {
+public class FriendListActivity extends MyBaseActivity implements ViewPager.OnPageChangeListener {
 
 
-    @BindView(R.id.framelayout)
-    FrameLayout frameLayout;
+    //    @BindView(R.id.framelayout)
+//    FrameLayout frameLayout;
     @BindView(R.id.ll)
     LinearLayout ll;
     @BindView(R.id.iv_detail)
     ImageView iv_add;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
 
     Context mContext = FriendListActivity.this;
 //    private AssemblyRecyclerAdapter adapter;
 
     int selectPage;
-    Fragment[] fragmentList = null;
+    List<Fragment> fragmentList = null;
     private boolean firstLoad = true;
 
     @Override
@@ -58,7 +65,7 @@ public class FriendListActivity extends MyBaseActivity {
 
     private void initdata() {
         selectPage = 0;
-        fragmentList = new Fragment[4];
+        fragmentList = new ArrayList<>();
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
             selectPage = bu.getInt("DATA");
@@ -70,8 +77,6 @@ public class FriendListActivity extends MyBaseActivity {
     }
 
     private void initview() {
-        showFragment(selectPage);
-        setTag(selectPage);
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,36 +88,48 @@ public class FriendListActivity extends MyBaseActivity {
                 startActivity(AddActivity.class, bu);
             }
         });
+        fragmentList.add(new FriendFragment());
+        fragmentList.add(new FollowFragment());
+        fragmentList.add(new FansFragment());
+        fragmentList.add(new GroupFragment());
+        FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragmentList);
+        viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(this);
+        viewPager.setOffscreenPageLimit(4);
+
+        showFragment(selectPage);
+        setTag(selectPage);
     }
 
     private void showFragment(int selected) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-
-        if (fragmentList[selected] == null) {
-            if (selected == 0)
-                fragmentList[selected] = new FriendFragment();
-            if (selected == 1)
-                fragmentList[selected] = new FollowFragment();
-            if (selected == 2)
-                fragmentList[selected] = new FansFragment();
-            if (selected == 3)
-                fragmentList[selected] = new GroupFragment();
-
-        }
-
-        if (selected == 0)
-            tv_title.setText("好友");
-        if (selected == 1)
-            tv_title.setText("关注");
-        if (selected == 2)
-            tv_title.setText("粉丝");
-        if (selected == 3)
-            tv_title.setText("群组");
-
-//        fragment.setArguments(getArguments(selected));
-        transaction.replace(R.id.framelayout, fragmentList[selected]);
-        transaction.commit();
+//        FragmentManager fm = getSupportFragmentManager();
+//        FragmentTransaction transaction = fm.beginTransaction();
+//
+//        if (fragmentList[selected] == null) {
+//            if (selected == 0)
+//                fragmentList[selected] = new FriendFragment();
+//            if (selected == 1)
+//                fragmentList[selected] = new FollowFragment();
+//            if (selected == 2)
+//                fragmentList[selected] = new FansFragment();
+//            if (selected == 3)
+//                fragmentList[selected] = new GroupFragment();
+//
+//        }
+//
+//        if (selected == 0)
+//            tv_title.setText("好友");
+//        if (selected == 1)
+//            tv_title.setText("关注");
+//        if (selected == 2)
+//            tv_title.setText("粉丝");
+//        if (selected == 3)
+//            tv_title.setText("群组");
+//
+////        fragment.setArguments(getArguments(selected));
+//        transaction.replace(R.id.framelayout, fragmentList[selected]);
+//        transaction.commit();
+        viewPager.setCurrentItem(selected, true);
     }
 
     protected void setupViews(final PtrClassicFrameLayout ptrFrame) {
@@ -175,5 +192,21 @@ public class FriendListActivity extends MyBaseActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        selectPage = position;
+        setTag(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

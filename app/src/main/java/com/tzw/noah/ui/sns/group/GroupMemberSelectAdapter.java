@@ -14,6 +14,8 @@ import com.tzw.noah.models.SnsPerson;
 
 import java.util.List;
 
+import me.xiaopan.sketchsample.widget.SampleImageViewHead;
+
 /**
  * Created by yzy on 2017/6/19.
  */
@@ -56,6 +58,7 @@ public class GroupMemberSelectAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.sns_select_item, null);
             holder = new ViewHolder();
             holder.iv = (ImageView) convertView.findViewById(R.id.iv);
+            holder.iv_head = (SampleImageViewHead) convertView.findViewById(R.id.iv_head);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_name);
             holder.view=convertView;
             convertView.setTag(holder);
@@ -71,7 +74,9 @@ public class GroupMemberSelectAdapter extends BaseAdapter {
             holder.iv.setVisibility(View.VISIBLE);
         else
             holder.iv.setVisibility(View.GONE);
-
+        holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_user_default);
+        holder.iv_head.getOptions().setErrorImage(R.drawable.sns_user_default);
+        holder.iv_head.displayImage(snsPerson.memberHeadPic);
 //        holder.view.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -85,6 +90,7 @@ public class GroupMemberSelectAdapter extends BaseAdapter {
         public TextView tv;
         public ImageView iv;
         public View view;
+        public SampleImageViewHead iv_head;
     }
 
 }

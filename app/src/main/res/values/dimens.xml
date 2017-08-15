@@ -90,10 +90,11 @@
     <dimen name="sns_dialog_corners_border_small">-1.5dp</dimen>
     <dimen name="sns_dialog_corners_border_big">-2dp</dimen>
     <dimen name="sns_personal_bg_height">180dp</dimen>
-    <dimen name="sns_group_bg_height">160dp</dimen>
+    <dimen name="sns_group_bg_height">200dp</dimen>
 
     <dimen name="title_left_btn_left_bj">2dp</dimen>
     <dimen name="title_right_btn_right_bj">5dp</dimen>
     <dimen name="toolbar_padding_top">25dp</dimen>
     <dimen name="head_circle">36dp</dimen>
+    <dimen name="corner">3dp</dimen>
 </resources>

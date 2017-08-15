@@ -62,14 +62,26 @@ public class FriendFragment extends MyFragment {
 
     FriendListActivity activity;
     FriendAdapter adapter;
+    private LayoutInflater inflater;
+    private ViewGroup container;
+    private View contentView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.sns_friendlist_friend, container, false);
-        ButterKnife.bind(this, view);
+        if (contentView != null) {
+            ViewGroup parent = (ViewGroup) contentView.getParent();
+            if (parent != null) {
+                parent.removeView(contentView);
+            }
+        } else
+            contentView = inflater.inflate(R.layout.sns_friendlist_friend, container, false);
+        ButterKnife.bind(this, contentView);
+        this.inflater = inflater;
+        this.container = container;
+
         wordnavi.setOnWordsChangeListener(new WordNaviView.onWordsChangeListener() {
             @Override
             public void wordsChange(String words) {
@@ -77,28 +89,27 @@ public class FriendFragment extends MyFragment {
             }
         });
 
-        items = DataCenter.getInstance().getFriendList();
-        items = Utils.processUser(items);
-        Collections.sort(items, new MyCompare());
-        adapter = new FriendAdapter(mContext, items);
-        list_view.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
-        View headSearchView = inflater.inflate(R.layout.sns_search_head, container, false);
+        View headSearchView = inflater.inflate(R.layout.sns_search_head, null, false);
 //        list_view.addHeaderView(headSearchView);
-        View spanView = inflater.inflate(R.layout.sns_span, container, false);
+        View spanView = inflater.inflate(R.layout.sns_span, null, false);
         list_view.addHeaderView(spanView);
 
-        View nextView = inflater.inflate(R.layout.sns_next_operation_item, container, false);
+        View nextView = inflater.inflate(R.layout.sns_next_operation_item, null, false);
         ImageView iv = (ImageView) nextView.findViewById(R.id.iv_head);
         TextView tv = (TextView) nextView.findViewById(R.id.tv_name);
         iv.setImageResource(R.drawable.sns_star);
         tv.setText("好友推荐");
         list_view.addHeaderView(nextView);
+        list_view.addHeaderView(ViewUtils.getHeadView(inflater, null, R.drawable.sns_system_notice, "黑名单"));
+        list_view.addHeaderView(ViewUtils.getHeadView(inflater, null, R.drawable.sns_create_group, "好友通知"));
 
-        list_view.addHeaderView(ViewUtils.getHeadView(inflater, container, R.drawable.sns_system_notice, "黑名单"));
-
-        list_view.addHeaderView(ViewUtils.getHeadView(inflater, container, R.drawable.sns_create_group, "好友通知"));
+        items = DataCenter.getInstance().getFriendList();
+        items = Utils.processUser(items);
+        Collections.sort(items, new MyCompare());
+        items = Utils.processUserStar(items);
+        adapter = new FriendAdapter(mContext, items);
+        list_view.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -121,8 +132,7 @@ public class FriendFragment extends MyFragment {
             }
         });
 
-
-        return view;
+        return contentView;
     }
 
     @Override
@@ -141,7 +151,6 @@ public class FriendFragment extends MyFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     private void updateListView(String words) {
@@ -164,7 +173,7 @@ public class FriendFragment extends MyFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(activity.firstLoad())
+        if (activity.firstLoad())
             refreshListView();
         else
             refreshListView2();
@@ -184,6 +193,7 @@ public class FriendFragment extends MyFragment {
                         items = DataCenter.getInstance().getFriendList();
                         items = Utils.processUser(items);
                         Collections.sort(items, new MyCompare());
+                        items = Utils.processUserStar(items);
                         adapter = new FriendAdapter(mContext, items);
                         list_view.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
@@ -201,8 +211,18 @@ public class FriendFragment extends MyFragment {
         items = DataCenter.getInstance().getFriendList();
         items = Utils.processUser(items);
         Collections.sort(items, new MyCompare());
+        items = Utils.processUserStar(items);
         adapter = new FriendAdapter(mContext, items);
-//        list_view.setAdapter(adapter);
+        list_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (list_view == null)
+            return;
+        if (isVisibleToUser)
+            refreshListView2();
     }
 }

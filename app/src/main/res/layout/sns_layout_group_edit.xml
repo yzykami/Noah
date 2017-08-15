@@ -86,6 +86,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:padding="@dimen/pt10"
+                    android:visibility="gone"
                     android:src="@drawable/sns_delete_photo" />
 
 
@@ -115,10 +116,11 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
                 android:layout_marginTop="@dimen/pt10"
-                android:text="默认第一张是头像，共4张"
+                android:text="上传群头像"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/text_comment" />
 
+            <!--android:text="默认第一张是头像，共4张"-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"

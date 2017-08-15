@@ -6,6 +6,7 @@
     android:background="@color/bg_light">
 
     <com.tzw.noah.widgets.ListenedScrollView
+        android:id="@+id/sl_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -499,7 +500,7 @@
         android:id="@+id/rl_top"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/title_height"
-        android:layout_marginTop="@dimen/toolbar_padding_top"
+        android:layout_marginTop="@dimen/pt0"
         android:background="@color/transParent">
 
         <TextView

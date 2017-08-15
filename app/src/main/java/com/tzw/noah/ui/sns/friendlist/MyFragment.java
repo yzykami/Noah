@@ -2,6 +2,7 @@ package com.tzw.noah.ui.sns.friendlist;
 
 
 import android.support.v4.app.Fragment;
+import android.view.ViewGroup;
 
 import com.tzw.noah.models.User;
 import com.tzw.noah.utils.Utils;

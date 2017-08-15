@@ -53,13 +53,21 @@ public class FansFragment extends MyFragment {
 
     FriendListActivity activity;
     FriendAdapter adapter;
+    View contentView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.sns_friendlist_friend, container, false);
-        ButterKnife.bind(this, view);
+        if (contentView != null) {
+            ViewGroup parent = (ViewGroup) contentView.getParent();
+            if (parent != null) {
+                parent.removeView(contentView);
+            }
+        }
+        else
+            contentView = inflater.inflate(R.layout.sns_friendlist_friend, container, false);
+        ButterKnife.bind(this, contentView);
         wordnavi.setOnWordsChangeListener(new WordNaviView.onWordsChangeListener() {
             @Override
             public void wordsChange(String words) {
@@ -67,9 +75,10 @@ public class FansFragment extends MyFragment {
             }
         });
 
-        items= DataCenter.getInstance().getFansList();
+        items = DataCenter.getInstance().getFansList();
         items = Utils.processUser(items);
         Collections.sort(items, new MyCompare());
+        items = Utils.processUserStar(items);
         adapter = new FriendAdapter(mContext, items);
         list_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -101,7 +110,7 @@ public class FansFragment extends MyFragment {
             }
         });
 
-        return view;
+        return contentView;
     }
 
     @Override
@@ -123,7 +132,7 @@ public class FansFragment extends MyFragment {
     }
 
     private void updateListView(String words) {
-        if(words=="") {
+        if (words == "") {
             list_view.setSelection(0);
             return;
         }
@@ -132,7 +141,7 @@ public class FansFragment extends MyFragment {
             //将手指按下的字母与列表中相同字母开头的项找出来
             if (words.equals(ping)) {
                 //将列表选中哪一个
-                list_view.setSelection(i+list_view.getHeaderViewsCount());
+                list_view.setSelection(i + list_view.getHeaderViewsCount());
                 //找到开头的一个即可
                 return;
             }
@@ -142,7 +151,7 @@ public class FansFragment extends MyFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(activity.firstLoad())
+        if (activity.firstLoad())
             refreshListView();
         else
             refreshListView2();
@@ -159,9 +168,10 @@ public class FansFragment extends MyFragment {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        items= DataCenter.getInstance().getFansList();
+                        items = DataCenter.getInstance().getFansList();
                         items = Utils.processUser(items);
                         Collections.sort(items, new MyCompare());
+                        items = Utils.processUserStar(items);
                         adapter = new FriendAdapter(mContext, items);
                         list_view.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
@@ -179,8 +189,16 @@ public class FansFragment extends MyFragment {
         items = DataCenter.getInstance().getFansList();
         items = Utils.processUser(items);
         Collections.sort(items, new MyCompare());
+        items = Utils.processUserStar(items);
         adapter = new FriendAdapter(mContext, items);
         list_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser)
+            refreshListView2();
     }
 }

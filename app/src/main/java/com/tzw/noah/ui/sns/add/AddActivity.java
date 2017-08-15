@@ -21,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -35,6 +36,7 @@ import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
 import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
 import com.tzw.noah.ui.sns.friendlist.FansFragment;
 import com.tzw.noah.ui.sns.friendlist.FollowFragment;
 import com.tzw.noah.ui.sns.friendlist.FriendFragment;
@@ -53,20 +55,18 @@ import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
  * Created by yzy on 2017/6/30.
  */
 
-public class AddActivity extends MyBaseActivity {
-
-
-    @BindView(R.id.framelayout)
-    FrameLayout frameLayout;
+public class AddActivity extends MyBaseActivity implements ViewPager.OnPageChangeListener{
     @BindView(R.id.ll)
     LinearLayout ll;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
 
     Context mContext = AddActivity.this;
 //    private AssemblyRecyclerAdapter adapter;
 
     String Tag = "AddActivity";
     int selectPage;
-    Fragment[] fragmentList = null;
+    List<Fragment> fragmentList = null;
 
     /* Position */
     private static final int MINIMUM_TIME = 1000;  // 1s
@@ -94,7 +94,7 @@ public class AddActivity extends MyBaseActivity {
 
     private void initdata() {
         selectPage = 0;
-        fragmentList = new Fragment[2];
+        fragmentList = new ArrayList<>();
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
             selectPage = bu.getInt("DATA");
@@ -106,23 +106,18 @@ public class AddActivity extends MyBaseActivity {
     }
 
     private void initview() {
+        fragmentList.add(new AddFriendFragment());
+        fragmentList.add(new AddGroupFragment());
+        FragmentViewPagerAdapter adapter =new FragmentViewPagerAdapter(getSupportFragmentManager(),fragmentList);
+        viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(this);
+
         showFragment(selectPage);
         setTag(selectPage);
     }
 
     private void showFragment(int selected) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-
-        if (fragmentList[selected] == null) {
-            if (selected == 0)
-                fragmentList[selected] = new AddFriendFragment();
-            if (selected == 1)
-                fragmentList[selected] = new AddGroupFragment();
-        }
-//        fragment.setArguments(getArguments(selected));
-        transaction.replace(R.id.framelayout, fragmentList[selected]);
-        transaction.commit();
+        viewPager.setCurrentItem(selected,true);
     }
 
     protected void setupViews(final PtrClassicFrameLayout ptrFrame) {
@@ -347,4 +342,18 @@ public class AddActivity extends MyBaseActivity {
     };
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        setTag(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }

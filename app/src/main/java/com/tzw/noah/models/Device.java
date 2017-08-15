@@ -17,9 +17,9 @@ public class Device {
     public int memberId;
     public int clientType;
     public String clientCode;
-    public int clientIp;
-    public int proxyIp;
-    public int forwardIp;
+    public String clientIp;
+    public String proxyIp;
+    public String forwardIp;
     public String lastActiveTime;//datetime
     public String loginTime;//datetime
 

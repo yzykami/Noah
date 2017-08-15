@@ -69,8 +69,8 @@ public class LoginActivity extends MyBaseActivity {
         initdata();
         findview();
         initview();
-        et_username.setText("15858652110");
-        et_pwd.setText("123456");
+//        et_username.setText("15858652110");
+//        et_pwd.setText("123456");
         doWorking();
     }
 

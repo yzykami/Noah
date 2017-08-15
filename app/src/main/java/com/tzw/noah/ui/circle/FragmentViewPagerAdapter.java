@@ -12,19 +12,20 @@ import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 
 public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
-    private ArrayList<Fragment> listFragments;
+    private List<Fragment> listFragments;
     List<String> mTitles;
 
-    public FragmentViewPagerAdapter(FragmentManager fm, ArrayList<Fragment> al, List<String> titles) {
+    public FragmentViewPagerAdapter(FragmentManager fm, List<Fragment> al, List<String> titles) {
         super(fm);
         mTitles = titles;
         listFragments = al;
     }
 
-    public FragmentViewPagerAdapter(FragmentManager fm, ArrayList<Fragment> al) {
+    public FragmentViewPagerAdapter(FragmentManager fm, List<Fragment> al) {
         super(fm);
         listFragments = al;
     }
@@ -56,5 +57,10 @@ public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
             return mTitles.get(position);
         }
         return null;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+
     }
 }

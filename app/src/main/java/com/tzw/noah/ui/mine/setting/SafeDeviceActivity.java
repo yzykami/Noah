@@ -50,7 +50,7 @@ public class SafeDeviceActivity extends MyBaseActivity {
 
     private void initview() {
         List<Param> body = new ArrayList<>();
-        body.add(new Param("TokenCode", UserCache.getToken()));
+        body.add(new Param("tokenCode", UserCache.getToken()));
         NetHelper.getInstance().getUserDevice(body, new StringDialogCallback(this) {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -81,8 +81,8 @@ public class SafeDeviceActivity extends MyBaseActivity {
         View v = LayoutInflater.from(mycontext).inflate(R.layout.mine_settting_safe_device_item, null);
         TextView tv_name = (TextView) v.findViewById(R.id.tv_name);
         TextView tv_time = (TextView) v.findViewById(R.id.tv_time);
-        tv_name.setText(device.tokenCode + "" + device.clientCode);
-        tv_time.setText(device.getLastActiveTime());
+        tv_name.setText("登录IP "+device.clientIp );
+        tv_time.setText("激活时间 " +device.getLastActiveTime());
         return v;
     }
 

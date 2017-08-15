@@ -3,6 +3,6 @@
     <stroke
         android:width="@dimen/pt1"
         android:color="@color/bg_darkLight" />
-    <corners android:radius="@dimen/pt5" />
+    <corners android:radius="@dimen/corner" />
 
 </shape>

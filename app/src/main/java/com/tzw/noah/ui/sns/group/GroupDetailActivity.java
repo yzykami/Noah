@@ -26,6 +26,7 @@ import com.tzw.noah.ui.BottomPopupWindow;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
+import com.tzw.noah.widgets.ListenedScrollView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/7/3.
  */
 
-public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWindow.OnItemClickListener {
+public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWindow.OnItemClickListener, ListenedScrollView.OnScrollListener {
     @BindView(R.id.rl_top)
     RelativeLayout rl_top;
     @BindView(R.id.rl_manager)
@@ -68,6 +69,10 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
     TextView tv_count;
     @BindView(R.id.iv_bg)
     SampleImageView iv_bg;
+    @BindView(R.id.sl_root)
+    ListenedScrollView sl_root;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
 
     boolean isIvTop = false;
     boolean isIvSlient = false;
@@ -85,10 +90,10 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sns_layout_group_detail);
         ButterKnife.bind(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+//            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+//        }
         initdata();
         findview();
         initview();
@@ -133,6 +138,8 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
         iv_bg.getOptions().setErrorImage(R.drawable.sns_group_bg);
         iv_bg.getOptions().setLoadingImage(R.drawable.sns_group_bg);
         iv_bg.displayImage(group.groupHeader);
+
+        sl_root.setOnScrollListener(this);
     }
 
     private View getMemberView(final GroupMember gm) {
@@ -376,5 +383,38 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
 
     public void handle_send(View view) {
         NimUIKit.startTeamSession(mContext, group.netEaseGroupId + "");
+    }
+
+    @Override
+    public void onBottomArrived() {
+
+    }
+
+    @Override
+    public void onScrollStateChanged(ListenedScrollView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScrollChanged(int l, int t, int oldl, int oldt) {
+        int rl_top_y = (int) (rl_top.getY() + rl_top.getHeight());
+        int tv_group_name_y = (int) (((View) tv_group_name.getParent()).getTop());// + tv_group_name.getHeight()
+        int tv_group_name_h = tv_group_name.getHeight();
+
+        int baseAlpha = 60;
+        int alpha = 0;
+
+        if (oldt >= tv_group_name_y - rl_top_y) {
+
+            alpha = Math.min(255, (int) (Math.abs(oldt - tv_group_name_y + rl_top_y) * (255 - baseAlpha) / (tv_group_name_h) + baseAlpha));
+            rl_top.setBackgroundColor(getResources().getColor(R.color.myRed));
+            rl_top.getBackground().setAlpha(alpha);
+            if (alpha >= 255)
+                tv_title.setText(group.groupName);
+            else
+                tv_title.setText("");
+        } else {
+            rl_top.setBackgroundColor(getResources().getColor(R.color.transparent));
+        }
     }
 }

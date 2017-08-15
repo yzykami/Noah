@@ -11,11 +11,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/pt6"
-        android:paddingTop="@dimen/pt6"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="@dimen/pt6"
+        android:paddingTop="@dimen/pt6">
 
         <ImageView
             android:id="@+id/iv_switch"
@@ -32,15 +32,16 @@
             android:id="@+id/tv_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/iv_switch"
+            android:layout_toRightOf="@+id/iv_switch"
             android:background="@drawable/bg_gray_border"
-            android:padding="@dimen/pt4"
             android:imeOptions="actionSend"
+            android:padding="@dimen/pt4"
             android:text="呵呵"
             android:textColor="@color/textDarkGray"
-            android:textSize="@dimen/text_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/iv_switch"
-            android:layout_toEndOf="@+id/iv_switch" />
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="@dimen/text_content" />
 
         <ImageView
             android:id="@+id/iv_face"

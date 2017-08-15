@@ -18,6 +18,7 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.sns.add.AddActivity;
+import com.tzw.noah.ui.sns.discuss.DiscussDetailActivity;
 import com.tzw.noah.ui.sns.group.GroupDetailActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
@@ -61,21 +62,25 @@ public class GobalObserverImpl implements GobalObserver {
             new SnsManager(context).snsGroupDetails(group.groupId, new StringDialogCallback(context) {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Toast.makeText(context,context.getResources().getString(R.string.internet_fault),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.internet_fault), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onResponse(IMsg iMsg) {
                     try {
                         if (iMsg.isSucceed()) {
-                            com.tzw.noah.models.Group g  = DataCenter.getInstance().getGroup();
+                            com.tzw.noah.models.Group g = DataCenter.getInstance().getGroup();
                             Bundle bu = new Bundle();
                             bu.putSerializable("DATA", g);
-                            Intent intent = new Intent(context, GroupDetailActivity.class);
+                            Intent intent = null;
+                            if (g.groupAttribute == com.tzw.noah.models.Group.Type.GROUP)
+                                intent = new Intent(context, GroupDetailActivity.class);
+                            else
+                                intent = new Intent(context, DiscussDetailActivity.class);
                             intent.putExtras(bu);
                             context.startActivity(intent);
                         } else {
-                            Toast.makeText(context,iMsg.getMsg(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, iMsg.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         Log.log("GobalObserverImpl", e);
@@ -111,7 +116,11 @@ public class GobalObserverImpl implements GobalObserver {
 
             Bundle bu = new Bundle();
             bu.putSerializable("DATA", g);
-            Intent intent = new Intent(context, GroupDetailActivity.class);
+            Intent intent = null;
+            if (g.groupAttribute == com.tzw.noah.models.Group.Type.GROUP)
+                intent = new Intent(context, GroupDetailActivity.class);
+            else
+                intent = new Intent(context, DiscussDetailActivity.class);
             intent.putExtras(bu);
             context.startActivity(intent);
         }
@@ -125,13 +134,10 @@ public class GobalObserverImpl implements GobalObserver {
 
     @Override
     public void onUnreadNumChanged(Object o) {
-        if(MainActivity.getInstance()==null)
-        {
+        if (MainActivity.getInstance() == null) {
             return;
-        }
-        else
-        {
-            MainActivity.getInstance().onUnreadNumChanged((ReminderItem )o);
+        } else {
+            MainActivity.getInstance().onUnreadNumChanged((ReminderItem) o);
         }
     }
 }

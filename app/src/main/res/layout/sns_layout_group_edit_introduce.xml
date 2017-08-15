@@ -71,14 +71,16 @@
                 android:layout_marginLeft="@dimen/bj"
                 android:layout_marginRight="@dimen/bj"
                 android:layout_toLeftOf="@+id/iv_male"
+                android:background="@null"
                 android:gravity="left"
-
                 android:hint="请输入您的群介绍"
+
                 android:maxLines="5"
                 android:minLines="5"
                 android:text=""
                 android:textColor="@color/textDarkGray"
                 android:textColorHint="@color/textLightGray"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:textSize="@dimen/sp14" />
 
             <TextView

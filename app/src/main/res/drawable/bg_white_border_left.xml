@@ -5,6 +5,6 @@
         android:color="@color/white"></stroke>
     <solid android:color="@color/white" />
     <corners
-        android:bottomLeftRadius="@dimen/pt5"
-        android:topLeftRadius="@dimen/pt5" />
+        android:bottomLeftRadius="@dimen/corner"
+        android:topLeftRadius="@dimen/corner" />
 </shape>

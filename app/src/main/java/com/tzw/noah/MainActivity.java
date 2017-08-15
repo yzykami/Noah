@@ -110,7 +110,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         tabHost.addTab(tabHost.newTabSpec("3").setIndicator("3").setContent(intent3));
 
         Intent intent4 = new Intent();
-        intent4.setClass(MainActivity.this, SnsMainActivity.class);//ServiceMainActivity.class);
+        intent4.setClass(MainActivity.this, ServiceMainActivity.class);//SnsMainActivity.class);
         tabHost.addTab(tabHost.newTabSpec("4").setIndicator("4").setContent(intent4));
 
         Intent intent5 = new Intent();
@@ -158,7 +158,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
                 iv_navi.setVisibility(View.GONE);
                 instance.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
-        }, 150);
+        }, 200);
 
         selectUserTag();
     }
@@ -254,7 +254,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
             public void run() {
                 tabHost.setCurrentTabByTag("5");
             }
-        }, 120);
+        }, 100);
 
 
         iv_home.setImageResource(R.drawable.tab_home);

@@ -77,6 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/bj"
             android:layout_marginRight="@dimen/bj"
+            android:background="@null"
             android:gravity="center"
             android:hint="填写群名称(2-10个字)"
             android:imeOptions="actionDone"
@@ -85,6 +86,7 @@
             android:text=""
             android:textColor="@color/textDarkGray"
             android:textColorHint="@color/textLightGray"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/sp14" />
 
         <View

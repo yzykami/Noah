@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.netease.nim.uikit.NimUIKit;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
@@ -400,5 +401,9 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
                 getMemberList();
             }
         }
+    }
+
+    public void handle_send(View view) {
+        NimUIKit.startTeamSession(mContext, group.netEaseGroupId + "");
     }
 }

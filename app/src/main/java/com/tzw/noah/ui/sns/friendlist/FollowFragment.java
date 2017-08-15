@@ -49,14 +49,22 @@ public class FollowFragment extends MyFragment {
 
     FriendListActivity activity;
     FriendAdapter adapter;
+    private View contentView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.sns_friendlist_friend, container, false);
-        ButterKnife.bind(this, view);
+        if (contentView != null) {
+            ViewGroup parent = (ViewGroup) contentView.getParent();
+            if (parent != null) {
+                parent.removeView(contentView);
+            }
+        }
+        else
+            contentView = inflater.inflate(R.layout.sns_friendlist_friend, container, false);
+        ButterKnife.bind(this, contentView);
         wordnavi.setOnWordsChangeListener(new WordNaviView.onWordsChangeListener() {
             @Override
             public void wordsChange(String words) {
@@ -67,6 +75,7 @@ public class FollowFragment extends MyFragment {
         items = DataCenter.getInstance().getFollowList();
         items = Utils.processUser(items);
         Collections.sort(items, new MyCompare());
+        items = Utils.processUserStar(items);
         adapter = new FriendAdapter(mContext, items);
         list_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -99,7 +108,7 @@ public class FollowFragment extends MyFragment {
         });
 
 
-        return view;
+        return contentView;
     }
 
     @Override
@@ -110,7 +119,7 @@ public class FollowFragment extends MyFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity = (FriendListActivity)context;
+        activity = (FriendListActivity) context;
         mContext = context;
     }
 
@@ -121,7 +130,7 @@ public class FollowFragment extends MyFragment {
     }
 
     private void updateListView(String words) {
-        if(words=="") {
+        if (words == "") {
             list_view.setSelection(0);
             return;
         }
@@ -130,7 +139,7 @@ public class FollowFragment extends MyFragment {
             //将手指按下的字母与列表中相同字母开头的项找出来
             if (words.equals(ping)) {
                 //将列表选中哪一个
-                list_view.setSelection(i+list_view.getHeaderViewsCount());
+                list_view.setSelection(i + list_view.getHeaderViewsCount());
                 //找到开头的一个即可
                 return;
             }
@@ -140,8 +149,8 @@ public class FollowFragment extends MyFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(activity.firstLoad())
-        refreshListView();
+        if (activity.firstLoad())
+            refreshListView();
         else
             refreshListView2();
     }
@@ -160,6 +169,7 @@ public class FollowFragment extends MyFragment {
                         items = DataCenter.getInstance().getFollowList();
                         items = Utils.processUser(items);
                         Collections.sort(items, new MyCompare());
+                        items = Utils.processUserStar(items);
                         adapter = new FriendAdapter(mContext, items);
                         list_view.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
@@ -177,8 +187,16 @@ public class FollowFragment extends MyFragment {
         items = DataCenter.getInstance().getFollowList();
         items = Utils.processUser(items);
         Collections.sort(items, new MyCompare());
+        items = Utils.processUserStar(items);
         adapter = new FriendAdapter(mContext, items);
         list_view.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser)
+            refreshListView2();
     }
 }

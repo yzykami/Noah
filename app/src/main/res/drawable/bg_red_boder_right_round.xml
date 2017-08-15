@@ -5,6 +5,6 @@
         android:width="@dimen/pt1"
         android:color="@color/myRed"></stroke>
     <corners
-        android:bottomRightRadius="@dimen/pt5"
-        android:topRightRadius="@dimen/pt5" />
+        android:bottomRightRadius="@dimen/corner"
+        android:topRightRadius="@dimen/corner" />
 </shape>
