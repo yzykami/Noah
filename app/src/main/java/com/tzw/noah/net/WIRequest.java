@@ -185,6 +185,7 @@ public class WIRequest {
     public void Get(String method, final Callback callback) {
         BuildHeaderLoginKey();
         final String url = preUrl + method;
+        callback.onBefore();
         httptool.HttpGet(url, header, new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {
@@ -257,6 +258,7 @@ public class WIRequest {
     public void Delete(String method, final Callback callback) {
         BuildHeaderLoginKey();
         final String url = preUrl + method;
+        callback.onBefore();
         httptool.HttpDelete(url, header, new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {

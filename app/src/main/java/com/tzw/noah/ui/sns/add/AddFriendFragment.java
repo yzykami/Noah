@@ -15,13 +15,13 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
-import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.sns.friendlist.FriendAdapter;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
+import com.tzw.noah.ui.sns.search.UserSearchActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.WordNaviView;
 
@@ -88,10 +88,10 @@ public class AddFriendFragment extends Fragment implements AddAdapter.OnAddClick
         View headSearchView = inflater.inflate(R.layout.sns_search_head, container, false);
         TextView tv = (TextView) headSearchView.findViewById(R.id.tv);
         tv.setText("手机号/微信号");
-//        list_view.addHeaderView(headSearchView);
+        list_view.addHeaderView(headSearchView);
 
-        View spanView = inflater.inflate(R.layout.sns_span, container, false);
-        list_view.addHeaderView(spanView);
+//        View spanView = inflater.inflate(R.layout.sns_span, container, false);
+//        list_view.addHeaderView(spanView);
 
         list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_create_group, "添加附近的朋友"));
 //        list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_book, "手机通讯录"));
@@ -113,6 +113,7 @@ public class AddFriendFragment extends Fragment implements AddAdapter.OnAddClick
 
                 } else {
                     if (position == 0) {
+                        mActivity.startActivity(UserSearchActivity.class);
                     }
                     //附近的人
                     else if (position == 1) {

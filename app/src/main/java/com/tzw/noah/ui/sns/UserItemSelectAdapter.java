@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
 
 import java.util.List;

@@ -13,6 +13,7 @@ import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
+import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.utils.NetWorkUtils;
 import com.tzw.noah.utils.Utils;
 
@@ -49,7 +50,7 @@ public class SnsManager {
 
     //添加关注
     public void snsAttention(final User user, final Callback callback) {
-        NetHelper.getInstance().snsAttention(user.memberNo, new Callback() {
+        NetHelper.getInstance().snsAttention(user.memberNo, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 if (callback != null) {
@@ -93,7 +94,7 @@ public class SnsManager {
     //取消关注
     //sns/unfollow/{memberNo}
     public void snsUnfollow(final int memberNo, final Callback callback) {
-        NetHelper.getInstance().snsUnfollow(memberNo, new Callback() {
+        NetHelper.getInstance().snsUnfollow(memberNo, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 if (callback != null) {
@@ -141,7 +142,7 @@ public class SnsManager {
     //移除粉丝
     //sns/removeFans/{memberNo}
     public void snsRemoveFans(final int memberNo, final Callback callback) {
-        NetHelper.getInstance().snsRemoveFans(memberNo, new Callback() {
+        NetHelper.getInstance().snsRemoveFans(memberNo, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 if (callback != null) {
@@ -188,7 +189,7 @@ public class SnsManager {
     //添加黑名单
     //sns/blacklist
     public void snsBlacklist(final User user, final Callback callback) {
-        NetHelper.getInstance().snsBlacklist(user.memberNo, new Callback() {
+        NetHelper.getInstance().snsBlacklist(user.memberNo, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 if (callback != null) {
@@ -232,7 +233,7 @@ public class SnsManager {
     //移除黑名单
     //sns/removeBlacklist/{memberNo}
     public void snsRemoveBlacklist(final User user, final Callback callback) {
-        NetHelper.getInstance().snsRemoveBlacklist(user.memberNo, new Callback() {
+        NetHelper.getInstance().snsRemoveBlacklist(user.memberNo, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 if (callback != null) {
@@ -286,7 +287,7 @@ public class SnsManager {
     //sns/friends
     public void snsFriends(final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
-            NetHelper.getInstance().snsFriends(new Callback() {
+            NetHelper.getInstance().snsFriends(new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     if (callback != null) {
@@ -337,7 +338,7 @@ public class SnsManager {
     //sns/concern
     public void snsFollow(final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
-            NetHelper.getInstance().snsConcern(new Callback() {
+            NetHelper.getInstance().snsConcern(new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     if (callback != null) {
@@ -388,7 +389,7 @@ public class SnsManager {
     //sns/fans
     public void snsFans(final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
-            NetHelper.getInstance().snsFans(new Callback() {
+            NetHelper.getInstance().snsFans(new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     if (callback != null) {
@@ -439,7 +440,7 @@ public class SnsManager {
     //sns/blacks
     public void snsBlacks(final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
-            NetHelper.getInstance().snsBlacks(new Callback() {
+            NetHelper.getInstance().snsBlacks(new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     if (callback != null) {
@@ -490,7 +491,7 @@ public class SnsManager {
     //sns/myList
     public void snsMyList(final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
-            NetHelper.getInstance().snsMyList(new Callback() {
+            NetHelper.getInstance().snsMyList(new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     if (callback != null) {
@@ -581,7 +582,7 @@ public class SnsManager {
         body.add(new Param("ifStar", user.ifStar));
         body.add(new Param("ifSeeHim", user.ifSeeHim));
         body.add(new Param("ifSeeMe", user.ifSeeMe));
-        NetHelper.getInstance().snsInfo(user.memberNo, body, new Callback() {
+        NetHelper.getInstance().snsInfo(user.memberNo, body, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 if (callback != null) {
@@ -609,7 +610,7 @@ public class SnsManager {
 
     public void snsDetail(final User user, final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
-            NetHelper.getInstance().snsDetails2(user.memberNo, new Callback() {
+            NetHelper.getInstance().snsDetails2(user.memberNo, new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     if (callback != null) {
@@ -695,7 +696,7 @@ public class SnsManager {
     //sns/groups
     public void snsGroups(final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
-            NetHelper.getInstance().snsGroups(new Callback() {
+            NetHelper.getInstance().snsGroups(new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     if (callback != null) {
@@ -754,7 +755,7 @@ public class SnsManager {
     //sns/snsGroupDetails
     public void snsGroupDetails(final int groupId, final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
-            NetHelper.getInstance().snsGroupDetails(groupId, new Callback() {
+            NetHelper.getInstance().snsGroupDetails(groupId, new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     if (callback != null) {
@@ -840,7 +841,7 @@ public class SnsManager {
     public void snsGetMembers(final int groupId, final Callback callback) {
 
         if (NetWorkUtils.isNetworkAvailable(mContext))
-            NetHelper.getInstance().snsGetMembers(groupId, new Callback() {
+            NetHelper.getInstance().snsGetMembers(groupId, new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     if (callback != null) {

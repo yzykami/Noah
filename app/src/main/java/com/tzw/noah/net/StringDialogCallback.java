@@ -3,6 +3,7 @@ package com.tzw.noah.net;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Looper;
 import android.view.Window;
 
 import android.os.Handler;
@@ -38,7 +39,7 @@ public abstract class StringDialogCallback extends Callback {
     @Override
     public void onBefore() {
         //网络请求前显示对话框
-        new Handler().postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (!isFinished && dialog != null && !dialog.isShowing()) {

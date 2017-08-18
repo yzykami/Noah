@@ -10,7 +10,6 @@ import android.widget.ListView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
-import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
@@ -57,28 +56,7 @@ public class BookActivity extends MyBaseActivity {
     }
 
     private void initview() {
-        List<String> namelist = new ArrayList<>();
-        namelist.add("你111");
-        namelist.add("你好在");
-        namelist.add("耐111");
-        namelist.add("废柴");
-        namelist.add("风");
-        namelist.add("银");
-        namelist.add("辛巴");
-        namelist.add("2342辛巴");
-        namelist.add("啦啦");
-        namelist.add("❤啦啦");
-        namelist.add("OMG呵呵");
-        namelist.add("ddd呵呵");
-
         items = new ArrayList<>();
-        for (String name : namelist) {
-            SnsPerson p = new SnsPerson();
-            p.name = name;
-            p.namePingyin = Utils.getLetter(name);
-            p.shortCut = "5个好友待添加";
-//            items.add(p);
-        }
 
         Collections.sort(items, new MyCompare());
 

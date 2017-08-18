@@ -25,7 +25,6 @@ import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.adapter.itemfactory.ChatListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.CircleListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
-import com.tzw.noah.ui.sns.chat.ChatRecyclerAdapter;
 import com.tzw.noah.ui.sns.friendlist.BlackListActivity;
 import com.tzw.noah.ui.sns.friendlist.FriendAdapter;
 import com.tzw.noah.ui.sns.friendlist.FriendListActivity;

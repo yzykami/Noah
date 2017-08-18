@@ -98,6 +98,7 @@
                     android:layout_marginLeft="@dimen/bj"
                     android:layout_marginRight="@dimen/bj"
                     android:layout_marginTop="@dimen/pt10"
+                    android:onClick="handle_userdetail"
                     android:background="@color/myRed">
 
                     <LinearLayout

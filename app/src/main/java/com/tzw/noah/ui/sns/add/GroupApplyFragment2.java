@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.utils.Utils;
@@ -72,14 +71,6 @@ public class GroupApplyFragment2 extends Fragment {
         namelist.add("ddd呵呵");
 
         items = new ArrayList<>();
-        for (String name : namelist) {
-            SnsPerson p = new SnsPerson();
-            p.name = name;
-            p.namePingyin = Utils.getLetter(name);
-            p.shortCut = "你可能还想加入以下群组";
-            p.type=SnsPerson.Type.Group;
-//            items.add(p);
-        }
 
         Collections.sort(items, new MyCompare());
 

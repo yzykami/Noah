@@ -81,10 +81,37 @@ public class RecentContactsFragment extends TFragment {
 
     private UserInfoObservable.UserInfoObserver userInfoObserver;
 
+    private static RecentContactsFragment instance;
+
+    public static RecentContactsFragment getInstance() {
+        return instance;
+    }
+
+    public static void clearRecentContacts() {
+        if (instance == null)
+            return;
+        else
+            instance.clearIteams();
+    }
+
+    public static void initRecentContacts() {
+        if (instance == null)
+            return;
+        else {
+            instance.msgLoaded = false;
+            instance.initMessageList();
+            instance.requestMessages(true);
+            instance.registerObservers(true);
+            instance.registerDropCompletedListener(true);
+            instance.registerOnlineStateChangeListener(true);
+            instance.refreshMessages(true);
+        }
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        instance = this;
         findViews();
         initMessageList();
         requestMessages(true);
@@ -111,6 +138,14 @@ public class RecentContactsFragment extends TFragment {
         registerObservers(false);
         registerDropCompletedListener(false);
         registerOnlineStateChangeListener(false);
+    }
+
+    public void clearIteams() {
+        registerObservers(false);
+        registerDropCompletedListener(false);
+        registerOnlineStateChangeListener(false);
+        items.clear();
+        notifyDataSetChanged();
     }
 
     /**

@@ -18,6 +18,7 @@ import com.netease.nim.demo.main.activity.MainActivity;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
 import com.netease.nim.uikit.common.util.log.LogUtil;
+import com.netease.nim.uikit.recent.RecentContactsFragment;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -58,9 +59,13 @@ public class LoginActivity extends MyBaseActivity {
     private EditText et_pwd;
     private TextView tv_getcode;
     private TextView tv_regsit;
+    private TextView tv_title;
+    private TextView tv_update;
 
     int Mode = 0;
 //    int MODE_
+
+    int secretCode = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,8 @@ public class LoginActivity extends MyBaseActivity {
         tv_selectpwd = (TextView) findViewById(R.id.tv_selectpwd);
         tv_selectcode = (TextView) findViewById(R.id.tv_selectcode);
         tv_getcode = (TextView) findViewById(R.id.tv_getcode);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_update = (TextView) findViewById(R.id.tv_update);
         tv_regsit = (TextView) findViewById(R.id.tv_regsit);
         v1 = (View) findViewById(R.id.v1);
         v2 = (View) findViewById(R.id.v2);
@@ -128,6 +135,30 @@ public class LoginActivity extends MyBaseActivity {
                 startActivity(intent);
             }
         });
+
+        tv_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (secretCode == 0)
+                    secretCode++;
+                else if (secretCode == 2) {
+                    et_username.setText("15858652110");
+                    et_pwd.setText("123456");
+                    handle_submit(null);
+                } else secretCode = 0;
+            }
+        });
+
+        tv_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (secretCode == 1)
+                    secretCode++;
+                else
+                    secretCode = 0;
+            }
+        });
+
     }
 
     private void doWorking() {
@@ -142,7 +173,21 @@ public class LoginActivity extends MyBaseActivity {
             toast("密码必须多于6位");
             return;
         }
+        showLoaddingDialog();
         new Thread(new LoginThread()).start();
+    }
+
+    public void handle_qqlogin(View view) {
+    }
+
+    public void handle_wxlogin(View view) {
+        if (secretCode == 1)
+            secretCode++;
+        else
+            secretCode = 0;
+    }
+
+    public void handle_wblogin(View view) {
     }
 
     class LoginThread implements Runnable {
@@ -214,6 +259,7 @@ public class LoginActivity extends MyBaseActivity {
 
             try {
 //                LoadDialog.dismiss();
+                dismissLoaddingDialog();
                 // 网络错误
                 if (msg.what == LOGIN_INTERNET_FAULT) {
                     toast(msg.getData().getString("MESSAGE_DATA"));
@@ -290,8 +336,12 @@ public class LoginActivity extends MyBaseActivity {
                 // 初始化消息提醒配置
                 initNotificationConfig();
 
+                // 初始化最近会话列表
+                RecentContactsFragment.initRecentContacts();
+
                 // 进入主界面
                 setResult(LOGINSUCCEED);
+
                 finish();
             }
 

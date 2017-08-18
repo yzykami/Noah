@@ -16,6 +16,7 @@ import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.sns.friendlist.GroupFragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,6 +97,7 @@ public class GroupCreateActivity4 extends MyBaseActivity {
             @Override
             public void onResponse(IMsg iMsg) {
                 if (iMsg.isSucceed()) {
+                    GroupFragment.setUpdate();
                     toast("群组创建成功");
                     setResult(100);
                     finish();
@@ -116,7 +118,9 @@ public class GroupCreateActivity4 extends MyBaseActivity {
     }
 
     public void handle_edit_introduce(View view) {
-        startActivityForResult(200, GroupEditIntroduceActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("requestCode", 200);
+        startActivityForResult(200, GroupEditIntroduceActivity.class, bundle);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -126,7 +130,7 @@ public class GroupCreateActivity4 extends MyBaseActivity {
             if (data != null) {
                 Bundle bu = data.getExtras();
                 if (bu != null) {
-                    group.groupIntroduction = bu.getString("DATA");
+                    group.groupIntroduction = ((Group) bu.getSerializable("DATA")).groupIntroduction;
                     tv_interduce.setText(group.groupIntroduction);
                 }
             }

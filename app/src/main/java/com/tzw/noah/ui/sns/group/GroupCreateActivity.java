@@ -15,7 +15,6 @@ import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupType;
-import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;

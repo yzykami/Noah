@@ -17,7 +17,6 @@ import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.Notification;
-import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
@@ -62,14 +61,24 @@ public class GroupFragment extends MyFragment {
     MyBaseActivity activity;
 
     boolean firstLoad = true;
+    boolean isUpdated = true;
+
+    static GroupFragment instance;
+
+    public static void setUpdate()
+    {
+        if(instance==null)
+            return;
+        instance.isUpdated = true;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.sns_friendlist_friend, container, false);
         ButterKnife.bind(this, view);
+        instance = this;
         wordnavi.setOnWordsChangeListener(new WordNaviView.onWordsChangeListener() {
             @Override
             public void wordsChange(String words) {
@@ -152,6 +161,12 @@ public class GroupFragment extends MyFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(isUpdated == true)
+        {
+            refreshListView();
+            isUpdated = false;
+            return;
+        }
         if (firstLoad == true) {
             refreshListView();
             firstLoad = false;

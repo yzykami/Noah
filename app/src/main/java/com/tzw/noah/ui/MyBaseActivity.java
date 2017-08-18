@@ -1,18 +1,29 @@
 package com.tzw.noah.ui;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.tzw.noah.cache.UserCache;
+import com.tzw.noah.net.IMsg;
+import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.mine.LoginActivity;
 import com.tzw.noah.ui.mine.setting.SafeActivity;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import okhttp3.Call;
 
 /**
  * Created by yzy on 2017/6/9.
@@ -28,6 +39,7 @@ public class MyBaseActivity extends AppCompatActivity {
     private Object classType;
 
     public void handle_back(View v) {
+        showKeyboard(false);
         this.finish();
     }
 
@@ -132,6 +144,73 @@ public class MyBaseActivity extends AppCompatActivity {
             startActivity(intent);
         else
             startActivityForResult(intent, real_requestcode);
+    }
+
+    StringDialogCallback stringDialogCallback;
+
+    public void showLoaddingDialog() {
+        stringDialogCallback = new StringDialogCallback(this) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+
+            }
+        };
+        stringDialogCallback.onBefore();
+    }
+
+    public void dismissLoaddingDialog() {
+        if (stringDialogCallback != null) {
+            stringDialogCallback.onAfter();
+        }
+    }
+
+    Handler handler;
+    protected final Handler getHandler() {
+        if (handler == null) {
+            handler = new Handler(getMainLooper());
+        }
+        return handler;
+    }
+
+    protected void showKeyboard(boolean isShow) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (isShow) {
+            if (getCurrentFocus() == null) {
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            } else {
+                imm.showSoftInput(getCurrentFocus(), 0);
+            }
+        } else {
+            if (getCurrentFocus() != null) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
+
+    /**
+     * 延时弹出键盘
+     *
+     * @param focus 键盘的焦点项
+     */
+    protected void showKeyboardDelayed(View focus) {
+        final View viewToFocus = focus;
+        if (focus != null) {
+            focus.requestFocus();
+        }
+
+        getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (viewToFocus == null || viewToFocus.isFocused()) {
+                    showKeyboard(true);
+                }
+            }
+        }, 200);
     }
 }
 

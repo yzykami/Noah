@@ -4,7 +4,9 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -78,8 +80,8 @@ public class TimeSelector {
     private final int MAXMONTH = 12;
 
     private ArrayList<String> year, month, day, hour, minute;
-    private int startYear, startMonth, startDay, startHour, startMininute, endYear, endMonth, endDay, endHour, endMininute, minute_workStart, minute_workEnd, hour_workStart, hour_workEnd,showYear, showMonth, showDay, showHour, showMininute;
-    private int index_year=0,index_month=0,index_day=0;
+    private int startYear, startMonth, startDay, startHour, startMininute, endYear, endMonth, endDay, endHour, endMininute, minute_workStart, minute_workEnd, hour_workStart, hour_workEnd, showYear, showMonth, showDay, showHour, showMininute;
+    private int index_year = 0, index_month = 0, index_day = 0;
     private boolean spanYear, spanMon, spanDay, spanHour, spanMin;
     private Calendar selectedCalender = Calendar.getInstance();
     private final long ANIMATORDELAY = 200L;
@@ -148,6 +150,15 @@ public class TimeSelector {
             seletorDialog.setCancelable(false);
             seletorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             seletorDialog.setContentView(R.layout.dialog_selector);
+            seletorDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount()==0){
+                        seletorDialog.dismiss();
+                    }
+                    return false;
+                }
+            });
             Window window = seletorDialog.getWindow();
             window.setGravity(Gravity.BOTTOM);
             WindowManager.LayoutParams lp = window.getAttributes();
@@ -182,7 +193,6 @@ public class TimeSelector {
                 seletorDialog.dismiss();
             }
         });
-
     }
 
     private void initParameter() {
@@ -207,7 +217,7 @@ public class TimeSelector {
         showDay = showCalendar.get(Calendar.DAY_OF_MONTH);
         showHour = showCalendar.get(Calendar.HOUR_OF_DAY);
         showMininute = showCalendar.get(Calendar.MINUTE);
-        
+
         selectedCalender.setTime(showCalendar.getTime());
     }
 
@@ -671,5 +681,17 @@ public class TimeSelector {
 
     public void setShowYear(int index) {
         this.year_pv.setSelected(index);
+    }
+
+    public void dismissDialog() {
+        if (seletorDialog != null)
+            seletorDialog.dismiss();
+    }
+
+    public boolean isShowing()
+    {
+        if (seletorDialog != null)
+            return seletorDialog.isShowing();
+        return false;
     }
 }

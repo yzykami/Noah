@@ -30,7 +30,6 @@ import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.module.Container;
 import com.tzw.noah.MainActivity;
 import com.tzw.noah.R;
-import com.tzw.noah.action.ImageAction;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.SnsDBManager;
 import com.tzw.noah.init.DBInit;
@@ -40,6 +39,7 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.mine.setting.PersonalSettingActivity;
 import com.tzw.noah.ui.mine.setting.SettingActivity;
 import com.tzw.noah.ui.sns.add.AddActivity;
 import com.tzw.noah.ui.sns.friendlist.FriendListActivity;
@@ -197,10 +197,10 @@ public class MineMainActivity extends MyBaseActivity {
         Log.log(TAG, "onResume");
         initview();
         if (isLogin())
-            if (isFirstLoad) {
-                isFirstLoad = false;
-                fetchUserDetails();
-            }
+//            if (isFirstLoad) {
+//                isFirstLoad = false;
+            fetchUserDetails();
+//            }
     }
 
     private void fetchUserDetails() {
@@ -225,6 +225,10 @@ public class MineMainActivity extends MyBaseActivity {
                 }
             }
         });
+    }
+
+    public void handle_userdetail(View view) {
+        startActivity(PersonalSettingActivity.class);
     }
 
     public void handle_friendlist(View view) {
@@ -342,6 +346,5 @@ public class MineMainActivity extends MyBaseActivity {
             finish();
         }
     }
-
 
 }

@@ -81,8 +81,8 @@ public class GroupEditNameActivity extends MyBaseActivity {
                 et_nickname.setText("");
             }
         });
-        if (!group.myGroupMemberName.isEmpty()) {
-            et_nickname.setText(group.myGroupMemberName);
+        if (!group.groupName.isEmpty()) {
+            et_nickname.setText(group.groupName);
         }
     }
 
@@ -111,7 +111,7 @@ public class GroupEditNameActivity extends MyBaseActivity {
                             intent.putExtras(bu);
                             setResult(100, intent);
                             finish();
-                            toast("群名修改成功");
+                            toast("群名称修改成功");
                         } else {
                             toast(iMsg.getMsg());
                         }
@@ -140,7 +140,7 @@ public class GroupEditNameActivity extends MyBaseActivity {
                             intent.putExtras(bu);
                             setResult(100, intent);
                             finish();
-                            toast("群名修改成功");
+                            toast("群名称修改成功");
                         } else {
                             toast(iMsg.getMsg());
                         }

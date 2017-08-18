@@ -3,6 +3,7 @@ package com.tzw.noah.ui.mine.setting.personal;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tzw.noah.R;
 import com.tzw.noah.cache.UserCache;
@@ -37,6 +38,7 @@ public class BirthdayActivity extends MyBaseActivity {
     List<String> items;
     private NickNameAdapter adapter;
     private PickerView month_pv;
+    TimeSelector ts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +64,12 @@ public class BirthdayActivity extends MyBaseActivity {
         User user = UserCache.getUser();
         String birthday = user.memberBirthday;
         String showDate = "1990-01-01";
-        if (!birthday.equals("0000-00-00 00:00:00") && birthday.length() > 10) {
+        if (!birthday.equals("0000-00-00 00:00:00") && birthday.length() >= 10) {
             showDate = birthday.substring(0, 10);
         }
         tv_birthday.setText(showDate);
 
-        final TimeSelector ts = new TimeSelector(mycontext, new TimeSelector.ResultHandler() {
+        ts = new TimeSelector(mycontext, new TimeSelector.ResultHandler() {
             @Override
             public void handle(String time) {
                 tv_birthday.setText(time.substring(0, 10));
@@ -118,4 +120,12 @@ public class BirthdayActivity extends MyBaseActivity {
             }
         });
     }
+
+//    public void onBackPressed() {
+//        if (ts.isShowing()) {
+//            ts.dismissDialog();
+//        } else {
+//            finish();
+//        }
+//    }
 }

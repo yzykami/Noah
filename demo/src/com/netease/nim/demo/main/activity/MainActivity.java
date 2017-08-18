@@ -302,6 +302,11 @@ public class MainActivity extends UI {
         finish();
     }
 
+    public void clearRecentContact()
+    {
+
+    }
+
 
 //    private static Boolean isExit = false;
 //    Handler mHandler = new Handler() {

@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
@@ -91,9 +90,9 @@ public class AddAdapter extends BaseAdapter {
 //            holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_group_default);
 //            holder.iv_head.getOptions().setErrorImage(R.drawable.sns_group_default);
 //        } else {
-            holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_user_default);
-            holder.iv_head.getOptions().setErrorImage(R.drawable.sns_user_default);
-            holder.iv_head.displayImage(user.memberHeadPic);
+        holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_user_default);
+        holder.iv_head.getOptions().setErrorImage(R.drawable.sns_user_default);
+        holder.iv_head.displayImage(user.memberHeadPic);
 //        }
 
         holder.tv.setText(user.getName());
@@ -125,12 +124,25 @@ public class AddAdapter extends BaseAdapter {
             holder.tag.setVisibility(View.VISIBLE);
         }
 
+        if (user.isAttention) {
+            holder.tv_add.setText("已关注");
+            holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.bg_light));
+            holder.tv_add.setBackgroundResource(R.drawable.bg_gray_border);
+        } else {
+            holder.tv_add.setText("关注");
+            holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.myRed));
+            holder.tv_add.setBackgroundResource(R.drawable.bg_red_border_round);
+        }
+
         holder.tv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                if (mOnAddClickListener != null)
 //                    mOnAddClickListener.onAddClick(v, position);
 
+                if (user.isAttention) {
+                    return;
+                }
                 if (user.type == User.Type.Person) {
                     new SnsManager(context).snsAttention(user, new StringDialogCallback(myBaseActivity) {
                         @Override

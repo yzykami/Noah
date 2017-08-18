@@ -48,6 +48,7 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
     String Tag = "GroupEditIntroduceActivity";
 
     Group group;
+    private int requestCode = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +65,9 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
             group = (Group) bu.getSerializable("DATA");
-        } else
+            requestCode = bu.getInt("requestCode");
+        }
+        if (group == null)
             group = new Group();
     }
 
@@ -73,7 +76,7 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
     }
 
     private void initview() {
-        tv_count.setText(maxCount+"");
+        tv_count.setText(maxCount + "");
         et_sign.addTextChangedListener(new TextWatcher() {
             private CharSequence temp;
             private boolean isEdit = true;
@@ -109,10 +112,20 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
     }
 
     public void handle_save(View view) {
+        if (requestCode == 200) {
+            group.groupIntroduction = et_sign.getText().toString();
+            Bundle bu = new Bundle();
+            bu.putSerializable("DATA", group);
+            Intent intent = new Intent();
+            intent.putExtras(bu);
+            setResult(200, intent);
+            finish();
+            return;
+        }
         List<Param> body = new ArrayList<>();
         body.add(new Param("groupName", group.groupName));
         body.add(new Param("groupTypeId", group.groupTypeId));
-        body.add(new Param("groupIntroduction",et_sign.getText().toString()));
+        body.add(new Param("groupIntroduction", et_sign.getText().toString()));
 //        body.add(new Param("groupBulletin",group.groupBulletin));
         new SnsManager(mContext).snsUpdateGroupInfo(group.groupId, body, new StringDialogCallback(mContext) {
             @Override

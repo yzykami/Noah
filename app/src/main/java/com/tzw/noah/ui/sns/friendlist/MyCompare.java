@@ -4,7 +4,6 @@ package com.tzw.noah.ui.sns.friendlist;
  * Created by yzy on 2017/6/30.
  */
 
-import com.tzw.noah.models.SnsPerson;
 import com.tzw.noah.models.User;
 import com.tzw.noah.utils.Utils;
 

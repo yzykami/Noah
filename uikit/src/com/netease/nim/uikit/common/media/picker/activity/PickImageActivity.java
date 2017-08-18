@@ -3,6 +3,7 @@ package com.netease.nim.uikit.common.media.picker.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -86,6 +87,7 @@ public class PickImageActivity extends UI {
         setToolBar(R.id.toolbar, options);
 //        initTopViews();
     }
+
     private void initTopViews() {
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_add = (ImageView) findViewById(R.id.iv_add);
@@ -100,6 +102,7 @@ public class PickImageActivity extends UI {
         });
         iv_add.setVisibility(View.GONE);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -156,7 +159,7 @@ public class PickImageActivity extends UI {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkPermission();
-                if(!isPermission())
+                if (!isPermission())
                     return;
             }
             String outPath = getIntent().getStringExtra(Extras.EXTRA_FILE_PATH);
@@ -166,9 +169,19 @@ public class PickImageActivity extends UI {
                 return;
             }
             File outputFile = new File(outPath);
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputFile));
-            startActivityForResult(intent, REQUEST_CODE_CAMERA);
+            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentapiVersion < 24) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputFile));
+                startActivityForResult(intent, REQUEST_CODE_CAMERA);
+            } else {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                ContentValues contentValues = new ContentValues(1);
+                contentValues.put(MediaStore.Images.Media.DATA, outputFile.getAbsolutePath());
+                Uri uri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                startActivityForResult(intent, REQUEST_CODE_CAMERA);
+            }
         } catch (ActivityNotFoundException e) {
             finish();
         } catch (Exception e) {
@@ -337,7 +350,7 @@ public class PickImageActivity extends UI {
         List<String> lackPermissions = new ArrayList<>();//AVChatManager.getInstance().checkPermission(BaseMessageActivity.this);
         lackPermissions.add(Manifest.permission.CAMERA);
         lackPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        lackPermissions = BaseMPermission.getDeniedPermissions(this,lackPermissions.toArray(new String[lackPermissions.size()]));
+        lackPermissions = BaseMPermission.getDeniedPermissions(this, lackPermissions.toArray(new String[lackPermissions.size()]));
         if (lackPermissions.isEmpty()) {
             onBasicPermissionSuccess();
         } else {
@@ -369,6 +382,7 @@ public class PickImageActivity extends UI {
     }
 
     private static final int BASIC_PERMISSION_REQUEST_CODE = 0x100;
+
     @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
     public void onBasicPermissionSuccess() {
         onAudioPermissionChecked();

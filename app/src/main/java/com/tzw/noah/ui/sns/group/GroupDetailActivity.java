@@ -392,7 +392,29 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
 
     @Override
     public void onScrollStateChanged(ListenedScrollView view, int scrollState) {
+//        android.util.Log.d("aaa", view.getScrollY() + " " + scrollState);
+        if (scrollState == ListenedScrollView.OnScrollListener.SCROLL_STATE_IDLE) {
+            int oldt = view.getScrollY();
+            int rl_top_y = (int) (rl_top.getY() + rl_top.getHeight());
+            int tv_group_name_y = (int) (((View) tv_group_name.getParent()).getTop());// + tv_group_name.getHeight()
+            int tv_group_name_h = tv_group_name.getHeight();
 
+            int baseAlpha = 60;
+            int alpha = 0;
+
+            if (oldt >= tv_group_name_y - rl_top_y) {
+
+                alpha = Math.min(255, (int) (Math.abs(oldt - tv_group_name_y + rl_top_y) * (255 - baseAlpha) / (tv_group_name_h) + baseAlpha));
+                rl_top.setBackgroundColor(getResources().getColor(R.color.myRed));
+                rl_top.getBackground().setAlpha(alpha);
+                if (alpha >= 255)
+                    tv_title.setText(group.groupName);
+                else
+                    tv_title.setText("");
+            } else {
+                rl_top.setBackgroundColor(getResources().getColor(R.color.transparent));
+            }
+        }
     }
 
     @Override

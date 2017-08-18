@@ -14,7 +14,6 @@ import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.adapter.itemfactory.ChatListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
 import com.tzw.noah.ui.sns.add.AddActivity;
-import com.tzw.noah.ui.sns.chat.ChatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +156,7 @@ public class SnsMainActivity extends MyBaseActivity implements ChatListItemFacto
 //        toast("position real = " + adapter.getPositionInPart(position));
         Bundle bu = new Bundle();
         bu.putInt("DATA", position % 2);
-        startActivity(ChatActivity.class, bu);
+//        startActivity(ChatActivity.class, bu);
     }
 
     @Override

@@ -163,7 +163,7 @@ public class HttpTool {
         }
     }
 
-    //HttpGet异步请求
+    //HttpDelete异步请求
     public void HttpDelete(String url, Param[] headers, final Callback callback) {
         Request.Builder builder = new Request.Builder();
         for (Param param : headers) {

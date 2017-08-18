@@ -356,14 +356,18 @@
             android:name=".ui.webview.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.sns.search.UserSearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 
-    <receiver android:name="com.tzw.noah.broadcast.NetWorkStatusReceiver">
-        <intent-filter>
-            <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-        </intent-filter>
-    </receiver>
+    <!--<receiver android:name="com.tzw.noah.broadcast.NetWorkStatusReceiver">-->
+        <!--<intent-filter>-->
+            <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+        <!--</intent-filter>-->
+    <!--</receiver>-->
 
     <meta-data
         android:name="me.xiaopan.sketchsample.SketchInitializer"
