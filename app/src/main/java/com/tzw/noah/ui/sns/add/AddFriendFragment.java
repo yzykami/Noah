@@ -124,7 +124,7 @@ public class AddFriendFragment extends Fragment implements AddAdapter.OnAddClick
                             else
                                 mActivity.initLocalManager();
                         }
-                        mActivity.toast("lat = " + mActivity.lat + ", lng = " + mActivity.lng);
+//                        mActivity.toast("lat = " + mActivity.lat + ", lng = " + mActivity.lng);
                         if (mActivity.lat != 0 && mActivity.lng != 0) {
                             Bundle bu = new Bundle();
                             bu.putDouble("lat", mActivity.lat);
