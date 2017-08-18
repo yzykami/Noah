@@ -99,6 +99,31 @@ public class RecentContactsFragment extends TFragment {
             return;
         else {
             instance.msgLoaded = false;
+            instance.touchListener = new SimpleClickListener<RecentContactAdapter>() {
+                @Override
+                public void onItemClick(RecentContactAdapter adapter, View view, int position) {
+                    if (instance.callback != null) {
+                        RecentContact recent = adapter.getItem(position);
+                        instance.callback.onItemClick(recent);
+                    }
+                }
+
+                @Override
+                public void onItemLongClick(RecentContactAdapter adapter, View view, int position) {
+                    instance.showLongClickMenu(adapter.getItem(position), position);
+                }
+
+                @Override
+                public void onItemChildClick(RecentContactAdapter adapter, View view, int position) {
+
+                }
+
+                @Override
+                public void onItemChildLongClick(RecentContactAdapter adapter, View view, int position) {
+
+                }
+            };
+            instance.findViews();
             instance.initMessageList();
             instance.requestMessages(true);
             instance.registerObservers(true);
