@@ -117,14 +117,6 @@ public class FriendListActivity extends MyBaseActivity implements ViewPager.OnPa
 //
 //        }
 //
-//        if (selected == 0)
-//            tv_title.setText("好友");
-//        if (selected == 1)
-//            tv_title.setText("关注");
-//        if (selected == 2)
-//            tv_title.setText("粉丝");
-//        if (selected == 3)
-//            tv_title.setText("群组");
 //
 ////        fragment.setArguments(getArguments(selected));
 //        transaction.replace(R.id.framelayout, fragmentList[selected]);
@@ -178,6 +170,14 @@ public class FriendListActivity extends MyBaseActivity implements ViewPager.OnPa
                 child.setTextColor(getResources().getColor(R.color.myRed));
             }
         }
+        if (index == 0)
+            tv_title.setText("好友");
+        if (index == 1)
+            tv_title.setText("关注");
+        if (index == 2)
+            tv_title.setText("粉丝");
+        if (index == 3)
+            tv_title.setText("群组");
     }
 
     @Override
