@@ -40,7 +40,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_top">
+        android:layout_below="@+id/rl_top"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -184,6 +186,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_black"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/columnHeight"
                 android:layout_marginTop="@dimen/pt12"

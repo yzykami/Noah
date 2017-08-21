@@ -98,6 +98,7 @@ public class RegisterActivity extends MyBaseActivity {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         Log.log(TAG,e);
+                        toast(getString(R.string.internet_fault));
                     }
 
                     @Override

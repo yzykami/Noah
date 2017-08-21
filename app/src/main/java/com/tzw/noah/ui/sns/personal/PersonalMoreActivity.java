@@ -41,6 +41,8 @@ public class PersonalMoreActivity extends MyBaseActivity {
     TextView tv_btn1;
     @BindView(R.id.tv_btn2)
     TextView tv_btn2;
+    @BindView(R.id.rl_black)
+    RelativeLayout rl_black;
 
     Context mContext = PersonalMoreActivity.this;
     User user;
@@ -73,7 +75,7 @@ public class PersonalMoreActivity extends MyBaseActivity {
         setBackground(iv_seehim, user.ifSeeHim);
         setBackground(iv_blacklist, user.isBlacklist);
 
-        if (user.getRelative() == User.RelativeType.Stranger||user.getRelative().equals(User.RelativeType.Blacklist)) {
+        if (user.getRelative() == User.RelativeType.Stranger || user.getRelative().equals(User.RelativeType.Blacklist)) {
             tv_btn1.setVisibility(View.GONE);
             tv_btn2.setVisibility(View.GONE);
         } else if (user.getRelative() == User.RelativeType.Fowllow) {
@@ -84,6 +86,10 @@ public class PersonalMoreActivity extends MyBaseActivity {
             tv_btn2.setTextColor(getResources().getColor(R.color.white));
             tv_btn2.setBackgroundResource(R.drawable.bg_red_fill_round);
         }
+
+        if (user.getRelative() == User.RelativeType.Fowllow || user.getRelative() == User.RelativeType.Fans || user.getRelative() == User.RelativeType.Stranger)
+            rl_black.setVisibility(View.GONE);
+
     }
 
     private void setBackground(ImageView iv, int s) {
@@ -105,12 +111,11 @@ public class PersonalMoreActivity extends MyBaseActivity {
 
 
     public void handle_star(View view) {
-        if(user.getRelative().equals(User.RelativeType.Stranger)) {
+        if (user.getRelative().equals(User.RelativeType.Stranger)) {
             toast("对方是陌生人");
             return;
         }
-        if(user.getRelative().equals(User.RelativeType.Blacklist))
-        {
+        if (user.getRelative().equals(User.RelativeType.Blacklist)) {
             toast("对方已被加入黑名单中");
             return;
         }
@@ -136,12 +141,11 @@ public class PersonalMoreActivity extends MyBaseActivity {
     }
 
     public void handle_seeme(View view) {
-        if(user.getRelative().equals(User.RelativeType.Stranger)) {
+        if (user.getRelative().equals(User.RelativeType.Stranger)) {
             toast("对方是陌生人");
             return;
         }
-        if(user.getRelative().equals(User.RelativeType.Blacklist))
-        {
+        if (user.getRelative().equals(User.RelativeType.Blacklist)) {
             toast("对方已被加入黑名单中");
             return;
         }
@@ -167,12 +171,11 @@ public class PersonalMoreActivity extends MyBaseActivity {
     }
 
     public void handle_seehim(View view) {
-        if(user.getRelative().equals(User.RelativeType.Stranger)) {
+        if (user.getRelative().equals(User.RelativeType.Stranger)) {
             toast("对方是陌生人");
             return;
         }
-        if(user.getRelative().equals(User.RelativeType.Blacklist))
-        {
+        if (user.getRelative().equals(User.RelativeType.Blacklist)) {
             toast("对方已被加入黑名单中");
             return;
         }
@@ -198,7 +201,7 @@ public class PersonalMoreActivity extends MyBaseActivity {
     }
 
     public void handle_black(View view) {
-        if(user.isBlacklist) {
+        if (user.isBlacklist) {
             new SnsManager(mContext).snsRemoveBlacklist(user, new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -208,16 +211,14 @@ public class PersonalMoreActivity extends MyBaseActivity {
                 @Override
                 public void onResponse(IMsg iMsg) {
                     if (iMsg.isSucceed()) {
-                        user.isBlacklist=!user.isBlacklist;
+//                        user.isBlacklist = !user.isBlacklist;
                         setBackground(iv_blacklist, user.isBlacklist);
                     } else {
                         toast(iMsg.getMsg());
                     }
                 }
             });
-        }
-        else
-        {
+        } else {
             new SnsManager(mContext).snsBlacklist(user, new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -227,7 +228,7 @@ public class PersonalMoreActivity extends MyBaseActivity {
                 @Override
                 public void onResponse(IMsg iMsg) {
                     if (iMsg.isSucceed()) {
-                        user.isBlacklist=!user.isBlacklist;
+//                        user.isBlacklist = !user.isBlacklist;
                         setBackground(iv_blacklist, user.isBlacklist);
                     } else {
                         toast(iMsg.getMsg());
@@ -250,8 +251,8 @@ public class PersonalMoreActivity extends MyBaseActivity {
                     tv_btn1.setVisibility(View.GONE);
                     tv_btn2.setTextColor(getResources().getColor(R.color.white));
                     tv_btn2.setBackgroundResource(R.drawable.bg_red_fill_round);
-                    user.isAttention=false;
-                    if(user.getRelative().equals(User.RelativeType.Stranger))
+                    user.isAttention = false;
+                    if (user.getRelative().equals(User.RelativeType.Stranger))
                         finish();
                 } else {
                     toast(iMsg.getMsg());
@@ -271,9 +272,9 @@ public class PersonalMoreActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 if (iMsg.isSucceed()) {
                     tv_btn2.setVisibility(View.GONE);
-                    user.isFans=false;
+                    user.isFans = false;
 
-                    if(user.getRelative().equals(User.RelativeType.Stranger))
+                    if (user.getRelative().equals(User.RelativeType.Stranger))
                         finish();
                 } else {
                     toast(iMsg.getMsg());

@@ -124,7 +124,12 @@ public class MineMainActivity extends MyBaseActivity {
             tv_name.setText(user.memberNickName);
             String sign = "";
             if (!user.memberIntroduce.isEmpty()) {
-                sign += user.memberIntroduce + "| ";
+                String s = user.memberIntroduce;
+                if (s.contains("\n"))
+                    s = s.split("\n")[0];
+                if (s.length() > 14)
+                    s = s.substring(0, 12) + "...";
+                sign += s + "| ";
             }
             sign += "积分 " + user.growth;
             tv_sign.setText(sign);

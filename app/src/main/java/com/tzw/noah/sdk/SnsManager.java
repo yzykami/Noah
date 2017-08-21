@@ -205,6 +205,8 @@ public class SnsManager {
                     if (iMsg.isSucceed()) {
                         List<User> blackList = DataCenter.getInstance().getBlackList();
                         List<User> friendList = DataCenter.getInstance().getFriendList();
+                        List<User> followList = DataCenter.getInstance().getFollowList();
+                        List<User> fansList = DataCenter.getInstance().getFansList();
 
                         user.isBlacklist = true;
                         blackList.add(user);
@@ -216,6 +218,22 @@ public class SnsManager {
                                 friendList.remove(i);
                                 DataCenter.getInstance().setFriendList(friendList);
                                 snsDBManager.UpdateFriendList(friendList);
+                                break;
+                            }
+                        }
+                        for (int i = 0; i < followList.size(); i++) {
+                            if (followList.get(i).memberNo == user.memberNo) {
+                                followList.remove(i);
+                                DataCenter.getInstance().setFriendList(followList);
+                                snsDBManager.UpdateFriendList(followList);
+                                break;
+                            }
+                        }
+                        for (int i = 0; i < fansList.size(); i++) {
+                            if (fansList.get(i).memberNo == user.memberNo) {
+                                fansList.remove(i);
+                                DataCenter.getInstance().setFriendList(fansList);
+                                snsDBManager.UpdateFriendList(fansList);
                                 break;
                             }
                         }
@@ -262,7 +280,7 @@ public class SnsManager {
                             }
                         }
 
-                        if (user.isFans && user.isAttention) {
+//                        if (user.isFans && user.isAttention) {
                             friendList.add(user);
                             DataCenter.getInstance().setFriendList(friendList);
                             snsDBManager.UpdateFriendList(friendList);
@@ -272,7 +290,7 @@ public class SnsManager {
                             fansList.add(user);
                             DataCenter.getInstance().setFansList(fansList);
                             snsDBManager.UpdateFansList(fansList);
-                        }
+//                        }
 
                     }
                 } catch (Exception e) {

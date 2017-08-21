@@ -62,7 +62,7 @@ public class LoginActivity extends MyBaseActivity {
     private TextView tv_title;
     private TextView tv_update;
 
-    int Mode = 0;
+    int MODE = 0;
 //    int MODE_
 
     int secretCode = 0;
@@ -84,6 +84,7 @@ public class LoginActivity extends MyBaseActivity {
         if (bu != null) {
             outData = bu.getString("Data");
         }
+        MODE = 0;
     }
 
     private void findview() {
@@ -104,6 +105,7 @@ public class LoginActivity extends MyBaseActivity {
         tv_selectcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MODE = 1;
                 tv_selectcode.setTextColor(getResources().getColor(R.color.myRed));
                 tv_selectpwd.setTextColor(getResources().getColor(R.color.textDarkGray));
                 v1.setVisibility(View.GONE);
@@ -118,6 +120,7 @@ public class LoginActivity extends MyBaseActivity {
         tv_selectpwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MODE = 0;
                 tv_selectpwd.setTextColor(getResources().getColor(R.color.myRed));
                 tv_selectcode.setTextColor(getResources().getColor(R.color.textDarkGray));
                 v1.setVisibility(View.VISIBLE);
@@ -169,9 +172,16 @@ public class LoginActivity extends MyBaseActivity {
             toast("请输入正确的手机号！");
             return;
         }
-        if (et_pwd.length() < 6) {
-            toast("密码必须多于6位");
-            return;
+        if (MODE == 0) {
+            if (et_pwd.length() < 6) {
+                toast("密码必须多于6位");
+                return;
+            }
+        } else {
+            if (et_pwd.length() <= 0) {
+                toast("请输入验证码");
+                return;
+            }
         }
         showLoaddingDialog();
         new Thread(new LoginThread()).start();
@@ -190,6 +200,10 @@ public class LoginActivity extends MyBaseActivity {
     public void handle_wblogin(View view) {
     }
 
+    public void handle_findpwd(View view) {
+        startActivity2(FindPwdActivity.class);
+    }
+
     class LoginThread implements Runnable {
         public void run() {
             try {
@@ -204,8 +218,19 @@ public class LoginActivity extends MyBaseActivity {
                 params.add(new Param("memberName", username));
                 params.add(new Param("memberPasswd", pwd));
 
-                IMsg iMsg = NetHelper.getInstance().memberLogin(params);
-
+                IMsg iMsg = null;
+                if (MODE == 0){
+                    params = new ArrayList<>();
+                    params.add(new Param("memberName", username));
+                    params.add(new Param("memberPasswd", pwd));
+                    iMsg = NetHelper.getInstance().memberLogin(params);
+                }
+                else {
+                    params = new ArrayList<>();
+                    params.add(new Param("memberMobile", username));
+                    params.add(new Param("vcode", pwd));
+                    iMsg = NetHelper.getInstance().memberLoginBySmsCode(params);
+                }
                 if (iMsg.isSucceed()) {
                     String token = iMsg.getValue("tokenCode");
                     UserCache.setToken(token);

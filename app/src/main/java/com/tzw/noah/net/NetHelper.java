@@ -123,6 +123,30 @@ public class NetHelper {
         }
     }
 
+    //验证码登录
+    //member/loginBySmsCode
+    public IMsg memberLoginBySmsCode(List<Param> body) {
+        IMsg iMsg = checkDeviceId();
+        if (iMsg.isSucceed()) {
+            String method = "member/loginBySmsCode";
+            String bodyName = "loginSObj";
+            DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(AppContext.getContext());
+            body.add(new Param("clientCode", deviceUuidFactory.getDeviceUuidString()));
+            iMsg = new WIRequest().Post(method, body, bodyName);
+            return iMsg;
+        } else {
+            return iMsg;
+        }
+    }
+
+    //注册
+    //member/findPwd
+    public void memberFindPwd(List<Param> body, Callback callback) {
+        String method = "member/findPwd";
+        String bodyName = "findPwdSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
     //获取loginkey
     //member/loginKey
     public IMsg memberLoginKey(List<Param> body) {

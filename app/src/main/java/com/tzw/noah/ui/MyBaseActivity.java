@@ -87,14 +87,14 @@ public class MyBaseActivity extends AppCompatActivity {
         return i;
     }
 
-    public void startActivity(Class<?> cls) {
-        isNeedLogin = true;
-        startActivity(cls, null);
-    }
-
     //不需要登录
     public void startActivity2(Class<?> cls) {
         isNeedLogin = false;
+        startActivity(cls, null);
+    }
+
+    public void startActivity(Class<?> cls) {
+        isNeedLogin = true;
         startActivity(cls, null);
     }
 

@@ -48,6 +48,7 @@ public class BlackListActivity extends MyBaseActivity {
     String Tag = "BlackListActivity";
 
     String title = "黑名单列表";
+    boolean isFirstLoad= true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,7 +98,13 @@ public class BlackListActivity extends MyBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        refreshListView();
+
+        if(isFirstLoad) {
+            isFirstLoad=false;
+            refreshListView();
+        }
+        else
+            refreshListView2();
     }
 
     private void refreshListView() {
@@ -130,5 +137,15 @@ public class BlackListActivity extends MyBaseActivity {
                 }
             }
         });
+    }
+
+    private void refreshListView2() {
+        items = DataCenter.getInstance().getBlackList();
+        items = Utils.processUser(items);
+        Collections.sort(items, new MyCompare());
+        items = Utils.processUserStar(items);
+        adapter = new FriendAdapter(mContext, items);
+        list_view.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

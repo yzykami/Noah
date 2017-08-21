@@ -3,7 +3,6 @@ package com.tzw.noah.ui.sns.friendlist;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +15,17 @@ import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
-import com.tzw.noah.models.Notification;
-import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.group.GroupDetailActivity;
-import com.tzw.noah.ui.sns.notification.NotificationCompare;
 import com.tzw.noah.ui.sns.notification.NotificationListActivity;
-import com.tzw.noah.ui.sns.personal.PersonalActivity;
-import com.tzw.noah.utils.Utils;
 import com.tzw.noah.utils.ViewUtils;
 import com.tzw.noah.widgets.WordNaviView;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,7 +53,7 @@ public class GroupFragment extends MyFragment {
     GroupAdapter adapter;
     MyBaseActivity activity;
 
-    boolean firstLoad = true;
+    boolean isFirstLoad = true;
     boolean isUpdated = true;
 
     static GroupFragment instance;
@@ -161,15 +154,17 @@ public class GroupFragment extends MyFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(activity==null)
+            return;
         if(isUpdated == true)
         {
             refreshListView();
             isUpdated = false;
             return;
         }
-        if (firstLoad == true) {
+        if (isFirstLoad == true) {
             refreshListView();
-            firstLoad = false;
+            isFirstLoad = false;
         }
     }
 

@@ -147,7 +147,7 @@ public class GroupSelectAdminActivity extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        items= DataCenter.getInstance().getOwnerList();
+                        items= DataCenter.getInstance().getMemberList();
 
                         selected = new ArrayList<>();
                         for (int i = 0; i < items.size(); i++) {

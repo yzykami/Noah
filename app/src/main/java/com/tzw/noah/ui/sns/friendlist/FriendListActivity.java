@@ -183,7 +183,7 @@ public class FriendListActivity extends MyBaseActivity implements ViewPager.OnPa
     @Override
     protected void onResume() {
         super.onResume();
-//        fragmentList[selectPage].onResume();
+        fragmentList.get(selectPage).onResume();
     }
 
     public boolean firstLoad() {
