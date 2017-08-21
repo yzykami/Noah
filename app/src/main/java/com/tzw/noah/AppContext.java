@@ -61,6 +61,7 @@ import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
 import com.tzw.noah.cache.AppCache;
 import com.tzw.noah.db.SnsDBManager;
 import com.tzw.noah.init.DBInit;
+import com.tzw.noah.init.NimInit;
 import com.tzw.noah.logger.Log;
 
 import java.util.Map;
@@ -146,8 +147,7 @@ public class AppContext extends Application { //NimApplication {//Application {
         Log.init();
         AppCache.firstInstall();
         new DBInit().snsInit();
-        TZWUserCache.getInstance().init(new SnsDBManager(instance).getSnsAllUserList());
-        TZWTeamCache.getInstance().init(new SnsDBManager(instance).getSnsAllGroupList());
+        NimInit.init(instance);
         loadCompeleted = true;
 
         //});

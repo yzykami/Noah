@@ -43,7 +43,12 @@ public abstract class StringDialogCallback extends Callback {
             @Override
             public void run() {
                 if (!isFinished && dialog != null && !dialog.isShowing()) {
-                    dialog.show();
+                    try {
+                        dialog.show();
+                    }catch (Exception e )
+                    {
+
+                    }
                 }
             }
         },200);

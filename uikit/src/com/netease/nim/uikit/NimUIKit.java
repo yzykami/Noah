@@ -566,7 +566,7 @@ public final class NimUIKit {
 
     public static void onShowUser(Context context, String account) {
         if (gobalObserver != null) {
-            String memberNo = "";
+            int memberNo = 0;
             NimUserInfo nui = NimUserInfoCache.getInstance().getUserInfo(account);
             User user = TZWUserCache.getInstance().getFriendByAccount(account);
             if (user != null) {
@@ -574,12 +574,12 @@ public final class NimUIKit {
                 return;
             }
             try {
-                memberNo = (int) nui.getExtensionMap().get("memberNo") + "";
+                memberNo = (int) nui.getExtensionMap().get("memberNo");
             } catch (Exception e) {
                 Toast.makeText(context, "cant fetch nimUser, account = " + account, Toast.LENGTH_LONG).show();
-                return;
+//                return;
             }
-            gobalObserver.onShowUser(context, account, 0);
+            gobalObserver.onShowUser(context, account, memberNo);
         }
     }
 

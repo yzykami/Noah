@@ -17,7 +17,7 @@ import java.util.List;
 
 public class User implements Serializable {
 
-//    public int memberId;
+    //    public int memberId;
     @MyField(name = "id")
     public int memberNo;
     @MyField
@@ -171,32 +171,58 @@ public class User implements Serializable {
         return iMsg.getModelList("friendsRObj", new TypeToken<List<User>>() {
         }.getType());
     }
+
     public static List<User> loadMyList_Follow(IMsg iMsg) {
         IMsg iMsg2 = iMsg.getJsonObject("");
         return iMsg.getModelList("concernRObj", new TypeToken<List<User>>() {
         }.getType());
     }
+
     public static List<User> loadMyList_Fans(IMsg iMsg) {
         IMsg iMsg2 = iMsg.getJsonObject("");
         return iMsg.getModelList("fansRObj", new TypeToken<List<User>>() {
         }.getType());
     }
+
     public static List<User> loadMyList_Black(IMsg iMsg) {
         IMsg iMsg2 = iMsg.getJsonObject("");
         return iMsg.getModelList("blacksRObj", new TypeToken<List<User>>() {
         }.getType());
     }
 
-    public static User Clone(User user)
-    {
-        User clone=new User();
+    public static User Clone(User user) {
+        User clone = new User();
         try {
             Class c = Class.forName("com.tzw.noah.models.User");
             Field[] fields = c.getDeclaredFields();
             Context context = AppContext.getContext();
             for (Field field : fields) {
                 if (field.get(user) != null)
-                    field.set(clone,field.get(user));
+                    field.set(clone, field.get(user));
+            }
+        } catch (Exception e) {
+
+        }
+        return clone;
+    }
+
+    public static com.netease.nim.uikit.tzw_relative.User CopyToCacheUser(User user) {
+        com.netease.nim.uikit.tzw_relative.User clone = new com.netease.nim.uikit.tzw_relative.User();
+        try {
+            Class c = Class.forName("com.tzw.noah.models.User");
+            Field[] fields = c.getDeclaredFields();
+            Class c2 = Class.forName("com.netease.nim.uikit.tzw_relative.User");
+            Field[] fields2 = c2.getDeclaredFields();
+
+            for (Field field2 : fields2) {
+                for (int i = 0; i < fields.length; i++) {
+                    Field field = fields[i];
+                    if (field.getName().equals(field2.getName()))
+                        if (field.get(user) != null) {
+                            field2.set(clone, field.get(user));
+                            break;
+                        }
+                }
             }
         } catch (Exception e) {
 

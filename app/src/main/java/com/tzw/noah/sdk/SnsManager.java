@@ -6,6 +6,7 @@ import android.os.Looper;
 
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.db.SnsDBManager;
+import com.tzw.noah.init.NimInit;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
 import com.tzw.noah.models.User;
@@ -70,17 +71,18 @@ public class SnsManager {
 
                         user.isAttention = true;
                         followList.add(user);
-                        DataCenter.getInstance().setFollowList(followList);
                         snsDBManager.UpdateFollowList(followList);
+                        DataCenter.getInstance().setFollowList(followList);
 
                         for (int i = 0; i < fansList.size(); i++) {
                             if (fansList.get(i).memberNo == user.memberNo) {
                                 friendList.add(user);
-                                DataCenter.getInstance().setFriendList(friendList);
                                 snsDBManager.UpdateFriendList(friendList);
+                                DataCenter.getInstance().setFriendList(friendList);
                                 break;
                             }
                         }
+                        NimInit.updateUser(user);
                     }
                 } catch (Exception e) {
 
@@ -114,16 +116,16 @@ public class SnsManager {
                         for (int i = 0; i < followList.size(); i++) {
                             if (followList.get(i).memberNo == memberNo) {
                                 followList.remove(i);
-                                DataCenter.getInstance().setFollowList(followList);
                                 snsDBManager.UpdateFollowList(followList);
+                                DataCenter.getInstance().setFollowList(followList);
                                 break;
                             }
                         }
                         for (int i = 0; i < friendList.size(); i++) {
                             if (friendList.get(i).memberNo == memberNo) {
                                 friendList.remove(i);
-                                DataCenter.getInstance().setFriendList(friendList);
                                 snsDBManager.UpdateFriendList(friendList);
+                                DataCenter.getInstance().setFriendList(friendList);
                                 break;
                             }
                         }
@@ -162,16 +164,16 @@ public class SnsManager {
                         for (int i = 0; i < fansList.size(); i++) {
                             if (fansList.get(i).memberNo == memberNo) {
                                 fansList.remove(i);
-                                DataCenter.getInstance().setFansList(fansList);
                                 snsDBManager.UpdateFansList(fansList);
+                                DataCenter.getInstance().setFansList(fansList);
                                 break;
                             }
                         }
                         for (int i = 0; i < friendList.size(); i++) {
                             if (friendList.get(i).memberNo == memberNo) {
                                 friendList.remove(i);
-                                DataCenter.getInstance().setFriendList(friendList);
                                 snsDBManager.UpdateFriendList(friendList);
+                                DataCenter.getInstance().setFriendList(friendList);
                                 break;
                             }
                         }
@@ -210,30 +212,30 @@ public class SnsManager {
 
                         user.isBlacklist = true;
                         blackList.add(user);
-                        DataCenter.getInstance().setBlackList(blackList);
                         snsDBManager.UpdateBlacklist(blackList);
+                        DataCenter.getInstance().setBlackList(blackList);
 
                         for (int i = 0; i < friendList.size(); i++) {
                             if (friendList.get(i).memberNo == user.memberNo) {
                                 friendList.remove(i);
-                                DataCenter.getInstance().setFriendList(friendList);
                                 snsDBManager.UpdateFriendList(friendList);
+                                DataCenter.getInstance().setFriendList(friendList);
                                 break;
                             }
                         }
                         for (int i = 0; i < followList.size(); i++) {
                             if (followList.get(i).memberNo == user.memberNo) {
                                 followList.remove(i);
-                                DataCenter.getInstance().setFriendList(followList);
                                 snsDBManager.UpdateFriendList(followList);
+                                DataCenter.getInstance().setFriendList(followList);
                                 break;
                             }
                         }
                         for (int i = 0; i < fansList.size(); i++) {
                             if (fansList.get(i).memberNo == user.memberNo) {
                                 fansList.remove(i);
-                                DataCenter.getInstance().setFriendList(fansList);
                                 snsDBManager.UpdateFriendList(fansList);
+                                DataCenter.getInstance().setFriendList(fansList);
                                 break;
                             }
                         }
@@ -274,22 +276,22 @@ public class SnsManager {
                         for (int i = 0; i < blackList.size(); i++) {
                             if (blackList.get(i).memberNo == user.memberNo) {
                                 blackList.remove(i);
-                                DataCenter.getInstance().setBlackList(blackList);
                                 snsDBManager.UpdateBlacklist(blackList);
+                                DataCenter.getInstance().setBlackList(blackList);
                                 break;
                             }
                         }
 
 //                        if (user.isFans && user.isAttention) {
                             friendList.add(user);
-                            DataCenter.getInstance().setFriendList(friendList);
                             snsDBManager.UpdateFriendList(friendList);
-                            followList.add(user);
-                            DataCenter.getInstance().setFollowList(followList);
+                        DataCenter.getInstance().setFriendList(friendList);
+                        followList.add(user);
                             snsDBManager.UpdateFollowList(followList);
-                            fansList.add(user);
-                            DataCenter.getInstance().setFansList(fansList);
+                        DataCenter.getInstance().setFollowList(followList);
+                        fansList.add(user);
                             snsDBManager.UpdateFansList(fansList);
+                        DataCenter.getInstance().setFansList(fansList);
 //                        }
 
                     }
@@ -321,8 +323,8 @@ public class SnsManager {
                         if (iMsg.isSucceed()) {
                             List<User> userList = User.loadFriendList(iMsg);
                             iMsg.Data = userList;
-                            DataCenter.getInstance().setFriendList((List<User>) iMsg.Data);
                             snsDBManager.UpdateFriendList(userList);
+                            DataCenter.getInstance().setFriendList((List<User>) iMsg.Data);
                         }
                     } catch (Exception e) {
 
@@ -372,8 +374,8 @@ public class SnsManager {
                         if (iMsg.isSucceed()) {
                             List<User> userList = User.loadFollowList(iMsg);
                             iMsg.Data = userList;
-                            DataCenter.getInstance().setFollowList((List<User>) iMsg.Data);
                             snsDBManager.UpdateFollowList(userList);
+                            DataCenter.getInstance().setFollowList((List<User>) iMsg.Data);
                         }
                     } catch (Exception e) {
 
@@ -423,8 +425,8 @@ public class SnsManager {
                         if (iMsg.isSucceed()) {
                             List<User> userList = User.loadFansList(iMsg);
                             iMsg.Data = userList;
-                            DataCenter.getInstance().setFansList((List<User>) iMsg.Data);
                             snsDBManager.UpdateFansList(userList);
+                            DataCenter.getInstance().setFansList((List<User>) iMsg.Data);
                         }
                     } catch (Exception e) {
 
@@ -527,14 +529,15 @@ public class SnsManager {
                             List<User> followList = User.loadMyList_Follow(iMsg);
                             List<User> fansList = User.loadMyList_Fans(iMsg);
                             List<User> blackList = User.loadMyList_Black(iMsg);
-                            DataCenter.getInstance().setFriendList(friendList);
-                            DataCenter.getInstance().setFollowList(followList);
-                            DataCenter.getInstance().setFansList(fansList);
-                            DataCenter.getInstance().setBlackList(blackList);
                             snsDBManager.UpdateFriendList(friendList);
                             snsDBManager.UpdateFollowList(followList);
                             snsDBManager.UpdateFansList(fansList);
                             snsDBManager.UpdateBlacklist(blackList);
+                            DataCenter.getInstance().setFriendList(friendList);
+                            DataCenter.getInstance().setFollowList(followList);
+                            DataCenter.getInstance().setFansList(fansList);
+                            DataCenter.getInstance().setBlackList(blackList);
+                            NimInit.updateUsers(mContext);
                         }
                     } catch (Exception e) {
 
@@ -672,6 +675,52 @@ public class SnsManager {
             });
         }
     }
+    public void snsDetailNimId(final User user, final Callback callback) {
+        if (NetWorkUtils.isNetworkAvailable(mContext))
+            NetHelper.getInstance().snsDetailsnetEaseId2(user.netEaseId, new StringDialogCallback(mContext) {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    if (callback != null) {
+                        callback.onAfter();
+                        callback.onFailure(call, e);
+                    }
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        //保存到本地数据库
+                        if (iMsg.isSucceed()) {
+                            User u = User.load(iMsg);
+                            snsDBManager.updateUser(u);
+                            iMsg.Data = u;
+                        }
+                    } catch (Exception e) {
+
+                    }
+                    callback.onAfter();
+                    callback.onResponse(iMsg);
+                }
+            });
+        else {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (callback != null) {
+                        final IMsg iMsg = createImsg();
+                        iMsg.Data = snsDBManager.getUserDetail(user.memberNo);
+                        mdelivery.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onAfter();
+                                callback.onResponse(iMsg);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
 
 
     ///////////////////////////////////////////////////////////////////
@@ -730,12 +779,13 @@ public class SnsManager {
                         if (iMsg.isSucceed()) {
                             List<Group> groupList = Group.loadGroupList(iMsg);
                             List<Group> discussList = Group.loadDiscussList(iMsg);
-                            DataCenter.getInstance().setGroupList(groupList);
-                            DataCenter.getInstance().setDiscussList(discussList);
                             List<Group> list = new ArrayList<>();
                             Utils.listAdd(list, groupList);
                             Utils.listAdd(list, discussList);
                             snsDBManager.UpdateGroupList(list);
+                            DataCenter.getInstance().setGroupList(groupList);
+                            DataCenter.getInstance().setDiscussList(discussList);
+                            NimInit.updateGroups(mContext);
                         }
                     } catch (Exception e) {
 
@@ -876,16 +926,16 @@ public class SnsManager {
                             List<GroupMember> ownerList = GroupMember.loadOwner(iMsg);
                             List<GroupMember> managerList = GroupMember.loadManager(iMsg);
                             List<GroupMember> memberList = GroupMember.loadMemberRObj(iMsg);
-                            DataCenter.getInstance().setOwnerList(ownerList);
-                            DataCenter.getInstance().setManagerList(managerList);
-                            DataCenter.getInstance().setMemberList(memberList);
                             List<GroupMember> list = new ArrayList<>();
                             Utils.listAdd(list, ownerList);
                             Utils.listAdd(list, managerList);
                             Utils.listAdd(list, memberList);
-                            DataCenter.getInstance().setGroupMemberList(list);
-
                             snsDBManager.UpdateGroupMemberlist(list);
+                            DataCenter.getInstance().setGroupMemberList(list);
+                            DataCenter.getInstance().setOwnerList(ownerList);
+                            DataCenter.getInstance().setManagerList(managerList);
+                            DataCenter.getInstance().setMemberList(memberList);
+
 
                             iMsg.Data = list;
                         }

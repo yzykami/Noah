@@ -34,6 +34,8 @@ public class TZWTeamCache {
 
     //App启动时调用
     public void init(List<Group> groups) {
+
+        account2UserMap = new ConcurrentHashMap<>();
         addOrUpdateUsers(groups, false);
     }
 

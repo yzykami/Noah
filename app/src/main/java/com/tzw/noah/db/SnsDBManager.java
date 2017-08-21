@@ -66,7 +66,7 @@ public class SnsDBManager {
         String sql = "select * from memberInfo";
         return helper.queryAllNoMyField(com.netease.nim.uikit.tzw_relative.User.class, sql);
     }
-    //获取所有好友, 给NIM提供映射
+    //获取所有群组, 给NIM提供映射
     public List<com.netease.nim.uikit.tzw_relative.Group> getSnsAllGroupList() {
         String sql = "select * from groupInfo";
         return helper.queryAllNoMyField(com.netease.nim.uikit.tzw_relative.Group.class, sql);

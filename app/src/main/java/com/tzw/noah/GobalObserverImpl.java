@@ -11,9 +11,11 @@ import com.netease.nim.uikit.tzw_relative.GobalObserver;
 import com.netease.nim.uikit.tzw_relative.Group;
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.db.MyField;
+import com.tzw.noah.init.NimInit;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.GroupMember;
 import com.tzw.noah.models.User;
+import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
@@ -33,7 +35,7 @@ import okhttp3.Call;
 
 public class GobalObserverImpl implements GobalObserver {
     @Override
-    public void onShowUser(Context context, String acount, int memberNo) {
+    public void onShowUser(final Context context, String acount, int memberNo) {
         //Toast.makeText(context, "onShowUser", Toast.LENGTH_LONG).show();
         int netEaseId = Utils.String2Int(acount);
 
@@ -41,10 +43,29 @@ public class GobalObserverImpl implements GobalObserver {
             Toast.makeText(context, "用户id不正确", Toast.LENGTH_LONG).show();
             return;
         }
-        User user = new User();
+        final User user = new User();
         user.netEaseId = netEaseId;
         user.memberNo = memberNo;
+        //只有nimID, 没有memberNo
+        memberNo = 0;
         if (memberNo == 0) {
+            new SnsManager(context).snsDetailNimId(user, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    User u = (User) iMsg.Data;
+                    NimInit.updateUser(u);
+                    Bundle bu = new Bundle();
+                    bu.putSerializable("DATA", u);
+                    Intent intent = new Intent(context, PersonalActivity.class);
+                    intent.putExtras(bu);
+                    context.startActivity(intent);
+                }
+            });
 
         } else {
             Bundle bu = new Bundle();
@@ -59,7 +80,7 @@ public class GobalObserverImpl implements GobalObserver {
     public void onShowTeam(final Context context, String acount, int groupId, Group group) {
 //        Toast.makeText(context, "onShowTeam", Toast.LENGTH_LONG).show();
         if (group == null) {
-            new SnsManager(context).snsGroupDetails(group.groupId, new StringDialogCallback(context) {
+            new SnsManager(context).snsGroupDetails(groupId, new StringDialogCallback(context) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Toast.makeText(context, context.getResources().getString(R.string.internet_fault), Toast.LENGTH_SHORT).show();
@@ -70,6 +91,7 @@ public class GobalObserverImpl implements GobalObserver {
                     try {
                         if (iMsg.isSucceed()) {
                             com.tzw.noah.models.Group g = DataCenter.getInstance().getGroup();
+                            NimInit.updateGroup(g);
                             Bundle bu = new Bundle();
                             bu.putSerializable("DATA", g);
                             Intent intent = null;

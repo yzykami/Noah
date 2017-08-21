@@ -35,6 +35,7 @@ public class TZWUserCache {
 
     //App启动时调用
     public void init(List<User> users) {
+        account2UserMap = new ConcurrentHashMap<>();
         addOrUpdateUsers(users, false);
     }
 

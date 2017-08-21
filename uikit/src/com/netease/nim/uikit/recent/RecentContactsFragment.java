@@ -98,6 +98,7 @@ public class RecentContactsFragment extends TFragment {
         if (instance == null)
             return;
         else {
+            instance.clearIteams();
             instance.msgLoaded = false;
             instance.touchListener = new SimpleClickListener<RecentContactAdapter>() {
                 @Override
@@ -166,6 +167,7 @@ public class RecentContactsFragment extends TFragment {
     }
 
     public void clearIteams() {
+        recyclerView.removeOnItemTouchListener(touchListener);
         registerObservers(false);
         registerDropCompletedListener(false);
         registerOnlineStateChangeListener(false);
