@@ -40,8 +40,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_below="@+id/rl_top"
-        android:orientation="vertical">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -172,6 +174,7 @@
             android:background="@color/white">
 
             <ImageView
+                android:id="@+id/iv_seepwd"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
@@ -181,8 +184,8 @@
                 android:paddingLeft="@dimen/pt8"
                 android:paddingRight="@dimen/pt8"
                 android:paddingTop="@dimen/pt4"
-                android:src="@drawable/mine_login_seepwd"
-                android:visibility="gone" />
+                android:src="@drawable/mine_login_notseepwd"
+                android:visibility="visible" />
 
 
             <ImageView
@@ -199,10 +202,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/iv_2"
+                android:layout_toLeftOf="@+id/iv_seepwd"
                 android:background="@null"
                 android:hint="密码（6-16个字符，数字加字母）"
                 android:imeOptions="actionGo"
-                android:inputType="textPassword"
+                android:password="true"
                 android:lines="1"
                 android:maxLines="1"
                 android:padding="@dimen/pt6"

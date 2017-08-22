@@ -200,6 +200,22 @@ public class Utils {
             return;
         list.addAll(list1);
     }
+    public static void listAddUser(List list, User user) {
+        if (list == null)
+            return;
+        boolean has=false;
+        for (int i=0; i<list.size(); i++) {
+            User u = (User) list.get(i);
+            if(u.memberNo==user.memberNo) {
+                has=true;
+                break;
+            }
+        }
+        if(!has)
+        {
+            list.add(user);
+        }
+    }
 
 
     public static Bitmap getSmallBitmap(String filePath) {

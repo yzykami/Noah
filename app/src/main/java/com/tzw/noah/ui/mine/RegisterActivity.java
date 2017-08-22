@@ -3,6 +3,8 @@ package com.tzw.noah.ui.mine;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +38,9 @@ public class RegisterActivity extends MyBaseActivity {
     private ImageView iv_check;
     boolean ischeck = true;
 
+    private ImageView iv_seepwd;
+    boolean isSeepwd=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,7 @@ public class RegisterActivity extends MyBaseActivity {
         et_code = (EditText) findViewById(R.id.et_code);
         et_pwd = (EditText) findViewById(R.id.et_pwd);
         iv_check = (ImageView) findViewById(R.id.iv_check);
+        iv_seepwd = (ImageView) findViewById(R.id.iv_seepwd);
     }
 
     private void initview() {
@@ -61,6 +67,24 @@ public class RegisterActivity extends MyBaseActivity {
                     iv_check.setImageResource(R.drawable.mine_login_checked);
                 } else
                     iv_check.setImageResource(R.drawable.mine_login_uncheck);
+            }
+        });
+
+        iv_seepwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isSeepwd=!isSeepwd;
+                if(isSeepwd)
+                {
+                    iv_seepwd.setImageResource(R.drawable.mine_login_seepwd);
+                    et_pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    et_pwd.setSelection(et_pwd.getText().toString().length());
+                }
+                else {
+                    iv_seepwd.setImageResource(R.drawable.mine_login_notseepwd);
+                    et_pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    et_pwd.setSelection(et_pwd.getText().toString().length());
+                }
             }
         });
     }

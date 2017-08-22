@@ -70,13 +70,13 @@ public class SnsManager {
                         List<User> friendList = DataCenter.getInstance().getFriendList();
 
                         user.isAttention = true;
-                        followList.add(user);
+                        Utils.listAddUser(followList,user);
                         snsDBManager.UpdateFollowList(followList);
                         DataCenter.getInstance().setFollowList(followList);
 
                         for (int i = 0; i < fansList.size(); i++) {
                             if (fansList.get(i).memberNo == user.memberNo) {
-                                friendList.add(user);
+                                Utils.listAddUser(friendList,user);
                                 snsDBManager.UpdateFriendList(friendList);
                                 DataCenter.getInstance().setFriendList(friendList);
                                 break;
@@ -226,15 +226,15 @@ public class SnsManager {
                         for (int i = 0; i < followList.size(); i++) {
                             if (followList.get(i).memberNo == user.memberNo) {
                                 followList.remove(i);
-                                snsDBManager.UpdateFriendList(followList);
-                                DataCenter.getInstance().setFriendList(followList);
+                                snsDBManager.UpdateFollowList(followList);
+                                DataCenter.getInstance().setFollowList(followList);
                                 break;
                             }
                         }
                         for (int i = 0; i < fansList.size(); i++) {
                             if (fansList.get(i).memberNo == user.memberNo) {
                                 fansList.remove(i);
-                                snsDBManager.UpdateFriendList(fansList);
+                                snsDBManager.UpdateFansList(fansList);
                                 DataCenter.getInstance().setFriendList(fansList);
                                 break;
                             }
@@ -282,17 +282,21 @@ public class SnsManager {
                             }
                         }
 
-//                        if (user.isFans && user.isAttention) {
-                            friendList.add(user);
+                        if (user.isFans && user.isAttention) {
+                            Utils.listAddUser(friendList,user);
                             snsDBManager.UpdateFriendList(friendList);
-                        DataCenter.getInstance().setFriendList(friendList);
-                        followList.add(user);
+                            DataCenter.getInstance().setFriendList(friendList);
+                        }
+                        if (user.isAttention) {
+                            Utils.listAddUser(followList,user);
                             snsDBManager.UpdateFollowList(followList);
-                        DataCenter.getInstance().setFollowList(followList);
-                        fansList.add(user);
+                            DataCenter.getInstance().setFollowList(followList);
+                        }
+                        if (user.isFans) {
+                            Utils.listAddUser(fansList,user);
                             snsDBManager.UpdateFansList(fansList);
-                        DataCenter.getInstance().setFansList(fansList);
-//                        }
+                            DataCenter.getInstance().setFansList(fansList);
+                        }
 
                     }
                 } catch (Exception e) {
@@ -675,6 +679,7 @@ public class SnsManager {
             });
         }
     }
+
     public void snsDetailNimId(final User user, final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
             NetHelper.getInstance().snsDetailsnetEaseId2(user.netEaseId, new StringDialogCallback(mContext) {
@@ -838,9 +843,9 @@ public class SnsManager {
                         //保存到本地数据库
                         if (iMsg.isSucceed()) {
                             Group group = Group.load(iMsg);
-                            List<Group> list = new ArrayList<Group>();
-                            list.add(group);
-                            snsDBManager.UpdateGroupList(list);
+//                            List<Group> list = new ArrayList<Group>();
+//                            list.add(group);
+//                            snsDBManager.UpdateGroupList(list);
                             DataCenter.getInstance().setGroup(group);
                         }
                     } catch (Exception e) {
@@ -1060,5 +1065,17 @@ public class SnsManager {
     //获取推荐的群
     public void snsRecommendGroup(Callback callback) {
         NetHelper.getInstance().snsRecommendGroup(callback);
+    }
+
+    // 好友搜索
+    //sns/searchUser
+    public void snsSearchUser(String key, Callback callback) {
+        NetHelper.getInstance().snsSearchUser(key, callback);
+    }
+
+    // 群组搜索
+    //sns/findGroup
+    public void snsFindGroup(String key, Callback callback) {
+        NetHelper.getInstance().snsFindGroup(key, callback);
     }
 }

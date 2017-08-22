@@ -80,15 +80,17 @@ public class PersonalMoreActivity extends MyBaseActivity {
             tv_btn2.setVisibility(View.GONE);
         } else if (user.getRelative() == User.RelativeType.Fowllow) {
             tv_btn2.setVisibility(View.GONE);
+            tv_btn1.setVisibility(View.VISIBLE);
 
         } else if (user.getRelative() == User.RelativeType.Fans) {
             tv_btn1.setVisibility(View.GONE);
+            tv_btn2.setVisibility(View.VISIBLE);
             tv_btn2.setTextColor(getResources().getColor(R.color.white));
             tv_btn2.setBackgroundResource(R.drawable.bg_red_fill_round);
         }
 
-        if (user.getRelative() == User.RelativeType.Fowllow || user.getRelative() == User.RelativeType.Fans || user.getRelative() == User.RelativeType.Stranger)
-            rl_black.setVisibility(View.GONE);
+//        if (user.getRelative() == User.RelativeType.Fowllow || user.getRelative() == User.RelativeType.Fans || user.getRelative() == User.RelativeType.Stranger)
+//            rl_black.setVisibility(View.GONE);
 
     }
 
@@ -212,7 +214,8 @@ public class PersonalMoreActivity extends MyBaseActivity {
                 public void onResponse(IMsg iMsg) {
                     if (iMsg.isSucceed()) {
 //                        user.isBlacklist = !user.isBlacklist;
-                        setBackground(iv_blacklist, user.isBlacklist);
+//                        setBackground(iv_blacklist, user.isBlacklist);
+                        initview();
                     } else {
                         toast(iMsg.getMsg());
                     }
@@ -229,7 +232,8 @@ public class PersonalMoreActivity extends MyBaseActivity {
                 public void onResponse(IMsg iMsg) {
                     if (iMsg.isSucceed()) {
 //                        user.isBlacklist = !user.isBlacklist;
-                        setBackground(iv_blacklist, user.isBlacklist);
+//                        setBackground(iv_blacklist, user.isBlacklist);
+                        initview();
                     } else {
                         toast(iMsg.getMsg());
                     }

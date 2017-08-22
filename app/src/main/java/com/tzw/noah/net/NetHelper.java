@@ -612,4 +612,22 @@ public class NetHelper {
         String method = "sns/uploadIconToGroup/" + groupId;
         new WIRequest().Post(method, null, fileBody, "", callback);
     }
+
+    // 好友搜索
+    //sns/searchUser
+    public void snsSearchUser(String key, Callback callback) {
+        String method = "sns/searchUser";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("userInfo", key));
+        new WIRequest().Post(method, body, callback);
+    }
+
+    // 群组搜索
+    //sns/findGroup
+    public void snsFindGroup(String key, Callback callback) {
+        String method = "sns/findGroup";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("groupInfo", key));
+        new WIRequest().Post(method, body, callback);
+    }
 }

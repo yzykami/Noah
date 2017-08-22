@@ -163,7 +163,7 @@ public class GroupMemberListActivity extends MyBaseActivity implements MemberLis
 
                         List<GroupMember> items;
                         items = DataCenter.getInstance().getGroupMemberList();
-
+                        group.memberCount=items.size();
                         GroupMember gm = new GroupMember();
                         gm.memberNo = -1;
                         gm.memberHeadPic = "drawable://" + R.drawable.sns_add_person;
@@ -175,7 +175,7 @@ public class GroupMemberListActivity extends MyBaseActivity implements MemberLis
                             items.add(gm2);
                         }
 
-                        adapter.addAll(items);
+                        adapter.setDataList(items);
 
                         mPtrFrame.refreshComplete();
 
@@ -261,5 +261,11 @@ public class GroupMemberListActivity extends MyBaseActivity implements MemberLis
 
     public void handle_add(View view) {
         startActivity(AddActivity.class);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateData();
     }
 }

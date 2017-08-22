@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
+import com.tzw.noah.models.Group;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
@@ -126,7 +127,7 @@ public class AddAdapter extends BaseAdapter {
 
         if (user.isAttention) {
             holder.tv_add.setText("已关注");
-            holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.bg_light));
+            holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.textLightGray));
             holder.tv_add.setBackgroundResource(R.drawable.bg_gray_border);
         } else {
             holder.tv_add.setText("关注");
@@ -154,7 +155,7 @@ public class AddAdapter extends BaseAdapter {
                         public void onResponse(IMsg iMsg) {
                             if (iMsg.isSucceed()) {
                                 myBaseActivity.toast("关注成功");
-                                removeItem(position);
+                                updateItem(position);
                             } else {
                                 myBaseActivity.toast(iMsg.getMsg());
                             }
@@ -171,6 +172,13 @@ public class AddAdapter extends BaseAdapter {
 
     private void removeItem(int position) {
         items.remove(position);
+        notifyDataSetChanged();
+    }
+
+    private void updateItem(int position)
+    {
+        User user = items.get(position);
+        user.isAttention = true;
         notifyDataSetChanged();
     }
 

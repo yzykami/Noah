@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.GroupMember;
+import com.tzw.noah.widgets.MyGroupCoverView;
 
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
@@ -65,6 +66,8 @@ public class MemberListItemFactory extends AssemblyRecyclerItemFactory<MemberLis
         RelativeLayout ll_user;
         @BindView(R.id.tv_name)
         TextView tv_name;
+//        @BindView(R.id.view)
+//        MyGroupCoverView view;
 
         public MemberItem(int itemLayoutId, ViewGroup parent) {
             super(itemLayoutId, parent);
@@ -97,6 +100,8 @@ public class MemberListItemFactory extends AssemblyRecyclerItemFactory<MemberLis
 //            imageView.setNum(i);
             imageView.displayImage(groupMember.memberHeadPic);
             tv_name.setText(groupMember.getMemberName());
+//            view.setMask(imageView.getDrawable());
+
         }
     }
 }

@@ -60,6 +60,8 @@ public class Group implements Serializable {
 
     public String tag = "";
 
+    public boolean isJoined = false;
+
     public static List<Group> loadDiscussList(IMsg iMsg) {
         return iMsg.getModelList("discussRObj", new TypeToken<List<Group>>() {
         }.getType());
@@ -75,7 +77,12 @@ public class Group implements Serializable {
         }.getType());
     }
     public static Group load(IMsg iMsg) {
-        return iMsg.getModelList("groupDetailsRObj", new TypeToken<Group>() {
+        return iMsg.getModel("groupDetailsRObj", new TypeToken<Group>() {
+        }.getType());
+    }
+
+    public static List<Group> loadSearchList(IMsg iMsg) {
+        return iMsg.getModelList("detailsRObj", new TypeToken<List<Group>>() {
         }.getType());
     }
 
@@ -88,5 +95,6 @@ public class Group implements Serializable {
         public static int OWNER = 0;
         public static int MANAGER = 1;
         public static int MEMBER = 2;
+        public static int STRANGER = -1;
     }
 }

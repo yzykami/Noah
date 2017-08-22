@@ -189,6 +189,10 @@ public class User implements Serializable {
         return iMsg.getModelList("blacksRObj", new TypeToken<List<User>>() {
         }.getType());
     }
+    public static List<User> loadSearchList(IMsg iMsg) {
+        return iMsg.getModelList("detailsRObj", new TypeToken<List<User>>() {
+        }.getType());
+    }
 
     public static User Clone(User user) {
         User clone = new User();

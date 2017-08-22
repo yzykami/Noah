@@ -132,6 +132,7 @@
             android:background="@color/white">
 
             <ImageView
+                android:id="@+id/iv_seepwd"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
@@ -141,7 +142,8 @@
                 android:paddingLeft="@dimen/pt8"
                 android:paddingRight="@dimen/pt8"
                 android:paddingTop="@dimen/pt4"
-                android:src="@drawable/mine_login_seepwd" />
+                android:src="@drawable/mine_login_notseepwd"
+                android:visibility="gone" />
 
 
             <ImageView
@@ -157,14 +159,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_pwd"
                 android:layout_toRightOf="@+id/iv_1"
                 android:background="@null"
-                android:hint="请输入密码"
+                android:hint="请输入验证码"
                 android:imeOptions="actionGo"
-                android:inputType="textPassword"
                 android:lines="1"
                 android:maxLines="1"
                 android:padding="@dimen/pt6"
+                android:password="true"
                 android:text=""
                 android:textColor="@color/mygray"
                 android:textColorHint="@color/textLightLightGray"
@@ -198,11 +201,7 @@
             android:textSize="@dimen/text_content" />
 
 
-
-
-
     </LinearLayout>
-
 
 
 </RelativeLayout>

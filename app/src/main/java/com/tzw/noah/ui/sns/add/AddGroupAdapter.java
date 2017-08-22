@@ -92,7 +92,7 @@ public class AddGroupAdapter extends BaseAdapter {
 
         final Group group = items.get(position);
 
-        holder.tv_add.setText("申请");
+//        holder.tv_add.setText("申请");
         holder.iv_head.getOptions().setLoadingImage(R.drawable.sns_group_default);
         holder.iv_head.getOptions().setErrorImage(R.drawable.sns_group_default);
         holder.iv_head.displayImage(group.groupHeader);
@@ -109,13 +109,52 @@ public class AddGroupAdapter extends BaseAdapter {
             holder.tag.setVisibility(View.VISIBLE);
         }
 
+        if (group.isJoined) {
+            holder.tv_add.setText("已加入");
+            holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.textLightGray));
+            holder.tv_add.setBackgroundResource(R.drawable.bg_gray_border);
+        } else {
+            if(group.joinmode==0) {
+                holder.tv_add.setText("加入");
+            }
+            else {//if(group.joinmode==1)
+                holder.tv_add.setText("申请");
+            }
+            holder.tv_add.setTextColor(myBaseActivity.getResources().getColor(R.color.myRed));
+            holder.tv_add.setBackgroundResource(R.drawable.bg_red_border_round);
+        }
+
         holder.tv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!group.isJoined) {
+                    if(group.joinmode==0) {
+                        new SnsManager(context).snsApplyToGroup(group.groupId, "", new StringDialogCallback(context) {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                myBaseActivity.toast(context.getResources().getString(R.string.internet_fault));
+                            }
 
-                Bundle bu = new Bundle();
-                bu.putSerializable("DATA", group);
-                myBaseActivity.startActivity(GroupApplyActivity.class, bu);
+                            @Override
+                            public void onResponse(IMsg iMsg) {
+                                if (iMsg.isSucceed()) {
+                                    updateItem(position);
+                                    myBaseActivity.toast("加入群组成功");
+                                } else {
+                                    myBaseActivity.toast(iMsg.getMsg());
+                                }
+                            }
+                        });
+                    }else if(group.joinmode==1) {
+                        Bundle bu = new Bundle();
+                        bu.putSerializable("DATA", group);
+                        myBaseActivity.startActivity(GroupApplyActivity.class, bu);
+                    }else
+                    {
+                        myBaseActivity.toast("该群不允许加入");
+                    }
+
+                }
             }
         });
 
@@ -124,6 +163,13 @@ public class AddGroupAdapter extends BaseAdapter {
 
     private void removeItem(int position) {
         items.remove(position);
+        notifyDataSetChanged();
+    }
+
+    private void updateItem(int position)
+    {
+        Group group = items.get(position);
+        group.isJoined = true;
         notifyDataSetChanged();
     }
 

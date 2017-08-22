@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +66,8 @@ public class LoginActivity extends MyBaseActivity {
     private TextView tv_regsit;
     private TextView tv_title;
     private TextView tv_update;
+    private ImageView iv_seepwd;
+    boolean isSeepwd = false;
 
     int MODE = 0;
 //    int MODE_
@@ -99,6 +105,7 @@ public class LoginActivity extends MyBaseActivity {
         v2 = (View) findViewById(R.id.v2);
         et_username = (EditText) findViewById(R.id.et_username);
         et_pwd = (EditText) findViewById(R.id.et_pwd);
+        iv_seepwd = (ImageView) findViewById(R.id.iv_seepwd);
     }
 
     private void initview() {
@@ -163,6 +170,21 @@ public class LoginActivity extends MyBaseActivity {
             }
         });
 
+        iv_seepwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isSeepwd = !isSeepwd;
+                if (isSeepwd) {
+                    iv_seepwd.setImageResource(R.drawable.mine_login_seepwd);
+                    et_pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    et_pwd.setSelection(et_pwd.getText().toString().length());
+                } else {
+                    iv_seepwd.setImageResource(R.drawable.mine_login_notseepwd);
+                    et_pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    et_pwd.setSelection(et_pwd.getText().toString().length());
+                }
+            }
+        });
     }
 
     private void doWorking() {
@@ -220,13 +242,12 @@ public class LoginActivity extends MyBaseActivity {
                 params.add(new Param("memberPasswd", pwd));
 
                 IMsg iMsg = null;
-                if (MODE == 0){
+                if (MODE == 0) {
                     params = new ArrayList<>();
                     params.add(new Param("memberName", username));
                     params.add(new Param("memberPasswd", pwd));
                     iMsg = NetHelper.getInstance().memberLogin(params);
-                }
-                else {
+                } else {
                     params = new ArrayList<>();
                     params.add(new Param("memberMobile", username));
                     params.add(new Param("vcode", pwd));
@@ -285,11 +306,12 @@ public class LoginActivity extends MyBaseActivity {
 
             try {
 //                LoadDialog.dismiss();
-                dismissLoaddingDialog();
                 // 网络错误
                 if (msg.what == LOGIN_INTERNET_FAULT) {
+                    dismissLoaddingDialog();
                     toast(msg.getData().getString("MESSAGE_DATA"));
                 } else if (msg.what == LOGIN_ERROR) {
+                    dismissLoaddingDialog();
                     try {
                         IMsg iMsg = (IMsg) msg.getData().getSerializable("MESSAGE_DATA");
                         toast(iMsg.getMsg());
@@ -317,11 +339,13 @@ public class LoginActivity extends MyBaseActivity {
 //                        setResult(LOGINSUCCEED);
 //                        finish();
                     } else {
+                        dismissLoaddingDialog();
                         toast(iMsg.getMsg());
                     }
                     super.handleMessage(msg);
                 }
             } catch (Exception e) {
+                dismissLoaddingDialog();
                 e.printStackTrace();
             }
         }
@@ -341,6 +365,7 @@ public class LoginActivity extends MyBaseActivity {
                 }
             }
         }).setCanceledOnTouchOutside(false);
+        DialogMaker.dismissProgressDialog();
 
         // 云信只提供消息通道，并不包含用户资料逻辑。开发者需要在管理后台或通过服务器接口将用户帐号和token同步到云信服务器。
         // 在这里直接使用同步到云信服务器的帐号和token登录。
@@ -391,6 +416,7 @@ public class LoginActivity extends MyBaseActivity {
 
     private void onLoginDone() {
         loginRequest = null;
+        dismissLoaddingDialog();
         DialogMaker.dismissProgressDialog();
     }
 

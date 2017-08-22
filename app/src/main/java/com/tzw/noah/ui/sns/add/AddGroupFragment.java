@@ -23,6 +23,8 @@ import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.sns.discuss.DiscussCreateActivity;
 import com.tzw.noah.ui.sns.friendlist.MyCompare;
 import com.tzw.noah.ui.sns.group.GroupCreateActivity;
+import com.tzw.noah.ui.sns.search.GroupSearchActivity;
+import com.tzw.noah.ui.sns.search.UserSearchActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.WordNaviView;
 
@@ -81,9 +83,9 @@ public class AddGroupFragment extends Fragment {
         View headSearchView = inflater.inflate(R.layout.sns_search_head, container, false);
         TextView tv = (TextView) headSearchView.findViewById(R.id.tv);
         tv.setText("简介/群名称");
-//        list_view.addHeaderView(headSearchView);
-        View spanView = inflater.inflate(R.layout.sns_span, container, false);
-        list_view.addHeaderView(spanView);
+        list_view.addHeaderView(headSearchView);
+//        View spanView = inflater.inflate(R.layout.sns_span, container, false);
+//        list_view.addHeaderView(spanView);
 
         list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_group, "创建群组"));
         list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_create_multichat, "创建多人会话"));
@@ -100,6 +102,10 @@ public class AddGroupFragment extends Fragment {
                 if (position >= list_view.getHeaderViewsCount()) {
 
                 } else {
+                    if(position==0)
+                    {
+                        mActivity.startActivity(GroupSearchActivity.class);
+                    }
                     if (position == 1) {
                         mActivity.startActivityForResult(100, GroupCreateActivity.class);
                     }

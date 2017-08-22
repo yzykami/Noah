@@ -11,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.netease.nim.uikit.NimUIKit;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
+import com.tzw.noah.init.NimInit;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
@@ -24,6 +26,7 @@ import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.BottomPopupWindow;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.sns.discuss.DiscussDetailActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.ListenedScrollView;
@@ -85,6 +88,8 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
 
     Group group;
 
+    boolean isFirstLoad = true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +102,7 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
         initdata();
         findview();
         initview();
-        getMemberList();
+//        getMemberList();
     }
 
     private void initdata() {
@@ -279,6 +284,8 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
                 try {
                     if (iMsg.isSucceed()) {
                         items = DataCenter.getInstance().getGroupMemberList();
+                        group.memberCount = items.size();
+                        tv_count.setText(group.memberCount + "人");
                         ll_member.removeAllViews();
                         for (int i = 0; i < 5 && i < items.size(); i++) {
 //                            items.get(i).memberHeadPic = "drawable://" + R.drawable.sns_user_default;
@@ -438,5 +445,40 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
         } else {
             rl_top.setBackgroundColor(getResources().getColor(R.color.transparent));
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        if (isFirstLoad)
+//            isFirstLoad = false;
+//        else {
+            refetchGroup();
+//        }
+    }
+
+    private void refetchGroup() {
+        new SnsManager(mContext).snsGroupDetails(group.groupId, new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.internet_fault), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        Group g = DataCenter.getInstance().getGroup();
+                        group = g;
+                        initview();
+                    } else {
+                        Toast.makeText(mContext, iMsg.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Log.log("GobalObserverImpl", e);
+                }
+            }
+        });
+        getMemberList();
     }
 }

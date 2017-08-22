@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,6 +34,9 @@ public class FindPwdActivity extends MyBaseActivity {
     EditText et_username;
     @BindView(R.id.et_pwd)
     EditText et_pwd;
+    @BindView(R.id.iv_seepwd)
+    ImageView iv_seepwd;
+
 
     Context mContext = FindPwdActivity.this;
 
@@ -39,6 +44,9 @@ public class FindPwdActivity extends MyBaseActivity {
 
     public static String mobile="";
     public static String vcode="";
+
+    boolean isSeepwd=false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +67,23 @@ public class FindPwdActivity extends MyBaseActivity {
     }
 
     private void initview() {
-
+        iv_seepwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isSeepwd=!isSeepwd;
+                if(isSeepwd)
+                {
+                    iv_seepwd.setImageResource(R.drawable.mine_login_seepwd);
+                    et_pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    et_pwd.setSelection(et_pwd.getText().toString().length());
+                }
+                else {
+                    iv_seepwd.setImageResource(R.drawable.mine_login_notseepwd);
+                    et_pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    et_pwd.setSelection(et_pwd.getText().toString().length());
+                }
+            }
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

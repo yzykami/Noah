@@ -84,6 +84,7 @@
                 android:textSize="@dimen/sp12"
                 android:visibility="gone" />
             <ImageView
+                android:id="@+id/iv_seepwd"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
@@ -93,7 +94,7 @@
                 android:paddingLeft="@dimen/pt8"
                 android:paddingRight="@dimen/pt8"
                 android:paddingTop="@dimen/pt4"
-                android:src="@drawable/mine_login_seepwd" />
+                android:src="@drawable/mine_login_notseepwd" />
 
             <ImageView
                 android:id="@+id/iv_username"
@@ -108,13 +109,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/tv_getcode"
+                android:layout_toLeftOf="@+id/iv_seepwd"
                 android:layout_toRightOf="@+id/iv_username"
                 android:background="@null"
                 android:ellipsize="end"
                 android:hint="新密码"
                 android:imeOptions="actionNext"
-                android:inputType="textPassword"
+                android:password="true"
                 android:maxLines="1"
                 android:nextFocusForward="@+id/et_pwd"
                 android:padding="@dimen/pt6"
@@ -144,6 +145,7 @@
             android:background="@color/white">
 
             <ImageView
+                android:id="@+id/iv_seepwd2"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
@@ -153,7 +155,7 @@
                 android:paddingLeft="@dimen/pt8"
                 android:paddingRight="@dimen/pt8"
                 android:paddingTop="@dimen/pt4"
-                android:src="@drawable/mine_login_seepwd" />
+                android:src="@drawable/mine_login_notseepwd" />
 
 
             <ImageView
@@ -170,10 +172,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/iv_1"
+                android:layout_toLeftOf="@+id/iv_seepwd2"
                 android:background="@null"
                 android:hint="请再次输入密码"
                 android:imeOptions="actionGo"
-                android:inputType="textPassword"
+                android:password="true"
                 android:lines="1"
                 android:maxLines="1"
                 android:padding="@dimen/pt6"
