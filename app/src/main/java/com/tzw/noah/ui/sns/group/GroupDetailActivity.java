@@ -114,11 +114,10 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
     }
 
     private void findview() {
-
+        ll_member.removeAllViews();
     }
 
     private void initview() {
-        ll_member.removeAllViews();
         tv_group_name.setText(group.groupName);
         tv_group_name1.setText(group.groupName);
         tv_group_id.setText("群号: " + group.groupId);

@@ -57,13 +57,21 @@ public class GobalObserverImpl implements GobalObserver {
 
                 @Override
                 public void onResponse(IMsg iMsg) {
-                    User u = (User) iMsg.Data;
-                    NimInit.updateUser(u);
-                    Bundle bu = new Bundle();
-                    bu.putSerializable("DATA", u);
-                    Intent intent = new Intent(context, PersonalActivity.class);
-                    intent.putExtras(bu);
-                    context.startActivity(intent);
+                    try {
+                        if (iMsg.isSucceed()) {
+                            User u = (User) iMsg.Data;
+                            NimInit.updateUser(u);
+                            Bundle bu = new Bundle();
+                            bu.putSerializable("DATA", u);
+                            Intent intent = new Intent(context, PersonalActivity.class);
+                            intent.putExtras(bu);
+                            context.startActivity(intent);
+                        } else {
+                            Toast.makeText(context, iMsg.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        Log.log("GobalObserverImpl", e);
+                    }
                 }
             });
 

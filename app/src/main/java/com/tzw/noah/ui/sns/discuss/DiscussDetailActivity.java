@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.netease.nim.uikit.NimUIKit;
 import com.tzw.noah.R;
@@ -105,7 +106,7 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
         initdata();
         findview();
         initview();
-        getMemberList();
+//        getMemberList();
     }
 
     private void initdata() {
@@ -118,10 +119,10 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
 
     private void findview() {
 
+        ll_member.removeAllViews();
     }
 
     private void initview() {
-        ll_member.removeAllViews();
         String groupName = group.initialGroupName;
         if (!group.groupName.isEmpty()) groupName = group.groupName;
         tv_group_name.setText(groupName);
@@ -300,7 +301,8 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
                 try {
                     if (iMsg.isSucceed()) {
                         items = DataCenter.getInstance().getGroupMemberList();
-
+                        group.memberCount = items.size();
+                        tv_count.setText(group.memberCount + "人");
                         ll_member.removeAllViews();
                         for (int i = 0; i < 5 && i < items.size(); i++) {
 //                            items.get(i).memberHeadPic = "drawable://" + R.drawable.sns_user_default;
@@ -405,5 +407,40 @@ public class DiscussDetailActivity extends MyBaseActivity implements BottomPopup
 
     public void handle_send(View view) {
         NimUIKit.startTeamSession(mContext, group.netEaseGroupId + "");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        if (isFirstLoad)
+//            isFirstLoad = false;
+//        else {
+        refetchGroup();
+//        }
+    }
+
+    private void refetchGroup() {
+        new SnsManager(mContext).snsGroupDetails(group.groupId, new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.internet_fault), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        Group g = DataCenter.getInstance().getGroup();
+                        group = g;
+                        initview();
+                    } else {
+                        Toast.makeText(mContext, iMsg.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Log.log("GobalObserverImpl", e);
+                }
+            }
+        });
+        getMemberList();
     }
 }
