@@ -27,6 +27,7 @@ import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.BottomPopupWindow;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.discuss.DiscussDetailActivity;
+import com.tzw.noah.ui.sns.friendlist.GroupFragment;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.ListenedScrollView;
@@ -252,6 +253,7 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
                     try {
                         if (iMsg.isSucceed()) {
                             toast("群解散成功");
+                            GroupFragment.setUpdate();
                             finish();
                         } else {
                             toast(iMsg.getMsg());

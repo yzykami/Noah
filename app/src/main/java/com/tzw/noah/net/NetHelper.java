@@ -20,6 +20,14 @@ public class NetHelper {
         return new NetHelper();
     }
 
+    public String ip="10.0.12.226";
+    //version
+    public void getAppVersion(Callback callback) {
+        int versionCode = 0;
+        String url = "http://"+ip+"/download/version.txt";
+        HttpTool.getInstance().HttpGet(url, callback);
+    }
+
     //base/time
     public IMsg getBaseTime() {
         String method = "base/time";

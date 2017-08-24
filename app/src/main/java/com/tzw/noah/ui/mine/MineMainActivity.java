@@ -30,6 +30,7 @@ import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.module.Container;
 import com.tzw.noah.MainActivity;
 import com.tzw.noah.R;
+import com.tzw.noah.appupdate.UpdateManager;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.SnsDBManager;
 import com.tzw.noah.init.DBInit;

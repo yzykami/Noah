@@ -33,6 +33,7 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.SystemMessageService;
+import com.tzw.noah.appupdate.UpdateManager;
 import com.tzw.noah.ui.circle.CirileMainActivity;
 import com.tzw.noah.ui.friend.FriendMainActivity;
 import com.tzw.noah.ui.home.HomeMainActivity;
@@ -42,7 +43,6 @@ import com.tzw.noah.ui.sns.SnsMainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 public class MainActivity extends TabActivity implements ReminderManager.UnreadNumChangedCallback {
 
@@ -161,6 +161,12 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         }, 200);
 
         selectUserTag();
+        mDelivery.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new UpdateManager(mContext).checkUpdateInfo();
+            }
+        },500);
     }
 
 

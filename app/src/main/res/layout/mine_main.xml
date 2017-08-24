@@ -144,7 +144,7 @@
                                     android:layout_marginLeft="@dimen/pt10"
                                     android:maxLines="1"
                                     android:text="1秒登录，专享个性化服务"
-                                    android:textColor="@color/mygray"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/text_lable_small" />
                             </LinearLayout>
                         </LinearLayout>

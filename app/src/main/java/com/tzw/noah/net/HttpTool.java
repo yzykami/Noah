@@ -52,6 +52,44 @@ public class HttpTool {
         return mhc.Get("", url);
     }
 
+    //HttpGet异步请求
+    public void HttpGet(String url, final Callback callback) {
+        Request.Builder builder = new Request.Builder();
+        final Request request = builder
+                .url(url)
+                .build();
+
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (callback != null) {
+                    callback.onFailure(call, e);
+                    Log.httpcall(request, e);
+                }
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (callback != null) {
+                    IMsg imsg = null;
+                    String ret = "";
+                    try {
+                        ret = response.body().string();
+                        Log.httpcall(request, ret);
+                        imsg = new IMsg();
+                        imsg.setSucceed(true);
+                        imsg.Data = ret;
+                    } catch (Exception e) {
+                        imsg = CreateErrorMsgResponse(e.getMessage());
+                        Log.httpcall(request, e);
+                    }
+                    callback.onResponse(imsg);
+                }
+            }
+        });
+    }
+
     public static String Post(String url, Param params) {
         try {
             return mhc.post(url, params).body().toString();

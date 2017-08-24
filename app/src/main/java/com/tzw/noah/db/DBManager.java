@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.R;
+import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Area;
 import com.tzw.noah.models.Dict;
 import com.tzw.noah.models.User;
@@ -87,14 +88,21 @@ public class DBManager {
     private List<Area> query(String sql) {
         //sql = "SELECT * FROM Area"
         ArrayList<Area> Areas = new ArrayList<Area>();
-        Cursor c = db.rawQuery(sql, null);
-        while (c.moveToNext()) {
-            Area Area = new Area();
-            Area.areaId = c.getString(c.getColumnIndex("areaId"));
-            Area.areaName = c.getString(c.getColumnIndex("areaName"));
-            Areas.add(Area);
+        Cursor c = null;
+        try {
+            c = db.rawQuery(sql, null);
+            while (c.moveToNext()) {
+                Area Area = new Area();
+                Area.areaId = c.getString(c.getColumnIndex("areaId"));
+                Area.areaName = c.getString(c.getColumnIndex("areaName"));
+                Areas.add(Area);
+            }
+        } catch (Exception e) {
+            Log.log("DBManager", e);
+        } finally {
+            if (c != null)
+                c.close();
         }
-        c.close();
         return Areas;
     }
 

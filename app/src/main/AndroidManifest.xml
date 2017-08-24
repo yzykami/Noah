@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.tzw.noah"
-    android:versionCode="1"
-    android:versionName="1.0.0">
+    android:versionCode="2"
+    android:versionName="1.2.0">
 
     <!-- 加入应用需要的权限 -->
     <!-- 网络相关 -->
@@ -373,6 +373,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.tzw.noah.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
     <!--<receiver android:name="com.tzw.noah.broadcast.NetWorkStatusReceiver">-->
@@ -384,6 +395,4 @@
     <meta-data
         android:name="me.xiaopan.sketchsample.SketchInitializer"
         android:value="SKETCH_INITIALIZER" />
-
-
 </manifest>

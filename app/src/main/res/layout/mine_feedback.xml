@@ -69,7 +69,7 @@
                 android:background="@null"
                 android:gravity="top"
                 android:hint="请写下您的意见或者建议"
-                android:lines="3"
+                android:lines="7"
                 android:textColor="@color/textDarkGray"
                 android:textColorHint="@color/textLightGray"
                 android:textCursorDrawable="@drawable/color_cursor"
@@ -78,7 +78,8 @@
             <LinearLayout
                 android:id="@+id/ll_pic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/pt50"
