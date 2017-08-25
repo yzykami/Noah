@@ -123,7 +123,7 @@ public class GroupEditIntroduceActivity extends MyBaseActivity {
             return;
         }
         List<Param> body = new ArrayList<>();
-        body.add(new Param("groupName", group.groupName));
+//        body.add(new Param("groupName", group.groupName));
         body.add(new Param("groupTypeId", group.groupTypeId));
         body.add(new Param("groupIntroduction", et_sign.getText().toString()));
 //        body.add(new Param("groupBulletin",group.groupBulletin));

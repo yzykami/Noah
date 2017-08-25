@@ -301,7 +301,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
             return;
         }
 
-        if (System.currentTimeMillis() - typingTime > 5000L) {
+        if (System.currentTimeMillis() - typingTime > 2000L) {
             typingTime = System.currentTimeMillis();
             CustomNotification command = new CustomNotification();
             command.setSessionId(container.account);

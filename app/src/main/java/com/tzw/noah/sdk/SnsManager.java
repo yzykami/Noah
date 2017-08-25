@@ -15,12 +15,15 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
+import com.tzw.noah.net.WIRequest;
 import com.tzw.noah.utils.NetWorkUtils;
 import com.tzw.noah.utils.Utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 
@@ -70,13 +73,13 @@ public class SnsManager {
                         List<User> friendList = DataCenter.getInstance().getFriendList();
 
                         user.isAttention = true;
-                        Utils.listAddUser(followList,user);
+                        Utils.listAddUser(followList, user);
                         snsDBManager.UpdateFollowList(followList);
                         DataCenter.getInstance().setFollowList(followList);
 
                         for (int i = 0; i < fansList.size(); i++) {
                             if (fansList.get(i).memberNo == user.memberNo) {
-                                Utils.listAddUser(friendList,user);
+                                Utils.listAddUser(friendList, user);
                                 snsDBManager.UpdateFriendList(friendList);
                                 DataCenter.getInstance().setFriendList(friendList);
                                 break;
@@ -283,17 +286,17 @@ public class SnsManager {
                         }
 
                         if (user.isFans && user.isAttention) {
-                            Utils.listAddUser(friendList,user);
+                            Utils.listAddUser(friendList, user);
                             snsDBManager.UpdateFriendList(friendList);
                             DataCenter.getInstance().setFriendList(friendList);
                         }
                         if (user.isAttention) {
-                            Utils.listAddUser(followList,user);
+                            Utils.listAddUser(followList, user);
                             snsDBManager.UpdateFollowList(followList);
                             DataCenter.getInstance().setFollowList(followList);
                         }
                         if (user.isFans) {
-                            Utils.listAddUser(fansList,user);
+                            Utils.listAddUser(fansList, user);
                             snsDBManager.UpdateFansList(fansList);
                             DataCenter.getInstance().setFansList(fansList);
                         }
@@ -998,8 +1001,8 @@ public class SnsManager {
 
     //创建群组
     //sns/createGroup
-    public void snsCreateGroup(List<Param> body, Callback callback) {
-        NetHelper.getInstance().snsCreateGroup(body, callback);
+    public void snsCreateGroup(List<Param> body, Map<String, File> fileBody, Callback callback) {
+        NetHelper.getInstance().snsCreateGroup2(body, fileBody, callback);
     }
 
     //邀请加群
@@ -1077,5 +1080,11 @@ public class SnsManager {
     //sns/findGroup
     public void snsFindGroup(String key, Callback callback) {
         NetHelper.getInstance().snsFindGroup(key, callback);
+    }
+
+    // 群组消息免打扰
+    //sns/settingOfMyGroup
+    public void snsSettingOfMyGroup(int groupId, int isGet, Callback callback) {
+        NetHelper.getInstance().snsSettingOfMyGroup(groupId, isGet, callback);
     }
 }

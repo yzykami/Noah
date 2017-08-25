@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.netease.nim.uikit.NimUIKit;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.team.TeamService;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.init.NimInit;
@@ -41,6 +43,8 @@ import butterknife.ButterKnife;
 import me.xiaopan.sketchsample.widget.SampleImageView;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 import okhttp3.Call;
+
+import static com.tzw.noah.R.id.et_sign;
 
 /**
  * Created by yzy on 2017/7/3.
@@ -138,6 +142,7 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
         if (group.myMemberType == Group.MemberType.MEMBER)
             rl_manager.setVisibility(View.GONE);
         setBackground(iv_top, isIvTop);
+        isIvSlient = group.messageGet == 0 ? false : true;
         setBackground(iv_slient, isIvSlient);
 
         iv_bg.getOptions().setErrorImage(R.drawable.sns_group_bg);
@@ -323,8 +328,36 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
     }
 
     public void handle_slient(View view) {
-        isIvSlient = !isIvSlient;
-        setBackground(iv_slient, isIvSlient);
+
+        int isGet = !isIvSlient == true ? 1 : 0;
+        ;
+        new SnsManager(mContext).snsSettingOfMyGroup(group.groupId, isGet, new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                toast(getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        isIvSlient = !isIvSlient;
+                        group.messageGet = isIvSlient == true ? 1 : 0;
+                        NIMClient.getService(TeamService.class).muteTeam(group.netEaseGroupId+"", isIvSlient);
+                        setBackground(iv_slient, isIvSlient);
+                        if (isIvSlient)
+                            toast("群消息免打扰开启");
+                        else
+                            toast("群消息免打扰关闭");
+                    } else {
+                        toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(Tag, e);
+                }
+            }
+        });
+
     }
 
     public void handle_edit_groupname(View view) {
@@ -454,7 +487,7 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
 //        if (isFirstLoad)
 //            isFirstLoad = false;
 //        else {
-            refetchGroup();
+        refetchGroup();
 //        }
     }
 

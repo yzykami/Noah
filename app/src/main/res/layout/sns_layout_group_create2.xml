@@ -63,13 +63,26 @@
         android:layout_below="@id/rl_top"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="40dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/sns_add_person" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_add"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:onClick="handle_select_picture"
+                android:src="@drawable/sns_add_person" />
+
+            <me.xiaopan.sketchsample.widget.SampleImageView
+                android:id="@+id/iv_head"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sns_group_bg_height"
+                android:scaleType="centerCrop"
+                android:visibility="invisible" />
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/et_nickname"
@@ -77,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/bj"
             android:layout_marginRight="@dimen/bj"
+            android:padding="@dimen/pt2"
             android:background="@null"
             android:gravity="center"
             android:hint="填写群名称(2-10个字)"

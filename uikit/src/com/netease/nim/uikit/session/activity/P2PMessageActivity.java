@@ -43,6 +43,8 @@ public class P2PMessageActivity extends BaseMessageActivity {
     ImageView iv_add;
     private TextView tv_title;
     Context mContext;
+    private boolean isRunning = true;
+    String username;
 
     public static void start(Context context, String contactId, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
@@ -67,11 +69,14 @@ public class P2PMessageActivity extends BaseMessageActivity {
         displayOnlineState();
         registerObservers(true);
         registerOnlineStateChangeListener(true);
+        new Thread(new ShowWriting()).start();
+        ;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        isRunning = false;
         registerObservers(false);
         registerOnlineStateChangeListener(false);
     }
@@ -89,7 +94,6 @@ public class P2PMessageActivity extends BaseMessageActivity {
     }
 
     private void requestBuddyInfo() {
-        String username;
         setTitle(username = UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_add = (ImageView) findViewById(R.id.iv_add);
@@ -220,13 +224,49 @@ public class P2PMessageActivity extends BaseMessageActivity {
             int id = json.getIntValue("id");
             if (id == 1) {
                 // 正在输入
-                Toast.makeText(P2PMessageActivity.this, "对方正在输入...", Toast.LENGTH_LONG).show();
+//                Toast.makeText(P2PMessageActivity.this, "对方正在输入...", Toast.LENGTH_LONG).show();
+                currentWriteTime = System.currentTimeMillis();
             } else {
                 Toast.makeText(P2PMessageActivity.this, "command: " + content, Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {
 
+        }
+    }
+
+    private long currentWriteTime = 0;
+    private static final int INTERVAL = 2500;
+
+    class ShowWriting implements Runnable {
+        @Override
+        public void run() {
+            int i = 0;
+
+            while (isRunning) {
+                String[] tips = new String[]{"对方正在输入   ", "对方正在输入.  ", "对方正在输入.. ", "对方正在输入...",};
+                final String title;
+                if (System.currentTimeMillis() - currentWriteTime < INTERVAL) {
+                    title = tips[i++];
+                    if (i >= tips.length)
+                        i = 0;
+                } else {
+                    i = 0;
+                    title = username;
+                }
+
+                P2PMessageActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tv_title.setText(title);
+                    }
+                });
+                try {
+                    Thread.sleep(500);
+                } catch (Exception e) {
+
+                }
+            }
         }
     }
 

@@ -26,6 +26,7 @@ import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 
@@ -87,8 +88,14 @@ public class GobalObserverImpl implements GobalObserver {
     @Override
     public void onShowTeam(final Context context, String acount, int groupId, Group group) {
 //        Toast.makeText(context, "onShowTeam", Toast.LENGTH_LONG).show();
+        final int netEaseGroupId = Utils.String2Int(acount);
+
+        if (netEaseGroupId == 0) {
+            Toast.makeText(context, "群组id不正确", Toast.LENGTH_LONG).show();
+            return;
+        }
         if (group == null) {
-            new SnsManager(context).snsGroupDetails(groupId, new StringDialogCallback(context) {
+            new SnsManager(context).snsGroups(new StringDialogCallback(context) {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Toast.makeText(context, context.getResources().getString(R.string.internet_fault), Toast.LENGTH_SHORT).show();
@@ -98,8 +105,21 @@ public class GobalObserverImpl implements GobalObserver {
                 public void onResponse(IMsg iMsg) {
                     try {
                         if (iMsg.isSucceed()) {
-                            com.tzw.noah.models.Group g = DataCenter.getInstance().getGroup();
-                            NimInit.updateGroup(g);
+                            List<com.tzw.noah.models.Group> gs = DataCenter.getInstance().getGroupList();
+                            com.tzw.noah.models.Group g=null;
+                            NimInit.updateGroups(context);
+                            for (int i = 0; i < gs.size(); i++) {
+                                com.tzw.noah.models.Group curg = gs.get(i);
+                                if (curg.netEaseGroupId == netEaseGroupId)
+                                {
+                                    g = curg;
+                                    break;
+                                }
+                            }
+                            if(g==null) {
+                                Toast.makeText(context, "您已经不在此群中", Toast.LENGTH_LONG).show();
+                                return;
+                            }
                             Bundle bu = new Bundle();
                             bu.putSerializable("DATA", g);
                             Intent intent = null;
@@ -117,6 +137,36 @@ public class GobalObserverImpl implements GobalObserver {
                     }
                 }
             });
+
+//            new SnsManager(context).snsGroupDetails(groupId, new StringDialogCallback(context) {
+//                @Override
+//                public void onFailure(Call call, IOException e) {
+//                    Toast.makeText(context, context.getResources().getString(R.string.internet_fault), Toast.LENGTH_SHORT).show();
+//                }
+//
+//                @Override
+//                public void onResponse(IMsg iMsg) {
+//                    try {
+//                        if (iMsg.isSucceed()) {
+//                            com.tzw.noah.models.Group g = DataCenter.getInstance().getGroup();
+//                            NimInit.updateGroup(g);
+//                            Bundle bu = new Bundle();
+//                            bu.putSerializable("DATA", g);
+//                            Intent intent = null;
+//                            if (g.groupAttribute == com.tzw.noah.models.Group.Type.GROUP)
+//                                intent = new Intent(context, GroupDetailActivity.class);
+//                            else
+//                                intent = new Intent(context, DiscussDetailActivity.class);
+//                            intent.putExtras(bu);
+//                            context.startActivity(intent);
+//                        } else {
+//                            Toast.makeText(context, iMsg.getMsg(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    } catch (Exception e) {
+//                        Log.log("GobalObserverImpl", e);
+//                    }
+//                }
+//            });
         } else {
 
             com.tzw.noah.models.Group g = new com.tzw.noah.models.Group();

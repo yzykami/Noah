@@ -57,6 +57,8 @@ public class Group implements Serializable {
     public int memberCount;
     @MyField
     public String initialGroupName="";
+//    @MyField
+    public int messageGet = 0;
 
     public String tag = "";
 

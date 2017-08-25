@@ -1,5 +1,6 @@
 package com.tzw.noah.ui.sns.group;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.netease.nim.uikit.common.media.picker.PickImageHelper;
 import com.tzw.noah.R;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupType;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.xiaopan.sketchsample.widget.SampleImageView;
 
 /**
  * Created by yzy on 2017/7/5.
@@ -32,8 +35,12 @@ public class GroupCreateActivity2 extends MyBaseActivity {
     RelativeLayout rl_top;
     @BindView(R.id.iv_check)
     ImageView iv_check;
+    @BindView(R.id.iv_add)
+    ImageView iv_add;
     @BindView(R.id.et_nickname)
     EditText et_nickname;
+    @BindView(R.id.iv_head)
+    SampleImageView iv_head;
 
     Context mContext = GroupCreateActivity2.this;
 
@@ -42,6 +49,10 @@ public class GroupCreateActivity2 extends MyBaseActivity {
 
     int maxCount = 10;
     Group group;
+
+    public static String groupHeadPath="";
+
+    private static final int PICK_AVATAR_REQUEST = 0x0E;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +116,13 @@ public class GroupCreateActivity2 extends MyBaseActivity {
                 }
             }
         });
+
+        iv_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handle_select_picture(null);
+            }
+        });
     }
 
     private void setBackground(ImageView iv, boolean isChecked) {
@@ -123,6 +141,12 @@ public class GroupCreateActivity2 extends MyBaseActivity {
             setResult(100);
             finish();
         }
+        if (resultCode == Activity.RESULT_OK && requestCode == PICK_AVATAR_REQUEST) {
+            groupHeadPath = data.getStringExtra(com.netease.nim.uikit.session.constant.Extras.EXTRA_FILE_PATH);
+            iv_head.displayImage(groupHeadPath);
+            iv_head.setVisibility(View.VISIBLE);
+//            updateAvatar(path);
+        }
     }
 
     public void handle_next(View view) {
@@ -138,5 +162,15 @@ public class GroupCreateActivity2 extends MyBaseActivity {
         group.groupName = et_nickname.getText().toString();
         bu.putSerializable("DATA", group);
         startActivityForResult(100, GroupCreateActivity4.class, bu);
+    }
+
+    public void handle_select_picture(View view) {
+        PickImageHelper.PickImageOption option = new PickImageHelper.PickImageOption();
+        option.titleResId = com.netease.nim.demo.R.string.set_team_image;;
+        option.crop = true;
+        option.multiSelect = false;
+        option.cropOutputImageWidth = 960;
+        option.cropOutputImageHeight = 540;
+        PickImageHelper.pickImage(mContext, PICK_AVATAR_REQUEST, option);
     }
 }

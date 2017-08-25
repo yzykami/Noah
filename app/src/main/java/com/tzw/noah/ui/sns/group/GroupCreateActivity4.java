@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -18,9 +19,12 @@ import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.friendlist.GroupFragment;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,13 +86,24 @@ public class GroupCreateActivity4 extends MyBaseActivity {
 
 
     public void handle_submit(View view) {
+        group.joinmode = 1;
         List<Param> body = new ArrayList<>();
         body.add(new Param("groupName", group.groupName));
         body.add(new Param("groupTypeId", group.groupTypeId));
         body.add(new Param("groupIntroduction", group.groupIntroduction));
         body.add(new Param("joinmode", group.joinmode));
 
-        new SnsManager(mContext).snsCreateGroup(body, new StringDialogCallback(mContext) {
+
+        Map<String, File> fileBody = new HashMap<>();
+        if (!TextUtils.isEmpty(GroupCreateActivity2.groupHeadPath)) {
+            File file = new File(GroupCreateActivity2.groupHeadPath);
+
+            if (file != null) {
+                fileBody.put("groupHeader", file);
+            }
+        }
+
+        new SnsManager(mContext).snsCreateGroup(body, fileBody ,new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));

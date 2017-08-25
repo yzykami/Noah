@@ -20,7 +20,7 @@ public class NetHelper {
         return new NetHelper();
     }
 
-    public String ip="10.0.12.226";
+    public String ip="10.0.9.10";
     //version
     public void getAppVersion(Callback callback) {
         int versionCode = 0;
@@ -223,7 +223,7 @@ public class NetHelper {
     //user/replaceThePicture
     public void userReplaceThePicture(Map<String, File> fileBody, Callback callback) {
         String method = "user/replaceThePicture";
-        new WIRequest().Post(method, null, fileBody, "", callback);
+        new WIRequest().PostFile(method, null, fileBody, "", callback);
     }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -500,6 +500,15 @@ public class NetHelper {
         new WIRequest().Post(method, body, bodyName, callback);
     }
 
+    // 创建群
+    //sns/createGroup
+    public void snsCreateGroup2(List<Param> body, Map<String, File> fileBody,Callback callback) {
+        String method = "sns/createGroup2";
+        String bodyName = "";
+        new WIRequest().PostFile(method, body, fileBody, "", callback);
+//        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
     //邀请加群
     //sns/addUsersToGroup
     public void snsAddUsersToGroup(int groupId, List<String> ids, Callback callback) {
@@ -618,7 +627,7 @@ public class NetHelper {
     //sns/uploadIconToGroup
     public void snsUploadIconToGroup(int groupId, Map<String, File> fileBody, Callback callback) {
         String method = "sns/uploadIconToGroup/" + groupId;
-        new WIRequest().Post(method, null, fileBody, "", callback);
+        new WIRequest().PostFile(method, null, fileBody, "", callback);
     }
 
     // 好友搜索
@@ -637,5 +646,15 @@ public class NetHelper {
         List<Param> body = new ArrayList<>();
         body.add(new Param("groupInfo", key));
         new WIRequest().Post(method, body, callback);
+    }
+
+    // 群组消息免打扰
+    //sns/settingOfMyGroup
+    public void snsSettingOfMyGroup(int groupId,int isGet, Callback callback) {
+        String method = "sns/settingOfMyGroup/" + groupId;
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("messageGet", isGet));
+        String bodyName = "settingOfMyGroupSObj";
+        new WIRequest().Post(method, body, bodyName ,callback);
     }
 }

@@ -334,11 +334,11 @@ public class WIRequest {
      * @param bodyName 请求参数SOBJ的名称
      * @param callback 回调接口
      */
-    public void Post(final String method, final List<Param> body, Map<String,File> fileBody, final String bodyName, final Callback callback) {
+    public void Post(final String method, final List<Param> body, final String bodyName, final Callback callback) {
         BuildHeaderLoginKey(body, bodyName);
         final String url = preUrl + method;
         callback.onBefore();
-        httptool.HttpPost(url, header, jsonBody,fileBody, new Callback() {
+        httptool.HttpPost(url, header, jsonBody, new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {
                 if (callback != null) {
@@ -392,20 +392,18 @@ public class WIRequest {
      * @param callback 回调接口
      */
     public void Post(String method, List<Param> body, Callback callback) {
-        Post(method, body, null, "", callback);
+        Post(method, body, "", callback);
     }
 
-    /*异步调用，body不包含SOBJ名称,不含文件
-     *
-     * @param method 接口名称
-     * @param body 请求参数
-     * @param callback 回调接口
-     */
-    public void Post(String method, List<Param> body,String bodyName, Callback callback) {
-        Post(method, body, null, bodyName, callback);
-    }
-
-
+//    /*异步调用，body不包含SOBJ名称,不含文件
+//     *
+//     * @param method 接口名称
+//     * @param body 请求参数
+//     * @param callback 回调接口
+//     */
+//    public void Post(String method, List<Param> body,String bodyName, Callback callback) {
+//        Post(method, body, bodyName, callback);
+//    }
 
 
     /*同步调用
@@ -567,5 +565,66 @@ public class WIRequest {
      * */
     public IMsg Put(String method, List<Param> body) {
         return Put(method, body, "");
+    }
+
+
+
+    /**
+     * 异步调用
+     *
+     * @param method   接口名称
+     * @param body     请求参数
+     * @param bodyName 请求参数SOBJ的名称
+     * @param callback 回调接口
+     */
+    public void PostFile(final String method, final List<Param> body, Map<String,File> fileBody, final String bodyName, final Callback callback) {
+        BuildHeaderLoginKey(null, bodyName);
+        final String url = preUrl + method;
+        callback.onBefore();
+        httptool.HttpPostFile(url, header, body ,fileBody, new Callback() {
+            @Override
+            public void onFailure(final Call call, final IOException e) {
+                if (callback != null) {
+                    mdelivery.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onAfter();
+                            callback.onFailure(call, e);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                if (callback != null) {
+                    updateTimeoffset(iMsg);
+                    //时间不对进行一次重新调用
+                    if (iMsg.getCode() == 3) {
+                        updateTimeoffset(iMsg);
+                        BuildHeaderLoginKey(body, bodyName);
+                        iMsg = httptool.HttpPost(url, header, jsonBody);
+                        if (iMsg.getCode() == 1041) {
+                            reGetLoginKey();
+                            BuildHeaderLoginKey(body, bodyName);
+                            iMsg = httptool.HttpPost(url, header, jsonBody);
+                        }
+                    }
+                    if (iMsg.getCode() == 1041) {
+                        reGetLoginKey();
+                        BuildHeaderLoginKey(body, bodyName);
+                        iMsg = httptool.HttpPost(url, header, jsonBody);
+                    }
+                    final IMsg finalImsg = iMsg;
+                    mdelivery.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onAfter();
+                            callback.onResponse(finalImsg);
+                        }
+                    });
+                }
+            }
+        });
     }
 }

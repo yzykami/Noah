@@ -228,7 +228,7 @@ public class AppContext extends Application { //NimApplication {//Application {
             // APP默认 StatusBarNotificationConfig 配置修改后，使其生效
             userConfig.notificationEntrance = config.notificationEntrance;
             userConfig.notificationFolded = config.notificationFolded;
-            userConfig.notificationColor = getResources().getColor(com.netease.nim.demo.R.color.color_blue_3a9efb);
+            userConfig.notificationColor = getResources().getColor(R.color.myRed);
         }
         // 持久化生效
         UserPreferences.setStatusConfig(userConfig);
@@ -241,8 +241,8 @@ public class AppContext extends Application { //NimApplication {//Application {
         StatusBarNotificationConfig config = new StatusBarNotificationConfig();
         // 点击通知需要跳转到的界面
         config.notificationEntrance = MainActivity.class;
-        config.notificationSmallIconId = com.netease.nim.demo.R.drawable.ic_stat_notify_msg;
-        config.notificationColor = getResources().getColor(com.netease.nim.demo.R.color.color_blue_3a9efb);
+        config.notificationSmallIconId = R.mipmap.ic_launcher;
+        config.notificationColor = getResources().getColor(R.color.myRed);
         // 通知铃声的uri字符串
         config.notificationSound = "android.resource://com.netease.nim.demo/raw/msg";
 

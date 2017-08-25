@@ -114,7 +114,7 @@ public class GroupEditBulletinActivity extends MyBaseActivity {
     public void handle_save(View view) {
         if (group.groupAttribute == Group.Type.GROUP) {
             List<Param> body = new ArrayList<>();
-            body.add(new Param("groupName", group.groupName));
+//            body.add(new Param("groupName", group.groupName));
             body.add(new Param("groupTypeId", group.groupTypeId));
             body.add(new Param("groupBulletin", et_sign.getText().toString()));
             new SnsManager(mContext).snsUpdateGroupInfo(group.groupId, body, new StringDialogCallback(mContext) {
@@ -145,7 +145,7 @@ public class GroupEditBulletinActivity extends MyBaseActivity {
             });
         } else {
             List<Param> body = new ArrayList<>();
-            body.add(new Param("groupName", group.groupName));
+//            body.add(new Param("groupName", group.groupName));
             body.add(new Param("groupBulletin", et_sign.getText().toString()));
             new SnsManager(mContext).snsDiscussInfo(group.groupId, body, new StringDialogCallback(mContext) {
                 @Override

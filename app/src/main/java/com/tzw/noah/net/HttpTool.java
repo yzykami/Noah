@@ -1,5 +1,7 @@
 package com.tzw.noah.net;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tzw.noah.logger.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -254,32 +256,17 @@ public class HttpTool {
     private static final MediaType MEDIA_TYPE_IMAGE = MediaType.parse("image/*");
 
     //HttpPOST异步请求
-    public void HttpPost(String url, Param[] headers, final String json, Map<String,File> fileBody, final Callback callback) {
+    public void HttpPost(String url, Param[] headers, final String json, final Callback callback) {
 
         Request.Builder builder = new Request.Builder();
         MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody requestBody = null;
 
-        if (fileBody == null || fileBody.size() == 0) {
-            if (json != null && !json.equals("")) {
-                requestBody = RequestBody.create(MEDIA_TYPE_JSON, json);
-                builder.post(requestBody);
-            } else {
-                builder.post(Util.EMPTY_REQUEST);
-            }
-        } else {
-            MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-            for (Map.Entry<String, File> entry : fileBody.entrySet()) {
-                if (entry.getValue() != null) {
-                    if (entry.getValue() instanceof File) {
-                        File f = (File) entry.getValue();
-                        multipartBodyBuilder.addFormDataPart(entry.getKey(), f.getName(),
-                                RequestBody.create(MEDIA_TYPE_IMAGE, f));
-                    }
-                }
-            }
-            requestBody=multipartBodyBuilder.build();
+        if (json != null && !json.equals("")) {
+            requestBody = RequestBody.create(MEDIA_TYPE_JSON, json);
             builder.post(requestBody);
+        } else {
+            builder.post(Util.EMPTY_REQUEST);
         }
 
         for (Param param : headers) {
@@ -458,4 +445,77 @@ public class HttpTool {
             return CreateErrorMsgResponse(e.getMessage());
         }
     }
+
+
+    //HttpPOST异步请求
+    public void HttpPostFile(String url, Param[] headers, final List<Param> body, Map<String, File> fileBody, final Callback callback) {
+
+        Request.Builder builder = new Request.Builder();
+        MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody requestBody = null;
+
+        MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        if (fileBody != null && fileBody.size() > 0) {
+            for (Map.Entry<String, File> entry : fileBody.entrySet()) {
+                if (entry.getValue() != null) {
+                    if (entry.getValue() instanceof File) {
+                        File f = (File) entry.getValue();
+                        multipartBodyBuilder.addFormDataPart(entry.getKey(), f.getName(),
+                                RequestBody.create(MEDIA_TYPE_IMAGE, f));
+                    }
+                }
+            }
+        }
+        String json ="";
+        if (body != null && body.size() > 0) {
+            for (Param param : body) {
+                multipartBodyBuilder.addFormDataPart(param.key, param.value.toString());
+            }
+            Gson gson = new GsonBuilder().create();
+            json = gson.toJson(body);
+        }
+        requestBody = multipartBodyBuilder.build();
+        builder.post(requestBody);
+
+        for (Param param : headers) {
+            builder.header(param.key, (String) param.value);
+        }
+        builder.header("Content-Type", "application/json;charset=utf-8");
+        final Request request = builder
+                .url(url)
+                .build();
+
+        Call call = mOkHttpClient.newCall(request);
+        final String finalJson = json;
+        call.enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (callback != null) {
+                    callback.onFailure(call, e);
+                    Log.httpcall(request, e, finalJson);
+                }
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (callback != null) {
+                    IMsg imsg = null;
+                    try {
+                        String ret = response.body().string();
+                        Log.httpcall(request, ret, finalJson);
+                        if (response.code() == 200)
+                            imsg = IMsg.getInstance(ret);
+                        else
+                            imsg = CreateErrorMsgResponse("服务器返回错误:" + response.code());
+
+                    } catch (Exception e) {
+                        imsg = CreateErrorMsgResponse(e.getMessage());
+                        Log.httpcall(request, e, finalJson);
+                    }
+                    callback.onResponse(imsg);
+                }
+            }
+        });
+    }
+
 }
