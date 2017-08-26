@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,6 +51,9 @@ public class ImageDetailFragment extends BaseFragment implements ImageZoomer.OnV
 
     @BindView(R.id.pager_detail_content)
     ViewPager viewPager;
+
+    @BindView(R.id.ll_detail_count)
+    LinearLayout ll_detail_count;
 
     @BindView(R.id.text_detail_currentItem)
     TextView currentItemTextView;
@@ -104,6 +108,10 @@ public class ImageDetailFragment extends BaseFragment implements ImageZoomer.OnV
             viewPager.setCurrentItem(position);
             currentItemTextView.setText(position + 1 + "");
             countTextView.setText(String.valueOf(imageList.size()));
+            if(imageList.size()<=1)
+            {
+                ll_detail_count.setVisibility(View.INVISIBLE);
+            }
         }
 
         EventBus.getDefault().register(this);

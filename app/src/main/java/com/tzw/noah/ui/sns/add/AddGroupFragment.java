@@ -105,6 +105,7 @@ public class AddGroupFragment extends Fragment {
                     if(position==0)
                     {
                         mActivity.startActivity(GroupSearchActivity.class);
+                        mActivity.overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
                     }
                     if (position == 1) {
                         mActivity.startActivityForResult(100, GroupCreateActivity.class);

@@ -119,6 +119,11 @@ public class NearbyListActivity extends MyBaseActivity implements AddAdapter.OnA
                         else
                             items = User.loadNearby(iMsg);
                         items = Utils.processUser(items);
+                        for(User u:items)
+                        {
+                            if(u.distance<0)
+                                u.distance=0;
+                        }
                         Collections.sort(items, new MyCompare());
                         if (items != null && items.size() > 0) {
                             adapter = new AddAdapter(mContext, items);

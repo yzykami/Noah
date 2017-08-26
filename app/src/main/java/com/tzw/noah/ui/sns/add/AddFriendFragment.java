@@ -114,6 +114,7 @@ public class AddFriendFragment extends Fragment implements AddAdapter.OnAddClick
                 } else {
                     if (position == 0) {
                         mActivity.startActivity(UserSearchActivity.class);
+                        mActivity.overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
                     }
                     //附近的人
                     else if (position == 1) {

@@ -127,7 +127,7 @@ public class UpdateManager {
                     mDelivery.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(mContext, "本地版本:" + finalVersionCode + " 最新版本:" + finalRemoteVersionCode, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(mContext, "本地版本:" + finalVersionCode + " 最新版本:" + finalRemoteVersionCode, Toast.LENGTH_SHORT).show();
                             if (finalRemoteVersionCode > finalVersionCode) {
                                 showNoticeDialog();
                             }

@@ -88,6 +88,11 @@ public class GroupEditNameActivity extends MyBaseActivity {
 
     public void handle_save(View view) {
         if (group.groupAttribute == Group.Type.GROUP) {
+            if(et_nickname.getText().toString().equals(""))
+            {
+                toast("群名称不能为空");
+                return;
+            }
             List<Param> body = new ArrayList<>();
 //        body.add(new Param("groupName", group.groupName));
             body.add(new Param("groupName", et_nickname.getText().toString()));

@@ -97,7 +97,11 @@ public class AddAdapter extends BaseAdapter {
 //        }
 
         holder.tv.setText(user.getName());
-        holder.tv_sign.setText(user.memberIntroduce);
+        if (user.distance >= 0) {
+            holder.tv_sign.setText(getDistanceString(user.distance));
+        } else {
+            holder.tv_sign.setText(user.memberIntroduce);
+        }
 
 
 //        if (position == 0) {
@@ -170,13 +174,26 @@ public class AddAdapter extends BaseAdapter {
         return convertView;
     }
 
+    private String getDistanceString(int distance) {
+        if (distance % 2 == 0)
+            distance = 1000 + distance;
+        else
+            distance = 1000 + distance * 10;
+        if (distance < 1000)
+            return distance + " m";
+        distance/=10;
+        distance*=10;
+        double d = distance;
+        d /= 1000;
+        return d + " km";
+    }
+
     private void removeItem(int position) {
         items.remove(position);
         notifyDataSetChanged();
     }
 
-    private void updateItem(int position)
-    {
+    private void updateItem(int position) {
         User user = items.get(position);
         user.isAttention = true;
         notifyDataSetChanged();

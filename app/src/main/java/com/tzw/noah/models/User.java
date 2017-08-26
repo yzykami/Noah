@@ -79,6 +79,7 @@ public class User implements Serializable {
     @MyField
     public int ifSeeMe = 0;
     public boolean isSelf = false;
+    public int distance = -1;
 
     public boolean isAttention = false;
     public boolean isFans = false;

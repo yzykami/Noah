@@ -29,11 +29,14 @@ import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.ListenedScrollView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import me.xiaopan.sketchsample.activity.ImageDetailActivity;
+import me.xiaopan.sketchsample.bean.Image;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 import okhttp3.Call;
 
@@ -79,11 +82,13 @@ public class PersonalActivity extends MyBaseActivity {
 
     int touchHeight;
     User user;
+    PersonalActivity instance;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sns_layout_personal);
+        instance = this;
         ButterKnife.bind(this);
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -124,8 +129,7 @@ public class PersonalActivity extends MyBaseActivity {
         tv_character.setText(getCharacterByID(user.memberCharacter));
         tv_job.setText(getWorkbyID(user.memberWork));
         tv_sign.setText(user.memberIntroduce);
-        if(user.memberSex==1)
-        {
+        if (user.memberSex == 1) {
             iv_sex.setImageResource(R.drawable.sns_sex_female);
         }
 
@@ -181,7 +185,17 @@ public class PersonalActivity extends MyBaseActivity {
                                        }
         );
 
-
+        iv_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!user.memberHeadPic.isEmpty()) {
+                    ArrayList<Image> imageArrayList = new ArrayList<Image>();
+                    Image image = new Image(user.memberHeadPic, user.memberHeadPic);
+                    imageArrayList.add(image);
+                    ImageDetailActivity.launch(instance, imageArrayList, "", 0);
+                }
+            }
+        });
     }
 
     public void handle_more(View view) {

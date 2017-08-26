@@ -48,7 +48,7 @@ public class ImageDetailActivity extends BaseActivity implements ApplyBackground
         intent.putExtra(ImageDetailFragment.PARAM_REQUIRED_STRING_LOADING_IMAGE_OPTIONS_KEY, loadingImageOptionsInfo);
         intent.putExtra(ImageDetailFragment.PARAM_OPTIONAL_INT_DEFAULT_POSITION, defaultPosition);
         activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
+//        activity.overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class ImageDetailActivity extends BaseActivity implements ApplyBackground
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.window_pop_enter, R.anim.window_pop_exit);
+//        overridePendingTransition(R.anim.window_pop_enter, R.anim.window_pop_exit);
     }
 
     @Override
