@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_light" >
+
+    <RelativeLayout
+        android:id="@+id/rl_two_prompt_text"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        android:background="@android:color/white" >
+
+        <TextView
+            android:id="@+id/textView_two_prompt_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/textDarkGray"
+            android:gravity="center_horizontal"
+            android:text="提示消息！"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_two_prompt_text"
+        android:layout_marginTop="0dip"
+        android:background="@color/bg_light"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textview_two_prompt_cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="10dip"
+            android:text="取消"
+            android:textColor="@color/textDarkGray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textview_two_prompt_ok"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="10dip"
+            android:text="确定"
+            android:textColor="@color/textDarkGray"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</RelativeLayout>

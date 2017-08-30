@@ -28,6 +28,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -36,6 +37,16 @@ import java.util.Locale;
  * Created by linhomhom on 2015/8/10.
  */
 public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
+
+    public int getTabWidth() {
+        return tabWidth;
+    }
+
+    public void setTabWidth(int tabWidth) {
+        this.tabWidth = tabWidth;
+    }
+
+    private int tabWidth = 0;
 
     public interface LayoutProvider {
         public float getPageWeight(int position);
@@ -749,9 +760,12 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
         canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
 
         // 绘制下划线
-
+        int width = tabsContainer.getWidth();
+        if (tabWidth != 0) {
+            width = tabWidth;
+        }
         rectPaint.setColor(underlineColor);
-        canvas.drawRect(0, height - underlineHeight, tabsContainer.getWidth(), height, rectPaint);
+        canvas.drawRect(0, height - underlineHeight, width, height, rectPaint);
 
         // 绘制分割线
 

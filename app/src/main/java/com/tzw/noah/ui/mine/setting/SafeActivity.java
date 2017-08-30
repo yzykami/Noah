@@ -16,9 +16,10 @@ import com.tzw.noah.ui.mine.LoginActivity;
 
 public class SafeActivity extends MyBaseActivity {
 
-    String TAG="SafeActivity";
+    String TAG = "SafeActivity";
     SafeActivity mycontext = SafeActivity.this;
     private TextView tv_mobile;
+    private TextView tv_username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +32,13 @@ public class SafeActivity extends MyBaseActivity {
 
     private void findview() {
 
-        tv_mobile =(TextView)findViewById(R.id.tv_mobile);
+        tv_mobile = (TextView) findViewById(R.id.tv_mobile);
+        tv_username = (TextView) findViewById(R.id.tv_username);
     }
 
     private void initview() {
         tv_mobile.setText(UserCache.getUser().memberMobile);
+        tv_username.setText(UserCache.getUser().memberNo + "");
     }
 
     private void doWorking() {

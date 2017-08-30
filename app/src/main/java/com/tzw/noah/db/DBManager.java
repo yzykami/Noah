@@ -204,15 +204,22 @@ public class DBManager {
     private List<Dict> selectDictionaryList(String sql) {
         //sql = "SELECT * FROM Area"
         ArrayList<Dict> Dicts = new ArrayList<Dict>();
-        Cursor c = db.rawQuery(sql, null);
-        while (c.moveToNext()) {
-            Dict dict = new Dict();
-            dict.dictionaryId = c.getString(c.getColumnIndex("dictionaryId"));
-            dict.dictionaryName = c.getString(c.getColumnIndex("dictionaryName"));
-            dict.updateTime = c.getString(c.getColumnIndex("updateTime"));
-            Dicts.add(dict);
+        Cursor c = null;
+        try {
+            c = db.rawQuery(sql, null);
+            while (c.moveToNext()) {
+                Dict dict = new Dict();
+                dict.dictionaryId = c.getString(c.getColumnIndex("dictionaryId"));
+                dict.dictionaryName = c.getString(c.getColumnIndex("dictionaryName"));
+                dict.updateTime = c.getString(c.getColumnIndex("updateTime"));
+                Dicts.add(dict);
+            }
+        } catch (Exception e) {
+            Log.log("DBManager", e);
+        } finally {
+            if (c != null)
+                c.close();
         }
-        c.close();
         return Dicts;
     }
 
@@ -221,8 +228,7 @@ public class DBManager {
         return helper.queryAll(User.class, sql);
     }
 
-    public void UpdateFriendList(List<User> list)
-    {
-        helper.insert(list,"memberInfo");
+    public void UpdateFriendList(List<User> list) {
+        helper.insert(list, "memberInfo");
     }
 }

@@ -102,6 +102,7 @@
             android:layout_height="@dimen/columnHeight"
             android:layout_marginTop="@dimen/pt15"
             android:onClick="handle_size"
+            android:visibility="gone"
             android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"
@@ -137,7 +138,8 @@
             android:id="@+id/rl_"
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt1"
+            android:layout_marginTop="@dimen/pt12"
+            android:onClick="handle_clean"
             android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"

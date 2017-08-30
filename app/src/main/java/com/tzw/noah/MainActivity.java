@@ -4,13 +4,18 @@ import android.Manifest;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.Formatter;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -44,12 +49,17 @@ import com.tzw.noah.ui.sns.SnsMainActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.sketch.Sketch;
+import me.xiaopan.sketch.cache.BitmapPool;
+import me.xiaopan.sketch.cache.DiskCache;
+import me.xiaopan.sketch.cache.MemoryCache;
+
 public class MainActivity extends TabActivity implements ReminderManager.UnreadNumChangedCallback {
 
     private TabHost tabHost;
 
     private FrameLayout layout1, layout2, layout3, layout4, layout5;
-    private List<FrameLayout> frameLayoutList=new ArrayList<>();
+    private List<FrameLayout> frameLayoutList = new ArrayList<>();
     private TextView tab_home_text;
     private TextView tab_friend_text;
     private TextView tab_service_text;
@@ -66,6 +76,10 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
     private Context mContext = MainActivity.this;
     private static MainActivity instance;
     private static android.os.Handler mDelivery;
+    private TextView tv1;
+    private TextView tv2;
+    private TextView tv3;
+    private boolean isRunning = true;
 
     public static MainActivity getInstance() {
         return instance;
@@ -75,6 +89,23 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instance = this;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS//);
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
+
         setContentView(R.layout.activity_main);
         mDelivery = new android.os.Handler(Looper.getMainLooper());
         requestBasicPermission();
@@ -90,6 +121,10 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         initview();
 
+        tv1 = (TextView) findViewById(R.id.tv1);
+        tv2 = (TextView) findViewById(R.id.tv2);
+        tv3 = (TextView) findViewById(R.id.tv3);
+        new Thread(new Monitor()).start();
     }
 
     private void initview() {
@@ -166,7 +201,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
             public void run() {
                 new UpdateManager(mContext).checkUpdateInfo();
             }
-        },500);
+        }, 500);
     }
 
 
@@ -277,11 +312,16 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 
     }
 
-    public void selectTag(int index)
-    {
+    public void selectTag(int index) {
         frameLayoutList.get(index).callOnClick();
     }
 
+
+    @Override
+    protected void onDestroy() {
+        isRunning = false;
+        super.onDestroy();
+    }
 
     /**
      * 基本权限管理
@@ -385,5 +425,44 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         int unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
         SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unread);
         ReminderManager.getInstance().updateContactUnreadNum(unread);
+    }
+
+    private class Monitor implements Runnable {
+        @Override
+        public void run() {
+            while (isRunning) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Handler mDelivery = new Handler(Looper.getMainLooper());
+                mDelivery.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        String s1 = "", s2 = "", s3 = "";
+
+                        MemoryCache memoryCache = Sketch.with(getBaseContext()).getConfiguration().getMemoryCache();
+                        String usedSizeFormat = Formatter.formatFileSize(getBaseContext(), memoryCache.getSize());
+                        String maxSizeFormat = Formatter.formatFileSize(getBaseContext(), memoryCache.getMaxSize());
+                        s1 = usedSizeFormat + "/" + maxSizeFormat;
+
+                        BitmapPool bitmapPool = Sketch.with(getBaseContext()).getConfiguration().getBitmapPool();
+                        usedSizeFormat = Formatter.formatFileSize(getBaseContext(), bitmapPool.getSize());
+                        maxSizeFormat = Formatter.formatFileSize(getBaseContext(), bitmapPool.getMaxSize());
+                        s2 = usedSizeFormat + "/" + maxSizeFormat;
+
+                        DiskCache diskCache = Sketch.with(getBaseContext()).getConfiguration().getDiskCache();
+                        usedSizeFormat = Formatter.formatFileSize(getBaseContext(), diskCache.getSize());
+                        maxSizeFormat = Formatter.formatFileSize(getBaseContext(), diskCache.getMaxSize());
+                        s3 = usedSizeFormat + "/" + maxSizeFormat;
+
+                        tv1.setText("   " + s1);
+                        tv2.setText("; " + s2);
+                        tv3.setText("; " + s3);
+                    }
+                });
+            }
+        }
     }
 }

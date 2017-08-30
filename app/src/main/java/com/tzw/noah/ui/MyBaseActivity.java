@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ public class MyBaseActivity extends AppCompatActivity {
 
     public Map<Object, Object> classMap;
     private Object classType;
+    private static int statusBarHeight=-1;
 
     public void handle_back(View v) {
         showKeyboard(false);
@@ -211,6 +214,28 @@ public class MyBaseActivity extends AppCompatActivity {
                 }
             }
         }, 200);
+    }
+
+    public int getStatusBarHeight()
+    {
+        if(statusBarHeight==-1) {
+            // 获取状态栏高度
+            //获取status_bar_height资源的ID
+            int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                //根据资源ID获取响应的尺寸值
+                statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+            }
+        }
+        return statusBarHeight;
+    }
+
+    public void setStatusBarHeight(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            ViewGroup.LayoutParams layoutParams = (ViewGroup.LayoutParams) view.getLayoutParams();
+            layoutParams.height = getStatusBarHeight();
+            view.setLayoutParams(layoutParams);
+        }
     }
 }
 

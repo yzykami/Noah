@@ -3,6 +3,7 @@ package com.tzw.noah.ui.mine.setting;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.format.Formatter;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +11,10 @@ import android.widget.TextView;
 import com.tzw.noah.R;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.mine.LoginActivity;
+import com.tzw.noah.widgets.MyAlertDialog;
+
+import me.xiaopan.sketch.Sketch;
+import me.xiaopan.sketch.cache.DiskCache;
 
 /**
  * Created by yzy on 2017/6/9.
@@ -20,6 +25,7 @@ public class CommonActivity extends MyBaseActivity {
     String TAG = "CommonActivity";
     CommonActivity mycontext = CommonActivity.this;
     private TextView tv_size;
+    private TextView tv_cache;
     private ImageView iv_msg;
     private ImageView iv_wifi;
     boolean msgbtn=true;
@@ -36,6 +42,7 @@ public class CommonActivity extends MyBaseActivity {
 
     private void findview() {
         tv_size =(TextView)findViewById(R.id.tv_size);
+        tv_cache =(TextView)findViewById(R.id.tv_cache);
         iv_msg =(ImageView)findViewById(R.id.iv_msg);
         iv_wifi =(ImageView)findViewById(R.id.iv_wifi);
     }
@@ -81,6 +88,12 @@ public class CommonActivity extends MyBaseActivity {
                 wifibtn=!wifibtn;
             }
         });
+
+        DiskCache diskCache = Sketch.with(getBaseContext()).getConfiguration().getDiskCache();
+        String usedSizeFormat = Formatter.formatFileSize(getBaseContext(), diskCache.getSize());
+//        maxSizeFormat = Formatter.formatFileSize(getBaseContext(), diskCache.getMaxSize());
+//        s3 = usedSizeFormat + "/" + maxSizeFormat;
+        tv_cache.setText(usedSizeFormat);
     }
 
     private void doWorking() {
@@ -100,5 +113,19 @@ public class CommonActivity extends MyBaseActivity {
     protected void onResume() {
         super.onResume();
         initview();
+    }
+
+    public void handle_clean(View view) {
+
+        MyAlertDialog.getInstance(this).setOnBtnClickListener(new MyAlertDialog.OnBtnClickListener() {
+            @Override
+            public void OnOkClick(MyAlertDialog alertDialog) {
+                Sketch.with(getBaseContext()).getConfiguration().getDiskCache().clear();
+                toast("缓存已清除");
+                DiskCache diskCache = Sketch.with(getBaseContext()).getConfiguration().getDiskCache();
+                String usedSizeFormat = Formatter.formatFileSize(getBaseContext(), diskCache.getSize());
+                tv_cache.setText(usedSizeFormat);
+            }
+        }).show();
     }
 }

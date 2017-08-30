@@ -56,15 +56,15 @@ public class AppCache {
                 .getSharedPreferences(PREFS_FILE, 0);
         boolean isInstalldb = prefs.getBoolean(PREFS_IsInstall_DB, false);
 
-        if (!isInstalldb) {
+//        if (!isInstalldb) {
             FileUtil.copyDBFromRaw();
-            prefs.edit().putBoolean(PREFS_IsInstall_DB, true).commit();
-        }
-        boolean isInstalldict = prefs.getBoolean(PREFS_IsInstall_Dict, false);
-        if (!isInstalldict) {
-            FileUtil.saveInternalFile("dict.txt", FileUtil.readRawFile(context, R.raw.dict));
-            prefs.edit().putBoolean(PREFS_IsInstall_Dict, true).commit();
-        }
+//            prefs.edit().putBoolean(PREFS_IsInstall_DB, true).commit();
+//        }
+//        boolean isInstalldict = prefs.getBoolean(PREFS_IsInstall_Dict, false);
+//        if (!isInstalldict) {
+//            FileUtil.saveInternalFile("dict.txt", FileUtil.readRawFile(context, R.raw.dict));
+//            prefs.edit().putBoolean(PREFS_IsInstall_Dict, true).commit();
+//        }
     }
 
     public static void check(int version) {

@@ -275,7 +275,8 @@
             android:layout_height="@dimen/columnHeight"
             android:layout_marginTop="@dimen/pt12"
             android:background="@color/white"
-            android:onClick="handle_device">
+            android:onClick="handle_device"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

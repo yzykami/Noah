@@ -236,6 +236,7 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
                     try {
                         if (iMsg.isSucceed()) {
                             toast("退出成功");
+                            GroupFragment.setUpdate();
                             finish();
                         } else {
                             toast(iMsg.getMsg());

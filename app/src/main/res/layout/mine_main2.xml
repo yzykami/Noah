@@ -13,7 +13,7 @@
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pt0"
-        android:background="@color/white"
+        android:background="@color/myRed"
         />
     <ScrollView
         android:id="@+id/sv"
@@ -28,7 +28,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/myRed"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -63,7 +63,7 @@
                             android:layout_marginLeft="@dimen/pt4"
                             android:maxLines="1"
                             android:text="消息"
-                            android:textColor="@color/textDarkGray"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/text_lable_small" />
                     </LinearLayout>
 
@@ -91,7 +91,7 @@
                             android:layout_marginLeft="@dimen/pt4"
                             android:maxLines="1"
                             android:text="收藏"
-                            android:textColor="@color/textDarkGray"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/text_lable_small" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -104,7 +104,7 @@
                     android:layout_marginRight="@dimen/bj"
                     android:layout_marginTop="@dimen/pt10"
                     android:onClick="handle_userdetail"
-                    android:background="@color/white">
+                    android:background="@color/myRed">
 
                     <LinearLayout
                         android:id="@+id/ll_user"
@@ -131,7 +131,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="@dimen/pt10"
                                 android:text="未登录"
-                                android:textColor="@color/textDarkGray"
+                                android:textColor="@color/white"
                                 android:textSize="@dimen/text_content" />
 
                             <LinearLayout
@@ -149,7 +149,7 @@
                                     android:layout_marginLeft="@dimen/pt10"
                                     android:maxLines="1"
                                     android:text="1秒登录，专享个性化服务"
-                                    android:textColor="@color/textDarkGray"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/text_lable_small" />
                             </LinearLayout>
                         </LinearLayout>
@@ -161,12 +161,12 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
-                        android:background="@drawable/bg_red_border_round"
+                        android:background="@drawable/bg_white_border"
                         android:maxLines="1"
                         android:padding="@dimen/pt5"
                         android:text="立即登录"
                         android:onClick="handle_login"
-                        android:textColor="@color/myRed"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/text_content" />
                     <ImageView
                         android:id="@+id/iv_next"

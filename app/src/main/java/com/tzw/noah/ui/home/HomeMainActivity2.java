@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
@@ -25,13 +24,11 @@ import butterknife.ButterKnife;
  * Created by yzy on 2017/6/8.
  */
 
-public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPageChangeListener {
+public class HomeMainActivity2 extends MyBaseActivity implements ViewPager.OnPageChangeListener {
 
 
-    @BindView(R.id.rl_top)
-    RelativeLayout rl_top;
-    @BindView(R.id.statusBar)
-    View statusBar;
+
+
     @BindView(R.id.viewPager)
     ViewPager viewPager;
     @BindView(R.id.tabs)
@@ -39,17 +36,15 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
 //    @BindView(R.id.sl_root)
 //    ScrollableLayout sl_root;
 
-    Context mContext = HomeMainActivity.this;
+    Context mContext = HomeMainActivity2.this;
     FragmentViewPagerAdapter fragmentAdapter;
-    private int statusBarHeight;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.home_main);
         ButterKnife.bind(this);
+
         initdata();
         findview();
         initview();
@@ -59,10 +54,10 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
         }
-        setStatusBarHeight(statusBar);
     }
 
     private void findview() {
+
     }
 
     private void initview() {
@@ -121,12 +116,11 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
     private long currentBackPressedTime = 0;
     // 退出间隔
     private static final int BACK_PRESSED_INTERVAL = 2000;
-
     //重写onBackPressed()方法,继承自退出的方法
     @Override
     public void onBackPressed() {
         // 判断时间间隔
-        if (System.currentTimeMillis() - currentBackPressedTime > BACK_PRESSED_INTERVAL) {
+        if (System.currentTimeMillis()- currentBackPressedTime > BACK_PRESSED_INTERVAL) {
             currentBackPressedTime = System.currentTimeMillis();
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
         } else {

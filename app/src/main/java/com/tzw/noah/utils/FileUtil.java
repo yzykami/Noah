@@ -147,7 +147,7 @@ public class FileUtil {
         }
     }
 
-    public static void copyDBFromRaw(Context context, int id, String dbname,String dbDir) {
+    public static void copyDBFromRaw(Context context, int id, String dbname, String dbDir) {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
@@ -155,8 +155,8 @@ public class FileUtil {
             stringBuffer.append("/data/data/");
             stringBuffer.append(context.getPackageName());
             stringBuffer.append("/databases");
-            if(!dbDir.isEmpty())
-                stringBuffer.append("/"+dbDir);
+            if (!dbDir.isEmpty())
+                stringBuffer.append("/" + dbDir);
             File dir = new File(stringBuffer.toString());
             if (!dir.exists()) {//防止databases文件夹不存在，不然，会报ENOENT (No such file or directory)的异常
                 dir.mkdirs();
@@ -164,7 +164,8 @@ public class FileUtil {
             stringBuffer.append("/");
             stringBuffer.append(dbname);
             File file = new File(stringBuffer.toString());
-            if (file == null || !file.exists()) {//数据库不存在，则进行拷贝数据库的操作。
+            //数据库不存在，则进行拷贝数据库的操作。
+            if (!file.exists() || file.length() == 0) {
                 inputStream = context.getResources().openRawResource(id);
                 outputStream = new FileOutputStream(file.getAbsolutePath());
                 byte[] b = new byte[1024];
@@ -176,6 +177,7 @@ public class FileUtil {
                 outputStream.flush();
             }
         } catch (Exception e) {
+            com.tzw.noah.logger.Log.log("FileUtil", e);
             e.printStackTrace();
         } finally {
             try {
@@ -192,11 +194,11 @@ public class FileUtil {
     }
 
     public static void copyDBFromRaw() {
-        copyDBFromRaw(AppContext.getContext(), R.raw.systemcache, "systemcache.db","");
+        copyDBFromRaw(AppContext.getContext(), R.raw.systemcache, "systemcache.db", "");
     }
 
     public static void copySnsDBFromRaw(String dbDir) {
-        copyDBFromRaw(AppContext.getContext(), R.raw.sns, "sns.db",dbDir);
+        copyDBFromRaw(AppContext.getContext(), R.raw.sns, "sns.db", dbDir);
     }
 
     public static String readInternalFile(String filename) {

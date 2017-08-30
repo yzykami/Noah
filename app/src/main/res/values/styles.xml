@@ -64,7 +64,6 @@
         <item name="android:windowBackground">@drawable/navi</item>
     </style>
 
-
     <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
         <item name="android:typeface">monospace</item>
     </style>
@@ -87,6 +86,22 @@
         <item name="apTabTextSelectColor">@color/myRed</item>
     </style>
 
+    <style name="pagertab_style_media">
+        <item name="android:background">@drawable/media_bg</item>
+        <item name="apTabBackground">@color/transparent</item>
+        <item name="android:textSize">@dimen/text_content_title</item>
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:textColor">@drawable/tab_color_select_media</item>
+        <item name="apTabIndicatorColor">@color/white</item>
+        <item name="apTabIndicatorHeight">@dimen/pt3</item>
+        <item name="apTabUnderlineColor">@color/transparent</item>
+        <item name="apTabUnderlineHeight">@dimen/pt1</item>
+        <item name="apTabDividerColor">@color/transparent</item>
+        <item name="apTabDividerPadding">0dp</item>
+        <item name="apTabShouldExpand">true</item>
+        <item name="apTabPaddingLeftRight">18dp</item>
+        <item name="apTabTextSelectColor">@color/white</item>
+    </style>
     <!--<style name="pagertab_icon_style">-->
     <!--<item name="android:background">@drawable/tab_bg_normal</item>-->
     <!--<item name="apTabBackground">@drawable/tab_bg_normal</item>-->

@@ -33,9 +33,10 @@ public class CirileMainActivity extends MyBaseActivity implements ViewPager.OnPa
     TextView tv_title1;
     @BindView(R.id.tv_title2)
     TextView tv_title2;
+    @BindView(R.id.statusBar)
+    View statusBar;
 
     Context mContext = CirileMainActivity.this;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class CirileMainActivity extends MyBaseActivity implements ViewPager.OnPa
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
         }
+        setStatusBarHeight(statusBar);
     }
 
     private void findview() {

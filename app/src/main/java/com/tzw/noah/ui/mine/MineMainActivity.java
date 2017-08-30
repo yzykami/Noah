@@ -78,6 +78,7 @@ public class MineMainActivity extends MyBaseActivity {
 
     SessionCustomization customization = new SessionCustomization();
     private boolean isFirstLoad = true;
+    private View statusBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,9 @@ public class MineMainActivity extends MyBaseActivity {
         tv_airtle_num = (TextView) findViewById(R.id.tv_airtle_num);
         tv_reply_num = (TextView) findViewById(R.id.tv_reply_num);
         iv_head = (SampleImageViewHead) findViewById(R.id.iv_head);
+        statusBar = (View) findViewById(R.id.statusBar);
+
+        setStatusBarHeight(statusBar);
 
         iv_head.setOnClickListener(new View.OnClickListener() {
             @Override

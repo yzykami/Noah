@@ -39,6 +39,31 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" />
 
+        <LinearLayout
+            android:layout_above="@+id/tab1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_light">
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@color/textDarkGray"/>
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@color/textDarkGray"/>
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@color/textDarkGray"/>
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/iv_navi"
             android:layout_width="match_parent"
