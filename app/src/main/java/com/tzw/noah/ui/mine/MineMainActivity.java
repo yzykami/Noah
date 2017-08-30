@@ -44,6 +44,7 @@ import com.tzw.noah.ui.mine.setting.PersonalSettingActivity;
 import com.tzw.noah.ui.mine.setting.SettingActivity;
 import com.tzw.noah.ui.sns.add.AddActivity;
 import com.tzw.noah.ui.sns.friendlist.FriendListActivity;
+import com.tzw.noah.utils.StatusBarUtil;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.CircleImageView;
 
@@ -61,7 +62,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/6/8.
  */
 
-public class MineMainActivity extends MyBaseActivity {
+public class MineMainActivity extends MyBaseActivity implements StatusBarUtil.StatusBarProvider {
 
     String TAG = "MineMainActivity";
     MineMainActivity mycontext = MineMainActivity.this;
@@ -84,7 +85,6 @@ public class MineMainActivity extends MyBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mine_main);
-
         findview();
         initview();
         doWorking();
@@ -102,6 +102,7 @@ public class MineMainActivity extends MyBaseActivity {
         iv_head = (SampleImageViewHead) findViewById(R.id.iv_head);
         statusBar = (View) findViewById(R.id.statusBar);
 
+        StatusBarUtil.StatusBarLightMode(this);
         setStatusBarHeight(statusBar);
 
         iv_head.setOnClickListener(new View.OnClickListener() {
@@ -357,4 +358,8 @@ public class MineMainActivity extends MyBaseActivity {
         }
     }
 
+    @Override
+    public View getStatusBar() {
+        return statusBar;
+    }
 }
