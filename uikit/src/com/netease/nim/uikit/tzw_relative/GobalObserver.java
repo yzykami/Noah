@@ -16,6 +16,8 @@ public interface GobalObserver {
     void onItemAddClick(Context context);
 
     void onUnreadNumChanged(Object o);
+
+    void onKickOut(Context context,String client);
 //
 //    void onGetTeamInfo(SimpleCallback callback);
 }

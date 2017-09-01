@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -111,8 +112,9 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
     private boolean shouldExpand = true;
     private boolean textAllCaps = true;
 
-    private int scrollOffset = 52;
+    private int scrollOffset = 360;
     private int indicatorHeight = 3;
+    private int indicatorWidth = 0;
     private int underlineHeight = 2;
     private int dividerPadding = 12;
     private int tabPadding = 24;
@@ -149,6 +151,10 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
 
     public AdvancedPagerSlidingTabStrip(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+    }
+
+    public void setIndicatorWidth(int px) {
+        indicatorWidth = px;
     }
 
     public AdvancedPagerSlidingTabStrip(Context context, AttributeSet attrs, int defStyle) {
@@ -191,6 +197,7 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
         underlineColor = a.getColor(R.styleable.AdvancedPagerSlidingTabStrip_apTabUnderlineColor, underlineColor);
         dividerColor = a.getColor(R.styleable.AdvancedPagerSlidingTabStrip_apTabDividerColor, dividerColor);
         indicatorHeight = a.getDimensionPixelSize(R.styleable.AdvancedPagerSlidingTabStrip_apTabIndicatorHeight, indicatorHeight);
+        indicatorWidth = a.getDimensionPixelSize(R.styleable.AdvancedPagerSlidingTabStrip_apTabIndicatorWidth, indicatorWidth);
         underlineHeight = a.getDimensionPixelSize(R.styleable.AdvancedPagerSlidingTabStrip_apTabUnderlineHeight, underlineHeight);
         dividerPadding = a.getDimensionPixelSize(R.styleable.AdvancedPagerSlidingTabStrip_apTabDividerPadding, dividerPadding);
         tabPadding = a.getDimensionPixelSize(R.styleable.AdvancedPagerSlidingTabStrip_apTabPaddingLeftRight, tabPadding);
@@ -203,6 +210,8 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
         tabDrawMode = a.getInteger(R.styleable.AdvancedPagerSlidingTabStrip_apTabDrawMode, DRAW_MODE_NORMAL);
 
         a.recycle();
+
+        scrollOffset = context.getResources().getDisplayMetrics().widthPixels / 2;
 
         rectPaint = new Paint();
         rectPaint.setAntiAlias(true);
@@ -709,7 +718,7 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
         int newScrollX = tabsContainer.getChildAt(position).getLeft() + offset;
 
         if (position > 0 || offset > 0) {
-            newScrollX -= scrollOffset;
+            newScrollX -= (scrollOffset - tabsContainer.getChildAt(position).getWidth() / 2);
         }
 
         if (newScrollX != lastScrollX) {
@@ -756,9 +765,20 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
 
         }
 
-        //绘制提示下划线
-        canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
+        //yzy add
+        //
+        if (indicatorWidth != 0) {
 
+            float ll = ((lineLeft + lineRight) / 2 - indicatorWidth / 2);
+            float rr = ((lineLeft + lineRight) / 2 + indicatorWidth / 2);
+//            canvas.drawRect(ll, height - indicatorHeight, rr, height, rectPaint);
+
+            RectF rect = new RectF(ll, height - indicatorHeight, rr, height);
+            canvas.drawRoundRect(rect, 5, 5, rectPaint);
+        } else {
+            //绘制提示下划线
+            canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
+        }
         // 绘制下划线
         int width = tabsContainer.getWidth();
         if (tabWidth != 0) {

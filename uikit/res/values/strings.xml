@@ -24,6 +24,7 @@
     <string name="input_panel_video">视 频</string>
     <string name="input_panel_location">位 置</string>
     <string name="input_panel_take">拍 摄</string>
+    <string name="input_panel_empty"></string>
     <string name="im_choose_pic">请选择JPG PNG BMP GIF格式的图片文件</string>
     <string name="repeat_download_message">重新下载?</string>
     <string name="repeat_send_has_blank">重 发</string>

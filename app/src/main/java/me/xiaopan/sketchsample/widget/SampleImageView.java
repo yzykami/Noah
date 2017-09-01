@@ -75,6 +75,19 @@ public class SampleImageView extends SketchImageView {
         }
     }
 
+    String prefix = "http://taizhouwang.oss-cn-beijing.aliyuncs.com";
+    String subfix = "?x-oss-process=image/resize,w_300";
+
+    public void displayImageThumb(String uri) {
+        http:
+        if (uri != null) {
+            if (uri.contains(prefix)) {
+                uri += subfix;
+            }
+        }
+        displayImage(uri);
+    }
+
     @Override
     public void onReadyDisplay(UriScheme uriScheme) {
         super.onReadyDisplay(uriScheme);
@@ -212,8 +225,6 @@ public class SampleImageView extends SketchImageView {
     public enum Page {
         PHOTO_LIST, UNSPLASH_LIST, SEARCH_LIST, APP_LIST, DETAIL, DEMO;
     }
-
-
 
 
     private class LongClickShowDrawableInfoListener implements View.OnLongClickListener {

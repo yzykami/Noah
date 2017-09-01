@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginBottom="@dimen/pt1">
 
     <FrameLayout
         android:id="@+id/frameLayoutHead"
@@ -47,14 +49,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/frameLayoutHead"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="6dp"
         android:layout_centerVertical="true"
         android:ellipsize="end"
         android:gravity="center"
         android:maxWidth="160dip"
         android:singleLine="true"
-        android:textColor="#8f8e8c"
-        android:textSize="18sp">
+        android:textColor="@color/textDarkGray"
+        android:textSize="16sp">
     </TextView>
 
 </RelativeLayout>

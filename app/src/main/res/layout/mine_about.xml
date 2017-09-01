@@ -126,7 +126,7 @@
         android:layout_marginBottom="@dimen/pt14"
         android:gravity="center"
         android:lineSpacingMultiplier="1.2"
-        android:text="台州网云传媒科技有限公司版权所有\nCopyright©2005-2017 taizhou.com"
+        android:text="台州网云传媒科技有限公司 版权所有\nCopyright©2005-2017 taizhou.com"
         android:textColor="@color/textLightGray"
         android:textSize="@dimen/sp10" />
 </RelativeLayout>

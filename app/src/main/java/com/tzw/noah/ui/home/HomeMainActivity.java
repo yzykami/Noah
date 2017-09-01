@@ -1,6 +1,7 @@
 package com.tzw.noah.ui.home;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,15 +12,22 @@ import android.widget.Toast;
 
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 import com.tzw.noah.R;
+import com.tzw.noah.logger.Log;
+import com.tzw.noah.models.MediaCategory;
+import com.tzw.noah.net.IMsg;
+import com.tzw.noah.net.NetHelper;
+import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
 import com.tzw.noah.ui.circle.PostListFragment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * Created by yzy on 2017/6/8.
@@ -40,8 +48,11 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
 //    ScrollableLayout sl_root;
 
     Context mContext = HomeMainActivity.this;
+    String Tag = "HomeMainActivity";
     FragmentViewPagerAdapter fragmentAdapter;
     private int statusBarHeight;
+
+    MediaCategory mediaCategory;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +64,7 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
         initdata();
         findview();
         initview();
+        initCategory();
     }
 
     private void initdata() {
@@ -67,31 +79,7 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
 
     private void initview() {
 
-
-        if (fragmentAdapter == null) {
-//            String[] filePaths = ImageOrientationCorrectTestFileGenerator.getInstance(getContext()).getFilePaths();
-            ArrayList<Fragment> fragments = new ArrayList<>();
-            fragments.add(new PostListFragment());
-            fragments.add(new PostListFragment());
-            fragments.add(new PostListFragment());
-            fragments.add(new PostListFragment());
-//            fragments.add(new PostListFragment());
-//            fragments.add(new BoardFragment());
-//            fragments.add(new BoardFragment());
-//            for (int w = 0; w < filePaths.length; w++) {
-//                fragments[w] = ImageOrientationTestFragment.build(filePaths[w]);
-//            }
-            List<String> titles = new ArrayList<>();
-            titles.add("最新");
-            titles.add("排行榜");
-            titles.add("台州");
-            titles.add("汽车");
-//            titles.add("房产");
-
-            fragmentAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
-        }
-        viewPager.setAdapter(fragmentAdapter);
-        tabStrip.setViewPager(viewPager);
+//        tabStrip.setIndicatorWidth((int) getResources().getDimension(R.dimen.pt20));
 //        sl_root.getHelper().setCurrentScrollableContainer((PostListFragment) fragmentAdapter.getItem(0));
     }
 
@@ -133,5 +121,44 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
             // 退出
             finish();
         }
+    }
+
+    private void initCategory() {
+        NetHelper.getInstance().mediaCategory(new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                toast(getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        mediaCategory = MediaCategory.load(iMsg);
+                        if (fragmentAdapter == null) {
+                            ArrayList<Fragment> fragments = new ArrayList<>();
+
+                            List<String> titles = new ArrayList<>();
+
+
+                            for (int i = 0; i < mediaCategory.children.size(); i++) {
+                                String s = "哈哈";
+//                                if (i % 2 == 0)
+                                    s = "";
+                                titles.add(mediaCategory.children.get(i).channelName + s);
+
+                                fragments.add(new ArticleListFragment().setMediaCategory(mediaCategory.children.get(i)));
+                            }
+
+                            fragmentAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
+                        }
+                        viewPager.setAdapter(fragmentAdapter);
+                        tabStrip.setViewPager(viewPager);
+                    }
+                } catch (Exception e) {
+                    Log.log(Tag, e);
+                }
+            }
+        });
     }
 }

@@ -16,19 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yzy on 2017/6/13.
+ * Created by yzy on 2017/8/30.
  */
 
-public class SnsDBHelper extends SQLiteOpenHelper {
+public class MediaDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "sns.db";
     private static final int DATABASE_VERSION = 1;
     Context context;
     SQLiteDatabase db;
 
-    public SnsDBHelper(Context context) {
+    public MediaDBHelper(Context context) {
         //CursorFactory设置为null,使用默认值
-        super(new SnsDatabaseContext(context), DATABASE_NAME, null, DATABASE_VERSION);
+        super(new MediaDatabaseContext(context), DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         db = getWritableDatabase();
     }

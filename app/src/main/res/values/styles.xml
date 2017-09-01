@@ -94,6 +94,7 @@
         <item name="android:textColor">@drawable/tab_color_select_media</item>
         <item name="apTabIndicatorColor">@color/white</item>
         <item name="apTabIndicatorHeight">@dimen/pt3</item>
+        <item name="apTabIndicatorWidth">@dimen/pt14</item>
         <item name="apTabUnderlineColor">@color/transparent</item>
         <item name="apTabUnderlineHeight">@dimen/pt1</item>
         <item name="apTabDividerColor">@color/transparent</item>

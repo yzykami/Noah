@@ -229,6 +229,7 @@ public class AppContext extends Application { //NimApplication {//Application {
             userConfig.notificationEntrance = config.notificationEntrance;
             userConfig.notificationFolded = config.notificationFolded;
             userConfig.notificationColor = getResources().getColor(R.color.myRed);
+            userConfig.notificationSmallIconId = config.notificationSmallIconId;
         }
         // 持久化生效
         UserPreferences.setStatusConfig(userConfig);
@@ -241,7 +242,7 @@ public class AppContext extends Application { //NimApplication {//Application {
         StatusBarNotificationConfig config = new StatusBarNotificationConfig();
         // 点击通知需要跳转到的界面
         config.notificationEntrance = MainActivity.class;
-        config.notificationSmallIconId = R.mipmap.ic_launcher;
+        config.notificationSmallIconId = R.drawable.sys_notice_icon;
         config.notificationColor = getResources().getColor(R.color.myRed);
         // 通知铃声的uri字符串
         config.notificationSound = "android.resource://com.netease.nim.demo/raw/msg";

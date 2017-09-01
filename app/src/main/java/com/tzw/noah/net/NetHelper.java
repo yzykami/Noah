@@ -20,11 +20,12 @@ public class NetHelper {
         return new NetHelper();
     }
 
-    public String ip="10.0.9.10";
+    public String ip = "10.0.9.10";
+
     //version
     public void getAppVersion(Callback callback) {
         int versionCode = 0;
-        String url = "http://"+ip+"/download/version.txt";
+        String url = "http://" + ip + "/download/version.txt";
         HttpTool.getInstance().HttpGet(url, callback);
     }
 
@@ -227,7 +228,7 @@ public class NetHelper {
     }
 
     /////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////            SNS                ///////////////////
+    ///////////////////////////////            SNS                ///////////////////
     //添加关注
     //sns/attention
     public void snsAttention(int memberNo, Callback callback) {
@@ -318,7 +319,7 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
-    //获取个人资料，公开，需要登录
+    //获取个人资料，私密，需要登
     //sns/details/netEaseId/
     public void snsDetailsnetEaseId2(int id, Callback callback) {
         String method = "sns/details2/netEaseId/" + id;
@@ -502,7 +503,7 @@ public class NetHelper {
 
     // 创建群
     //sns/createGroup
-    public void snsCreateGroup2(List<Param> body, Map<String, File> fileBody,Callback callback) {
+    public void snsCreateGroup2(List<Param> body, Map<String, File> fileBody, Callback callback) {
         String method = "sns/createGroup2";
         String bodyName = "";
         new WIRequest().PostFile(method, body, fileBody, "", callback);
@@ -650,11 +651,35 @@ public class NetHelper {
 
     // 群组消息免打扰
     //sns/settingOfMyGroup
-    public void snsSettingOfMyGroup(int groupId,int isGet, Callback callback) {
+    public void snsSettingOfMyGroup(int groupId, int isGet, Callback callback) {
         String method = "sns/settingOfMyGroup/" + groupId;
         List<Param> body = new ArrayList<>();
         body.add(new Param("messageGet", isGet));
         String bodyName = "settingOfMyGroupSObj";
-        new WIRequest().Post(method, body, bodyName ,callback);
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////           MEDIA               ///////////////////
+
+    //获取栏目
+    //media/category
+    public void mediaCategory(Callback callback) {
+        String method = "media/category";
+        new WIRequest().Get(method, callback);
+    }
+
+    //获取文章列表
+    //media/articleList/{$channeiId}/{$articleId}
+    public void mediaArticleList(int channelId, int articleId, int pagesize, Callback callback) {
+        String method = "media/articleList/" + channelId + "/" + articleId + "/" + pagesize;
+        new WIRequest().Get(method, callback);
+    }
+
+    //获取文章详情
+    //media/articleDetails?articleId={$articleId}
+    public void mediaArticleDetails(int articleId, Callback callback) {
+        String method = "media/articleDetails?articleId=" + articleId ;
+        new WIRequest().Get(method, callback);
     }
 }

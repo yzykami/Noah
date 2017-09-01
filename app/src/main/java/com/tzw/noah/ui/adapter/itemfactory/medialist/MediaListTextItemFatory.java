@@ -3,22 +3,29 @@ package com.tzw.noah.ui.adapter.itemfactory.medialist;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.tzw.noah.R;
+import com.tzw.noah.utils.Utils;
+
+import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
 import me.xiaopan.sketchsample.adapter.BindAssemblyRecyclerItem;
+import me.xiaopan.sketchsample.widget.SampleImageView;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 
-public class MediaListTextItemFatory extends AssemblyRecyclerItemFactory<MediaListTextItemFatory.GalleryItem> {
+public class MediaListTextItemFatory extends AssemblyRecyclerItemFactory<MediaListTextItemFatory.TextItem> {
 
-    private OnImageClickListener onImageClickListener;
+    private MediaListListener mMediaListListener;
     private int itemSize;
 
-    public MediaListTextItemFatory(OnImageClickListener onImageClickListener) {
-        this.onImageClickListener = onImageClickListener;
+    public MediaListTextItemFatory(MediaListListener mMediaListListener) {
+        this.mMediaListListener = mMediaListListener;
     }
 
     @Override
@@ -27,32 +34,35 @@ public class MediaListTextItemFatory extends AssemblyRecyclerItemFactory<MediaLi
     }
 
     @Override
-    public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
+    public TextItem createAssemblyItem(ViewGroup viewGroup) {
 
-        return new GalleryItem(R.layout.sns_chat_item, viewGroup);
+        return new TextItem(R.layout.circle_item, viewGroup);
     }
 
-    public interface OnImageClickListener {
-        void onClickImage(int position, String optionsKey);
-    }
-
-    public class GalleryItem extends BindAssemblyRecyclerItem<String> {
+    public class TextItem extends BindAssemblyRecyclerItem<String> {
+        @BindView(R.id.container)
+        LinearLayout container;
         @BindView(R.id.iv_head)
         SampleImageViewHead imageView;
         @BindView(R.id.ll_user)
         RelativeLayout ll_user;
+        @BindView(R.id.ll_picture)
+        LinearLayout ll_picture;
 
-        public GalleryItem(int itemLayoutId, ViewGroup parent) {
+        Context mContext;
+
+        public TextItem(int itemLayoutId, ViewGroup parent) {
             super(itemLayoutId, parent);
         }
 
         @Override
         protected void onConfigViews(Context context) {
-            ll_user.setOnClickListener(new View.OnClickListener() {
+            mContext = context;
+            container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onImageClickListener != null) {
-                        onImageClickListener.onClickImage(getAdapterPosition(), getData());
+                    if (mMediaListListener != null) {
+                        mMediaListListener.onItemClick(getAdapterPosition(), getData());
                     }
                 }
             });
@@ -60,9 +70,39 @@ public class MediaListTextItemFatory extends AssemblyRecyclerItemFactory<MediaLi
 
         @Override
         protected void onSetData(int i, String imageUri) {
-//            imageView.setNum(i);
+//            iv_cover.setNum(i);
             imageView.displayImage(imageUri);
+            int num = new Random().nextInt(3);
+            for (int ii = 0; ii < num; ii++) {
+                ll_picture.addView(getPicture());
+            }
+        }
 
+        private View getPicture() {
+            float span = mContext.getResources().getDimension(R.dimen.bj);
+
+            float sw = Utils.getSrceenWidth();
+
+            int picNum = 3;
+
+            int itemSize = (int) ((sw - (picNum + 1) * span) / picNum);
+
+            SampleImageView iv = new SampleImageView(mContext);
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            // fake Data
+            List<String> images = Utils.getImageList();
+
+            iv.displayImage(images.get(new Random().nextInt(images.size())));
+
+            int nn = (int) span;
+
+            layoutParams.width = itemSize;
+            layoutParams.height = itemSize * 2 / 3;
+            layoutParams.setMargins(nn, 0, 0, 0);
+            iv.setLayoutParams(layoutParams);
+
+            return iv;
         }
     }
 }

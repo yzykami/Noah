@@ -55,6 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.xiaopan.sketchsample.widget.SampleImageView;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 import okhttp3.Call;
 
@@ -80,11 +81,18 @@ public class MineMainActivity extends MyBaseActivity implements StatusBarUtil.St
     SessionCustomization customization = new SessionCustomization();
     private boolean isFirstLoad = true;
     private View statusBar;
+    static MineMainActivity instance;
+
+    public static void reload() {
+        if (instance != null)
+            instance.initview();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mine_main);
+        instance = this;
         findview();
         initview();
         doWorking();

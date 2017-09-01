@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.netease.nim.demo.login.LoginActivity;
+import com.netease.nim.demo.login.LogoutHelper;
 import com.netease.nim.demo.main.reminder.ReminderItem;
 import com.netease.nim.uikit.cache.SimpleCallback;
+import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
 import com.netease.nim.uikit.tzw_relative.GobalObserver;
 import com.netease.nim.uikit.tzw_relative.Group;
 import com.tzw.noah.cache.DataCenter;
+import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.MyField;
 import com.tzw.noah.init.NimInit;
 import com.tzw.noah.logger.Log;
@@ -17,8 +21,11 @@ import com.tzw.noah.models.GroupMember;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
+import com.tzw.noah.net.NetHelper;
+import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
+import com.tzw.noah.ui.mine.MineMainActivity;
 import com.tzw.noah.ui.sns.add.AddActivity;
 import com.tzw.noah.ui.sns.discuss.DiscussDetailActivity;
 import com.tzw.noah.ui.sns.group.GroupDetailActivity;
@@ -106,17 +113,16 @@ public class GobalObserverImpl implements GobalObserver {
                     try {
                         if (iMsg.isSucceed()) {
                             List<com.tzw.noah.models.Group> gs = DataCenter.getInstance().getGroupList();
-                            com.tzw.noah.models.Group g=null;
+                            com.tzw.noah.models.Group g = null;
                             NimInit.updateGroups(context);
                             for (int i = 0; i < gs.size(); i++) {
                                 com.tzw.noah.models.Group curg = gs.get(i);
-                                if (curg.netEaseGroupId == netEaseGroupId)
-                                {
+                                if (curg.netEaseGroupId == netEaseGroupId) {
                                     g = curg;
                                     break;
                                 }
                             }
-                            if(g==null) {
+                            if (g == null) {
                                 Toast.makeText(context, "您已经不在此群中", Toast.LENGTH_LONG).show();
                                 return;
                             }
@@ -219,5 +225,32 @@ public class GobalObserverImpl implements GobalObserver {
         } else {
             MainActivity.getInstance().onUnreadNumChanged((ReminderItem) o);
         }
+    }
+
+    @Override
+    public void onKickOut(final Context context, final String client) {
+        NetHelper.getInstance().memberLogout(Param.makeSingleParam("tokenCode", UserCache.getToken()), new StringDialogCallback(context) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Toast.makeText(context, context.getResources().getString(R.string.internet_fault), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(IMsg imsg) {
+                if (imsg.isSucceed() || imsg.getCode() == 1024) {
+                    UserCache.setLoginkey("");
+                    UserCache.setToken("");
+                    MainActivity.getInstance().onUnreadNumChanged(null);
+                    //云信登出
+                    LogoutHelper.logout();
+                    MainActivity.getInstance().selectTag(4);
+                    MineMainActivity.reload();
+                    EasyAlertDialogHelper.showOneButtonDiolag(context, context.getString(com.netease.nim.demo.R.string.kickout_notify),
+                            String.format(context.getString(com.netease.nim.demo.R.string.kickout_content), client), context.getString(com.netease.nim.demo.R.string.ok), true, null);
+                } else {
+                    Log.log("GobalObserverImpl", imsg.getMsg());
+                }
+            }
+        });
     }
 }

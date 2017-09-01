@@ -9,9 +9,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.xiaopan.assemblyadapter.AssemblyLoadMoreRecyclerItemFactory;
 import me.xiaopan.assemblyadapter.OnRecyclerLoadMoreListener;
+
 import com.tzw.noah.R;
 
 public class LoadMoreItemFactory extends AssemblyLoadMoreRecyclerItemFactory {
+
+    public String load = "正在努力加载";
+    public String error = "加载失败";
+    public String end = "没有更多文章了";
+
     public LoadMoreItemFactory(OnRecyclerLoadMoreListener eventListener) {
         super(eventListener);
     }
@@ -40,19 +46,19 @@ public class LoadMoreItemFactory extends AssemblyLoadMoreRecyclerItemFactory {
         @Override
         public void showLoading() {
             progressBar.setVisibility(View.VISIBLE);
-//            tipsTextView.setText("别着急，您的包裹马上就来！");
+            tipsTextView.setText(load);
         }
 
         @Override
         public void showErrorRetry() {
             progressBar.setVisibility(View.GONE);
-            tipsTextView.setText("__Faild__");
+            tipsTextView.setText(error);
         }
 
         @Override
         public void showEnd() {
             progressBar.setVisibility(View.GONE);
-            tipsTextView.setText("__END__");
+            tipsTextView.setText(end);
         }
 
         @Override

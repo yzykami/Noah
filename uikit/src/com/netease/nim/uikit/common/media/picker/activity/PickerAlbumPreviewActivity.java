@@ -107,8 +107,8 @@ public class PickerAlbumPreviewActivity extends UI implements OnClickListener, O
 
 		proceedExtras();
 		initActionBar();
-		initUI();
 		initTopViews();
+		initUI();
 	}
 	private void initTopViews() {
 		iv_back = (ImageView) findViewById(R.id.iv_back);

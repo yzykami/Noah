@@ -1,10 +1,8 @@
 package com.tzw.noah.db;
 
 /**
- * Created by yzy on 2017/7/11.
+ * Created by yzy on 2017/8/30.
  */
-
-import java.io.File;
 
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -15,12 +13,13 @@ import android.os.Environment;
 import com.tzw.noah.AppContext;
 import com.tzw.noah.cache.UserCache;
 
-class DatabaseContext extends ContextWrapper {
+import java.io.File;
 
-    private static final String DEBUG_CONTEXT = "DatabaseContext";
+class MediaDatabaseContext extends ContextWrapper {
 
+    private static final String DEBUG_CONTEXT = "MediaDatabaseContext";
 
-    public DatabaseContext(Context base) {
+    public MediaDatabaseContext(Context base) {
         super(base);
     }
 
@@ -31,7 +30,7 @@ class DatabaseContext extends ContextWrapper {
         stringBuffer.append("/data/data/");
         stringBuffer.append(AppContext.getContext().getPackageName());
         stringBuffer.append("/databases");
-        String dbDir = UserCache.getUser().memberNo + "";
+        String dbDir = "";//UserCache.getUser().memberNo + "";
         if (!dbDir.isEmpty())
             stringBuffer.append("/" + dbDir);
         File dir = new File(stringBuffer.toString());

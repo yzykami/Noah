@@ -564,6 +564,11 @@ public final class NimUIKit {
         gobalObserver = go;
     }
 
+    public static  GobalObserver getGobalObserver()
+    {
+        return gobalObserver;
+    }
+
     public static void onShowUser(Context context, String account) {
         if (gobalObserver != null) {
             int memberNo = 0;

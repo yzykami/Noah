@@ -24,6 +24,8 @@ public class DataCenter {
         return instance;
     }
 
+    public static int pagesize=5;
+
     List<User> friendList;
     List<User> followList;
     List<User> fansList;

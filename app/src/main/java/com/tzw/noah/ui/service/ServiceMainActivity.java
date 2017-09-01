@@ -1,5 +1,7 @@
 package com.tzw.noah.ui.service;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import com.tzw.timeselector.Utils.ScreenUtil;
 
 public class ServiceMainActivity extends AppCompatActivity {
     int index = 0;
+    Bitmap bm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +42,12 @@ public class ServiceMainActivity extends AppCompatActivity {
                 index++;
                 if (index >= ivResids.length)
                     index %= ivResids.length;
-                iv.setImageResource(ivResids[index]);
+                iv.setImageBitmap(null);
+                if (bm != null)
+                    bm.recycle();
+                bm = null;
+                bm = BitmapFactory.decodeResource(getResources(), ivResids[index]);
+                iv.setImageBitmap(bm);
             }
         });
 

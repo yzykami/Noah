@@ -37,7 +37,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/title_right_btn_right_bj"
         android:clickable="true"
-        android:onClick="handle_add"
         android:paddingBottom="@dimen/pt5"
         android:paddingLeft="@dimen/pt10"
         android:paddingRight="@dimen/pt10"
