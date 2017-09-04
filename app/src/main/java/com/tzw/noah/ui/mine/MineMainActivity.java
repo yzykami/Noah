@@ -196,14 +196,20 @@ public class MineMainActivity extends MyBaseActivity implements StatusBarUtil.St
     }
 
     public void handle_dev(View view) {
+        startActivity2(DebugActivity.class);
     }
 
-    public void handle_1(View view) {
-        Toast.makeText(mycontext, "该功能正在研发中...", Toast.LENGTH_SHORT).show();
+    public void handle_1(View view){
+        throw new RuntimeException(mycontext.toString()
+                + "测试异常1");
+
+        //Toast.makeText(mycontext, "该功能正在研发中...", Toast.LENGTH_SHORT).show();
     }
 
     public void handle_2(View view) {
-        Toast.makeText(mycontext, "该功能正在研发中...", Toast.LENGTH_SHORT).show();
+        throw new RuntimeException(mycontext.toString()
+                + "测试异常2");
+//        Toast.makeText(mycontext, "该功能正在研发中...", Toast.LENGTH_SHORT).show();
     }
 
     public void handle_3(View view) {

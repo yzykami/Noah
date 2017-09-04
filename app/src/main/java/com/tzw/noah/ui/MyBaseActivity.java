@@ -93,17 +93,24 @@ public class MyBaseActivity extends AppCompatActivity {
 
     //不需要登录
     public void startActivity2(Class<?> cls) {
-        isNeedLogin = false;
-        startActivity(cls, null);
+        startActivity2(cls, null);
     }
 
+    //不需要登录
+    public void startActivity2(Class<?> cls,Bundle bu) {
+        Intent intent = new Intent(this, cls);
+        if (bu != null)
+            intent.putExtras(bu);
+        startActivity(intent);
+    }
+
+    //需要登录
     public void startActivity(Class<?> cls) {
-        isNeedLogin = true;
         startActivity(cls, null);
     }
 
+    //需要登录
     public void startActivity(Class<?> cls, Bundle bu) {
-
         if (!checkLogin(0, cls, bu))
             return;
         Intent intent = new Intent(this, cls);

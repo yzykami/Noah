@@ -125,6 +125,38 @@ public class FileUtil {
         return "";
     }
 
+    public static String read(File file) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File sdFile = file;
+            FileInputStream fis = null;
+            String content = "";
+            try {
+                fis = new FileInputStream(sdFile);   //获得输入流
+                int len = 0;
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                while ((len = fis.read(buf)) != -1) {
+                    byteArrayOutputStream.write(buf, 0, len);
+                }
+                content = new String(byteArrayOutputStream.toByteArray(), "utf-8");
+                fis.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+            com.tzw.noah.logger.Log.log("read", content);
+            return content;
+        }
+        return "";
+    }
+
     public static void saveDeviceID(String deviceId) {
         save2SdCard("systemcache", "config.txt", deviceId);
     }

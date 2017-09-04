@@ -41,4 +41,7 @@
     <string name="title_friend">好友</string>
     <string name="title_mine">我的</string>
     <string name="internet_fault">网络不可用</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

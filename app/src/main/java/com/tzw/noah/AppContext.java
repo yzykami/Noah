@@ -63,6 +63,7 @@ import com.tzw.noah.db.SnsDBManager;
 import com.tzw.noah.init.DBInit;
 import com.tzw.noah.init.NimInit;
 import com.tzw.noah.logger.Log;
+import com.tzw.noah.utils.CrashHandler;
 
 import java.util.Map;
 import java.util.logging.Handler;
@@ -109,8 +110,8 @@ public class AppContext extends Application { //NimApplication {//Application {
         NIMClient.init(instance, getLoginInfo(), getOptions());
         ExtraOptions.provide();
         // crash handler
-        AppCrashHandler.getInstance(instance);
-
+//        AppCrashHandler.getInstance(instance);
+        CrashHandler.getInstance().init(instance);
         if (inMainProcess()) {
 
             // init pinyin

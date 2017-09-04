@@ -26,13 +26,13 @@ public class Log {
                 .fileDirectory(AppContext.getContext().getFilesDir().getPath() + "/logs")
                 .fileFormatter(new SimpleFormatter())
                 .expiredPeriod(7 + 1)
-                .catchException(true, new CrashWatcher.UncaughtExceptionListener() {
-                    @Override
-                    public void uncaughtException(Thread thread, Throwable ex) {
-                        NLogger.e("uncaughtException", ex);
-                        android.os.Process.killProcess(android.os.Process.myPid());
-                    }
-                })
+//                .catchException(true, new CrashWatcher.UncaughtExceptionListener() {
+//                    @Override
+//                    public void uncaughtException(Thread thread, Throwable ex) {
+//                        NLogger.e("uncaughtException", ex);
+//                        android.os.Process.killProcess(android.os.Process.myPid());
+//                    }
+//                })
                 .build();
 
         NLogger.zipLogs(new IFileLogger.OnZipListener() {

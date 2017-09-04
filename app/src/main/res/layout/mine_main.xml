@@ -673,7 +673,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/iv_rl6"
                     android:padding="15dip"
-                    android:text="开发版"
+                    android:text="调试工具"
                     android:textColor="@color/mygray"
                     android:textSize="@dimen/sp14" />
             </RelativeLayout>

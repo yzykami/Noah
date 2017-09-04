@@ -5,38 +5,37 @@ package com.tzw.noah.utils;
  */
 
 
-        import java.io.File;
-        import java.io.FileOutputStream;
-        import java.io.FilenameFilter;
-        import java.io.PrintWriter;
-        import java.io.StringWriter;
-        import java.io.Writer;
-        import java.lang.Thread.UncaughtExceptionHandler;
-        import java.lang.reflect.Field;
-        import java.text.DateFormat;
-        import java.text.SimpleDateFormat;
-        import java.util.Date;
-        import java.util.HashMap;
-        import java.util.Map;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-        import android.annotation.SuppressLint;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.content.pm.PackageInfo;
-        import android.content.pm.PackageManager;
-        import android.content.pm.PackageManager.NameNotFoundException;
-        import android.os.Build;
-        import android.os.Environment;
-        import android.os.Looper;
-        import android.os.SystemClock;
-        import android.util.Log;
-        import android.widget.Toast;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Looper;
+import android.os.SystemClock;
+import android.util.Log;
+import android.widget.Toast;
 
 /**
  * <h3>全局捕获异常</h3>
  * <br>
  * 当程序发生Uncaught异常的时候,有该类来接管程序,并记录错误日志
- *
  */
 @SuppressLint("SimpleDateFormat")
 public class CrashHandler implements UncaughtExceptionHandler {
@@ -54,11 +53,18 @@ public class CrashHandler implements UncaughtExceptionHandler {
     // 用于格式化日期,作为日志文件名的一部分
     private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    /** 保证只有一个CrashHandler实例 */
+
+    public static String startPrefix = "--CRASH_LOG_START--";
+
+    /**
+     * 保证只有一个CrashHandler实例
+     */
     private CrashHandler() {
     }
 
-    /** 获取CrashHandler实例 ,单例模式 */
+    /**
+     * 获取CrashHandler实例 ,单例模式
+     */
     public static CrashHandler getInstance() {
         return instance;
     }
@@ -74,7 +80,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         // 设置该CrashHandler为程序的默认处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
-        autoClear(5);
+        autoClear(7);
     }
 
     /**
@@ -159,8 +165,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     /**
      * 保存错误信息到文件中
+     *
      * @param ex
-     * @return 返回文件名称,便于将文件传送到服务器
+     * @return 返回文件名称, 便于将文件传送到服务器
      * @throws Exception
      */
     private String saveCrashInfoFile(Throwable ex) throws Exception {
@@ -169,12 +176,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
             SimpleDateFormat sDateFormat = new SimpleDateFormat(
                     "yyyy-MM-dd HH:mm:ss");
             String date = sDateFormat.format(new java.util.Date());
-            sb.append("\r\n" + date + "\n");
-            for (Map.Entry<String, String> entry : infos.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                sb.append(key + "=" + value + "\n");
-            }
+
+            sb.append(startPrefix + "\r\n" + date + "\r\n");
+            //getDeviceInfo();
 
             Writer writer = new StringWriter();
             PrintWriter printWriter = new PrintWriter(writer);
@@ -187,7 +191,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             printWriter.flush();
             printWriter.close();
             String result = writer.toString();
-            sb.append(result);
+            sb.append(result+"\r\n");
 
             String fileName = writeFile(sb.toString());
             return fileName;
@@ -197,6 +201,16 @@ public class CrashHandler implements UncaughtExceptionHandler {
             writeFile(sb.toString());
         }
         return null;
+    }
+
+    public String getDeviceInfo() {
+        StringBuffer sb = new StringBuffer();
+        for (Map.Entry<String, String> entry : infos.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            sb.append(key + "=" + value + "\r\n");
+        }
+        return sb.toString();
     }
 
     private String writeFile(String sb) throws Exception {
@@ -227,9 +241,10 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     /**
      * 文件删除
+     *
      * @param autoClearDay 文件保存天数
      */
-    public void autoClear(final int autoClearDay) {
+    public void autoClear(int autoClearDay) {
 //        FileUtil.delete(getGlobalpath(), new FilenameFilter() {
 //
 //            @Override
@@ -241,6 +256,35 @@ public class CrashHandler implements UncaughtExceptionHandler {
 //            }
 //        });
 
+        File f = new File(getGlobalpath());
+        File[] files = f.listFiles();// 列出所有文件
+        for (int i = 0; i < files.length; i++) {
+            File ff = files[i];
+            if (ff.isFile()) {
+                String filename = ff.getName();
+                String fileday = getFileDay(filename);
+                if (needDelete(fileday, autoClearDay)) {
+                    ff.delete();
+                }
+            }
+        }
+    }
+
+    private boolean needDelete(String fileday, int autoClearDay) {
+        if (fileday.equals("")) {
+            return false;
+        } else {
+            Date now = new Date();
+            String clearDay = formatter.format(new Date(now.getTime() - autoClearDay * 24 * 60 * 60 * 1000));
+            return fileday.compareTo(clearDay) < 0;
+        }
+    }
+
+    private String getFileDay(String filename) {
+        if (filename.startsWith("crash-") && filename.length() >= 20) {
+            return filename.substring(6, filename.length() - 4);
+        }
+        return "";
     }
 
 }
