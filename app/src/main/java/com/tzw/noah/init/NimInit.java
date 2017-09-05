@@ -6,6 +6,7 @@ import com.netease.nim.uikit.cache.TZWTeamCache;
 import com.netease.nim.uikit.cache.TZWUserCache;
 import com.netease.nim.uikit.tzw_relative.Group;
 import com.netease.nim.uikit.tzw_relative.User;
+import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.SnsDBManager;
 import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
@@ -23,6 +24,8 @@ import okhttp3.Call;
 
 public class NimInit {
     public static void init(final Context context) {
+        if(UserCache.getUser().memberNo==0)
+            return;
         List<User> listUser = new SnsDBManager(context).getSnsAllUserList();
         TZWUserCache.getInstance().init(listUser);
         List<Group> listGroup = new SnsDBManager(context).getSnsAllGroupList();

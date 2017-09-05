@@ -151,7 +151,6 @@ public class FileUtil {
                     }
                 }
             }
-            com.tzw.noah.logger.Log.log("read", content);
             return content;
         }
         return "";
@@ -177,6 +176,14 @@ public class FileUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static String getDatabasePath() {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("/data/data/");
+        stringBuffer.append(AppContext.getContext().getPackageName());
+        stringBuffer.append("/databases");
+        return stringBuffer.toString();
     }
 
     public static void copyDBFromRaw(Context context, int id, String dbname, String dbDir) {
@@ -315,10 +322,8 @@ public class FileUtil {
                     }
                 }
             }
-            com.tzw.noah.logger.Log.log("read", content);
             return content;
         }
         return "";
     }
-
 }

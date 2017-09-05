@@ -257,7 +257,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
 //        });
 
         File f = new File(getGlobalpath());
+        if(!f.exists())
+            return;
         File[] files = f.listFiles();// 列出所有文件
+        if(files==null)
+            return;
         for (int i = 0; i < files.length; i++) {
             File ff = files[i];
             if (ff.isFile()) {

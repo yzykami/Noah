@@ -58,7 +58,8 @@ public class DebugActivity extends MyBaseActivity {
     public static int TYPE_CRASH_DETAIL_CONTENT = 1003;
 
     public static int TYPE_DATEBASE_LIST = 2001;
-    public static int TYPE_DATEBASE_TABLE = 2001;
+    public static int TYPE_DATEBASE_TABLE_LIST = 2002;
+    public static int TYPE_DATEBASE_TABLE = 2003;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,8 +130,7 @@ public class DebugActivity extends MyBaseActivity {
         Bundle bu = new Bundle();
         bu.putString("title", title);
         bu.putInt("type", type);
-        if (o != null)
-            bu.putSerializable("object", new DataWrapper(o));
+        bu.putSerializable("object", new DataWrapper(o));
 
         Intent intent = new Intent(context, DebugDetailActivity.class);
         if (bu != null)

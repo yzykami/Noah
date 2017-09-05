@@ -13,6 +13,9 @@ import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.mine.fragment.CrashDetailContentFragment;
 import com.tzw.noah.ui.mine.fragment.CrashDetailIndexFragment;
 import com.tzw.noah.ui.mine.fragment.CrashListFragment;
+import com.tzw.noah.ui.mine.fragment.DatabaseListFragment;
+import com.tzw.noah.ui.mine.fragment.DatabaseTableFragment;
+import com.tzw.noah.ui.mine.fragment.DatabaseTableListFragment;
 
 import java.util.List;
 
@@ -82,6 +85,12 @@ public class DebugDetailActivity extends MyBaseActivity {
             transaction.replace(R.id.framelayout, CrashDetailIndexFragment.newInstance("", ""));
         } else if (type == DebugActivity.TYPE_CRASH_DETAIL_CONTENT) {
             transaction.replace(R.id.framelayout, CrashDetailContentFragment.newInstance("", ""));
+        } else if (type == DebugActivity.TYPE_DATEBASE_LIST) {
+            transaction.replace(R.id.framelayout, DatabaseListFragment.newInstance());
+        }else if (type == DebugActivity.TYPE_DATEBASE_TABLE_LIST) {
+            transaction.replace(R.id.framelayout, DatabaseTableListFragment.newInstance());
+        }else if (type == DebugActivity.TYPE_DATEBASE_TABLE) {
+            transaction.replace(R.id.framelayout, DatabaseTableFragment.newInstance());
         }
         transaction.commit();
     }

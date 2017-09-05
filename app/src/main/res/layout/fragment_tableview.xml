@@ -1,0 +1,26 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <HorizontalScrollView
+        android:id="@+id/hsv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_light">
+
+        <!--<de.codecrafters.tableview.TableView xmlns:table="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/tableView"-->
+        <!--android:layout_width="1000dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--table:tableView_headerColor="@color/myRed"-->
+        <!--android:background="@color/white"/>-->
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></LinearLayout>
+    </HorizontalScrollView>
+</FrameLayout>
