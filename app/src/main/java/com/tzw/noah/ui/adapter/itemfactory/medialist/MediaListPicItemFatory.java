@@ -1,0 +1,118 @@
+package com.tzw.noah.ui.adapter.itemfactory.medialist;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.tzw.noah.R;
+import com.tzw.noah.models.MediaArticle;
+import com.tzw.noah.utils.Utils;
+
+import java.util.List;
+import java.util.Random;
+
+import butterknife.BindView;
+import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
+import me.xiaopan.sketchsample.adapter.BindAssemblyRecyclerItem;
+import me.xiaopan.sketchsample.widget.SampleImageView;
+
+public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaListPicItemFatory.GalleryItem> {
+
+    private MediaListListener mMediaListListener;
+    private int width = 0, height = 0;
+
+    public MediaListPicItemFatory(MediaListListener mMediaListListener) {
+        this.mMediaListListener = mMediaListListener;
+    }
+
+    @Override
+    public boolean isTarget(Object o) {
+        if (o instanceof MediaArticle)
+            return ((MediaArticle) o).isListPic();
+        return false;
+    }
+
+    @Override
+    public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
+
+        int screenWidth = Utils.getSrceenWidth();
+        width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 3) / 3;
+        height = width * 2 / 3;
+
+        return new GalleryItem(R.layout.media_list_article_item_pic, viewGroup);
+    }
+
+    public class GalleryItem extends BindAssemblyRecyclerItem<MediaArticle> {
+        @BindView(R.id.container)
+        LinearLayout container;
+        @BindView(R.id.iv_cover)
+        SampleImageView iv_cover;
+        @BindView(R.id.tv_title)
+        TextView tv_title;
+        @BindView(R.id.tv_time)
+        TextView tv_time;
+        @BindView(R.id.tv_comment_count)
+        TextView tv_comment_count;
+
+        Context mContext;
+
+        public GalleryItem(int itemLayoutId, ViewGroup parent) {
+            super(itemLayoutId, parent);
+
+        }
+
+        @Override
+        protected void onConfigViews(Context context) {
+            mContext = context;
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mMediaListListener != null) {
+                        mMediaListListener.onItemClick(getAdapterPosition(), getData());
+                    }
+                }
+            });
+            iv_cover.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mMediaListListener != null) {
+                        mMediaListListener.onItemClick(getAdapterPosition(), getData());
+                    }
+                }
+            });
+            if (width == 0) {
+                int screenWidth = Utils.getSrceenWidth();
+                width = (int) (screenWidth - mContext.getResources().getDimension(R.dimen.bjs) * 3) / 3;
+                height = width * 15 / 23;
+                ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();
+                lp.width = width;
+                lp.height = height;
+                iv_cover.setLayoutParams(lp);
+            } else {
+                ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();
+                lp.width = width;
+                lp.height = height;
+                iv_cover.setLayoutParams(lp);
+            }
+        }
+
+        @Override
+        protected void onSetData(int i, final MediaArticle mediaArticle) {
+
+
+            if (mediaArticle.appArticleImage.isEmpty()) {
+                iv_cover.setVisibility(View.GONE);
+            } else {
+                iv_cover.setVisibility(View.VISIBLE);
+                iv_cover.displayRoundImageSmallThumb(mediaArticle.appArticleImage);
+            }
+            tv_title.setText(mediaArticle.articleTitle);
+            tv_time.setText(Utils.getStandardDate(mediaArticle.createTime));
+            tv_comment_count.setText(mediaArticle.readNumber + "");
+        }
+
+    }
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_light"
+    tools:context="com.tzw.noah.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/pt8"
+        android:background="@drawable/bg_white_fill">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/pt10"
+                android:layout_height="@dimen/pt10"
+                android:layout_marginLeft="@dimen/pt4"
+                android:layout_gravity="center"
+                android:src="@drawable/sns_search" />
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/pt4"
+                android:text="搜索"
+                android:textColor="@color/textLightGray"
+                android:textSize="@dimen/text_small10"
+                android:visibility="gone"/>
+            <EditText
+                android:id="@+id/et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_delete"
+                android:padding="@dimen/pt4"
+                android:background="@null"
+                android:maxLines="1"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:gravity="left"
+                android:hint="请输入搜索关键词"
+                android:text=""
+                android:textColor="@color/textDarkGray"
+                android:textColorHint="@color/textLightGray"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/text_small10" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
