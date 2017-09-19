@@ -91,7 +91,7 @@ public class CrashDetailContentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_text, container, false);
         ButterKnife.bind(this, view);
         object = mActivity.getObject();
-        String content = (String) object;
+        String content = CrashDetailIndexFragment.getContent((int) object);
         tv_content.setText(content);
         return view;
     }

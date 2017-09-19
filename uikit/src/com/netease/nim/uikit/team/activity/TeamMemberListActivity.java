@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
@@ -33,6 +36,9 @@ public class TeamMemberListActivity extends UI {
     private TeamMemberListAdapter adapter;
 
     private String teamId;
+    private TextView tv_title;
+    private ImageView iv_back;
+    private ImageView iv_add;
 
     public static void start(Context context, String tid) {
         Intent intent = new Intent();
@@ -55,8 +61,8 @@ public class TeamMemberListActivity extends UI {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TeamMemberListAdapter(this);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(
-                this, DividerItemDecoration.VERTICAL_LIST));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(
+//                this, DividerItemDecoration.VERTICAL_LIST));
         adapter.setListener(new TeamMemberListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(TeamMember member) {
@@ -69,6 +75,19 @@ public class TeamMemberListActivity extends UI {
         ToolBarOptions options = new ToolBarOptions();
         options.titleString = "选择提醒的人";
         setToolBar(R.id.toolbar, options);
+
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_add = (ImageView) findViewById(R.id.iv_add);
+        iv_back.setVisibility(View.VISIBLE);
+        iv_add.setVisibility(View.GONE);
+        tv_title.setText(options.titleString);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void parseIntent() {

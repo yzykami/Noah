@@ -27,11 +27,8 @@ android {
     }
     sourceSets {
         main {
-
             jniLibs.srcDirs = ['libs', 'libs-sdk']
-
         }
-
     }
 }
 
@@ -65,4 +62,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'de.codecrafters.tableview:tableview:2.8.0'
+    compile 'cn.lankton:flowlayout:1.0.1'
+    compile 'org.jsoup:jsoup:1.10.3'
 }

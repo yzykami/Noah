@@ -183,7 +183,7 @@ public class Utils {
 
         for (int i = 0; i < items.size(); i++) {
             User u = items.get(i);
-            if(u.ifStar==0) {
+            if (u.ifStar == 0) {
                 User clone = User.Clone(u);
                 clone.nameFirstChar = "星标";
                 starList.add(clone);
@@ -200,19 +200,19 @@ public class Utils {
             return;
         list.addAll(list1);
     }
+
     public static void listAddUser(List list, User user) {
         if (list == null)
             return;
-        boolean has=false;
-        for (int i=0; i<list.size(); i++) {
+        boolean has = false;
+        for (int i = 0; i < list.size(); i++) {
             User u = (User) list.get(i);
-            if(u.memberNo==user.memberNo) {
-                has=true;
+            if (u.memberNo == user.memberNo) {
+                has = true;
                 break;
             }
         }
-        if(!has)
-        {
+        if (!has) {
             list.add(user);
         }
     }
@@ -321,5 +321,71 @@ public class Utils {
             return bitmap;
         }
         return bitmap;
+    }
+
+
+    /**
+     * 将时间戳转为代表"距现在多久之前"的字符串
+     *
+     * @param timeStr 时间戳
+     * @return
+     */
+    public static String getStandardDate(String timeStr) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        long t = 0;
+        try {
+            java.util.Date date = format.parse(timeStr);
+            t = date.getTime();
+        } catch (ParseException e) {
+//            return "";
+        }
+        // long t = Long.parseLong(timeStr);
+
+        StringBuffer sb = new StringBuffer();
+
+        long time = System.currentTimeMillis() - (t);
+        long mill = (long) Math.ceil(time / 1000);// 秒前
+
+        long minute = (long) Math.ceil(time / 60 / 1000.0f);// 分钟前
+
+        long hour = (long) Math.ceil(time / 60 / 60 / 1000.0f);// 小时
+
+        long day = (long) Math.ceil(time / 24 / 60 / 60 / 1000.0f);// 天前
+
+        long year = (long) Math.ceil(time / 24 / 60 / 60 / 365 / 1000.0f);// 天前
+
+//        int maxday = 365;
+
+        if (year - 1 > 0) {
+            return timeStr;
+        }
+        if (day - 1 > 0) {
+            sb.append(day + "天");
+        } else if (hour - 1 > 0) {
+            if (hour >= 24) {
+                sb.append("昨天");
+            } else {
+                sb.append(hour + "小时");
+            }
+        } else if (minute - 1 > 0) {
+            if (minute == 60) {
+                sb.append("1小时");
+            } else {
+                sb.append(minute + "分钟");
+            }
+        } else if (mill - 1 > 0) {
+            if (mill == 60) {
+                sb.append("1分钟");
+            } else {
+                sb.append(mill + "秒");
+            }
+        } else {
+            sb.append("刚刚");
+        }
+        if (!sb.toString().equals("刚刚") && !sb.toString().equals("昨天")) {
+            sb.append("前");
+        }
+        return sb.toString();
     }
 }

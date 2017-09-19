@@ -11,6 +11,7 @@ import android.text.format.Formatter;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.EventBusException;
@@ -30,10 +31,13 @@ import me.xiaopan.sketch.request.DisplayOptions;
 import me.xiaopan.sketch.request.RedisplayListener;
 import me.xiaopan.sketch.request.UriInfo;
 import me.xiaopan.sketch.request.UriScheme;
+import me.xiaopan.sketch.shaper.RoundRectImageShaper;
 import me.xiaopan.sketch.util.SketchUtils;
 import me.xiaopan.sketchsample.ImageOptions;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
+import com.tzw.noah.utils.Utils;
 
 import me.xiaopan.sketchsample.event.AppConfigChangedEvent;
 import me.xiaopan.sketchsample.event.CacheCleanEvent;
@@ -75,18 +79,76 @@ public class SampleImageView extends SketchImageView {
         }
     }
 
-    String prefix = "http://taizhouwang.oss-cn-beijing.aliyuncs.com";
-    String subfix = "?x-oss-process=image/resize,w_300";
 
-    public void displayImageThumb(String uri) {
-        http:
+
+    public void displayImageSmallThumb(String uri) {
         if (uri != null) {
-            if (uri.contains(prefix)) {
-                uri += subfix;
+            if (uri.contains(DataCenter.prefix)) {
+                uri += DataCenter.subfix;
             }
         }
         displayImage(uri);
     }
+
+    public void displayImageBigThumb(String uri) {
+        if (uri != null) {
+            if (uri.contains(DataCenter.prefix)) {
+                uri += DataCenter.subfix_big;
+            }
+        }
+        displayImage(uri);
+    }
+
+    public void setRound(float radius) {
+        getOptions().setImageShaper(new RoundRectImageShaper(radius));
+    }
+
+    public void displayRoundImageBigThumb(String uri) {
+        final String uu = uri;
+        setRound(DataCenter.mRadius);
+
+        this.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        getViewTreeObserver().removeOnPreDrawListener(this);
+                        getOptions().setShapeSize(getWidth(), getHeight());
+                        displayImageBigThumb(uu);
+                        return true;
+                    }
+                });
+    }
+
+    public void displayRoundImageSmallThumb(String uri) {
+        final String uu = uri;
+        setRound(DataCenter.mRadius);
+        this.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        getViewTreeObserver().removeOnPreDrawListener(this);
+                        getOptions().setShapeSize(getWidth(), getHeight());
+                        displayImageSmallThumb(uu);
+                        return true;
+                    }
+                });
+    }
+
+    public void displayRoundImageOriginal(String uri) {
+        final String uu = uri;
+        setRound(DataCenter.mRadius);
+        this.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        getViewTreeObserver().removeOnPreDrawListener(this);
+                        getOptions().setShapeSize(getWidth(), getHeight());
+                        displayImage(uu);
+                        return true;
+                    }
+                });
+    }
+
 
     @Override
     public void onReadyDisplay(UriScheme uriScheme) {

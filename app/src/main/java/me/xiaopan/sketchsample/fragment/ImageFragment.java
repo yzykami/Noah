@@ -451,7 +451,7 @@ public class ImageFragment extends BaseFragment {
             imageView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    show();
+//                    show();
                     return true;
                 }
             });

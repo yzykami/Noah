@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pt0"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_like_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/pt15"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginTop="@dimen/pt20"
+            android:drawableLeft="@drawable/media_like"
+            android:drawablePadding="@dimen/pt7"
+            android:gravity="center"
+            android:paddingBottom="@dimen/pt10"
+            android:paddingTop="@dimen/pt10"
+            android:text="aaaaaa"
+            android:textColor="@color/textLightGray"
+            android:textSize="@dimen/sp14" />
+
+
+        <TextView
+            android:id="@+id/tv_complaint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/pt10"
+            android:drawableLeft="@drawable/media_complaint"
+            android:drawablePadding="@dimen/pt7"
+            android:paddingBottom="@dimen/pt10"
+            android:paddingTop="@dimen/pt10"
+            android:text="投诉"
+            android:textColor="@color/textLightGray"
+            android:textSize="@dimen/sp14" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_member"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/bj"
+        android:background="@color/white"
+        android:orientation="horizontal"></LinearLayout>
+</LinearLayout>
+

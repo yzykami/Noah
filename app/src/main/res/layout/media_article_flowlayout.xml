@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.lankton.flowlayout.FlowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:lineSpacing="@dimen/pt10"
+    android:background="@color/white"
+    android:paddingBottom="@dimen/pt0"
+    android:paddingLeft="@dimen/bj"
+    android:paddingRight="@dimen/bj"
+    android:paddingTop="@dimen/pt20">
+
+</cn.lankton.flowlayout.FlowLayout><!--app:lineSpacing="10dp"-->
+

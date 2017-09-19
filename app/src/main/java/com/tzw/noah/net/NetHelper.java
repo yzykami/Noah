@@ -659,8 +659,8 @@ public class NetHelper {
         new WIRequest().Post(method, body, bodyName, callback);
     }
 
-    /////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////           MEDIA               ///////////////////
+    /////////////////////////////////////////////////////////////////////////////////
 
     //获取栏目
     //media/category
@@ -680,6 +680,62 @@ public class NetHelper {
     //media/articleDetails?articleId={$articleId}
     public void mediaArticleDetails(int articleId, Callback callback) {
         String method = "media/articleDetails?articleId=" + articleId ;
+        new WIRequest().Get(method, callback);
+    }
+
+    // 文章点赞
+    //media/evaluate
+    public void mediaEvaluate(int articleId, int evaluteValue, Callback callback) {
+        String method = "media/evaluate";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("articleId", articleId));
+        body.add(new Param("evaluateValue", evaluteValue));
+        String bodyName = "evaluateSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    // 文章收藏
+    //media/saveToFavorite
+    public void mediaFavorite(int articleId, int status, Callback callback) {
+        String method = "media/saveToFavorite";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("articleId", articleId));
+        body.add(new Param("status", status));
+        String bodyName = "favoriteSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    // 文章评论
+    //media/commentOnArticle
+    public void mediaComment(int articleId, String commentContent,int commentId, Callback callback) {
+        String method = "media/commentOnArticle";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("articleId", articleId));
+        body.add(new Param("commentContent", commentContent));
+        if(commentId!=0)
+            body.add(new Param("beArticleCommentId", commentId));
+        String bodyName = "articleCommentSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    //获取点赞列表
+    //media/evaluateList/{$articleEvaluateId}/{$articleId}/{$pagesize}
+    public void mediaLikeList(int articleId, int articleEvaluateId, int pagesize, Callback callback) {
+        String method = "media/evaluateList/" + articleId + "/" + articleEvaluateId + "/" + pagesize;
+        new WIRequest().Get(method, callback);
+    }
+
+    //获取评论列表
+    //media/commentList/{$articleId}/{$articleCommntId}/{$pagesize}
+    public void mediaCommentList(int articleId, int articleCommntId, int pagesize, Callback callback) {
+        String method = "media/commentList/" + articleId + "/" + articleCommntId + "/" + pagesize;
+        new WIRequest().Get(method, callback);
+    }
+
+    //获取评论列表
+    //media/revertList/{$articleId}/{$beArticleCommentId}/{$articleCommntId}/{$pagesize}
+    public void mediaCommentList(int articleId, int beArticleCommentId ,int articleCommntId, int pagesize, Callback callback) {
+        String method = "media/revertList/" + articleId + "/" + beArticleCommentId+ "/" + articleCommntId + "/" + pagesize;
         new WIRequest().Get(method, callback);
     }
 }

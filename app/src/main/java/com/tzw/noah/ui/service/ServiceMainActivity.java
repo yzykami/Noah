@@ -35,13 +35,14 @@ public class ServiceMainActivity extends AppCompatActivity {
         iv.setLayoutParams(lp);
 
         iv.setMaxWidth(screenWidth);
-        iv.setMaxHeight(screenWidth * 5);
+        iv.setMaxHeight(screenWidth * 10);
+        final int maxcount = 2;//ivResids.length
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 index++;
-                if (index >= ivResids.length)
-                    index %= ivResids.length;
+                if (index >= maxcount)
+                    index %= maxcount;
                 iv.setImageBitmap(null);
                 if (bm != null)
                     bm.recycle();

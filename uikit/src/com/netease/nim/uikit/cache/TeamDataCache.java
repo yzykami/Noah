@@ -232,7 +232,6 @@ public class TeamDataCache {
             if(!TextUtils.isEmpty(teamName)) {
                 return teamName;
             }
-
         }
 
         Team team = getTeamById(teamId);

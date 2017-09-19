@@ -77,7 +77,14 @@ public class MediaListTxtItemFatory extends AssemblyRecyclerItemFactory<MediaLis
         protected void onSetData(int i, final MediaArticle mediaArticle) {
             tv_title.setText(mediaArticle.articleTitle);
             tv_time.setText(Utils.getStandardDate(mediaArticle.createTime));
-            tv_comment_count.setText(mediaArticle.readNumber+"");
+            if(mediaArticle.articleCommentSum==-1)
+            {
+                tv_comment_count.setVisibility(View.GONE);
+            }
+            else {
+                tv_comment_count.setVisibility(View.VISIBLE);
+            }
+            tv_comment_count.setText(mediaArticle.articleCommentSum+"人评");
         }
     }
 }

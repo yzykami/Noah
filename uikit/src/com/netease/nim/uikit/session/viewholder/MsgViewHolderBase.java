@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
@@ -22,6 +23,7 @@ import com.netease.nim.uikit.common.ui.recyclerview.holder.RecyclerViewHolder;
 import com.netease.nim.uikit.common.util.sys.TimeUtil;
 import com.netease.nim.uikit.session.module.list.MsgAdapter;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
@@ -29,6 +31,8 @@ import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+
+import java.util.Map;
 
 /**
  * 会话窗口消息列表项的ViewHolder基类，负责每个消息项的外层框架，包括头像，昵称，发送/接收进度条，重发按钮等。<br>
@@ -263,6 +267,15 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
 
                 @Override
                 public void onClick(View v) {
+//                    Map<String, Object> map = message.getLocalExtension();
+//                    if(map!=null)
+//                    {
+//                        if((Boolean) map.get(ResponseCode.RES_IN_BLACK_LIST+""))
+//                        {
+//                            Toast.makeText(context,"对方已经将您加入黑名单中3",Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                    }
                     getMsgAdapter().getEventListener().onFailedBtnClick(message);
                 }
             });

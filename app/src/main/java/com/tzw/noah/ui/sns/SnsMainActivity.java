@@ -6,13 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.models.GroupMember;
+import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.adapter.itemfactory.ChatListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
+import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailWebViewItemFatory;
 import com.tzw.noah.ui.sns.add.AddActivity;
 
 import java.util.ArrayList;
@@ -25,11 +26,8 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
-import me.xiaopan.assemblyadapter.AssemblyRecyclerItem;
-import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
 import me.xiaopan.assemblyadapter.OnRecyclerLoadMoreListener;
 import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
-import me.xiaopan.sketchsample.adapter.itemfactory.UnsplashPhotosItemFactory;
 
 /**
  * Created by yzy on 2017/6/26.
@@ -41,9 +39,15 @@ public class SnsMainActivity extends MyBaseActivity implements ChatListItemFacto
 
     @BindView(R.id.list_view)
     RecyclerView recyclerView;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
 
     Context mContext = SnsMainActivity.this;
     private AssemblyRecyclerAdapter adapter;
+
+    String title = "";
+    String htmlContent = "";
+    MediaArticle mediaArticle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +62,14 @@ public class SnsMainActivity extends MyBaseActivity implements ChatListItemFacto
     }
 
     private void initdata() {
-
+        Bundle bu = getIntent().getExtras();
+        if (bu != null) {
+            title = bu.getString("title");
+            mediaArticle = (MediaArticle) bu.getSerializable("DATA");
+            htmlContent = mediaArticle.articleContent;
+//            title = mediaArticle.articleTitle;
+        }
+        title = "";
     }
 
     private void findview() {
@@ -123,6 +134,7 @@ public class SnsMainActivity extends MyBaseActivity implements ChatListItemFacto
     protected void updateData() {
 
         List<String> images = new ArrayList<String>();
+        images.add(mediaArticle.articleContent);
         images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498646800199&di=e588dafd6e16678d08e8404c7f6a5651&imgtype=0&src=http%3A%2F%2Fimg.qqzhi.com%2Fupload%2Fimg_2_1979295486D2113125476_23.jpg");
         images.add("http://v1.qzone.cc/avatar/201405/10/17/00/536deaa6c35a9512.jpg!200x200.jpg");
         images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498646872650&di=8c968f968b9423051048d1eec7c5d598&imgtype=0&src=http%3A%2F%2Fimg.qqzhi.com%2Fupload%2Fimg_4_3520253239D3803949043_21.jpg");
@@ -137,7 +149,7 @@ public class SnsMainActivity extends MyBaseActivity implements ChatListItemFacto
 //        images.add("");
         adapter = new AssemblyRecyclerAdapter(images);
         adapter.addItemFactory(new ChatListItemFactory(this));
-        adapter.addHeaderItem(new SearchHeadFactory(this), "");
+        adapter.addItemFactory(new MediaArticleDetailWebViewItemFatory(null));
         loadMoreItem = new LoadMoreItemFactory(this);
         adapter.setLoadMoreItem(loadMoreItem);
 

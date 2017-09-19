@@ -88,15 +88,16 @@ public class CrashHandler implements UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        if (!handleException(ex) && mDefaultHandler != null) {
-            // 如果用户没有处理则让系统默认的异常处理器来处理
-            mDefaultHandler.uncaughtException(thread, ex);
-        } else {
-            SystemClock.sleep(3000);
+//        if (!handleException(ex) && mDefaultHandler != null) {
+//             如果用户没有处理则让系统默认的异常处理器来处理
+//            mDefaultHandler.uncaughtException(thread, ex);
+//        } else {
+            handleException(ex);
+            SystemClock.sleep(500);
             // 退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(1);
-        }
+//        }
     }
 
     /**
@@ -116,16 +117,17 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 @Override
                 public void run() {
                     Looper.prepare();
-                    Toast.makeText(mContext, "很抱歉,程序出现异常,即将重启.",
+                    Toast.makeText(mContext, "很抱歉,程序出现异常,即将关闭.",
                             Toast.LENGTH_LONG).show();
                     Looper.loop();
                 }
             }.start();
             // 收集设备参数信息
-            collectDeviceInfo(mContext);
+//            collectDeviceInfo(mContext);
             // 保存日志文件
+            com.tzw.noah.logger.Log.log("Crash",ex.getMessage());
             saveCrashInfoFile(ex);
-            SystemClock.sleep(3000);
+//            SystemClock.sleep(100);
         } catch (Exception e) {
             e.printStackTrace();
         }

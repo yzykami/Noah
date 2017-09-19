@@ -1,6 +1,7 @@
 package com.netease.nim.demo.main.fragment;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -50,6 +51,7 @@ public class HomeFragment extends TFragment implements OnPageChangeListener, Rem
     private ImageView iv_add;
 
     private Context mContext;
+    private static int statusBarHeight=-1;
 
     public HomeFragment() {
         setContainerId(R.id.welcome_container);
@@ -136,6 +138,8 @@ public class HomeFragment extends TFragment implements OnPageChangeListener, Rem
                 NimDemo.onItemAddClick(mContext);
             }
         });
+        View statusBar = findView(R.id.statusBar);
+        setStatusBarHeight(statusBar);
     }
 
     @Override
@@ -300,5 +304,26 @@ public class HomeFragment extends TFragment implements OnPageChangeListener, Rem
                 }
             }
         });
+    }
+
+    public int getStatusBarHeight() {
+        if (statusBarHeight == -1) {
+            // 获取状态栏高度
+            //获取status_bar_height资源的ID
+            int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                //根据资源ID获取响应的尺寸值
+                statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+            }
+        }
+        return statusBarHeight;
+    }
+
+    public void setStatusBarHeight(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            ViewGroup.LayoutParams layoutParams = (ViewGroup.LayoutParams) view.getLayoutParams();
+            layoutParams.height = getStatusBarHeight();
+            view.setLayoutParams(layoutParams);
+        }
     }
 }

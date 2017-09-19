@@ -34,7 +34,11 @@ public class ChatListItemFactory extends AssemblyRecyclerItemFactory<ChatListIte
 
     @Override
     public boolean isTarget(Object o) {
-        return o instanceof String;
+        if(o instanceof String) {
+            if(((String) o).startsWith("http"))
+            return o instanceof String;
+        }
+        return false;
     }
 
     @Override

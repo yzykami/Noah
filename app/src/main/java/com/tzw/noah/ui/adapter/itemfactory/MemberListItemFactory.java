@@ -91,7 +91,6 @@ public class MemberListItemFactory extends AssemblyRecyclerItemFactory<MemberLis
                 layoutParams.height = itemSize - nn * 2;
                 layoutParams.setMargins(nn, nn * 2, nn, nn);
                 imageView.setLayoutParams(layoutParams);
-
             }
         }
 

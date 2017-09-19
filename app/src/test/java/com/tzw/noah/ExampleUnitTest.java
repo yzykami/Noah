@@ -15,6 +15,7 @@ import com.tzw.noah.sdk.SnsManager;
 
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
@@ -191,5 +192,57 @@ public class ExampleUnitTest {
 
     public <T> T getModelList(String path, Type t) {
         return (T) new ArrayList<Object>();
+    }
+
+    @Test
+    public void aaa()
+    {
+        String path = "C:\\Users\\sysadmin\\Documents\\美工切图";
+        List<String> name1=new ArrayList();
+        List<String> name2=new ArrayList();
+
+        name1.add("多边形-3-拷贝");
+        name1.add("椭圆-55");
+        name1.add("形状-12-拷贝-3");
+        name1.add("形状-12-拷贝-4");
+
+
+        name2.add("media_input_fav_ed");
+        name2.add("media_input_comment_ed");
+        name2.add("media_comment_like_ed");
+        name2.add("media_input_like_ed");
+
+        for (int i = 0; i < name1.size(); i++) {
+
+            String sname1=name1.get(i);
+            String sname2=name2.get(i);
+            changename(path,sname1,sname2);
+        }
+    }
+
+    private static void changename(String path,String name1, String name2) {
+
+        File dir = new File(path);
+        File[] fs = dir.listFiles();
+        for (int i = 0; i < fs.length; i++) {
+            // 打印全路径名称
+            System.out.println(fs[i].getAbsolutePath());
+            String ss = fs[i].getName();
+            if (fs[i].isDirectory()&&!ss.equals("ok")) {
+                changename(fs[i].getAbsolutePath(),name1, name2);
+            }
+            if (ss.equals(name1+".png")) {
+                System.out.println("修改前文件名称是：" + fs[i].getName());
+                String rootPath = fs[i].getParent();
+                System.out.println("根路径是：" + rootPath);
+                File newFile = new File(rootPath + File.separator + name2 + ".png");
+                System.out.println("修改后文件名称是：" + newFile.getName());
+                if (fs[i].renameTo(newFile)) {
+                    System.out.println("修改成功!");
+                } else {
+                    System.out.println("修改失败");
+                }
+            }
+        }
     }
 }

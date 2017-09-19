@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -44,6 +45,13 @@ import com.tzw.noah.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xiaopan.sketch.request.DisplayOptions;
+import me.xiaopan.sketch.shaper.CircleImageShaper;
+import me.xiaopan.sketch.shaper.RoundRectImageShaper;
+import me.xiaopan.sketchsample.ImageOptions;
+import me.xiaopan.sketchsample.bean.Image;
+import me.xiaopan.sketchsample.widget.SampleImageView;
+
 /**
  * Created by yzy on 2017/6/9.
  */
@@ -68,6 +76,8 @@ public class LoginActivity extends MyBaseActivity {
     private TextView tv_update;
     private ImageView iv_seepwd;
     boolean isSeepwd = false;
+
+    SampleImageView imageView;
 
     int MODE = 0;
 //    int MODE_
@@ -106,6 +116,9 @@ public class LoginActivity extends MyBaseActivity {
         et_username = (EditText) findViewById(R.id.et_username);
         et_pwd = (EditText) findViewById(R.id.et_pwd);
         iv_seepwd = (ImageView) findViewById(R.id.iv_seepwd);
+        imageView = (SampleImageView) findViewById(R.id.iv_adv);
+        imageView.setVisibility(View.GONE);
+//        imageView.displayRoundImageBigThumb("drawable://" + R.drawable.adv);
     }
 
     private void initview() {
@@ -227,6 +240,16 @@ public class LoginActivity extends MyBaseActivity {
         startActivity2(FindPwdActivity.class);
     }
 
+    public void handle_back(View view) {
+        setResult(LOGINFAILURE);
+        super.handle_back(view);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     class LoginThread implements Runnable {
         public void run() {
             try {
@@ -320,6 +343,7 @@ public class LoginActivity extends MyBaseActivity {
                     }
                 } else {
 
+//                    dismissLoaddingDialog();
                     IMsg iMsg = (IMsg) msg.getData().getSerializable("MESSAGE_DATA");
 
                     if (iMsg.isSucceed()) {
@@ -392,7 +416,6 @@ public class LoginActivity extends MyBaseActivity {
 
                 // 进入主界面
                 setResult(LOGINSUCCEED);
-
                 finish();
             }
 

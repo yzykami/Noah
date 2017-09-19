@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.UserPreferences;
+import com.netease.nim.uikit.cache.TZWUserCache;
 import com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialog;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
@@ -31,14 +32,17 @@ import com.netease.nim.uikit.session.audio.MessageAudioControl;
 import com.netease.nim.uikit.session.helper.MessageHelper;
 import com.netease.nim.uikit.session.helper.MessageListPanelHelper;
 import com.netease.nim.uikit.session.module.Container;
+import com.netease.nim.uikit.tzw_relative.User;
 import com.netease.nim.uikit.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.uinfo.UserInfoObservable;
+import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.avchat.model.AVChatAttachment;
+import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
@@ -58,7 +62,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 基于RecyclerView的消息收发模块
@@ -698,7 +704,7 @@ public class MessageListPanelEx {
         }
 
         // 重发消息到服务器
-        private void resendMessage(IMMessage message) {
+        private void resendMessage(final IMMessage message) {
             // 重置状态为unsent
             int index = getItemIndex(message.getUuid());
             if (index >= 0 && index < items.size()) {
@@ -708,7 +714,27 @@ public class MessageListPanelEx {
                 onMsgSend(item);
             }
 
-            NIMClient.getService(MsgService.class).sendMessage(message, true);
+            InvocationFuture<Void> callback = NIMClient.getService(MsgService.class).sendMessage(message, false);
+            callback.setCallback(new RequestCallback<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                }
+
+                @Override
+                public void onFailed(int i) {
+//                    if (i == ResponseCode.RES_IN_BLACK_LIST) ;
+//                    Map<String, Object> map = new HashMap<>();
+//                    map.put(ResponseCode.RES_IN_BLACK_LIST + "", true);
+//                    message.setLocalExtension(map);
+                    Toast.makeText(container.activity, "对方已经将您加入黑名单中", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+
+                }
+            });
         }
 
         /**

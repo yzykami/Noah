@@ -44,7 +44,6 @@ import com.tzw.noah.ui.mine.setting.PersonalSettingActivity;
 import com.tzw.noah.ui.mine.setting.SettingActivity;
 import com.tzw.noah.ui.sns.add.AddActivity;
 import com.tzw.noah.ui.sns.friendlist.FriendListActivity;
-import com.tzw.noah.utils.StatusBarUtil;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.CircleImageView;
 
@@ -63,7 +62,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/6/8.
  */
 
-public class MineMainActivity extends MyBaseActivity implements StatusBarUtil.StatusBarProvider {
+public class MineMainActivity extends MyBaseActivity  {
 
     String TAG = "MineMainActivity";
     MineMainActivity mycontext = MineMainActivity.this;
@@ -80,7 +79,6 @@ public class MineMainActivity extends MyBaseActivity implements StatusBarUtil.St
 
     SessionCustomization customization = new SessionCustomization();
     private boolean isFirstLoad = true;
-    private View statusBar;
     static MineMainActivity instance;
 
     public static void reload() {
@@ -93,6 +91,7 @@ public class MineMainActivity extends MyBaseActivity implements StatusBarUtil.St
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mine_main);
         instance = this;
+        setStatusBarLightMode();
         findview();
         initview();
         doWorking();
@@ -108,10 +107,8 @@ public class MineMainActivity extends MyBaseActivity implements StatusBarUtil.St
         tv_airtle_num = (TextView) findViewById(R.id.tv_airtle_num);
         tv_reply_num = (TextView) findViewById(R.id.tv_reply_num);
         iv_head = (SampleImageViewHead) findViewById(R.id.iv_head);
-        statusBar = (View) findViewById(R.id.statusBar);
 
-        StatusBarUtil.StatusBarLightMode(this);
-        setStatusBarHeight(statusBar);
+
 
         iv_head.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,8 +369,4 @@ public class MineMainActivity extends MyBaseActivity implements StatusBarUtil.St
         }
     }
 
-    @Override
-    public View getStatusBar() {
-        return statusBar;
-    }
 }

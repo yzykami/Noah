@@ -23,6 +23,7 @@ import com.netease.nim.demo.contact.ContactHelper;
 import com.netease.nim.demo.event.DemoOnlineStateContentProvider;
 import com.netease.nim.demo.event.OnlineStateEventManager;
 import com.netease.nim.demo.main.activity.WelcomeActivity;
+import com.netease.nim.demo.mixpush.DemoMixPushMessageHandler;
 import com.netease.nim.demo.rts.activity.RTSActivity;
 import com.netease.nim.demo.session.NimDemoLocationProvider;
 import com.netease.nim.demo.session.SessionHelper;
@@ -69,9 +70,9 @@ public class NimApplication extends Application {
 
         DemoCache.setContext(this);
         // 注册小米推送appID 、appKey 以及在云信管理后台添加的小米推送证书名称，该逻辑放在 NIMClient init 之前
-        //NIMPushClient.registerMiPush(this, "DEMO_MI_PUSH", "2882303761517502883", "5671750254883");
+        NIMPushClient.registerMiPush(this, "DEMO_MI_PUSH", "2882303761517502883", "5671750254883");
         // 注册自定义小米推送消息处理，这个是可选项
-        //NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
+        NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
         NIMClient.init(this, getLoginInfo(), getOptions());
         ExtraOptions.provide();
         // crash handler

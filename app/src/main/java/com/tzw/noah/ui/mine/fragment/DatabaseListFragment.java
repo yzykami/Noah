@@ -153,10 +153,10 @@ public class DatabaseListFragment extends Fragment {
         for (int i = 0; i < files.length; i++) {
             File ff = files[i];
             if (ff.isFile() && ff.getName().endsWith("db")) {
-                items.add("数据库文件: " + ff.getName());
+                items.add("" + ff.getName());
                 fileitems.add(ff);
-            } else {
-                items.add("目录: " + ff.getName());
+            } else if(ff.isDirectory()){
+                items.add("/ " + ff.getName());
                 fileitems.add(ff);
             }
         }

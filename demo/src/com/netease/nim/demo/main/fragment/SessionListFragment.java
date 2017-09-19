@@ -17,6 +17,7 @@ import com.netease.nim.demo.session.extension.GuessAttachment;
 import com.netease.nim.demo.session.extension.RTSAttachment;
 import com.netease.nim.demo.session.extension.SnapChatAttachment;
 import com.netease.nim.demo.session.extension.StickerAttachment;
+import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.common.activity.UI;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.recent.RecentContactsCallback;
@@ -24,6 +25,7 @@ import com.netease.nim.uikit.recent.RecentContactsFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.auth.ClientType;
 import com.netease.nimlib.sdk.auth.OnlineClient;
@@ -132,7 +134,8 @@ public class SessionListFragment extends MainTabFragment {
             if (onlineClients == null || onlineClients.size() == 0) {
                 multiportBar.setVisibility(View.GONE);
             } else {
-                multiportBar.setVisibility(View.VISIBLE);
+                multiportBar.setVisibility(View.GONE);
+//                multiportBar.setVisibility(View.VISIBLE);
                 TextView status = (TextView) multiportBar.findViewById(R.id.multiport_desc_label);
                 OnlineClient client = onlineClients.get(0);
                 switch (client.getClientType()) {
@@ -155,15 +158,37 @@ public class SessionListFragment extends MainTabFragment {
     };
 
     private void kickOut(StatusCode code) {
-        Preferences.saveUserToken("");
 
-        if (code == StatusCode.PWD_ERROR) {
-            LogUtil.e("Auth", "user password error");
-            Toast.makeText(getActivity(), R.string.login_failed, Toast.LENGTH_SHORT).show();
-        } else {
-            LogUtil.i("Auth", "Kicked!");
+        int type = NIMClient.getService(AuthService.class).getKickedClientType();
+        String client;
+        switch (type) {
+            case ClientType.Web:
+                client = "网页端";
+                break;
+            case ClientType.Windows:
+                client = "电脑端";
+                break;
+            case ClientType.REST:
+                client = "服务端";
+                break;
+            default:
+                client = "移动端";
+                break;
         }
-        onLogout();
+        if (NimUIKit.getGobalObserver() != null) {
+            NimUIKit.getGobalObserver().onKickOut(getContext(), client);
+            notifyBar.setVisibility(View.VISIBLE);
+            notifyBarText.setText(R.string.nim_status_unlogin);
+        }
+//        Preferences.saveUserToken("");
+//
+//        if (code == StatusCode.PWD_ERROR) {
+//            LogUtil.e("Auth", "user password error");
+//            Toast.makeText(getActivity(), R.string.login_failed, Toast.LENGTH_SHORT).show();
+//        } else {
+//            LogUtil.i("Auth", "Kicked!");
+//        }
+//        onLogout();
     }
 
     // 注销

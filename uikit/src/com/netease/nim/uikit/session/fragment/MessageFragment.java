@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.netease.nim.uikit.CustomPushContentProvider;
 import com.netease.nim.uikit.NimUIKit;
@@ -14,6 +15,7 @@ import com.netease.nim.uikit.common.fragment.TFragment;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.actions.BaseAction;
 import com.netease.nim.uikit.session.actions.ChoosePhotoAction;
+import com.netease.nim.uikit.session.actions.EmptyAction;
 import com.netease.nim.uikit.session.actions.ImageAction;
 import com.netease.nim.uikit.session.actions.LocationAction;
 import com.netease.nim.uikit.session.actions.TakePhotoAction;
@@ -23,8 +25,11 @@ import com.netease.nim.uikit.session.module.Container;
 import com.netease.nim.uikit.session.module.ModuleProxy;
 import com.netease.nim.uikit.session.module.input.InputPanel;
 import com.netease.nim.uikit.session.module.list.MessageListPanelEx;
+import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -32,6 +37,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MessageReceipt;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -189,13 +195,33 @@ public class MessageFragment extends TFragment implements ModuleProxy {
      * ********************** implements ModuleProxy *********************
      */
     @Override
-    public boolean sendMessage(IMMessage message) {
+    public boolean sendMessage(final IMMessage message) {
         if (!isAllowSendMessage(message)) {
             return false;
         }
         appendPushConfig(message);
         // send message to server and save to db
-        NIMClient.getService(MsgService.class).sendMessage(message, false);
+        InvocationFuture<Void> callback =NIMClient.getService(MsgService.class).sendMessage(message, false);
+        callback.setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+
+            @Override
+            public void onFailed(int i) {
+//                if(i ==ResponseCode.RES_IN_BLACK_LIST);
+//                Map<String, Object> map=new HashMap<>();
+//                map.put(ResponseCode.RES_IN_BLACK_LIST+"",true);
+//                message.setLocalExtension(map);
+                Toast.makeText(getActivity(),"对方已经将您加入黑名单中",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
 
         messageListPanel.onMsgSend(message);
 
@@ -242,7 +268,8 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         actions.add(new ChoosePhotoAction());
         actions.add(new TakePhotoAction());
         actions.add(new VideoAction());
-        actions.add(new LocationAction());
+        actions.add(new EmptyAction());
+//        actions.add(new LocationAction());
 
 //        if (customization != null && customization.actions != null) {
 //            actions.addAll(customization.actions);

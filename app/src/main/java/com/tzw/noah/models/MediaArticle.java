@@ -1,15 +1,25 @@
 package com.tzw.noah.models;
 
-import com.google.gson.reflect.TypeToken;
-import com.tzw.noah.net.IMsg;
+import android.text.TextUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
+import com.tzw.noah.MainActivity;
+import com.tzw.noah.logger.Log;
+import com.tzw.noah.net.IMsg;
+import com.tzw.noah.sdk.MediaManager;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by yzy on 2017/8/30.
  */
 
-public class MediaArticle {
+public class MediaArticle implements Serializable {
 
     public int articleId;
     public String webClassIds = "";
@@ -18,8 +28,11 @@ public class MediaArticle {
     public String webArticleImage = "";
     public String appArticleImage = "";
     public String h5ArticleImage = "";
+    public String articleContent = "";
     public String articleAbstract = "";
     public String keyWordIds = "";
+    public Object keywords;// = new ArrayList<>();
+    //    public Object liker = null;
     public String articleAuthor = "";
     public int ifOriginal;
     public String articleSource = "";
@@ -36,11 +49,275 @@ public class MediaArticle {
     public int editorType;
     public int editorId;
     public String createTime = "";
+    public List<MediaComment> articleCommentObj = new ArrayList<>();
+    public List<MediaLike> articleEvaluateObj = new ArrayList<>();
+    public List<MediaArticle> relatedArticlesObj;
+    public boolean isArticleKeep;
+    public int isArticleEvaluate;
+    public int evaluateValue;
+    public int articleCommentSum;
 
-    public static List<MediaArticle> load(IMsg iMsg) {
+    public String tag;
+    public int TYPE = 0;
+    //默认为列表的文章类型
+    public final static int TYPE_LIST = 0;
+    public final static int TYPE_TITLE = 1;
+    public final static int TYPE_WEB_CONTENT = 2;
+    public final static int TYPE_COMMENT = 3;
+    public final static int TYPE_KEYWORD = 4;
+    public final static int TYPE_LIKE = 5;
+    public final static int TYPE_ADVERTISE = 6;
+    public final static int TYPE_TAG = 7;
+    public final static int TYPE_SAFA = 8;
+    public final static int TYPE_DIVIDER = 9;
+
+    public boolean isTitle() {
+        return TYPE == TYPE_TITLE;
+    }
+
+    public boolean isWebContent() {
+        return TYPE == TYPE_WEB_CONTENT;
+    }
+
+    public boolean isComment() {
+        return TYPE == TYPE_COMMENT;
+    }
+
+    public boolean isKeyword() {
+        return TYPE == TYPE_KEYWORD;
+    }
+
+    public boolean isLike() {
+        return TYPE == TYPE_LIKE;
+    }
+
+    public boolean isTag() {
+        return TYPE == TYPE_TAG;
+    }
+
+    public boolean isAdvertise() {
+        return TYPE == TYPE_ADVERTISE;
+    }
+
+    public boolean isSafa() {
+        return TYPE == TYPE_SAFA;
+    }
+
+    public boolean isDivider() {
+        return TYPE == TYPE_DIVIDER;
+    }
+
+    public MediaArticle makeTitle() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.articleTitle = this.articleTitle;
+        ma.articleAuthor = this.articleAuthor;
+        ma.createTime = this.createTime;
+        ma.TYPE = TYPE_TITLE;
+        return ma;
+    }
+
+    public MediaArticle makeContent() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.articleContent = this.articleContent;
+        ma.TYPE = TYPE_WEB_CONTENT;
+        return ma;
+    }
+
+    public MediaArticle makeComment() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleCommentObj = this.articleCommentObj;
+        ma.articleId = articleId;
+        ma.TYPE = TYPE_COMMENT;
+        return ma;
+    }
+
+    public MediaArticle makeKeyword() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.keywords = this.keywords;
+        ma.TYPE = TYPE_KEYWORD;
+        return ma;
+    }
+
+    public MediaArticle makeLiker() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.articleEvaluateObj = this.articleEvaluateObj;
+        ma.praiseNumber = this.praiseNumber;
+        ma.isArticleEvaluate = this.isArticleEvaluate;
+        ma.TYPE = TYPE_LIKE;
+        return ma;
+    }
+
+    public MediaArticle makeAdvertise() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.TYPE = TYPE_ADVERTISE;
+        return ma;
+    }
+
+    public MediaArticle makeTag(String tag) {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.tag = tag;
+        ma.TYPE = TYPE_TAG;
+        return ma;
+    }
+
+    public MediaArticle makeSafa() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.TYPE = TYPE_SAFA;
+        return ma;
+    }
+
+    public MediaArticle makeDivider() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.TYPE = TYPE_DIVIDER;
+        return ma;
+    }
+
+    public List<String> getKeywords() {
+        if (keywords != null && keywords instanceof ArrayList) {
+            return (List<String>) keywords;
+        }
+        return new ArrayList<String>();
+    }
+
+    public static List<MediaArticle> loadList(IMsg iMsg) {
         return iMsg.getModelList("articleListRObj", new TypeToken<List<MediaArticle>>() {
         }.getType());
     }
 
+    public static MediaArticle load(IMsg iMsg) {
+        IMsg iMsg2 = iMsg.getJsonObject("articlesRObj");
+        MediaArticle ma = iMsg2.getModel("detailsObj", new TypeToken<MediaArticle>() {
+        }.getType());
+        List<MediaComment> mcs = iMsg.getJsonObject("articlesRObj").getModelList("articleCommentObj", new TypeToken<List<MediaComment>>() {
+        }.getType());
+        ma.articleCommentObj = mcs;
+        List<MediaLike> mls = iMsg.getJsonObject("articlesRObj").getModelList("articleEvaluateObj", new TypeToken<List<MediaLike>>() {
+        }.getType());
+        ma.articleEvaluateObj = mls;
+        List<MediaArticle> mla = iMsg.getJsonObject("articlesRObj").getModelList("relatedArticlesObj", new TypeToken<List<MediaArticle>>() {
+        }.getType());
+        ma.relatedArticlesObj = mla;
+        try {
+            int isArticleEvaluate = iMsg.result.getAsJsonObject().getAsJsonObject("articlesRObj").getAsJsonPrimitive("isArticleEvaluate").getAsInt();
+            boolean isArticleKeep = iMsg.result.getAsJsonObject().getAsJsonObject("articlesRObj").getAsJsonPrimitive("isArticleKeep").getAsBoolean();
+            ma.isArticleEvaluate = isArticleEvaluate;
+            ma.isArticleKeep = isArticleKeep;
+        } catch (Exception e) {
+            Log.log("mediaArticle", e);
+        }
+        return ma;
+    }
 
+
+    /*
+    List Item
+     */
+
+
+    public int LIST_TYPE;
+    public final static int LIST_TYPE_TXT = 1;
+    public final static int LIST_TYPE_PIC = 2;
+    public final static int LIST_TYPE_VIEWPAGER = 3;
+    public final static int LIST_TYPE_KEYWORD = 4;
+    public final static int LIST_TYPE_LIKE = 5;
+    public final static int LIST_TYPE_ADVERTISE = 6;
+    public final static int LIST_TYPE_TAG = 7;
+
+    public boolean isListTxt() {
+        if (TYPE != TYPE_LIST)
+            return false;
+        return LIST_TYPE_TXT == getListType();
+    }
+
+    public boolean isListPic() {
+        if (TYPE != TYPE_LIST)
+            return false;
+        return LIST_TYPE_PIC == getListType();
+    }
+
+    public boolean isListViewpager() {
+        if (TYPE != TYPE_LIST)
+            return false;
+        return LIST_TYPE_VIEWPAGER == LIST_TYPE;
+    }
+
+//    public boolean isComment() {
+//        return TYPE == TYPE_COMMENT;
+//    }
+//
+//    public boolean isKeyword() {
+//        return TYPE == TYPE_KEYWORD;
+//    }
+//
+//    public boolean isLike() {
+//        return TYPE == TYPE_LIKE;
+//    }
+//
+//    public boolean isTag() {
+//        return TYPE == TYPE_TAG;
+//    }
+//
+//    public boolean isAdvertise() {
+//        return TYPE == TYPE_ADVERTISE;
+//    }
+
+
+    public int getListType() {
+        if (TextUtils.isEmpty(this.appArticleImage)) {
+            return LIST_TYPE_TXT;
+        } else {
+            return LIST_TYPE_PIC;
+        }
+    }
+
+//    public MediaArticle makeTitle() {
+//        MediaArticle ma = new MediaArticle();
+//        ma.articleTitle = this.articleTitle;
+//        ma.createTime = this.createTime;
+//        ma.TYPE = TYPE_TITLE;
+//        return ma;
+//    }
+//
+//    public MediaArticle makeContent() {
+//        MediaArticle ma = new MediaArticle();
+//        ma.articleContent = this.articleContent;
+//        ma.TYPE = TYPE_WEB_CONTENT;
+//        return ma;
+//    }
+//
+//    public MediaArticle makeKeyword() {
+//        MediaArticle ma = new MediaArticle();
+//        ma.keywords = this.keywords;
+//        ma.TYPE = TYPE_KEYWORD;
+//        return ma;
+//    }
+//
+//    public MediaArticle makeLiker() {
+//        MediaArticle ma = new MediaArticle();
+//        ma.liker = this.liker;
+//        ma.TYPE = TYPE_LIKE;
+//        return ma;
+//    }
+//
+//    public MediaArticle makeAdvertise() {
+//        MediaArticle ma = new MediaArticle();
+//        ma.liker = this.liker;
+//        ma.TYPE = TYPE_ADVERTISE;
+//        return ma;
+//    }
+//
+//    public MediaArticle makeTag(String tag) {
+//        MediaArticle ma = new MediaArticle();
+//        ma.tag = tag;
+//        ma.TYPE = TYPE_TAG;
+//        return ma;
+//    }
 }

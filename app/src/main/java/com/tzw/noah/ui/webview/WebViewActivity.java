@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
+import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.Notification;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
@@ -49,7 +50,8 @@ public class WebViewActivity extends MyBaseActivity {
     String Tag = "WebViewActivity";
 
     String title = "";
-    String htmlContent="";
+    String htmlContent = "";
+    MediaArticle mediaArticle;
 
     public static WebViewActivity getInstance() {
         if (instance == null) {
@@ -74,10 +76,11 @@ public class WebViewActivity extends MyBaseActivity {
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
             title = bu.getString("title");
-            htmlContent = bu.getString("html");
+            mediaArticle = (MediaArticle) bu.getSerializable("DATA");
+            htmlContent = mediaArticle.articleContent;
+//            title = mediaArticle.articleTitle;
         }
-
-        title="文章详情";
+        title = "";
     }
 
     private void findview() {
@@ -88,10 +91,12 @@ public class WebViewActivity extends MyBaseActivity {
         tv_title.setText(title);
         WebSettings wSet = webView.getSettings();
         wSet.setJavaScriptEnabled(true);
-        webView.loadUrl("file:///android_asset/1.html");
-        webView.setWebViewClient(new WebViewClient(){
+        webView.loadDataWithBaseURL("about:blank", htmlContent, "text/html", "utf-8", null);
+//        webView.loadUrl("file:///android_asset/1.html");
+//        webView.
+        webView.setWebViewClient(new WebViewClient() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url){
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return false;
 

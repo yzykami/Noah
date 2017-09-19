@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_centerVertical="true"
+    android:background="@color/white"
+    android:gravity="center"
+    android:text="暂无评论，点击抢沙发"
+    android:textColor="@color/textLightGray"
+    android:textSize="@dimen/sp14" />
+
+
+

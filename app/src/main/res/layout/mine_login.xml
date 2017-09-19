@@ -296,17 +296,20 @@
             android:text="忘记密码？"
             android:textColor="@color/myRed"
             android:textSize="@dimen/sp10" />
-
+        <include layout="@layout/media_article_advertise"
+            android:visibility="gone"/>
 
     </LinearLayout>
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ll_bottom"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/pt25"
-        android:layout_marginRight="@dimen/title_right_btn_right_bj">
+        android:layout_above="@+id/ll_bottom"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
         <RelativeLayout
             android:layout_width="match_parent"

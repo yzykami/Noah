@@ -56,6 +56,7 @@ public class CrashDetailIndexFragment extends Fragment {
     private Context mContext;
     DebugDetailActivity mActivity;
     Object object;
+    static CrashDetailIndexFragment instance;
 
     public CrashDetailIndexFragment() {
         // Required empty public constructor
@@ -76,7 +77,14 @@ public class CrashDetailIndexFragment extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        instance = fragment;
         return fragment;
+    }
+
+    public static String getContent(int index) {
+        if (instance != null)
+            return instance.contentItems.get(index);
+        return "";
     }
 
     @Override
@@ -104,7 +112,7 @@ public class CrashDetailIndexFragment extends Fragment {
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DebugActivity.startDetailActivity(mContext, items.get(position), DebugActivity.TYPE_CRASH_DETAIL_CONTENT, contentItems.get(position));
+                DebugActivity.startDetailActivity(mContext, items.get(position), DebugActivity.TYPE_CRASH_DETAIL_CONTENT, position);
             }
         });
         return view;
@@ -113,26 +121,21 @@ public class CrashDetailIndexFragment extends Fragment {
     private void initDatas(String content) {
         items = new ArrayList<>();
         contentItems = new ArrayList<>();
-        content = content.replace("\r\n", "\n");
-        String[] lines = content.split("\n");
+//        content = content.replace("\r\n", "\n");
+        String[] lines = null;
+        if (content.contains(CrashHandler.getInstance().startPrefix))
+            lines = content.split(CrashHandler.getInstance().startPrefix);
 
         String ss = "";
-        for (int i = 0; i < lines.length; i++) {
-            String s = lines[i];
-            if (s.equals(CrashHandler.getInstance().startPrefix)) {
-                if (i != lines.length - 2) {
-                    items.add(lines[i + 1]);
-                }
-                if (!ss.equals("")) {
-                    contentItems.add(ss);
-                }
-                ss = "";
+        if (lines != null && lines.length >= 2)
+            for (int i = 1; i < lines.length; i++) {
+                ss = lines[i];
+                if (ss.startsWith("\r\n"))
+                    ss = ss.substring("\r\n".length());
+                int index = ss.indexOf("\r\n");
+                items.add(ss.substring(0, index));
+                contentItems.add(lines[i]);
             }
-            ss += s + "\r\n";
-        }
-        if (!ss.equals("")) {
-            contentItems.add(ss);
-        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

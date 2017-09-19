@@ -104,6 +104,6 @@ public class ImageDetailActivity extends BaseActivity implements ApplyBackground
 
     @Override
     public void onApplyBackground(String imageUri) {
-        backgroundImageView.displayImage(imageUri);
+//        backgroundImageView.displayImage(imageUri);
     }
 }

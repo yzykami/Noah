@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -12,6 +13,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.netease.nim.demo.R;
@@ -62,6 +65,7 @@ public class MainActivity extends UI {
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
 
     private HomeFragment mainFragment;
+    private static int statusBarHeight;
 
     public static void start(Context context) {
         start(context, null);
@@ -93,6 +97,7 @@ public class MainActivity extends UI {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
+
         requestBasicPermission();
 
         onParseIntent();
@@ -190,7 +195,6 @@ public class MainActivity extends UI {
         setIntent(intent);
         onParseIntent();
     }
-
 
 
     @Override
@@ -302,8 +306,7 @@ public class MainActivity extends UI {
         finish();
     }
 
-    public void clearRecentContact()
-    {
+    public void clearRecentContact() {
 
     }
 
@@ -357,11 +360,12 @@ public class MainActivity extends UI {
     private long currentBackPressedTime = 0;
     // 退出间隔
     private static final int BACK_PRESSED_INTERVAL = 2000;
+
     //重写onBackPressed()方法,继承自退出的方法
     @Override
     public void onBackPressed() {
         // 判断时间间隔
-        if (System.currentTimeMillis()- currentBackPressedTime > BACK_PRESSED_INTERVAL) {
+        if (System.currentTimeMillis() - currentBackPressedTime > BACK_PRESSED_INTERVAL) {
             currentBackPressedTime = System.currentTimeMillis();
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
         } else {

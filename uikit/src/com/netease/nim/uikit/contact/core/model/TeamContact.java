@@ -2,6 +2,7 @@ package com.netease.nim.uikit.contact.core.model;
 
 import android.text.TextUtils;
 
+import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nimlib.sdk.team.model.Team;
 
 public class TeamContact extends AbsContact {
@@ -24,7 +25,7 @@ public class TeamContact extends AbsContact {
 
     @Override
     public String getDisplayName() {
-        String name = team.getName();
+        String name = TeamDataCache.getInstance().getTeamName(team.getId());//team.getName();
 
         return TextUtils.isEmpty(name) ? team.getId() : name;
     }

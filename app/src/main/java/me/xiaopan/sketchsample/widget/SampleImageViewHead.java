@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.EventBusException;
@@ -30,6 +31,7 @@ import me.xiaopan.sketch.drawable.SketchLoadingDrawable;
 import me.xiaopan.sketch.drawable.SketchShapeBitmapDrawable;
 import me.xiaopan.sketch.process.CircleImageProcessor;
 import me.xiaopan.sketch.request.DisplayOptions;
+import me.xiaopan.sketch.request.DisplayRequest;
 import me.xiaopan.sketch.request.RedisplayListener;
 import me.xiaopan.sketch.request.UriInfo;
 import me.xiaopan.sketch.request.UriScheme;
@@ -46,6 +48,10 @@ public class SampleImageViewHead extends SketchImageView {
 
     public SampleImageViewHead(Context context) {
         super(context);
+        setOnLongClickListener(new LongClickShowDrawableInfoListener());
+        getOptions().setImageShaper(new CircleImageShaper());
+        getOptions().setLoadingImage(R.drawable.sns_user_default);
+        getOptions().setErrorImage(R.drawable.sns_user_default);
     }
 
     public SampleImageViewHead(Context context, AttributeSet attrs) {
@@ -55,6 +61,15 @@ public class SampleImageViewHead extends SketchImageView {
         getOptions().setImageShaper(new CircleImageShaper());
         getOptions().setLoadingImage(R.drawable.sns_user_default);
         getOptions().setErrorImage(R.drawable.sns_user_default);
+    }
+
+    public DisplayRequest displayImage(String uri) {
+        if (uri != null) {
+            if (uri.contains(DataCenter.prefix)) {
+                uri += DataCenter.subfix;
+            }
+        }
+        return super.displayImage(uri);
     }
 
     @Override

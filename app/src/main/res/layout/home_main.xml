@@ -5,17 +5,17 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bg_light"
     android:layout_marginBottom="@dimen/pt50"
+    android:background="@color/bg_light"
+    android:orientation="vertical"
     tools:context="com.tzw.noah.MainActivity">
 
     <View
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pt0"
-        android:background="@drawable/media_bg"
-        />
+        android:background="@drawable/media_bg" />
+
     <RelativeLayout
         android:id="@+id/rl_top"
         android:layout_width="fill_parent"
@@ -26,11 +26,50 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bjs"
             android:gravity="center"
             android:text="台州网"
             android:textColor="@color/white"
             android:textSize="@dimen/text_title" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/pt6"
+            android:layout_marginLeft="@dimen/bjs"
+            android:layout_marginRight="@dimen/bjs"
+            android:layout_marginTop="@dimen/pt6"
+            android:layout_toRightOf="@+id/tv_title">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:layout_width="@dimen/pt12"
+                    android:layout_height="@dimen/pt12"
+                    android:layout_gravity="center"
+                    android:src="@drawable/media_search" />
+
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/pt4"
+                    android:text="搜索"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp12" />
+
+            </LinearLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_fill_alpha50"
+                />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/iv_back"
@@ -65,12 +104,33 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-    <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
-        android:id="@+id/tabs"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/pager_sliding_tab_strip_height"
-        style="@style/pagertab_style_media"
-        android:visibility="visible" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/media_bg">
+
+        <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+            android:id="@+id/tabs"
+            style="@style/pagertab_style_media"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pager_sliding_tab_strip_height"
+            android:layout_toLeftOf="@+id/iv_config"
+            android:visibility="visible" />
+        <ImageView
+            android:id="@+id/iv_config"
+            android:layout_width="@dimen/pager_sliding_tab_strip_height"
+            android:layout_height="@dimen/pager_sliding_tab_strip_height"
+            android:padding="@dimen/pt9"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bjs"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/bjs"
+            android:background="@color/transparent"
+            android:src="@drawable/media_channel_select"
+            android:visibility="visible"/>
+    </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"

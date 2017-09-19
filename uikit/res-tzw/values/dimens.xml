@@ -86,6 +86,8 @@
     <dimen name="sns_input_bottom">3dp</dimen>
     <dimen name="sns_input_divider">8dp</dimen>
 
+    <dimen name="sns_input_icon_padding">4dp</dimen>
+
 
     <dimen name="sns_dialog_corners_me">-1.5dp</dimen>
     <dimen name="sns_dialog_corners_border_small">-1.5dp</dimen>

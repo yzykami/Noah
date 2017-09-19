@@ -5,8 +5,8 @@
     <dimen name="def_height">50dp</dimen>
     <dimen name="avatarSize">50dp</dimen>
     <dimen name="smallSpace">6dp</dimen>
-    <dimen name="recentContactHeight">66dp</dimen>
-    <dimen name="recentContactHeight2">67dp</dimen>
+    <dimen name="recentContactHeight">60dp</dimen>
+    <dimen name="recentContactHeight2">61dp</dimen>
 
 
     <dimen name="dp_066">0.66dp</dimen>

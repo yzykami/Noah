@@ -39,9 +39,11 @@ import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.SystemMessageService;
 import com.tzw.noah.appupdate.UpdateManager;
+import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.ui.circle.CirileMainActivity;
 import com.tzw.noah.ui.friend.FriendMainActivity;
 import com.tzw.noah.ui.home.HomeMainActivity;
+import com.tzw.noah.ui.mine.LoginActivity;
 import com.tzw.noah.ui.mine.MineMainActivity;
 import com.tzw.noah.ui.service.ServiceMainActivity;
 import com.tzw.noah.ui.sns.SnsMainActivity;
@@ -192,6 +194,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
     }
 
 
+    private int login_requestcode =100;
     View.OnClickListener l = new View.OnClickListener() {
 
         public void onClick(View arg0) {
@@ -228,6 +231,14 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 
             } else if (arg0 == layout3) {
 
+                if(!UserCache.isLogin())
+                {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, login_requestcode);
+                    return;
+                }
+
+
                 tabHost.setCurrentTabByTag("3");
 
                 iv_home.setImageResource(R.drawable.tab_home);
@@ -241,6 +252,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
                 tab_friend_text.setTextColor(getResources().getColorStateList(R.color.myRed));
                 tab_service_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_mine_text.setTextColor(getResources().getColorStateList(R.color.mygray));
+
             } else if (arg0 == layout4) {
                 tabHost.setCurrentTabByTag("4");
 
@@ -276,26 +288,27 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
     };
 
     private void selectUserTag() {
-        tabHost.setCurrentTabByTag("3");
+        if (UserCache.isLogin())
+            tabHost.setCurrentTabByTag("3");
         tabHost.postDelayed(new Runnable() {
             @Override
             public void run() {
-                tabHost.setCurrentTabByTag("5");
+                selectTag(4);
             }
         }, 100);
 
 
-        iv_home.setImageResource(R.drawable.tab_home);
-        iv_circle.setImageResource(R.drawable.tab_circle);
-        iv_service.setImageResource(R.drawable.tab_service);
-        iv_friend.setImageResource(R.drawable.tab_friend);
-        iv_mine.setImageResource(R.drawable.tab_mine_clicked);
-
-        tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-        tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-        tab_service_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-        tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
-        tab_mine_text.setTextColor(getResources().getColorStateList(R.color.myRed));
+//        iv_home.setImageResource(R.drawable.tab_home);
+//        iv_circle.setImageResource(R.drawable.tab_circle);
+//        iv_service.setImageResource(R.drawable.tab_service);
+//        iv_friend.setImageResource(R.drawable.tab_friend);
+//        iv_mine.setImageResource(R.drawable.tab_mine_clicked);
+//
+//        tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
+//        tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
+//        tab_service_text.setTextColor(getResources().getColorStateList(R.color.mygray));
+//        tab_friend_text.setTextColor(getResources().getColorStateList(R.color.mygray));
+//        tab_mine_text.setTextColor(getResources().getColorStateList(R.color.myRed));
 
     }
 
@@ -412,6 +425,17 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         int unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
         SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unread);
         ReminderManager.getInstance().updateContactUnreadNum(unread);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1) {
+            selectTag(2);
+            return;
+        }
+        else{
+            Toast.makeText(MainActivity.this,"请先登录", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class Monitor implements Runnable {

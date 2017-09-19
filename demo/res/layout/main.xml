@@ -21,9 +21,19 @@
             app:titleTextAppearance="@style/Toolbar.TitleText" />
     </android.support.design.widget.AppBarLayout>
 
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt0"
+        android:background="@color/myRed" />
+
     <include
+        layout="@layout/tzw_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
         android:id="@+id/rl_top"
-        layout="@layout/tzw_top" />
+        android:layout_below="@id/statusBar"
+        />
 
     <com.netease.nim.demo.common.ui.viewpager.PagerSlidingTabStrip
         android:id="@+id/tabs"

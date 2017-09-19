@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.$Gson$Types;
+import com.tzw.noah.logger.Log;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -30,7 +31,7 @@ public class IMsg extends JsonTool implements Serializable {
     private String msg = "";
     private Long serverTime = -1l;
 
-    private JsonElement result;
+    public JsonElement result;
     private JsonElement json;
     private JsonElement jobj;
 
@@ -62,6 +63,7 @@ public class IMsg extends JsonTool implements Serializable {
         try {
             return gson.fromJson(result.getAsJsonObject().getAsJsonArray(path), t);
         } catch (Exception e) {
+            Log.log("MediaComment",e);
             return (T) new ArrayList<Object>();
         }
     }
@@ -157,5 +159,21 @@ public class IMsg extends JsonTool implements Serializable {
 
     public String toString() {
         return jsonStr;
+    }
+
+    public void systemOut() {
+        int maxlength = 4000;
+        int index = 0;
+        while (jsonStr.length() > index) {
+            String s = "";
+            if (jsonStr.length() - index > maxlength) {
+                s = jsonStr.substring(index, maxlength + index);
+                index += maxlength;
+            } else {
+                s = jsonStr.substring(index, jsonStr.length());
+                index = jsonStr.length();
+            }
+            System.out.println("yzy_test_article_" + s);
+        }
     }
 }

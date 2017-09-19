@@ -26,8 +26,8 @@
 
             <com.netease.nim.uikit.common.ui.imageview.HeadImageView
                 android:id="@+id/img_head"
-                android:layout_width="@dimen/avatar_size_default"
-                android:layout_height="@dimen/avatar_size_default"
+                android:layout_width="@dimen/head"
+                android:layout_height="@dimen/head"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/headPadding"
                 android:layout_marginRight="@dimen/headPadding" />
@@ -36,8 +36,8 @@
                 android:id="@+id/unread_number_tip"
                 android:layout_width="22dip"
                 android:layout_height="22dip"
-                android:layout_marginLeft="39.6776dp"
-                android:layout_marginTop="4.3223dp"
+                android:layout_marginLeft="34.97dp"
+                android:layout_marginTop="1.03dp"
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="@android:color/white"

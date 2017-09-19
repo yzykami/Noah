@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,13 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.tzw.noah.R;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.mine.LoginActivity;
 import com.tzw.noah.ui.mine.setting.SafeActivity;
+import com.tzw.noah.utils.StatusBarUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,15 +36,43 @@ import okhttp3.Call;
  * Created by yzy on 2017/6/9.
  */
 
-public class MyBaseActivity extends AppCompatActivity {
+public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.StatusBarProvider {
+    public static final int LOGINFAILURE = 0;
     public static final int LOGINSUCCEED = 1;
     public static final int LOGOUT = 2;
-    public static boolean isNetWorkConnected;
+    public static final int MAKESURELOGINCODE = 888;
 
+    public static boolean isNetWorkConnected;
 
     public Map<Object, Object> classMap;
     private Object classType;
-    private static int statusBarHeight=-1;
+    private static int statusBarHeight = -1;
+
+    private View statusBar;
+
+    public interface LoginListener {
+        public void onLogin(boolean isLogin);
+    }
+
+    protected LoginListener mLoginListener;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+    }
+
+    public void setStatusBarLightMode() {
+        if (statusBar == null)
+            statusBar = findViewById(R.id.statusBar);
+        StatusBarUtil.transparencyBar(this);
+        StatusBarUtil.StatusBarLightMode(this);
+        setStatusBarHeight(statusBar);
+    }
+
+    @Override
+    public View getStatusBar() {
+        return statusBar;
+    }
 
     public void handle_back(View v) {
         showKeyboard(false);
@@ -97,7 +129,7 @@ public class MyBaseActivity extends AppCompatActivity {
     }
 
     //不需要登录
-    public void startActivity2(Class<?> cls,Bundle bu) {
+    public void startActivity2(Class<?> cls, Bundle bu) {
         Intent intent = new Intent(this, cls);
         if (bu != null)
             intent.putExtras(bu);
@@ -139,13 +171,27 @@ public class MyBaseActivity extends AppCompatActivity {
         if (resultCode == LOGINSUCCEED) {
             onActivityResultBack(requestCode);
             return;
+        } else if (resultCode == LOGINFAILURE) {
+            if (mLoginListener != null)
+                mLoginListener.onLogin(false);
         }
+    }
+
+    protected boolean makesureLogin() {
+        return checkLogin(MAKESURELOGINCODE, null, null);
     }
 
     private void onActivityResultBack(int requestCode) {
         ClassMap o = (ClassMap) classMap.get(requestCode);
         Class<?> cls = o.getClassType();
         int real_requestcode = o.getRealRequestCode();
+
+        if (real_requestcode == MAKESURELOGINCODE) {
+            if (mLoginListener != null)
+                mLoginListener.onLogin(true);
+            return;
+        }
+
         Bundle bu = o.getBunndle();
         Intent intent = new Intent(this, cls);
         if (bu != null)
@@ -181,6 +227,7 @@ public class MyBaseActivity extends AppCompatActivity {
     }
 
     Handler handler;
+
     protected final Handler getHandler() {
         if (handler == null) {
             handler = new Handler(getMainLooper());
@@ -188,7 +235,7 @@ public class MyBaseActivity extends AppCompatActivity {
         return handler;
     }
 
-    protected void showKeyboard(boolean isShow) {
+    public void showKeyboard(boolean isShow) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (isShow) {
             if (getCurrentFocus() == null) {
@@ -224,9 +271,29 @@ public class MyBaseActivity extends AppCompatActivity {
         }, 200);
     }
 
-    public int getStatusBarHeight()
-    {
-        if(statusBarHeight==-1) {
+    /**
+     * 延时弹出键盘
+     *
+     * @param focus 键盘的焦点项
+     */
+    protected void showKeyboardDelayed(View focus, int time) {
+        final View viewToFocus = focus;
+        if (focus != null) {
+            focus.requestFocus();
+        }
+
+        getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (viewToFocus == null || viewToFocus.isFocused()) {
+                    showKeyboard(true);
+                }
+            }
+        }, time);
+    }
+
+    public int getStatusBarHeight() {
+        if (statusBarHeight == -1) {
             // 获取状态栏高度
             //获取status_bar_height资源的ID
             int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -239,6 +306,8 @@ public class MyBaseActivity extends AppCompatActivity {
     }
 
     public void setStatusBarHeight(View view) {
+        if (view == null)
+            return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             ViewGroup.LayoutParams layoutParams = (ViewGroup.LayoutParams) view.getLayoutParams();
             layoutParams.height = getStatusBarHeight();

@@ -33,19 +33,16 @@
 
     <!-- SDK权限申明, 第三方APP接入时，请将com.netease.nim.demo替换为自己的包名 -->
     <!-- 和下面的uses-permission一起加入到你的AndroidManifest文件中。 -->
-    <!--<permission-->
-    <!--android:name="com.netease.nim.demo.permission.RECEIVE_MSG"-->
-    <!--android:protectionLevel="signature"/>-->
-
-    <!--&lt;!&ndash; 接受SDK消息广播权限， 第三方APP接入时，请将com.netease.nim.demo替换为自己的包名 &ndash;&gt;-->
-    <!--<uses-permission android:name="com.netease.nim.demo.permission.RECEIVE_MSG"/>-->
-
-    <!--&lt;!&ndash; 小米推送 &ndash;&gt;-->
-    <!--<permission-->
-    <!--android:name="com.netease.nim.demo.permission.MIPUSH_RECEIVE"-->
-    <!--android:protectionLevel="signature"/>-->
-    <!--<uses-permission android:name="com.netease.nim.demo.permission.MIPUSH_RECEIVE"/>-->
-
+    <!-- <permission -->
+    <!-- android:name="com.netease.nim.demo.permission.RECEIVE_MSG" -->
+    <!-- android:protectionLevel="signature"/> -->
+    <!-- &lt;!&ndash; 接受SDK消息广播权限， 第三方APP接入时，请将com.netease.nim.demo替换为自己的包名 &ndash;&gt; -->
+    <!-- <uses-permission android:name="com.netease.nim.demo.permission.RECEIVE_MSG"/> -->
+    <!-- &lt;!&ndash; 小米推送 &ndash;&gt; -->
+    <!-- <permission -->
+    <!-- android:name="com.netease.nim.demo.permission.MIPUSH_RECEIVE" -->
+    <!-- android:protectionLevel="signature"/> -->
+    <!-- <uses-permission android:name="com.netease.nim.demo.permission.MIPUSH_RECEIVE"/> -->
     <application>
         <!--android:name=".NimApplication"-->
         <!--android:allowBackup="true"-->
@@ -330,36 +327,36 @@
         <!-- 声明云信后台服务 -->
         <service
             android:name="com.netease.nimlib.service.NimService"
-            android:process=":core"/>
+            android:process=":core" />
 
         <!-- 运行后台辅助服务 -->
         <service
             android:name="com.netease.nimlib.service.NimService$Aux"
-            android:process=":core"/>
+            android:process=":core" />
 
         <!-- 声明云信后台辅助服务 -->
         <service
-        android:name="com.netease.nimlib.job.NIMJobService"
-        android:exported="true"
-        android:permission="android.permission.BIND_JOB_SERVICE"
-        android:process=":core"/>
+            android:name="com.netease.nimlib.job.NIMJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":core" />
 
         <!-- 云信SDK的监视系统启动和网络变化的广播接收器，用户开机自启动以及网络变化时候重新登录 -->
         <receiver
-        android:name="com.netease.nimlib.service.NimReceiver"
-        android:exported="false"
-        android:process=":core">
-        <intent-filter>
-        <action android:name="android.intent.action.BOOT_COMPLETED"/>
-        <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-        </intent-filter>
+            android:name="com.netease.nimlib.service.NimReceiver"
+            android:exported="false"
+            android:process=":core" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
         </receiver>
 
         <!-- 云信进程间通信receiver -->
-        <receiver android:name="com.netease.nimlib.service.ResponseReceiver"/>
+        <receiver android:name="com.netease.nimlib.service.ResponseReceiver" />
 
         <!-- 云信进程间通信service -->
-        <service android:name="com.netease.nimlib.service.ResponseService"/>
+        <service android:name="com.netease.nimlib.service.ResponseService" />
 
         <!--&lt;!&ndash; 申明自定义通知的广播接收器，第三方APP集成时，action中的com.netease.nim.demo请替换为自己的包名 &ndash;&gt;-->
         <!--&lt;!&ndash; 需要权限申明 <uses-permission android:name="com.netease.nim.demo.permission.RECEIVE_MSG"/> &ndash;&gt;-->
@@ -390,7 +387,7 @@
         <!--</intent-filter>-->
         <!--</receiver>-->
 
-        <!--&lt;!&ndash; 小米推送配置 &ndash;&gt;-->
+        <!-- 小米推送配置 -->
         <!--<service-->
         <!--android:name="com.xiaomi.push.service.XMJobService"-->
         <!--android:enabled="true"-->

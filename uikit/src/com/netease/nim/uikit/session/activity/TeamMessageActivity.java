@@ -97,7 +97,13 @@ public class TeamMessageActivity extends BaseMessageActivity {
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NimUIKit.onShowTeam(mContext, sessionId);
+                if (team.isMyTeam())
+                    NimUIKit.onShowTeam(mContext, sessionId);
+                else {
+                    String tip = getResources().getString(team.getType() == TeamTypeEnum.Normal ? R.string.normal_team_invalid_tip : R.string.team_invalid_tip);
+                    Toast.makeText(mContext, tip, Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         iv_add.setImageResource(R.drawable.sns_group_info);

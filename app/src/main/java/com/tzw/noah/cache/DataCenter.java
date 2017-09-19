@@ -2,7 +2,9 @@ package com.tzw.noah.cache;
 
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
+import com.tzw.noah.models.MediaComment;
 import com.tzw.noah.models.User;
+import com.tzw.noah.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,34 @@ public class DataCenter {
         return instance;
     }
 
-    public static int pagesize=5;
+    public static int screenWidth = Utils.getSrceenWidth();
+    public static int pagesize = 10;
+    public static int service_pagesize = 10;
+    public static int mRadius = 6;
+    public static String prefix = "http://taizhouwang.oss-cn-beijing.aliyuncs.com";
+    public static String subfix = "?x-oss-process=image/resize,w_300";
+    public static String subfix_big = "?x-oss-process=image/resize,w_" + screenWidth;
+    public static String subfix_round = subfix_big + "/rounded-corners,r_" + mRadius;
+
+    public static boolean isAliyunPic(String url) {
+        if (url.startsWith(prefix))
+            return true;
+        return false;
+    }
+
+    public static String formatAliyunPic(String url) {
+        if (isAliyunPic(url))
+            url += subfix_round;
+        return url;
+    }
+
+    public static String recoveryAliyunPic(String url) {
+        if (url.endsWith(subfix_round)) {
+            int i = url.indexOf(subfix_round);
+            url = url.substring(0, 1);
+        }
+        return url;
+    }
 
     List<User> friendList;
     List<User> followList;
@@ -148,5 +177,15 @@ public class DataCenter {
 
     public void setMemberList(List<GroupMember> menberList) {
         this.memberList = menberList;
+    }
+
+    MediaComment mMediaComment;
+
+    public void setMediaComment(MediaComment mediaComment) {
+        mMediaComment = mediaComment;
+    }
+
+    public MediaComment getMediaComment() {
+        return mMediaComment;
     }
 }

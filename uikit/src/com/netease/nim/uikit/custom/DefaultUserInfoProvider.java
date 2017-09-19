@@ -2,14 +2,23 @@ package com.netease.nim.uikit.custom;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.text.TextUtils;
 
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.cache.NimUserInfoCache;
+import com.netease.nim.uikit.cache.TZWTeamCache;
 import com.netease.nim.uikit.cache.TeamDataCache;
+import com.netease.nim.uikit.tzw_relative.Group;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
@@ -47,7 +56,7 @@ public class DefaultUserInfoProvider implements UserInfoProvider {
     public String getDisplayNameForMessageNotifier(String account, String sessionId, SessionTypeEnum sessionType) {
         String nick = null;
         if (sessionType == SessionTypeEnum.P2P) {
-            nick = NimUserInfoCache.getInstance().getAlias(account);
+            nick = NimUserInfoCache.getInstance().getUserDisplayName(account);
         } else if (sessionType == SessionTypeEnum.Team) {
             nick = TeamDataCache.getInstance().getDisplayNameWithoutMe(sessionId, account);
         }
@@ -77,16 +86,50 @@ public class DefaultUserInfoProvider implements UserInfoProvider {
         if (team != null) {
             Bitmap bm = NimUIKit.getImageLoaderKit().getNotificationBitmapFromCache(team.getIcon());
             if (bm != null) {
-                return bm;
+                return getOvalBitmap(bm);
             }
         }
 
+        int resId = R.drawable.nim_avatar_group;
+        Group group =null;
+        if(team!=null)
+            group = TZWTeamCache.getInstance().getTeamByAccount(team.getId());
+        if (group != null) {
+            if (group.groupAttribute == Group.Type.GROUP) {
+                resId = R.drawable.nim_avatar_group;
+            } else {
+                resId = R.drawable.sns_discuss_default;
+            }
+        }
         // 默认图
-        Drawable drawable = context.getResources().getDrawable(R.drawable.nim_avatar_group);
+        Drawable drawable = context.getResources().getDrawable(resId);
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
         }
 
         return null;
+    }
+
+    public static Bitmap getOvalBitmap(Bitmap bitmap){
+
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+                .getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        final RectF rectF = new RectF(rect);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+
+        canvas.drawOval(rectF, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
     }
 }

@@ -56,7 +56,7 @@ public class CustomAlertDialog extends AlertDialog {
 
 	private OnItemClickListener itemListener;
 
-	private int defaultColor = R.color.color_black_333333;
+	private int defaultColor = R.color.textDarkGray;
 
 	public CustomAlertDialog(Context context) {
 		super(context, R.style.dialog_default_style);

@@ -19,11 +19,12 @@
     <color name="tabcolorbg">#000000</color>
     <color name="white">#ffffff</color>
     <color name="myblack">#000000</color>
+    <color name="myBlue">#005ca3</color>
     <color name="myRed">#DA251C</color>
     <color name="bg_light">#F4F4F4</color>
     <color name="bg_darkLight">#cccccc</color>
-    <color name="textDarkGray">#666666</color>
-    <color name="textLightGray">#999999</color>
+    <color name="textDarkGray">#101010</color>
+    <color name="textLightGray">#bbbbbb</color>
     <color name="textLightLightGray">#bfbfbf</color>
     <color name="mask">#30666666</color>
 </resources>
