@@ -1,0 +1,179 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/statusBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt0"
+            android:background="@color/white" />
+
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="投诉"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/text_title" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/btn_title_width"
+                android:layout_height="@dimen/btn_title_height"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_left_btn_left_bj"
+                android:clickable="true"
+                android:onClick="handle_back"
+                android:paddingBottom="@dimen/pt8"
+                android:paddingLeft="@dimen/pt13"
+                android:paddingRight="@dimen/pt13"
+                android:paddingTop="@dimen/pt8"
+                android:src="@drawable/back_gray" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_pic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="@dimen/pt50"
+                    android:layout_height="@dimen/pt50"
+                    android:layout_marginBottom="@dimen/pt5"
+                    android:layout_marginLeft="@dimen/pt15"
+                    android:src="@drawable/sns_add_person" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/pt15"
+            android:gravity="center"
+            android:paddingBottom="@dimen/pt10"
+            android:paddingTop="@dimen/pt10"
+            android:text="请选择投诉原因"
+            android:textColor="@color/textLightGray"
+            android:textSize="@dimen/text_comment" />
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/pt15"
+            android:layout_marginRight="@dimen/pt25"
+            android:layout_marginTop="@dimen/pt4"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="-8dp"
+                android:paddingBottom="@dimen/pt2"
+                android:paddingLeft="@dimen/pt8"
+                android:paddingRight="@dimen/pt8"
+                android:paddingTop="@dimen/pt2"
+                android:src="@drawable/mine_login_uncheck" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/pt0"
+                android:gravity="center"
+                android:hint=""
+                android:text="生成网络诊断报告（将耗时约45秒）"
+                android:textColor="@color/textLightGray"
+                android:textSize="@dimen/sp10" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/pt15"
+            android:layout_marginRight="@dimen/pt25"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="-8dp"
+                android:paddingBottom="@dimen/pt2"
+                android:paddingLeft="@dimen/pt8"
+                android:paddingRight="@dimen/pt8"
+                android:paddingTop="@dimen/pt2"
+                android:src="@drawable/mine_login_uncheck" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/pt0"
+                android:gravity="center"
+                android:hint=""
+                android:text="上传本地日子（大约50KB）"
+                android:textColor="@color/textLightGray"
+                android:textSize="@dimen/sp10" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="fill_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="@dimen/pt25"
+            android:layout_marginRight="@dimen/pt25"
+            android:layout_marginTop="@dimen/pt10"
+            android:background="@drawable/bg_red_fill_round"
+            android:gravity="center"
+            android:hint=""
+            android:onClick="handle_submit"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+    </LinearLayout>
+</ScrollView>

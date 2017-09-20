@@ -12,6 +12,7 @@ public interface MediaArticleDetailListener {
     void onLikeClick(int position, Object o);
     void onWebViewLoadComplete();
     void onLikeMemberClick(int position, Object o);
-
     void onCommentClick(int adapterPosition, MediaComment data);
+    void onComplaintClick();
+
 }

@@ -186,7 +186,7 @@ public class FileUtil {
         return stringBuffer.toString();
     }
 
-    public static void copyDBFromRaw(Context context, int id, String dbname, String dbDir) {
+    public static void copyDBFromRaw(Context context, int id, String dbname, String dbDir, boolean beForceOverwrite) {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
@@ -204,7 +204,7 @@ public class FileUtil {
             stringBuffer.append(dbname);
             File file = new File(stringBuffer.toString());
             //数据库不存在，则进行拷贝数据库的操作。
-            if (!file.exists() || file.length() == 0) {
+            if (!file.exists() || file.length() == 0 || beForceOverwrite) {
                 inputStream = context.getResources().openRawResource(id);
                 outputStream = new FileOutputStream(file.getAbsolutePath());
                 byte[] b = new byte[1024];
@@ -233,11 +233,15 @@ public class FileUtil {
     }
 
     public static void copyDBFromRaw() {
-        copyDBFromRaw(AppContext.getContext(), R.raw.systemcache, "systemcache.db", "");
+        copyDBFromRaw(AppContext.getContext(), R.raw.systemcache, "systemcache.db", "", false);
+    }
+
+    public static void overwriteDBFromRaw() {
+        copyDBFromRaw(AppContext.getContext(), R.raw.systemcache, "systemcache.db", "", true);
     }
 
     public static void copySnsDBFromRaw(String dbDir) {
-        copyDBFromRaw(AppContext.getContext(), R.raw.sns, "sns.db", dbDir);
+        copyDBFromRaw(AppContext.getContext(), R.raw.sns, "sns.db", dbDir, false);
     }
 
     public static String readInternalFile(String filename) {

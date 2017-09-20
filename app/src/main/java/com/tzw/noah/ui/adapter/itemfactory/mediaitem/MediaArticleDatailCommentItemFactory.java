@@ -141,13 +141,13 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
                         tv.setVisibility(View.GONE);
                     } else {
                         tv.setVisibility(View.VISIBLE);
-//                        tv.setText(getClickableSpan(0, replys.get(i).memberNickName.length(), replys.get(i).memberNickName + ":   " + replys.get(i).commentContent));
-//                        tv.setMovementMethod(LinkMovementMethod.getInstance());
-                        tv.setText(replys.get(i).memberNickName + ":   " +replys.get(i).commentContent);
+                        tv.setText(getClickableSpan(0, replys.get(i).memberNickName.length(), replys.get(i).memberNickName + ":   " + replys.get(i).commentContent));
+                        tv.setMovementMethod(LinkMovementMethod.getInstance());
+//                        tv.setText(replys.get(i).memberNickName + ":   " +replys.get(i).commentContent);
                     }
                 }
             }
-            if (mc.repliesNumber >= 1) {
+            if (mc.repliesNumber >= 3) {
                 tvSeeall.setVisibility(View.VISIBLE);
                 tvSeeall.setText("查看全部" + mc.repliesNumber + "条回复");
             }

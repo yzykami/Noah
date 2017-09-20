@@ -105,6 +105,15 @@ public class MediaArticleLikeItemFatory extends AssemblyRecyclerItemFactory<Medi
                     }
                 }
             });
+            tvComplaint.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mMediaListListener!=null)
+                    {
+                        mMediaListListener.onComplaintClick();
+                    }
+                }
+            });
         }
 
         public void refreshData(MediaArticle mediaArticle) {

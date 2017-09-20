@@ -56,7 +56,7 @@ public class ImageOptions {
     public static final int WINDOW_BACKGROUND = 103;
 
     /**
-     * 圆角矩形
+     * tab_home_clicked_2
      */
     public static final int ROUND_RECT = 104;
 

@@ -171,7 +171,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         iv_service = (ImageView) findViewById(R.id.iv_service);
         iv_friend = (ImageView) findViewById(R.id.iv_friend);
         iv_mine = (ImageView) findViewById(R.id.iv_mine);
-        iv_home.setImageResource(R.drawable.tab_home_clicked);
+        iv_home.setImageResource(R.drawable.tab_home_clicked_2);
 
         iv_navi = (ImageView) findViewById(R.id.iv_navi);
 //        tab1 = (View) findViewById(R.id.tab1);
@@ -201,11 +201,11 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
             if (arg0 == layout1) {
                 tabHost.setCurrentTabByTag("1");
 
-                iv_home.setImageResource(R.drawable.tab_home_clicked);
-                iv_circle.setImageResource(R.drawable.tab_circle);
-                iv_service.setImageResource(R.drawable.tab_service);
-                iv_friend.setImageResource(R.drawable.tab_friend);
-                iv_mine.setImageResource(R.drawable.tab_mine);
+                iv_home.setImageResource(R.drawable.tab_home_clicked_2);
+                iv_circle.setImageResource(R.drawable.tab_circle_2);
+                iv_service.setImageResource(R.drawable.tab_service_2);
+                iv_friend.setImageResource(R.drawable.tab_friend_2);
+                iv_mine.setImageResource(R.drawable.tab_mine_2);
 
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.myRed));
@@ -217,11 +217,11 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
             } else if (arg0 == layout2) {
                 tabHost.setCurrentTabByTag("2");
 
-                iv_home.setImageResource(R.drawable.tab_home);
-                iv_circle.setImageResource(R.drawable.tab_circle_clicked);
-                iv_service.setImageResource(R.drawable.tab_service);
-                iv_friend.setImageResource(R.drawable.tab_friend);
-                iv_mine.setImageResource(R.drawable.tab_mine);
+                iv_home.setImageResource(R.drawable.tab_home_2);
+                iv_circle.setImageResource(R.drawable.tab_circle_clicked_2);
+                iv_service.setImageResource(R.drawable.tab_service_2);
+                iv_friend.setImageResource(R.drawable.tab_friend_2);
+                iv_mine.setImageResource(R.drawable.tab_mine_2);
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_circle_text.setTextColor(getResources().getColorStateList(R.color.myRed));
@@ -241,11 +241,11 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 
                 tabHost.setCurrentTabByTag("3");
 
-                iv_home.setImageResource(R.drawable.tab_home);
-                iv_circle.setImageResource(R.drawable.tab_circle);
-                iv_friend.setImageResource(R.drawable.tab_friend_clicked);
-                iv_service.setImageResource(R.drawable.tab_service);
-                iv_mine.setImageResource(R.drawable.tab_mine);
+                iv_home.setImageResource(R.drawable.tab_home_2);
+                iv_circle.setImageResource(R.drawable.tab_circle_2);
+                iv_friend.setImageResource(R.drawable.tab_friend_clicked_2);
+                iv_service.setImageResource(R.drawable.tab_service_2);
+                iv_mine.setImageResource(R.drawable.tab_mine_2);
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
@@ -256,11 +256,11 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
             } else if (arg0 == layout4) {
                 tabHost.setCurrentTabByTag("4");
 
-                iv_home.setImageResource(R.drawable.tab_home);
-                iv_circle.setImageResource(R.drawable.tab_circle);
-                iv_friend.setImageResource(R.drawable.tab_friend);
-                iv_service.setImageResource(R.drawable.tab_service_clicked);
-                iv_mine.setImageResource(R.drawable.tab_mine);
+                iv_home.setImageResource(R.drawable.tab_home_2);
+                iv_circle.setImageResource(R.drawable.tab_circle_2);
+                iv_friend.setImageResource(R.drawable.tab_friend_2);
+                iv_service.setImageResource(R.drawable.tab_service_clicked_2);
+                iv_mine.setImageResource(R.drawable.tab_mine_2);
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
@@ -271,11 +271,11 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 
                 tabHost.setCurrentTabByTag("5");
 
-                iv_home.setImageResource(R.drawable.tab_home);
-                iv_circle.setImageResource(R.drawable.tab_circle);
-                iv_service.setImageResource(R.drawable.tab_service);
-                iv_friend.setImageResource(R.drawable.tab_friend);
-                iv_mine.setImageResource(R.drawable.tab_mine_clicked);
+                iv_home.setImageResource(R.drawable.tab_home_2);
+                iv_circle.setImageResource(R.drawable.tab_circle_2);
+                iv_service.setImageResource(R.drawable.tab_service_2);
+                iv_friend.setImageResource(R.drawable.tab_friend_2);
+                iv_mine.setImageResource(R.drawable.tab_mine_clicked_2);
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
                 tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));
@@ -302,7 +302,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 //        iv_circle.setImageResource(R.drawable.tab_circle);
 //        iv_service.setImageResource(R.drawable.tab_service);
 //        iv_friend.setImageResource(R.drawable.tab_friend);
-//        iv_mine.setImageResource(R.drawable.tab_mine_clicked);
+//        iv_mine.setImageResource(R.drawable.tab_mine_clicked_2);
 //
 //        tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
 //        tab_circle_text.setTextColor(getResources().getColorStateList(R.color.mygray));

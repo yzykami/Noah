@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.tzw.noah.AppContext;
 import com.tzw.noah.utils.DeviceUuidFactory;
+import com.tzw.timeselector.Utils.TextUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -717,7 +718,6 @@ public class NetHelper {
         String bodyName = "articleCommentSObj";
         new WIRequest().Post(method, body, bodyName, callback);
     }
-
     //获取点赞列表
     //media/evaluateList/{$articleEvaluateId}/{$articleId}/{$pagesize}
     public void mediaLikeList(int articleId, int articleEvaluateId, int pagesize, Callback callback) {
@@ -737,5 +737,19 @@ public class NetHelper {
     public void mediaCommentList(int articleId, int beArticleCommentId ,int articleCommntId, int pagesize, Callback callback) {
         String method = "media/revertList/" + articleId + "/" + beArticleCommentId+ "/" + articleCommntId + "/" + pagesize;
         new WIRequest().Get(method, callback);
+    }
+
+    // 文章评论
+    //media/complain
+    public void mediaComplaint(int articleId, String type ,String content, Callback callback) {
+        String method = "media/complain";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("complaintsObjectId", articleId));
+        body.add(new Param("complaintsType", type));
+        if(!TextUtil.isEmpty(content)) {
+            body.add(new Param("complaintsValue", content));
+        }
+        String bodyName = "complainSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
     }
 }

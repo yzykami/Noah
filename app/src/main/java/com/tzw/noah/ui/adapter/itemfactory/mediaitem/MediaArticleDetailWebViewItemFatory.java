@@ -23,6 +23,7 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
 
     private MediaArticleDetailListener mMediaListListener;
     private int height;
+    public GalleryItem item;
 
     public MediaArticleDetailWebViewItemFatory(MediaArticleDetailListener mMediaListListener) {
         this.mMediaListListener = mMediaListListener;
@@ -37,8 +38,7 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
 
     @Override
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
-
-        return new GalleryItem(R.layout.webview2, viewGroup);
+        return item =new GalleryItem(R.layout.webview2, viewGroup);
     }
 
     public class GalleryItem extends BindAssemblyRecyclerItem<MediaArticle> {
@@ -48,6 +48,11 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
         MyWebView webView;
 
         Context mContext;
+
+        public MyWebView getWebView()
+        {
+            return webView;
+        }
 
         public GalleryItem(int itemLayoutId, ViewGroup parent) {
             super(itemLayoutId, parent);

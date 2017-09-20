@@ -43,6 +43,7 @@ import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleLikeItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListTxtItemFatory;
+import com.tzw.noah.widgets.MyWebView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,6 +97,7 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
     private boolean loginState;
 
     private int commentId = 0;
+    private MediaArticleDetailWebViewItemFatory webViewItemFatory;
 
     public static HomeDetailActivity getInstance() {
         if (instance == null) {
@@ -227,7 +229,7 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
         adapter = new AssemblyRecyclerAdapter(items);
         adapter.addItemFactory(new MediaArticleDetailTitleItemFatory(this));
-        adapter.addItemFactory(new MediaArticleDetailWebViewItemFatory(this));
+        adapter.addItemFactory(webViewItemFatory = new MediaArticleDetailWebViewItemFatory(this));
         adapter.addItemFactory(new MediaArticleKeywordItemFatory(this));
         adapter.addItemFactory(new MediaArticleLikeItemFatory(this));
         adapter.addItemFactory(new MediaArticleDetailDividerItemFatory(this));
@@ -382,6 +384,16 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 //        bu.putSerializable("DATA2", data);
         DataCenter.getInstance().setMediaComment(data);
         startActivity2(CommentListActivity.class);
+    }
+
+    @Override
+    public void onComplaintClick() {
+        if (!makesureLogin()) {
+            return;
+        }
+        Bundle bu = new Bundle();
+        bu.putSerializable("articleId", mediaArticle.articleId);
+        startActivity2(MediaComplaintActivity.class, bu);
     }
 
     @Override
@@ -601,5 +613,16 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(webViewItemFatory!=null)
+        {
+            MyWebView webView =webViewItemFatory.item.getWebView();
+            if(webView!=null)
+                webView.destroy();
+        }
+        super.onDestroy();
     }
 }

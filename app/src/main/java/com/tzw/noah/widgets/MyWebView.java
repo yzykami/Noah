@@ -102,7 +102,10 @@ public class MyWebView extends WebView {
             String url = ele.attr("src");
             ele.attr("src",DataCenter.formatAliyunPic(url));
             ele.attr("width", "100%").attr("height", "auto");
-//            ele.attr("style","width:50%;height:auto" );
+        }
+        Elements videos = jsoup.body().getElementsByTag("video");
+        for (Element ele : videos) {
+            ele.attr("width", "100%").attr("height", "").attr("controls","controls");
         }
         return jsoup.toString();
     }
@@ -175,7 +178,7 @@ public class MyWebView extends WebView {
             int index = 0;
             for (int i = 0; i < imageArrayList.size(); i++) {
                 String imgStr = imageArrayList.get(i).regularUrl;
-                imgStr= URLDecoder.decode(imgStr);
+                imgStr= htmlReplace(imgStr);//URLDecoder.decode(imgStr);
                 if (imgStr.equals(url)) {
                     index = i;
                     break;
@@ -188,6 +191,18 @@ public class MyWebView extends WebView {
 //            intent.setClass(context, ShowImageFromWebActivity.class);
 //            context.startActivity(intent);
         }
+    }
+
+    public String htmlReplace(String str){
+//        str = str.replace("&ldquo;", "“");
+//        str = str.replace("&rdquo;", "”");
+//        str = str.replace("&nbsp;", " ");
+        str = str.replace("&amp;", "&");
+//        str = str.replace("&#39;", "'");
+//        str = str.replace("&rsquo;", "’");
+//        str = str.replace("&mdash;", "—");
+//        str = str.replace("&ndash;", "–");
+        return str;
     }
 
     private class InJavaScriptLocalObj {

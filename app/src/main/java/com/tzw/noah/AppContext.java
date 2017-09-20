@@ -146,7 +146,8 @@ public class AppContext extends Application { //NimApplication {//Application {
         NimUIKit.setGobalObserver(go);
         NimDemo.setGobalObserver(go);
         Log.init();
-        AppCache.firstInstall();
+//        AppCache.firstInstall();
+        new DBInit().systemCacheInit();
         new DBInit().snsInit();
         NimInit.init(instance);
         loadCompeleted = true;

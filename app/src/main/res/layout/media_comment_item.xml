@@ -74,7 +74,7 @@
                 android:layout_marginTop="@dimen/pt6"
                 android:ellipsize="end"
                 android:lineSpacingMultiplier="1.2"
-                android:maxLines="6"
+                android:maxLines="3"
                 android:text="评论内容"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/text_content" />

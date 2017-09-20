@@ -201,6 +201,16 @@ public class DBManager {
         return selectDictionaryList(sql);
     }
 
+    public List<Dict> selectMediaComplaintList() {
+        String sql = "SELECT * FROM Dictionary where dictionaryType ='mediaComplaintsType'";
+        return selectDictionaryList(sql);
+    }
+
+    public List<Dict> selectComplaintList() {
+        String sql = "SELECT * FROM Dictionary where dictionaryType ='complaintsType'";
+        return selectDictionaryList(sql);
+    }
+
     private List<Dict> selectDictionaryList(String sql) {
         //sql = "SELECT * FROM Area"
         ArrayList<Dict> Dicts = new ArrayList<Dict>();
@@ -223,12 +233,22 @@ public class DBManager {
         return Dicts;
     }
 
-    public List<User> getSnsFriendList() {
-        String sql = "select * from memberInfo where memberNo in(select memberNo from MyFriend)";
-        return helper.queryAll(User.class, sql);
-    }
-
-    public void UpdateFriendList(List<User> list) {
-        helper.insert(list, "memberInfo");
+    public int getSystemCacheVersion()
+    {
+        int version = 0;
+        Cursor c = null;
+        try {
+            String sql= "select appCacheVersion from appcache where appcacheid='AllCache'";
+            c = db.rawQuery(sql, null);
+            while (c.moveToNext()) {
+                version = c.getInt(0);
+            }
+        } catch (Exception e) {
+            Log.log("DBManager", e);
+        } finally {
+            if (c != null)
+                c.close();
+        }
+        return version;
     }
 }

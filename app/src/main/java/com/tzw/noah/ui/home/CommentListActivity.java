@@ -380,6 +380,11 @@ public class CommentListActivity extends MyBaseActivity implements MediaArticleD
     }
 
     @Override
+    public void onComplaintClick() {
+
+    }
+
+    @Override
     public void onCommentClick() {
         int position = getfirstPosition(MediaArticle.TYPE_TAG, TAG_COMMENT);
         if (position == -1) {

@@ -59,7 +59,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/WelcomeEntranceActionBarTheme1"
         tools:replace="Android:icon, android:theme">
 
         <!-- 如果IDE是Eclipse，此处可将build.gradle中的AMAP_KEY定义拷贝过来。 -->
@@ -96,6 +96,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.home.HomeDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -106,6 +108,11 @@
             android:name=".ui.home.CommentListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.home.MediaComplaintActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.circle.CirileMainActivity"
             android:screenOrientation="portrait"
@@ -398,7 +405,7 @@
         <activity
             android:name="me.xiaopan.sketchsample.activity.ImageDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.Splash" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -412,30 +419,30 @@
 
         <!--&lt;!&ndash; 声明云信后台服务 &ndash;&gt;-->
         <!--<service-->
-            <!--android:name="com.netease.nimlib.service.NimService"-->
-            <!--android:process=":core" />-->
+        <!--android:name="com.netease.nimlib.service.NimService"-->
+        <!--android:process=":core" />-->
 
         <!--&lt;!&ndash; 运行后台辅助服务 &ndash;&gt;-->
         <!--<service-->
-            <!--android:name="com.netease.nimlib.service.NimService$Aux"-->
-            <!--android:process=":core" />-->
+        <!--android:name="com.netease.nimlib.service.NimService$Aux"-->
+        <!--android:process=":core" />-->
 
         <!--&lt;!&ndash; 声明云信后台辅助服务 &ndash;&gt;-->
         <!--<service-->
-            <!--android:name="com.netease.nimlib.job.NIMJobService"-->
-            <!--android:exported="true"-->
-            <!--android:permission="android.permission.BIND_JOB_SERVICE"-->
-            <!--android:process=":core" />-->
+        <!--android:name="com.netease.nimlib.job.NIMJobService"-->
+        <!--android:exported="true"-->
+        <!--android:permission="android.permission.BIND_JOB_SERVICE"-->
+        <!--android:process=":core" />-->
 
         <!--&lt;!&ndash; 云信SDK的监视系统启动和网络变化的广播接收器，用户开机自启动以及网络变化时候重新登录 &ndash;&gt;-->
         <!--<receiver-->
-            <!--android:name="com.netease.nimlib.service.NimReceiver"-->
-            <!--android:exported="false"-->
-            <!--android:process=":core">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-            <!--</intent-filter>-->
+        <!--android:name="com.netease.nimlib.service.NimReceiver"-->
+        <!--android:exported="false"-->
+        <!--android:process=":core">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
 
         <!--&lt;!&ndash; 云信进程间通信receiver &ndash;&gt;-->
