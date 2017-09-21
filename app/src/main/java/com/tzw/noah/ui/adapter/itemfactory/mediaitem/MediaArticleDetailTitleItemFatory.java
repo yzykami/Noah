@@ -68,9 +68,7 @@ public class MediaArticleDetailTitleItemFatory extends AssemblyRecyclerItemFacto
         @Override
         protected void onSetData(int i, MediaArticle mediaArticle) {
             tv_title.setText(mediaArticle.articleTitle);
-            if(TextUtils.isEmpty(mediaArticle.articleAuthor))
-                mediaArticle.articleAuthor="作者不详";
-            tv_author.setText(mediaArticle.articleAuthor + "  " + Utils.getStandardDate(mediaArticle.createTime));
+            tv_author.setText(mediaArticle.getAuthor() + "  " + Utils.getStandardDate(mediaArticle.createTime));
         }
     }
 }

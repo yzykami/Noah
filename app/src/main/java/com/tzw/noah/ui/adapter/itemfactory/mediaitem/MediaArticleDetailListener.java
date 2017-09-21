@@ -15,4 +15,5 @@ public interface MediaArticleDetailListener {
     void onCommentClick(int adapterPosition, MediaComment data);
     void onComplaintClick();
 
+    void toggledFullscreen(boolean fullscreen);
 }

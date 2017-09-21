@@ -1,7 +1,10 @@
 package com.tzw.noah.ui.adapter.itemfactory.mediaitem;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -10,8 +13,10 @@ import android.widget.Toast;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.MediaArticle;
+import com.tzw.noah.ui.home.HomeDetailActivity;
 import com.tzw.noah.ui.mine.MineMainActivity;
 import com.tzw.noah.widgets.MyWebView;
+import com.tzw.noah.widgets.VideoEnabledWebChromeClient;
 
 import java.util.logging.Handler;
 
@@ -24,8 +29,10 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
     private MediaArticleDetailListener mMediaListListener;
     private int height;
     public GalleryItem item;
+    HomeDetailActivity mActivity;
 
     public MediaArticleDetailWebViewItemFatory(MediaArticleDetailListener mMediaListListener) {
+        mActivity = (HomeDetailActivity) mMediaListListener;
         this.mMediaListListener = mMediaListListener;
     }
 
@@ -38,7 +45,7 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
 
     @Override
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
-        return item =new GalleryItem(R.layout.webview2, viewGroup);
+        return item = new GalleryItem(R.layout.webview2, viewGroup);
     }
 
     public class GalleryItem extends BindAssemblyRecyclerItem<MediaArticle> {
@@ -48,9 +55,9 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
         MyWebView webView;
 
         Context mContext;
+        private VideoEnabledWebChromeClient webChromeClient;
 
-        public MyWebView getWebView()
-        {
+        public MyWebView getWebView() {
             return webView;
         }
 
@@ -67,6 +74,8 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
         protected void onSetData(int i, MediaArticle content) {
             if (height != 0) {
                 ViewGroup.LayoutParams lp = webView.getLayoutParams();
+                if(lp.height!=0)
+                    return;
                 lp.height = height;
                 webView.setLayoutParams(lp);
                 return;
@@ -88,6 +97,8 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
                     webView.setImageClickListner();
                     //解析 HTML
                     webView.parseHTML(view);
+
+                    webView.loadUrl(getOutCss("file:///android_asset/video.css"));
 //                    Toast.makeText(mContext, "old.height = " + height + ",height = " + webView.getHeight(), Toast.LENGTH_SHORT).show();
 
 //                    if (mMediaListListener != null) {
@@ -97,19 +108,45 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
                 }
             });
 
-            webView.setWebChromeClient(new WebChromeClient() {
+            View nonVideoLayout = webView;//findViewById(R.id.nonVideoLayout); // Your own view, read class comments
+            ViewGroup videoLayout = (ViewGroup) mActivity.findViewById(R.id.videoLayout); // Your own view, read class comments
+            //noinspection all
+            View loadingView = mActivity.getLayoutInflater().inflate(R.layout.view_loading_video, null); // Your own view, read class comments
+            webChromeClient = new VideoEnabledWebChromeClient(nonVideoLayout, videoLayout, loadingView, webView) // See all available constructors...
+            {
+                // Subscribe to standard events, such as onProgressChanged()...
                 @Override
-                public void onProgressChanged(WebView view, int newProgress) {
-                    if (newProgress == 100) {
+                public void onProgressChanged(WebView view, int progress) {
+                    // Your code...
+                    if (progress == 100) {
                         if (mMediaListListener != null) {
                             mMediaListListener.onWebViewLoadComplete();
                         }
                         height = webView.getHeight();
-                    } else {
                     }
+                }
+            };
+            webView.setWebChromeClient(webChromeClient);
 
+            webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback() {
+                @Override
+                public void toggledFullscreen(boolean fullscreen) {
+                    if (mMediaListListener != null) {
+                        mMediaListListener.toggledFullscreen(fullscreen);
+                    }
                 }
             });
         }
+    }
+
+    public static String getOutCss(String url) {
+
+        String js = "";
+        js = "javascript:var d=document;" +
+                "var s=d.createElement('link');" +
+                "s.setAttribute('rel', 'stylesheet');" +
+                "s.setAttribute('href', '" + url + "');" +
+                "d.head.appendChild(s);";
+        return js;
     }
 }

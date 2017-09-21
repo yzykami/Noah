@@ -4,12 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tzw.noah.R;
+import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDatailCommentItemFactory;
 import com.tzw.noah.ui.mine.DebugDetailActivity;
 import com.tzw.noah.ui.mine.StringAdapter;
 import com.tzw.noah.utils.FileUtil;
@@ -92,8 +98,30 @@ public class CrashDetailContentFragment extends Fragment {
         ButterKnife.bind(this, view);
         object = mActivity.getObject();
         String content = CrashDetailIndexFragment.getContent((int) object);
-        tv_content.setText(content);
+
+        tv_content.setText(getClickableSpan(content));
         return view;
+    }
+
+    private SpannableString getClickableSpan(String str) {
+        SpannableString spannableString = new SpannableString(str);
+
+        //设置文字的前景色
+        int start = 0;
+        int end = 0;
+        while (end < str.length()) {
+            String s = "com.tzw.noah";
+            int index = str.indexOf(s, end);
+            if (index == -1)
+                break;
+            if (index != start) {
+                start = index;
+                end = start + 12;
+                spannableString.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.myBlue)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+        return spannableString;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

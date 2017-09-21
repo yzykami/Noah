@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -94,6 +95,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 //        } else {
             handleException(ex);
             SystemClock.sleep(500);
+//            Application.finishAllActivities();
             // 退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(1);

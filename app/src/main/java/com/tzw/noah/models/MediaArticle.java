@@ -56,8 +56,25 @@ public class MediaArticle implements Serializable {
     public int isArticleEvaluate;
     public int evaluateValue;
     public int articleCommentSum;
+    public int appListShowType;
 
     public String tag;
+
+    public String getAuthor() {
+        String author = "";
+        if (ifOriginal == 0)
+            author = articleSource;
+        //如果非原创以及source为空
+        if(TextUtils.isEmpty(author))
+            author = articleAuthor;
+
+        if (TextUtils.isEmpty(author))
+            author = "作者不详";
+
+        return author;
+    }
+
+    //文章详情内容分段
     public int TYPE = 0;
     //默认为列表的文章类型
     public final static int TYPE_LIST = 0;
@@ -223,8 +240,10 @@ public class MediaArticle implements Serializable {
 
 
     public int LIST_TYPE;
-    public final static int LIST_TYPE_TXT = 1;
-    public final static int LIST_TYPE_PIC = 2;
+    public final static int LIST_TYPE_TXT = 1131;
+    public final static int LIST_TYPE_PIC_RL = 1132;
+    public final static int LIST_TYPE_PIC_UD = 1134;
+    public final static int LIST_TYPE_PIC_UD_BIG = 1133;
     public final static int LIST_TYPE_VIEWPAGER = 3;
     public final static int LIST_TYPE_KEYWORD = 4;
     public final static int LIST_TYPE_LIKE = 5;
@@ -234,13 +253,26 @@ public class MediaArticle implements Serializable {
     public boolean isListTxt() {
         if (TYPE != TYPE_LIST)
             return false;
-        return LIST_TYPE_TXT == getListType();
+//        return LIST_TYPE_TXT == getListType();
+        return appListShowType == LIST_TYPE_TXT;
     }
 
-    public boolean isListPic() {
+    public boolean isListPicRL() {
         if (TYPE != TYPE_LIST)
             return false;
-        return LIST_TYPE_PIC == getListType();
+        return appListShowType == LIST_TYPE_PIC_RL;
+    }
+
+    public boolean isListPicUD() {
+        if (TYPE != TYPE_LIST)
+            return false;
+        return appListShowType == LIST_TYPE_PIC_UD;
+    }
+
+    public boolean isListPicUDBig() {
+        if (TYPE != TYPE_LIST)
+            return false;
+        return appListShowType == LIST_TYPE_PIC_UD_BIG;
     }
 
     public boolean isListViewpager() {
@@ -274,7 +306,7 @@ public class MediaArticle implements Serializable {
         if (TextUtils.isEmpty(this.appArticleImage)) {
             return LIST_TYPE_TXT;
         } else {
-            return LIST_TYPE_PIC;
+            return LIST_TYPE_PIC_RL;
         }
     }
 
@@ -320,4 +352,21 @@ public class MediaArticle implements Serializable {
 //        ma.TYPE = TYPE_TAG;
 //        return ma;
 //    }
+
+    public int ARTICLE_TYPE;
+    public final static int ARTICLE_TYPE_ARTICLE = 1124;
+    public final static int ARTICLE_TYPE_PICGALLERY = 1126;
+    public final static int ARTICLE_TYPE_VIDEO = 1125;
+
+    public boolean isArticleTypeArticle() {
+        return articleType == ARTICLE_TYPE_ARTICLE;
+    }
+
+    public boolean isArticleTypPicGallery() {
+        return articleType == ARTICLE_TYPE_PICGALLERY;
+    }
+
+    public boolean isArticleTypVideo() {
+        return articleType == ARTICLE_TYPE_VIDEO;
+    }
 }

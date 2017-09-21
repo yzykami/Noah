@@ -26,12 +26,12 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/bjs"
             android:gravity="center"
             android:text="台州网"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_title" />
+            android:textSize="@dimen/text_title"
+            android:layout_alignBottom="@+id/relativeLayout" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -40,7 +40,8 @@
             android:layout_marginLeft="@dimen/bjs"
             android:layout_marginRight="@dimen/bjs"
             android:layout_marginTop="@dimen/pt6"
-            android:layout_toRightOf="@+id/tv_title">
+            android:layout_toRightOf="@+id/tv_title"
+            android:id="@+id/relativeLayout">
 
             <LinearLayout
                 android:layout_width="wrap_content"

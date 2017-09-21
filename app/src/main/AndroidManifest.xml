@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.tzw.noah"
-    android:versionCode="2"
-    android:versionName="1.2.0">
+    android:versionCode="3"
+    android:versionName="1.2.1">
 
     <!-- 加入应用需要的权限 -->
     <!-- 网络相关 -->
@@ -97,7 +97,6 @@
         <activity
             android:name=".ui.home.HomeDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -405,7 +404,7 @@
         <activity
             android:name="me.xiaopan.sketchsample.activity.ImageDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Splash" />
+            android:theme="@style/AppTheme.NoActionBarBlack" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

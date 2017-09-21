@@ -23,12 +23,16 @@ import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.adapter.itemfactory.CircleListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.MemberListItemFactory;
+import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListDefaultItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListGalleryItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicItemFatory;
+import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicUDBigItemFatory;
+import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicUDItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListTxtItemFatory;
 import com.tzw.noah.ui.sns.SnsMainActivity;
 import com.tzw.noah.ui.webview.WebViewActivity;
+import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.DividerItemDecoration;
 import com.tzw.noah.widgets.scrollablelayout.ScrollableHelper;
 
@@ -151,6 +155,7 @@ public class ArticleListFragment extends Fragment implements MediaListListener, 
                     mPtrFrame.refreshComplete();
                     if (iMsg.isSucceed()) {
                         items = MediaArticle.loadList(iMsg);
+                        iMsg.systemOut();
                         if (items == null)
                             items = new ArrayList<MediaArticle>();
                         if (articleId == 0) {
@@ -190,6 +195,9 @@ public class ArticleListFragment extends Fragment implements MediaListListener, 
         adapter.addItemFactory(new MediaListGalleryItemFatory(instance));
         adapter.addItemFactory(new MediaListTxtItemFatory(instance));
         adapter.addItemFactory(new MediaListPicItemFatory(instance));
+        adapter.addItemFactory(new MediaListPicUDItemFatory(instance));
+        adapter.addItemFactory(new MediaListPicUDBigItemFatory(instance));
+        adapter.addItemFactory(new MediaListDefaultItemFatory(instance));
         loadMoreItem = new LoadMoreItemFactory(instance);
         adapter.setLoadMoreItem(loadMoreItem);
 
@@ -227,6 +235,21 @@ public class ArticleListFragment extends Fragment implements MediaListListener, 
 
     @Override
     public void onItemClick(int position, Object o) {
+
+        if(HomeMainActivity.getShowMode()) {
+            Utils.showObjectString(o, activity);
+            return;
+        }
+        if(((MediaArticle)o).isArticleTypVideo())
+        {
+            activity.toast("视频模式未实现");
+            return;
+        }
+        if(((MediaArticle)o).isArticleTypPicGallery())
+        {
+            activity.toast("纯图模式未实现");
+            return;
+        }
         Bundle bu = new Bundle();
         bu.putSerializable("DATA", (MediaArticle)o);
         activity.startActivity2(HomeDetailActivity.class, bu);

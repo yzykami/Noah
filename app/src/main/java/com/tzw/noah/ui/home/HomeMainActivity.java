@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
@@ -38,21 +39,35 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
 
     @BindView(R.id.rl_top)
     RelativeLayout rl_top;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
     @BindView(R.id.statusBar)
     View statusBar;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
     @BindView(R.id.tabs)
     AdvancedPagerSlidingTabStrip tabStrip;
-//    @BindView(R.id.sl_root)
-//    ScrollableLayout sl_root;
-
     Context mContext = HomeMainActivity.this;
+
     String Tag = "HomeMainActivity";
     FragmentViewPagerAdapter fragmentAdapter;
     private int statusBarHeight;
-
     MediaCategory mediaCategory;
+
+//    private static boolean showMode = false;
+
+    private static int showCount = 0;
+
+    private static long currentShowPressedTime = 0;
+
+    public static boolean getShowMode() {
+        if (showCount >= 3 && System.currentTimeMillis() - currentShowPressedTime < 500) {
+//            showMode = false;
+            showCount = 0;
+            return true;
+        }
+        return false;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +90,15 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
     }
 
     private void findview() {
+        tv_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (System.currentTimeMillis() - currentShowPressedTime > 300)
+                    showCount = 1;
+                currentShowPressedTime = System.currentTimeMillis();
+                showCount++;
+            }
+        });
     }
 
     private void initview() {
@@ -144,7 +168,7 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
                             for (int i = 0; i < mediaCategory.children.size(); i++) {
                                 String s = "哈哈";
 //                                if (i % 2 == 0)
-                                    s = "";
+                                s = "";
                                 titles.add(mediaCategory.children.get(i).channelName + s);
 
                                 fragments.add(new ArticleListFragment().setMediaCategory(mediaCategory.children.get(i)));

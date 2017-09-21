@@ -220,16 +220,16 @@ public class CommentListActivity extends MyBaseActivity implements MediaArticleD
 
         adapter = new AssemblyRecyclerAdapter(items);
         adapter.addItemFactory(new MediaArticleDetailTitleItemFatory(this));
-        adapter.addItemFactory(new MediaArticleDetailWebViewItemFatory(this));
-        adapter.addItemFactory(new MediaArticleKeywordItemFatory(this));
-        adapter.addItemFactory(new MediaArticleLikeItemFatory(this));
+//        adapter.addItemFactory(new MediaArticleDetailWebViewItemFatory(this));
+//        adapter.addItemFactory(new MediaArticleKeywordItemFatory(this));
+//        adapter.addItemFactory(new MediaArticleLikeItemFatory(this));
         adapter.addItemFactory(new MediaArticleDetailDividerItemFatory(this));
         adapter.addItemFactory(new MediaArticleDetailTagItemFatory(this));
-        adapter.addItemFactory(new MediaArticleDetailAdvertiseItemFatory(this));
+//        adapter.addItemFactory(new MediaArticleDetailAdvertiseItemFatory(this));
         adapter.addItemFactory(new MediaArticleDatailCommentItemFactory(this));
         adapter.addItemFactory(new MediaArticleDetailSafaItemFatory(this));
-        adapter.addItemFactory(new MediaListTxtItemFatory(this));
-        adapter.addItemFactory(new MediaListPicItemFatory(this));
+//        adapter.addItemFactory(new MediaListTxtItemFatory(this));
+//        adapter.addItemFactory(new MediaListPicItemFatory(this));
 
         if (mMediaComment.repliesNumber > 0) {
             loadMoreItem = new LoadMoreItemFactory(this);
@@ -381,6 +381,11 @@ public class CommentListActivity extends MyBaseActivity implements MediaArticleD
 
     @Override
     public void onComplaintClick() {
+
+    }
+
+    @Override
+    public void toggledFullscreen(boolean fullscreen) {
 
     }
 

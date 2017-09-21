@@ -1,11 +1,15 @@
 package com.tzw.noah.utils;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
+import android.os.Build;
 import android.util.Log;
 
 import com.tzw.noah.AppContext;
@@ -17,6 +21,7 @@ import net.sourceforge.pinyin4j.PinyinHelper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +29,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import me.xiaopan.sketch.drawable.SketchDrawable;
+import me.xiaopan.sketch.drawable.SketchLoadingDrawable;
+import me.xiaopan.sketch.util.SketchUtils;
 
 
 /**
@@ -387,5 +396,27 @@ public class Utils {
             sb.append("前");
         }
         return sb.toString();
+    }
+
+    public static void showObjectString(Object o,Activity activity) {
+        String out = "";
+        if (o != null) {
+            Field[] fields = o.getClass().getFields();
+            for (Field field : fields) {
+                try {
+                    field.setAccessible(true);
+                    out += field.getName() + " = " + field.get(o).toString() + "\r\n";
+                } catch (Exception e) {
+                }
+            }
+        } else
+            out = "null";
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        builder.setMessage(out);
+
+        builder.setNegativeButton("取消", null);
+        builder.show();
     }
 }

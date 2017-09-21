@@ -20,6 +20,7 @@ import com.tzw.noah.utils.FileUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -136,6 +137,9 @@ public class CrashDetailIndexFragment extends Fragment {
                 items.add(ss.substring(0, index));
                 contentItems.add(lines[i]);
             }
+
+        Collections.reverse(items);
+        Collections.reverse(contentItems);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

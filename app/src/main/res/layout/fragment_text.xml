@@ -17,6 +17,6 @@
             android:layout_margin="@dimen/bj"
             android:text=""
             android:textColor="@color/textDarkGray"
-            android:textSize="@dimen/sp14" />
+            android:textSize="@dimen/sp12" />
     </ScrollView>
 </FrameLayout>

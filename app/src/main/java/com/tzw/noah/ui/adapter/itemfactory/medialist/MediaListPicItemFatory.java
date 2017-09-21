@@ -11,9 +11,6 @@ import com.tzw.noah.R;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.utils.Utils;
 
-import java.util.List;
-import java.util.Random;
-
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
 import me.xiaopan.sketchsample.adapter.BindAssemblyRecyclerItem;
@@ -31,7 +28,7 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
     @Override
     public boolean isTarget(Object o) {
         if (o instanceof MediaArticle)
-            return ((MediaArticle) o).isListPic();
+            return ((MediaArticle) o).isListPicRL();
         return false;
     }
 
@@ -56,6 +53,10 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
         TextView tv_time;
         @BindView(R.id.tv_comment_count)
         TextView tv_comment_count;
+        @BindView(R.id.tv_pic_count)
+        TextView tvPicCount;
+        @BindView(R.id.iv_play_icon)
+        ImageView ivPlayIcon;
 
         Context mContext;
 
@@ -111,14 +112,24 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
             }
             tv_title.setText(mediaArticle.articleTitle);
             tv_time.setText(Utils.getStandardDate(mediaArticle.createTime));
-            if(mediaArticle.articleCommentSum==-1)
-            {
+            if (mediaArticle.articleCommentSum == -1) {
                 tv_comment_count.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 tv_comment_count.setVisibility(View.VISIBLE);
             }
             tv_comment_count.setText(mediaArticle.articleCommentSum + "人评");
+
+            if (mediaArticle.isArticleTypPicGallery()) {
+                tvPicCount.setVisibility(View.VISIBLE);
+            }
+            else
+                tvPicCount.setVisibility(View.GONE);
+            if(mediaArticle.isArticleTypVideo())
+            {
+                ivPlayIcon.setVisibility(View.VISIBLE);
+            }
+            else
+                ivPlayIcon.setVisibility(View.GONE);
         }
     }
 }

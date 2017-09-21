@@ -1,12 +1,18 @@
 package com.tzw.noah.widgets;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.RequiresApi;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
@@ -43,6 +49,7 @@ public class MyWebView extends WebView {
     private String url;
     private String longClickUrl;
     private Context context;
+    private VideoEnabledWebChromeClient videoEnabledWebChromeClient;
 
     public MyWebView(Context context) {
         super(context);
@@ -65,6 +72,18 @@ public class MyWebView extends WebView {
         init(context);
     }
 
+    @Override
+    @SuppressLint("SetJavaScriptEnabled")
+    public void setWebChromeClient(WebChromeClient client) {
+        getSettings().setJavaScriptEnabled(true);
+
+        if (client instanceof VideoEnabledWebChromeClient) {
+            this.videoEnabledWebChromeClient = (VideoEnabledWebChromeClient) client;
+        }
+
+        super.setWebChromeClient(client);
+    }
+
     private void init(Context context) {
         this.context = context;
 //        this.setOnLongClickListener(new OnLongClickListener() {
@@ -84,6 +103,8 @@ public class MyWebView extends WebView {
         this.addJavascriptInterface(new MyJavascriptInterface(context), "imageListener");
         //获取 html
         this.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
+        //video全屏处理
+        this.addJavascriptInterface(new JavascriptInterface(), "_VideoEnabledWebView");
     }
 
 
@@ -100,12 +121,21 @@ public class MyWebView extends WebView {
         Elements imgs = jsoup.body().getElementsByTag("img");
         for (Element ele : imgs) {
             String url = ele.attr("src");
-            ele.attr("src",DataCenter.formatAliyunPic(url));
+            ele.attr("src", DataCenter.formatAliyunPic(url));
             ele.attr("width", "100%").attr("height", "auto");
         }
         Elements videos = jsoup.body().getElementsByTag("video");
         for (Element ele : videos) {
-            ele.attr("width", "100%").attr("height", "").attr("controls","controls");
+            ele.attr("width", "100%").attr("height", "").attr("controls", "controls");
+            String def = "file:///android_asset/video_default_bg.jpg";
+            String poster = ele.attr("poster");
+            if (TextUtils.isEmpty(poster))
+                ele.attr("poster", def);
+        }
+
+        Elements tables = jsoup.body().getElementsByTag("table");
+        for (Element ele : tables) {
+            ele.attr("width", "100%");
         }
         return jsoup.toString();
     }
@@ -178,7 +208,7 @@ public class MyWebView extends WebView {
             int index = 0;
             for (int i = 0; i < imageArrayList.size(); i++) {
                 String imgStr = imageArrayList.get(i).regularUrl;
-                imgStr= htmlReplace(imgStr);//URLDecoder.decode(imgStr);
+                imgStr = htmlReplace(imgStr);//URLDecoder.decode(imgStr);
                 if (imgStr.equals(url)) {
                     index = i;
                     break;
@@ -193,7 +223,7 @@ public class MyWebView extends WebView {
         }
     }
 
-    public String htmlReplace(String str){
+    public String htmlReplace(String str) {
 //        str = str.replace("&ldquo;", "“");
 //        str = str.replace("&rdquo;", "”");
 //        str = str.replace("&nbsp;", " ");
@@ -215,6 +245,24 @@ public class MyWebView extends WebView {
         public void showSource(String html) {
             //从 Html 文件中提取页面所有图片对应的地址对象
             getAllImageUrlFromHtml(html);
+        }
+    }
+
+    public class JavascriptInterface {
+        @android.webkit.JavascriptInterface
+        @SuppressWarnings("unused")
+        public void notifyVideoEnd() // Must match Javascript interface method of VideoEnabledWebChromeClient
+        {
+            Log.d("___", "GOT IT");
+            // This code is not executed in the UI thread, so we must force that to happen
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    if (videoEnabledWebChromeClient != null) {
+                        videoEnabledWebChromeClient.onHideCustomView();
+                    }
+                }
+            });
         }
     }
 

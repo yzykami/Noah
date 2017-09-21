@@ -1,6 +1,8 @@
 package com.tzw.noah.ui.home;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.transition.Transition;
@@ -11,10 +13,12 @@ import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Adapter;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
@@ -40,6 +44,7 @@ import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTitleItem
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailWebViewItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleKeywordItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleLikeItemFatory;
+import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListDefaultItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListTxtItemFatory;
@@ -72,6 +77,10 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
     RecyclerView recyclerView;
     @BindView(R.id.rl_bg)
     RelativeLayout rl_bg;
+    @BindView(R.id.videoLayout)
+    RelativeLayout videoLayout;
+    @BindView(R.id.container)
+    RelativeLayout container;
     @BindView(R.id.maskView)
     View maskView;
     Context mContext = HomeDetailActivity.this;
@@ -139,7 +148,7 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
             public void run() {
                 onWebViewLoadComplete();
             }
-        }, 5000);
+        }, 4000);
     }
 
     private void loadData() {
@@ -240,6 +249,7 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
         adapter.addItemFactory(new MediaListTxtItemFatory(this));
         adapter.addItemFactory(new MediaListPicItemFatory(this));
+        adapter.addItemFactory(new MediaListDefaultItemFatory(this));
 
         if (mediaArticle.articleCommentObj.size() > 0) {
             loadMoreItem = new LoadMoreItemFactory(this);
@@ -394,6 +404,35 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         Bundle bu = new Bundle();
         bu.putSerializable("articleId", mediaArticle.articleId);
         startActivity2(MediaComplaintActivity.class, bu);
+    }
+
+    @Override
+    public void toggledFullscreen(boolean fullscreen) {
+// Your code to handle the full-screen change, for example showing and hiding the title bar. Example:
+        if (fullscreen) {
+//            setTheme(R.style.AppTheme_NoActionBarBlack);
+            //noinspection all
+//            WindowManager.LayoutParams attrs = getWindow().getAttributes();
+//            attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+//            attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+//            getWindow().setAttributes(attrs);
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+
+        } else {
+            WindowManager.LayoutParams attrs = getWindow().getAttributes();
+//            attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+            getWindow().setAttributes(attrs);
+//            setTheme(R.style.AppTheme_NoActionBar);
+//            setStatusBarLightMode();
+            //noinspection all
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 
     @Override
@@ -617,12 +656,29 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
     @Override
     protected void onDestroy() {
-        if(webViewItemFatory!=null)
-        {
-            MyWebView webView =webViewItemFatory.item.getWebView();
-            if(webView!=null)
+        if (webViewItemFatory != null) {
+            MyWebView webView = webViewItemFatory.item.getWebView();
+            if (webView != null)
                 webView.destroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        int o = newConfig.orientation;
+        View view = videoLayout.getChildAt(0);
+        if (view != null) {
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+            layoutParams.setMargins(0,0,0,0);
+            layoutParams.width = videoLayout.getHeight();
+            layoutParams.height = videoLayout.getWidth();
+            view.setLayoutParams(layoutParams);
+//            View focusedChild = view.getFocusedChild();
+            //
+//            Log.log("orientation",view.toString());
+//            Log.log("orientation",  o + "; " + view.getWidth() + "," + view.getHeight() + " | " + videoLayout.getWidth() + "," + videoLayout.getHeight() + " | " + container.getWidth() + "," + container.getHeight());
+        }
+        super.onConfigurationChanged(newConfig);
     }
 }
