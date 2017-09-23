@@ -66,7 +66,7 @@ public class SnsMainActivity extends MyBaseActivity implements ChatListItemFacto
         if (bu != null) {
             title = bu.getString("title");
             mediaArticle = (MediaArticle) bu.getSerializable("DATA");
-            htmlContent = mediaArticle.articleContent;
+            htmlContent = mediaArticle.getContentString();
 //            title = mediaArticle.articleTitle;
         }
         title = "";
@@ -134,7 +134,7 @@ public class SnsMainActivity extends MyBaseActivity implements ChatListItemFacto
     protected void updateData() {
 
         List<String> images = new ArrayList<String>();
-        images.add(mediaArticle.articleContent);
+//        images.add(mediaArticle.articleContent);
         images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498646800199&di=e588dafd6e16678d08e8404c7f6a5651&imgtype=0&src=http%3A%2F%2Fimg.qqzhi.com%2Fupload%2Fimg_2_1979295486D2113125476_23.jpg");
         images.add("http://v1.qzone.cc/avatar/201405/10/17/00/536deaa6c35a9512.jpg!200x200.jpg");
         images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498646872650&di=8c968f968b9423051048d1eec7c5d598&imgtype=0&src=http%3A%2F%2Fimg.qqzhi.com%2Fupload%2Fimg_4_3520253239D3803949043_21.jpg");

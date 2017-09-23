@@ -77,7 +77,7 @@ public class WebViewActivity extends MyBaseActivity {
         if (bu != null) {
             title = bu.getString("title");
             mediaArticle = (MediaArticle) bu.getSerializable("DATA");
-            htmlContent = mediaArticle.articleContent;
+            htmlContent = mediaArticle.getContentString();
 //            title = mediaArticle.articleTitle;
         }
         title = "";

@@ -83,6 +83,11 @@ public class ImageFragment extends BaseFragment {
 
     private String finalShowImageUrl;
 
+    public void setImageClickListener(ImageClickListener mImageClickListener) {
+        this.mImageClickListener = mImageClickListener;
+    }
+    private ImageClickListener mImageClickListener;
+
     private SetWindowBackground setWindowBackground = new SetWindowBackground();
     private GifPlayFollowPageVisible gifPlayFollowPageVisible = new GifPlayFollowPageVisible();
     private ShowImageHelper showImageHelper = new ShowImageHelper();
@@ -99,6 +104,11 @@ public class ImageFragment extends BaseFragment {
         ImageFragment fragment = new ImageFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public interface ImageClickListener
+    {
+        void onImageClick();
     }
 
     @Override
@@ -444,6 +454,8 @@ public class ImageFragment extends BaseFragment {
                     if (parentFragment != null && parentFragment instanceof ImageZoomer.OnViewTapListener) {
                         ((ImageZoomer.OnViewTapListener) parentFragment).onViewTap(v, 0, 0);
                     }
+                    if (mImageClickListener != null)
+                        mImageClickListener.onImageClick();
                 }
             });
 

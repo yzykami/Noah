@@ -26,7 +26,9 @@ import com.tzw.noah.ui.mine.setting.SafeActivity;
 import com.tzw.noah.utils.StatusBarUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -44,6 +46,8 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
 
     public static boolean isNetWorkConnected;
 
+    public static List<Activity> listActivity = new ArrayList<>();
+
     public Map<Object, Object> classMap;
     private Object classType;
     private static int statusBarHeight = -1;
@@ -59,6 +63,33 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
+        listActivity.add(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            listActivity.remove(this);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
+    }
+
+    public static void exit() {
+        try {
+            for (int i = 0; i < listActivity.size(); i++) {
+                Activity a = listActivity.get(i);
+                if (a != null)
+                    a.finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.exit(0);
+        }
+
     }
 
     public void setStatusBarLightMode() {
@@ -66,6 +97,15 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
             statusBar = findViewById(R.id.statusBar);
         StatusBarUtil.transparencyBar(this);
         StatusBarUtil.StatusBarLightMode(this);
+        setStatusBarHeight(statusBar);
+    }
+
+    public void setStatusBarDarkMode() {
+        if (statusBar == null)
+            statusBar = findViewById(R.id.statusBar);
+        StatusBarUtil.transparencyBar(this);
+        StatusBarUtil.StatusBarDarkMode(this);
+        StatusBarUtil.setStatusBarColor(this, R.color.transParent);
         setStatusBarHeight(statusBar);
     }
 
@@ -312,6 +352,18 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
             ViewGroup.LayoutParams layoutParams = (ViewGroup.LayoutParams) view.getLayoutParams();
             layoutParams.height = getStatusBarHeight();
             view.setLayoutParams(layoutParams);
+        }
+    }
+
+    public void setStatusBarHeight() {
+        if (statusBar == null)
+            statusBar = findViewById(R.id.statusBar);
+        if (statusBar == null)
+            return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            ViewGroup.LayoutParams layoutParams = (ViewGroup.LayoutParams) statusBar.getLayoutParams();
+            layoutParams.height = getStatusBarHeight();
+            statusBar.setLayoutParams(layoutParams);
         }
     }
 }

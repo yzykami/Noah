@@ -12,6 +12,16 @@ public class ImageFragmentItemFactory extends AssemblyFragmentItemFactory<Image>
     private Context context;
     private String loadingImageOptionsId;
 
+    public void setImageClickListener(ImageClickListener mImageClickListener) {
+        this.mImageClickListener = mImageClickListener;
+    }
+
+    private ImageClickListener mImageClickListener;
+
+    public interface ImageClickListener {
+        void onImageClick();
+    }
+
     public ImageFragmentItemFactory(Context context, String loadingImageOptionsId) {
         this.context = context;
         this.loadingImageOptionsId = loadingImageOptionsId;
@@ -25,6 +35,14 @@ public class ImageFragmentItemFactory extends AssemblyFragmentItemFactory<Image>
     @Override
     public Fragment createFragment(int i, Image image) {
         boolean showTools = AppConfig.getBoolean(context, AppConfig.Key.SHOW_TOOLS_IN_IMAGE_DETAIL);
-        return ImageFragment.build(image, loadingImageOptionsId, showTools);
+        ImageFragment fragment = ImageFragment.build(image, loadingImageOptionsId, showTools);
+        fragment.setImageClickListener(new ImageFragment.ImageClickListener() {
+            @Override
+            public void onImageClick() {
+                if (mImageClickListener != null)
+                    mImageClickListener.onImageClick();
+            }
+        });
+        return fragment;
     }
 }

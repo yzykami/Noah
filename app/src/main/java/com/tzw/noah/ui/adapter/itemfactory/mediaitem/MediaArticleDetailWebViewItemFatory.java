@@ -82,7 +82,7 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
             }
             WebSettings wSet = webView.getSettings();
             wSet.setJavaScriptEnabled(true);
-            webView.loadDataWithBaseURL("about:blank", content.articleContent, "text/html", "utf-8", null);
+            webView.loadDataWithBaseURL("about:blank", content.getContentString(), "text/html", "utf-8", null);
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {

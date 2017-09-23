@@ -71,6 +71,8 @@ public class InputFragment extends Fragment {
     boolean isRunning = true;
     private int maxCount = 1000;
     SoftHideKeyBoardUtil keyboradUtil;
+    private boolean isBlackBackground = false;
+    private View ll_content;
 
     public void notifyUpdate(MediaArticle mediaArticle) {
         mMediaArticle = mediaArticle;
@@ -81,7 +83,14 @@ public class InputFragment extends Fragment {
         tv_edit.setText("");
     }
 
+    public InputFragment setBackgroundBlack(View view) {
+        this.ll_content =view;
+        this.isBlackBackground = true;
+        return this;
+    }
+
     public interface InputFragmentListener {
+
         public void onCommentClick();
 
         public void onLikeClick();
@@ -120,7 +129,11 @@ public class InputFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.input_layout, container, false);
         ButterKnife.bind(this, view);
-        keyboradUtil =SoftHideKeyBoardUtil.assistActivity(activity).setOnKeyboardChange(
+        if (isBlackBackground) {
+            rl_edit.setBackgroundResource(R.drawable.media_input_bg_black);
+            tv_edit.setBackgroundResource(R.drawable.bg_lightblack_fill_round);
+        }
+        keyboradUtil = SoftHideKeyBoardUtil.assistActivity(activity).setOnKeyboardChange(
                 (new SoftHideKeyBoardUtil.KeyBoardListener() {
                     @Override
                     public void onKeyboardChange(boolean isShow, int keyboardHeight) {
@@ -293,15 +306,27 @@ public class InputFragment extends Fragment {
             iv_like.setVisibility(View.GONE);
             tv_send.setVisibility(View.VISIBLE);
             maskView.setVisibility(View.VISIBLE);
-            tv_edit.setBackgroundResource(R.color.transParent);
+            if (isBlackBackground) {
+                tv_edit.setBackgroundResource(R.drawable.bg_lightblack_fill_round);
+                ll_content.setVisibility(View.GONE);
+            }
+            else
+                tv_edit.setBackgroundResource(R.color.transParent);
             tv_edit.setMaxLines(6);
+
         } else {
             rl_comment.setVisibility(View.VISIBLE);
             iv_fav.setVisibility(View.VISIBLE);
             iv_like.setVisibility(View.VISIBLE);
             tv_send.setVisibility(View.GONE);
             maskView.setVisibility(View.GONE);
-            tv_edit.setBackgroundResource(R.drawable.bg_gray_fill_round);
+
+            if (isBlackBackground) {
+                tv_edit.setBackgroundResource(R.drawable.bg_lightblack_fill_round);
+                ll_content.setVisibility(View.VISIBLE);
+            }
+            else
+                tv_edit.setBackgroundResource(R.drawable.bg_gray_fill_round);
             tv_edit.setMaxLines(1);
         }
         if (mMediaComment != null) {

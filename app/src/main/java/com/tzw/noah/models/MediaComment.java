@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.net.IMsg;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Awesome Pojo Generator
  */
-public class MediaComment implements Serializable{
+public class MediaComment implements Serializable {
     public int memberNo;
     public int articleCommentId;
     public int beArticleCommentId;
@@ -28,18 +29,22 @@ public class MediaComment implements Serializable{
     public int webArticleId;
     public String commentContent = "";
     public String memberNickName = "";
-    private JsonElement children;
-//    private List<MediaComment> children=new ArrayList<>();
+    private Object children;
+    //    private List<MediaComment> children=new ArrayList<>();
     public int repliesNumber;
 
-    public boolean isCommentDetail=false;
+    public boolean isCommentDetail = false;
 
 
     public List<MediaComment> sonList() {
-        if (children != null && children instanceof JsonArray) {
+        if (children != null && children instanceof ArrayList) {
             Gson gson = new GsonBuilder().create();
             try {
-                return gson.fromJson(children, new TypeToken<List<MediaComment>>() {
+                //创建一个JsonParser
+                JsonParser parser = new JsonParser();
+                //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
+                JsonElement el = parser.parse(gson.toJson(children));
+                return gson.fromJson(el, new TypeToken<List<MediaComment>>() {
                 }.getType());
             } catch (Exception e) {
                 Log.log("MediaComment", e);

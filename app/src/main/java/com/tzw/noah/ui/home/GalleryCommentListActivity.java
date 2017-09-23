@@ -1,11 +1,8 @@
 package com.tzw.noah.ui.home;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.transition.Transition;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,12 +10,8 @@ import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Adapter;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
@@ -27,28 +20,18 @@ import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.MediaComment;
 import com.tzw.noah.models.MediaLike;
-import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.adapter.itemfactory.ChatListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDatailCommentItemFactory;
-import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailAdvertiseItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailDividerItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailListener;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailSafaItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTagItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTitleItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailWebViewItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleKeywordItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleLikeItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListDefaultItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
-import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListTxtItemFatory;
-import com.tzw.noah.widgets.MyWebView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,46 +39,40 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
 import me.xiaopan.assemblyadapter.OnRecyclerLoadMoreListener;
 import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
 import okhttp3.Call;
 
-import static android.R.attr.id;
-
 /**
  * Created by yzy on 2017/8/11.
  */
 
-public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, MediaListListener {
+public class GalleryCommentListActivity extends MyBaseActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, MediaListListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
+
+
     @BindView(R.id.list_view)
     RecyclerView recyclerView;
     @BindView(R.id.rl_bg)
     RelativeLayout rl_bg;
-    @BindView(R.id.videoLayout)
-    RelativeLayout videoLayout;
-    @BindView(R.id.container)
-    RelativeLayout container;
     @BindView(R.id.maskView)
     View maskView;
-    Context mContext = HomeDetailActivity.this;
+    Context mContext = GalleryCommentListActivity.this;
 
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-    static HomeDetailActivity instance;
-    String Tag = "HomeDetailActivity";
+    static GalleryCommentListActivity instance;
+    String Tag = "CommentListActivity";
 
     List<Object> items;
 
-    String title = "";
+    String title = "评论详情";
     String htmlContent = "";
     MediaArticle mediaArticle;
+//    MediaComment mMediaComment;
     private boolean isloading = false;
     private int isLike;
     private boolean isFavorite;
@@ -104,13 +81,11 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
     String TAG_RELATE = "相关文章";
     private LinearLayoutManager layoutManager;
     private boolean loginState;
-
     private int commentId = 0;
-    private MediaArticleDetailWebViewItemFatory webViewItemFatory;
 
-    public static HomeDetailActivity getInstance() {
+    public static GalleryCommentListActivity getInstance() {
         if (instance == null) {
-            instance = new HomeDetailActivity();
+            instance = new GalleryCommentListActivity();
         }
         return instance;
     }
@@ -125,9 +100,8 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         mLoginListener = this;
         initdata();
         findview();
-        //放到网络调用结束来加载界面
-//        initview();
-        loadData();
+        initview();
+//        loadData();
     }
 
 
@@ -135,52 +109,50 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         loginState = UserCache.isLogin();
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
-            title = bu.getString("title");
+//            title = bu.getString("title");
             mediaArticle = (MediaArticle) bu.getSerializable("DATA");
-            htmlContent = mediaArticle.getContentString();
+//            mMediaComment = (MediaComment) bu.getSerializable("DATA2");
+//            mediaArticle = new MediaArticle();
+//            mediaArticle.articleId = mMediaComment.webArticleId;
         }
-        title = "";
+//        mMediaComment = DataCenter.getInstance().getMediaComment();
+//        mediaArticle = new MediaArticle();
+//        mediaArticle.articleId = mMediaComment.webArticleId;
     }
 
     private void findview() {
-        rl_bg.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onWebViewLoadComplete();
-            }
-        }, 4000);
+
     }
 
-    private void loadData() {
-        NetHelper.getInstance().mediaArticleDetails(mediaArticle.articleId, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                toast(getResources().getString(R.string.internet_fault));
-            }
-
-            @Override
-            public void onResponse(IMsg iMsg) {
-                try {
-                    if (iMsg.isSucceed()) {
-                        mediaArticle = MediaArticle.load(iMsg);
-                        isLike = mediaArticle.isArticleEvaluate;
-                        isFavorite = mediaArticle.isArticleKeep;
-                        if (mediaArticle.articleCommentObj.size() > 0)
-                            commentId = mediaArticle.articleCommentObj.get(mediaArticle.articleCommentObj.size() - 1).articleCommentId;
-                        iMsg.systemOut();
-                        initview();
-                    } else {
-                        toast(iMsg.getMsg());
-                    }
-                } catch (Exception e) {
-                    Log.log(Tag, e);
-                }
-            }
-        });
-    }
+//    private void loadData() {
+//        NetHelper.getInstance().mediaArticleDetails(mediaArticle.articleId, new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                toast(getResources().getString(R.string.internet_fault));
+//            }
+//
+//            @Override
+//            public void onResponse(IMsg iMsg) {
+//                try {
+//                    if (iMsg.isSucceed()) {
+//                        mediaArticle = MediaArticle.load(iMsg);
+//                        isLike = mediaArticle.isArticleEvaluate;
+//                        isFavorite = mediaArticle.isArticleKeep;
+//                        iMsg.systemOut();
+//                        initview();
+//                    } else {
+//                        toast(iMsg.getMsg());
+//                    }
+//                } catch (Exception e) {
+//                    Log.log(Tag, e);
+//                }
+//            }
+//        });
+//    }
 
 
     private void initview() {
+        rl_bg.setVisibility(View.GONE);
         tv_title.setText(title);
         layoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(layoutManager);
@@ -201,33 +173,35 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         transition.replace(R.id.frame_input, frame_input);
         transition.commit();
 
+        initAdapter();
+
         updateData();
     }
 
-
-    LoadMoreItemFactory loadMoreItem;
-
-    protected void updateData() {
-
+    private void initAdapter() {
         items = new ArrayList<Object>();
-        items.add(mediaArticle.makeTitle());
-        items.add(mediaArticle.makeContent());
-        if (mediaArticle.getKeywords().size() > 0)
-            items.add(mediaArticle.makeKeyword());
-        items.add(mediaArticle.makeLiker());
-//        images.add(mediaArticle.makeAdvertise());
+//        mMediaComment.isCommentDetail = true;
+//        items.add(mMediaComment);
+//        items.add(mediaArticle.makeDivider());
+//        items.add(mediaArticle.makeTitle());
+//        items.add(mediaArticle.makeContent());
+//        if (mediaArticle.getKeywords().size() > 0)
+//            items.add(mediaArticle.makeKeyword());
+//        items.add(mediaArticle.makeLiker());
+////        images.add(mediaArticle.makeAdvertise());
+//
+//        if(mediaArticle.relatedArticlesObj.size()>0)
+//        {
+//            items.add(mediaArticle.makeDivider());
+//            items.add(mediaArticle.makeTag(TAG_RELATE));
+//            for (int i = 0; i < mediaArticle.relatedArticlesObj.size(); i++) {
+//                mediaArticle.relatedArticlesObj.get(i).articleCommentSum=-1;
+//                items.add(mediaArticle.relatedArticlesObj.get(i));
+//            }
+//        }
 
-        if (mediaArticle.relatedArticlesObj.size() > 0) {
-            items.add(mediaArticle.makeDivider());
-            items.add(mediaArticle.makeTag(TAG_RELATE));
-            for (int i = 0; i < mediaArticle.relatedArticlesObj.size(); i++) {
-                mediaArticle.relatedArticlesObj.get(i).articleCommentSum = -1;
-                items.add(mediaArticle.relatedArticlesObj.get(i));
-            }
-        }
-
-        if (mediaArticle.articleCommentObj.size() > 0) {
-            items.add(mediaArticle.makeDivider());
+        if (mediaArticle.articleCommentSum > 0) {
+//            items.add(mediaArticle.makeDivider());
             items.add(mediaArticle.makeTag(TAG_COMMENT));
             for (int i = 0; i < mediaArticle.articleCommentObj.size(); i++) {
                 items.add(mediaArticle.articleCommentObj.get(i));
@@ -238,28 +212,34 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
         adapter = new AssemblyRecyclerAdapter(items);
         adapter.addItemFactory(new MediaArticleDetailTitleItemFatory(this));
-        adapter.addItemFactory(webViewItemFatory = new MediaArticleDetailWebViewItemFatory(this));
-        adapter.addItemFactory(new MediaArticleKeywordItemFatory(this));
-        adapter.addItemFactory(new MediaArticleLikeItemFatory(this));
+//        adapter.addItemFactory(new MediaArticleDetailWebViewItemFatory(this));
+//        adapter.addItemFactory(new MediaArticleKeywordItemFatory(this));
+//        adapter.addItemFactory(new MediaArticleLikeItemFatory(this));
         adapter.addItemFactory(new MediaArticleDetailDividerItemFatory(this));
         adapter.addItemFactory(new MediaArticleDetailTagItemFatory(this));
-        adapter.addItemFactory(new MediaArticleDetailAdvertiseItemFatory(this));
+//        adapter.addItemFactory(new MediaArticleDetailAdvertiseItemFatory(this));
         adapter.addItemFactory(new MediaArticleDatailCommentItemFactory(this));
         adapter.addItemFactory(new MediaArticleDetailSafaItemFatory(this));
+//        adapter.addItemFactory(new MediaListTxtItemFatory(this));
+//        adapter.addItemFactory(new MediaListPicItemFatory(this));
 
-        adapter.addItemFactory(new MediaListTxtItemFatory(this));
-        adapter.addItemFactory(new MediaListPicItemFatory(this));
-        adapter.addItemFactory(new MediaListDefaultItemFatory(this));
-
-        if (mediaArticle.articleCommentObj.size() > 0) {
+        if (mediaArticle.articleCommentSum > 0) {
             loadMoreItem = new LoadMoreItemFactory(this);
             adapter.setLoadMoreItem(loadMoreItem);
-            if (mediaArticle.articleCommentObj.size() < DataCenter.service_pagesize)
-                adapter.setLoadMoreEnd(true);
+//            if (mediaArticle.articleCommentObj.size() < DataCenter.service_pagesize)
+//                adapter.setLoadMoreEnd(true);
         }
 
         recyclerView.setAdapter(adapter);
         count = 0;
+    }
+
+
+    LoadMoreItemFactory loadMoreItem;
+
+    protected void updateData() {
+
+
     }
 
     @Override
@@ -267,7 +247,7 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         super.onResume();
         if (loginState != UserCache.isLogin()) {
             loginState = UserCache.isLogin();
-            loadData();
+//            loadData();
         }
     }
 
@@ -294,13 +274,13 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
                 try {
 //                    mPtrFrame.refreshComplete();
                     if (iMsg.isSucceed()) {
-                        List<MediaComment> list = MediaComment.loadList(iMsg);
+                        List<MediaComment> list = MediaComment.loadList2(iMsg);
                         items = new ArrayList<>();
                         if (list == null) {
                             list = new ArrayList<MediaComment>();
                         } else {
                             for (int i = 0; i < list.size(); i++) {
-                                list.get(i).isCommentDetail = true;
+//                                list.get(i).isCommentDetail = true;
                                 items.add(list.get(i));
                             }
                         }
@@ -347,7 +327,7 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
     @Override
     public void onLogin(boolean isLogin) {
         if (isLogin) {
-            loadData();
+//            loadData();
         } else {
             toast("请先登录");
         }
@@ -363,7 +343,7 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
             if (((MediaArticle) o).TYPE == MediaArticle.TYPE_LIST) {
                 Bundle bu = new Bundle();
                 bu.putSerializable("DATA", (MediaArticle) o);
-                startActivity2(HomeDetailActivity.class, bu);
+                startActivity2(GalleryCommentListActivity.class, bu);
                 this.finish();
             }
         }
@@ -389,50 +369,18 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
     @Override
     public void onCommentClick(int adapterPosition, MediaComment data) {
 //// TODO: 2017-09-16
-//        Bundle bu=new Bundle();
-//        bu.putSerializable("DATA", mediaArticle);
-//        bu.putSerializable("DATA2", data);
         DataCenter.getInstance().setMediaComment(data);
         startActivity2(CommentListActivity.class);
     }
 
     @Override
     public void onComplaintClick() {
-        if (!makesureLogin()) {
-            return;
-        }
-        Bundle bu = new Bundle();
-        bu.putSerializable("articleId", mediaArticle.articleId);
-        startActivity2(MediaComplaintActivity.class, bu);
+
     }
 
     @Override
     public void toggledFullscreen(boolean fullscreen) {
-// Your code to handle the full-screen change, for example showing and hiding the title bar. Example:
-        if (fullscreen) {
-//            setTheme(R.style.AppTheme_NoActionBarBlack);
-            //noinspection all
-//            WindowManager.LayoutParams attrs = getWindow().getAttributes();
-//            attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-//            attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-//            getWindow().setAttributes(attrs);
-//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
 
-        } else {
-            WindowManager.LayoutParams attrs = getWindow().getAttributes();
-//            attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
-            attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-            getWindow().setAttributes(attrs);
-//            setTheme(R.style.AppTheme_NoActionBar);
-//            setStatusBarLightMode();
-            //noinspection all
-//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
     }
 
     @Override
@@ -492,13 +440,15 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
                     if (iMsg.isSucceed()) {
                         boolean isFirstComment = false;
                         adapter.setNotifyOnChange(false);
-                        int position = getfirstPosition(MediaArticle.TYPE_COMMENT);
+                        int position = getfirstPosition(MediaArticle.TYPE_TAG, TAG_COMMENT);
                         if (position == -1) {
                             position = getfirstPosition(MediaArticle.TYPE_SAFA);
                             isFirstComment = true;
                             adapter.remove(adapter.getDataList().get(position));
-                            adapter.insert(mediaArticle.makeDivider(), position++);
+//                            adapter.insert(mediaArticle.makeDivider(), position++);
                             adapter.insert(mediaArticle.makeTag(TAG_COMMENT), position++);
+                        } else {
+                            position++;
                         }
                         MediaComment mc = MediaComment.load(iMsg);
 //                        mc.memberHeadPic=UserCache.getUser().memberHeadPic;
@@ -652,33 +602,5 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
                 }
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (webViewItemFatory != null) {
-            MyWebView webView = webViewItemFatory.item.getWebView();
-            if (webView != null)
-                webView.destroy();
-        }
-        super.onDestroy();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        int o = newConfig.orientation;
-        View view = videoLayout.getChildAt(0);
-        if (view != null) {
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-            layoutParams.setMargins(0,0,0,0);
-            layoutParams.width = videoLayout.getHeight();
-            layoutParams.height = videoLayout.getWidth();
-            view.setLayoutParams(layoutParams);
-//            View focusedChild = view.getFocusedChild();
-            //
-//            Log.log("orientation",view.toString());
-//            Log.log("orientation",  o + "; " + view.getWidth() + "," + view.getHeight() + " | " + videoLayout.getWidth() + "," + videoLayout.getHeight() + " | " + container.getWidth() + "," + container.getHeight());
-        }
-        super.onConfigurationChanged(newConfig);
     }
 }

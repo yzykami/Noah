@@ -177,4 +177,14 @@ public class IMsg extends JsonTool implements Serializable {
             System.out.println("yzy_test_article_" + s);
         }
     }
+
+    public static <T> T getModelListByJsonObject(JsonObject jo,String path, Type t) {
+        Gson gson = new GsonBuilder().create();
+        try {
+            return gson.fromJson(jo.getAsJsonObject().getAsJsonArray(path), t);
+        } catch (Exception e) {
+            Log.log("IMSG",e);
+            return (T) new ArrayList<Object>();
+        }
+    }
 }

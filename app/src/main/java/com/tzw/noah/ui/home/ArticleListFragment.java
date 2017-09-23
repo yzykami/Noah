@@ -245,14 +245,19 @@ public class ArticleListFragment extends Fragment implements MediaListListener, 
             activity.toast("视频模式未实现");
             return;
         }
-        if(((MediaArticle)o).isArticleTypPicGallery())
+        else if(((MediaArticle)o).isArticleTypPicGallery())
         {
-            activity.toast("纯图模式未实现");
+//            activity.toast("纯图模式未实现");
+            Bundle bu = new Bundle();
+            bu.putSerializable("DATA", (MediaArticle)o);
+            activity.startActivity2(HomeDetailGalleryActivity.class, bu);
             return;
         }
-        Bundle bu = new Bundle();
-        bu.putSerializable("DATA", (MediaArticle)o);
-        activity.startActivity2(HomeDetailActivity.class, bu);
+        else {
+            Bundle bu = new Bundle();
+            bu.putSerializable("DATA", (MediaArticle) o);
+            activity.startActivity2(HomeDetailActivity.class, bu);
+        }
 
     }
 

@@ -13,6 +13,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +34,8 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.tzw.noah.ui.MyBaseActivity;
 
 /**
  * <h3>全局捕获异常</h3>
@@ -93,12 +97,21 @@ public class CrashHandler implements UncaughtExceptionHandler {
 //             如果用户没有处理则让系统默认的异常处理器来处理
 //            mDefaultHandler.uncaughtException(thread, ex);
 //        } else {
-            handleException(ex);
-            SystemClock.sleep(500);
+        handleException(ex);
+        SystemClock.sleep(500);
 //            Application.finishAllActivities();
-            // 退出程序
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
+        // 退出程序
+//        android.os.Process.killProcess(android.os.Process.myPid());
+//        System.exit(0);
+
+        MyBaseActivity.exit();
+//        try {
+//            ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+//            Method method = Class.forName("android.app.ActivityManager").getMethod("forceStopPackage", String.class);
+//            method.invoke(am, "com.tzw.noah");
+//        } catch (Exception e) {
+//            Toast.makeText(mContext, e.getMessage(),
+//                    Toast.LENGTH_LONG).show();
 //        }
     }
 
@@ -127,7 +140,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             // 收集设备参数信息
 //            collectDeviceInfo(mContext);
             // 保存日志文件
-            com.tzw.noah.logger.Log.log("Crash",ex.getMessage());
+            com.tzw.noah.logger.Log.log("Crash", ex.getMessage());
             saveCrashInfoFile(ex);
 //            SystemClock.sleep(100);
         } catch (Exception e) {
@@ -195,7 +208,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             printWriter.flush();
             printWriter.close();
             String result = writer.toString();
-            sb.append(result+"\r\n");
+            sb.append(result + "\r\n");
 
             String fileName = writeFile(sb.toString());
             return fileName;
@@ -261,10 +274,10 @@ public class CrashHandler implements UncaughtExceptionHandler {
 //        });
 
         File f = new File(getGlobalpath());
-        if(!f.exists())
+        if (!f.exists())
             return;
         File[] files = f.listFiles();// 列出所有文件
-        if(files==null)
+        if (files == null)
             return;
         for (int i = 0; i < files.length; i++) {
             File ff = files[i];

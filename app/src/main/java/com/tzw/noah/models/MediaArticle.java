@@ -4,7 +4,9 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.MainActivity;
 import com.tzw.noah.logger.Log;
@@ -28,7 +30,7 @@ public class MediaArticle implements Serializable {
     public String webArticleImage = "";
     public String appArticleImage = "";
     public String h5ArticleImage = "";
-    public String articleContent = "";
+    public Object articleContent;
     public String articleAbstract = "";
     public String keyWordIds = "";
     public Object keywords;// = new ArrayList<>();
@@ -57,6 +59,7 @@ public class MediaArticle implements Serializable {
     public int evaluateValue;
     public int articleCommentSum;
     public int appListShowType;
+    public int articleContentImageNum;
 
     public String tag;
 
@@ -65,7 +68,7 @@ public class MediaArticle implements Serializable {
         if (ifOriginal == 0)
             author = articleSource;
         //如果非原创以及source为空
-        if(TextUtils.isEmpty(author))
+        if (TextUtils.isEmpty(author))
             author = articleAuthor;
 
         if (TextUtils.isEmpty(author))
@@ -202,6 +205,32 @@ public class MediaArticle implements Serializable {
             return (List<String>) keywords;
         }
         return new ArrayList<String>();
+    }
+
+    public String getContentString() {
+        if (articleContent != null && articleContent instanceof String)
+            return articleContent.toString();
+        return "";
+    }
+
+    public List<GalleryArticle> getContentList() {
+        if (articleContent != null && articleContent instanceof ArrayList) {
+            Gson gson = new GsonBuilder().create();
+            try {
+                //创建一个JsonParser
+                JsonParser parser = new JsonParser();
+                //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
+                JsonElement el = parser.parse(gson.toJson(articleContent));
+
+                List<GalleryArticle> list = gson.fromJson(el, new TypeToken<List<GalleryArticle>>() {
+                }.getType());
+                return list;
+            } catch (Exception e) {
+                Log.log("IMSG", e);
+                return new ArrayList<>();
+            }
+        }
+        return new ArrayList<>();
     }
 
     public static List<MediaArticle> loadList(IMsg iMsg) {
@@ -368,5 +397,11 @@ public class MediaArticle implements Serializable {
 
     public boolean isArticleTypVideo() {
         return articleType == ARTICLE_TYPE_VIDEO;
+    }
+
+
+    public class GalleryArticle implements Serializable {
+        public String image = "";
+        public String text = "";
     }
 }
