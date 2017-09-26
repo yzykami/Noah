@@ -175,6 +175,18 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
             intent.putExtras(bu);
         startActivity(intent);
     }
+    //不需要登录
+    public void startActivityForResult2(int real_requestcode, Class<?> cls) {
+        startActivityForResult2(real_requestcode, cls, null);
+    }
+
+    //不需要登录
+    public void startActivityForResult2(int real_requestcode, Class<?> cls, Bundle bu) {
+        Intent intent = new Intent(this, cls);
+        if (bu != null)
+            intent.putExtras(bu);
+        startActivityForResult(intent, real_requestcode);
+    }
 
     //需要登录
     public void startActivity(Class<?> cls) {

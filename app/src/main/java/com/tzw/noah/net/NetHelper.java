@@ -669,6 +669,12 @@ public class NetHelper {
         String method = "media/category";
         new WIRequest().Get(method, callback);
     }
+    //获取栏目
+    //media/category
+    public IMsg mediaCategory() {
+        String method = "media/category";
+        return new WIRequest().Get(method);
+    }
 
     //获取文章列表
     //media/articleList/{$channeiId}/{$articleId}

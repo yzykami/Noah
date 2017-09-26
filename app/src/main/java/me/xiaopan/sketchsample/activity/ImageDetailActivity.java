@@ -31,6 +31,8 @@ import me.xiaopan.sketchsample.BaseActivity;
 import me.xiaopan.sketchsample.ImageOptions;
 import me.xiaopan.sketchsample.BindContentView;
 import com.tzw.noah.R;
+import com.tzw.noah.utils.StatusBarUtil;
+
 import me.xiaopan.sketchsample.bean.Image;
 import me.xiaopan.sketchsample.fragment.ImageDetailFragment;
 import me.xiaopan.sketchsample.util.DeviceUtils;
@@ -54,12 +56,12 @@ public class ImageDetailActivity extends BaseActivity implements ApplyBackground
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            contentView.setPadding(contentView.getPaddingLeft(),
-                    contentView.getPaddingTop() + DeviceUtils.getStatusBarHeight(getResources()),
-                    contentView.getPaddingRight(), contentView.getPaddingBottom());
-        }
+        StatusBarUtil.transparencyBar(this);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            contentView.setPadding(contentView.getPaddingLeft(),
+//                    contentView.getPaddingTop() + DeviceUtils.getStatusBarHeight(getResources()),
+//                    contentView.getPaddingRight(), contentView.getPaddingBottom());
+//        }
 
         ViewGroup.LayoutParams layoutParams = backgroundImageView.getLayoutParams();
         layoutParams.width = getResources().getDisplayMetrics().widthPixels;

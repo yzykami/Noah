@@ -164,20 +164,6 @@ public class FileUtil {
         return readFromSdCard("systemcache", "config.txt");
     }
 
-    public static void saveInternalFile(String filename, String content) {
-        FileOutputStream outputStream;
-        try {
-            //调用方法创建流，参数1：文件名参数2：文件类型为私有
-            outputStream = AppContext.getContext().openFileOutput(filename, Context.MODE_WORLD_READABLE | Context.MODE_WORLD_READABLE);
-            //调用流的write方法
-            outputStream.write(content.getBytes());
-            //关闭流
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static String getDatabasePath() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("/data/data/");
@@ -242,6 +228,20 @@ public class FileUtil {
 
     public static void copySnsDBFromRaw(String dbDir) {
         copyDBFromRaw(AppContext.getContext(), R.raw.sns, "sns.db", dbDir, false);
+    }
+
+    public static void saveInternalFile(String filename, String content) {
+        FileOutputStream outputStream;
+        try {
+            //调用方法创建流，参数1：文件名参数2：文件类型为私有
+            outputStream = AppContext.getContext().openFileOutput(filename, Context.MODE_WORLD_READABLE | Context.MODE_WORLD_READABLE);
+            //调用流的write方法
+            outputStream.write(content.getBytes());
+            //关闭流
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static String readInternalFile(String filename) {

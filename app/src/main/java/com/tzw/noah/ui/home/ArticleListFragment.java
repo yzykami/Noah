@@ -30,6 +30,7 @@ import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicUDBigItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicUDItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListTxtItemFatory;
+import com.tzw.noah.ui.fragment.ViewPagerBaseFragment;
 import com.tzw.noah.ui.sns.SnsMainActivity;
 import com.tzw.noah.ui.webview.WebViewActivity;
 import com.tzw.noah.utils.Utils;
@@ -54,7 +55,7 @@ import okhttp3.Call;
 /**
  * Created by yzy on 2017/8/30.
  */
-public class ArticleListFragment extends Fragment implements MediaListListener, OnRecyclerLoadMoreListener, ScrollableHelper.ScrollableContainer {
+public class ArticleListFragment extends ViewPagerBaseFragment implements MediaListListener, OnRecyclerLoadMoreListener, ScrollableHelper.ScrollableContainer {
     @BindView(R.id.header_list_view_frame)
     PtrClassicFrameLayout mPtrFrame;
     @BindView(R.id.list_view)
@@ -67,6 +68,10 @@ public class ArticleListFragment extends Fragment implements MediaListListener, 
     AssemblyRecyclerAdapter adapter;
     LoadMoreItemFactory loadMoreItem;
     ArticleListFragment instance;
+
+    public MediaCategory getMediaCategory() {
+        return mMediaCategory;
+    }
 
     MediaCategory mMediaCategory;
     boolean isFirstLoad = true;
@@ -84,6 +89,7 @@ public class ArticleListFragment extends Fragment implements MediaListListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
+        android.util.Log.d("aaa",getTitle()+"___onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.circle_list_fragment, container, false);
         ButterKnife.bind(this, view);
@@ -138,6 +144,14 @@ public class ArticleListFragment extends Fragment implements MediaListListener, 
             refreshListView();
         } else
             refreshListView2();
+    }
+
+    @Override
+    public String getTitle() {
+        if(mMediaCategory!=null)
+            return mMediaCategory.channelName;
+        else
+            return "";
     }
 
     private void refreshListView() {
@@ -242,7 +256,10 @@ public class ArticleListFragment extends Fragment implements MediaListListener, 
         }
         if(((MediaArticle)o).isArticleTypVideo())
         {
-            activity.toast("视频模式未实现");
+//            activity.toast("视频模式未实现");
+            Bundle bu = new Bundle();
+            bu.putSerializable("DATA", (MediaArticle) o);
+            activity.startActivity2(HomeDetailActivity.class, bu);
             return;
         }
         else if(((MediaArticle)o).isArticleTypPicGallery())
@@ -264,7 +281,8 @@ public class ArticleListFragment extends Fragment implements MediaListListener, 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser)
-            refreshListView2();
+        android.util.Log.d("aaa",getTitle()+"___setUserVisibleHint");
+        if (isVisibleToUser&&activity!=null)
+            refreshListView();
     }
 }

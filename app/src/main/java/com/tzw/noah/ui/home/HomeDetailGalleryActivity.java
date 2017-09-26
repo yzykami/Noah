@@ -98,7 +98,7 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
 
     private int commentId = 0;
     private FragmentViewPagerAdapter fragmentAdapter;
-    private boolean isLightOn = false;
+    private boolean isLightOn = true;
 
 //    private MediaArticleDetailWebViewItemFatory webViewItemFatory;
 

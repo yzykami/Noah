@@ -12,10 +12,14 @@ import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
+import com.tzw.noah.ui.fragment.ViewPagerBaseFragment;
 
-public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
+
+public class FragmentViewPagerAdapter extends FragmentStatePagerAdapter {
+
     private List<Fragment> listFragments;
     List<String> mTitles;
 
@@ -46,7 +50,19 @@ public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        return super.getItemPosition(object);
+//        return super.getItemPosition(object);
+        if (object instanceof ViewPagerBaseFragment)
+        {
+            ViewPagerBaseFragment fragment = (ViewPagerBaseFragment) object;
+            int position = mTitles.indexOf(fragment.getTitle());
+
+            if (position >= 0) {
+                return position;
+            } else {
+                return POSITION_NONE;
+            }
+        } else
+            return super.getItemPosition(object);
     }
 
     @Override
@@ -63,4 +79,13 @@ public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
 
     }
+
+    public void setTitles(List<String> mTitles) {
+        this.mTitles = mTitles;
+    }
+
+    public void setListFragments(List<Fragment> listFragments) {
+        this.listFragments = listFragments;
+    }
+
 }

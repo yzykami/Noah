@@ -116,6 +116,16 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 //        new Thread(new Monitor()).start();
     }
 
+    public void ss()
+    {
+        tabHost.getTabWidget().removeViewAt(0);
+        Intent intent1 = new Intent();
+        intent1.setClass(MainActivity.this, HomeMainActivity.class);
+        tabHost.addTab(tabHost.newTabSpec("1").setIndicator("1")
+                .setContent(intent1));
+        tabHost.setCurrentTabByTag("1");
+    }
+
     private void initview() {
 
         tabHost = getTabHost();
