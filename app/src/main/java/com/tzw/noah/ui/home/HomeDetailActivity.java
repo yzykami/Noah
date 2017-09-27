@@ -5,21 +5,26 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.transition.Transition;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Adapter;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
+import com.shuyu.gsyvideoplayer.GSYPreViewManager;
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.listener.StandardVideoAllCallBack;
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.cache.UserCache;
@@ -32,7 +37,6 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.adapter.itemfactory.ChatListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDatailCommentItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailAdvertiseItemFatory;
@@ -48,6 +52,7 @@ import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListDefaultItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListTxtItemFatory;
+import com.tzw.noah.utils.StatusBarUtil;
 import com.tzw.noah.widgets.MyWebView;
 
 import java.io.IOException;
@@ -56,33 +61,40 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
 import me.xiaopan.assemblyadapter.OnRecyclerLoadMoreListener;
 import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
 import okhttp3.Call;
 
-import static android.R.attr.id;
-
 /**
  * Created by yzy on 2017/8/11.
  */
 
-public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, MediaListListener {
+public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, MediaListListener, StandardVideoAllCallBack {
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.list_view)
     RecyclerView recyclerView;
     @BindView(R.id.rl_bg)
     RelativeLayout rl_bg;
+    @BindView(R.id.rl_top)
+    RelativeLayout rl_top;
+    @BindView(R.id.rl_divider)
+    View divider;
     @BindView(R.id.videoLayout)
     RelativeLayout videoLayout;
     @BindView(R.id.container)
     RelativeLayout container;
     @BindView(R.id.maskView)
     View maskView;
+    @BindView(R.id.statusBar)
+    View statusBar;
+    @BindView(R.id.video_item_player)
+    com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer videoPlayer;
+
+    private boolean isPlay;
+    private boolean isPause;
+
     Context mContext = HomeDetailActivity.this;
 
     InputFragment frame_input;
@@ -107,6 +119,7 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
     private int commentId = 0;
     private MediaArticleDetailWebViewItemFatory webViewItemFatory;
+    private OrientationUtils orientationUtils;
 
     public static HomeDetailActivity getInstance() {
         if (instance == null) {
@@ -140,6 +153,23 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
             htmlContent = mediaArticle.getContentString();
         }
         title = "";
+        if (mediaArticle.isArticleTypeVideo()) {
+
+            videoPlayer.setVisibility(View.VISIBLE);
+            rl_bg.setVisibility(View.GONE);
+            statusBar.setVisibility(View.GONE);
+            rl_top.setVisibility(View.GONE);
+            divider.setVisibility(View.GONE);
+
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
+            lp.addRule(RelativeLayout.BELOW, R.id.video_item_player);
+            recyclerView.setLayoutParams(lp);
+
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+        } else {
+            videoPlayer.setVisibility(View.GONE);
+
+        }
     }
 
     private void findview() {
@@ -201,17 +231,48 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         transition.replace(R.id.frame_input, frame_input);
         transition.commit();
 
+        if(mediaArticle.isArticleTypeVideo())
+            initVideo();
+
         updateData();
     }
 
+    private void initVideo() {
+        if(mediaArticle.videoObj.size()>0) {
+            //外部辅助的旋转，帮助全屏
+            orientationUtils = new OrientationUtils(this, videoPlayer);
+            orientationUtils.setEnable(false);
+            String url = mediaArticle.videoObj.get(0).articleRessourceUrl;
+            videoPlayer.setUp(url, false, "");
+            videoPlayer.getBackButton().setVisibility(View.GONE);
+            videoPlayer.startPlayLogic();
+            videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //直接横屏
+                    orientationUtils.resolveByClick();
+
+                    //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
+                    videoPlayer.startWindowFullscreen(HomeDetailActivity.this, true, true);
+                }
+            });
+            videoPlayer.setStandardVideoAllCallBack(this);
+        }
+    }
 
     LoadMoreItemFactory loadMoreItem;
 
     protected void updateData() {
 
         items = new ArrayList<Object>();
+        if (mediaArticle.isArticleTypeVideo()) {
+//            items.add(mediaArticle.makeVideo());
+        }
         items.add(mediaArticle.makeTitle());
-        items.add(mediaArticle.makeContent());
+
+        if (mediaArticle.isArticleTypeArticle())
+            items.add(mediaArticle.makeContent());
+
         if (mediaArticle.getKeywords().size() > 0)
             items.add(mediaArticle.makeKeyword());
         items.add(mediaArticle.makeLiker());
@@ -262,14 +323,6 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         count = 0;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (loginState != UserCache.isLogin()) {
-            loginState = UserCache.isLogin();
-            loadData();
-        }
-    }
 
     private void doWorking() {
     }
@@ -424,8 +477,8 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         } else {
             WindowManager.LayoutParams attrs = getWindow().getAttributes();
 //            attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
-            attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-            getWindow().setAttributes(attrs);
+//            attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+//            getWindow().setAttributes(attrs);
 //            setTheme(R.style.AppTheme_NoActionBar);
 //            setStatusBarLightMode();
             //noinspection all
@@ -655,30 +708,209 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
     }
 
     @Override
-    protected void onDestroy() {
-        if (webViewItemFatory != null) {
-            MyWebView webView = webViewItemFatory.item.getWebView();
-            if (webView != null)
-                webView.destroy();
+    public void onBackPressed() {
+
+        if (orientationUtils != null) {
+            orientationUtils.backToProtVideo();
         }
-        super.onDestroy();
+
+        if (StandardGSYVideoPlayer.backFromWindowFull(this)) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+
+    @Override
+    protected void onPause() {
+        getCurPlay().onVideoPause();
+        super.onPause();
+        isPause = true;
     }
 
     @Override
+    protected void onResume() {
+        if (loginState != UserCache.isLogin()) {
+            loginState = UserCache.isLogin();
+            loadData();
+        }
+        getCurPlay().onVideoResume();
+        super.onResume();
+        isPause = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isPlay) {
+            getCurPlay().release();
+        }
+//        GSYPreViewManager.instance().releaseMediaPlayer();
+        if (orientationUtils != null)
+            orientationUtils.releaseListener();
+
+        if (mediaArticle.isArticleTypeArticle())
+            if (webViewItemFatory != null) {
+                MyWebView webView = webViewItemFatory.item.getWebView();
+                if (webView != null)
+                    webView.destroy();
+            }
+    }
+
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        int o = newConfig.orientation;
-        View view = videoLayout.getChildAt(0);
-        if (view != null) {
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-            layoutParams.setMargins(0,0,0,0);
-            layoutParams.width = videoLayout.getHeight();
-            layoutParams.height = videoLayout.getWidth();
-            view.setLayoutParams(layoutParams);
+        super.onConfigurationChanged(newConfig);
+        //如果旋转了就全屏
+        if (mediaArticle.isArticleTypeVideo()) {
+            if (isPlay && !isPause) {
+                videoPlayer.onConfigurationChanged(this, newConfig, orientationUtils);
+            }
+        }
+        //网页视频
+        else if (mediaArticle.isArticleTypeArticle()) {
+            int o = newConfig.orientation;
+            View view = videoLayout.getChildAt(0);
+            if (view != null) {
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                layoutParams.setMargins(0, 0, 0, 0);
+                layoutParams.width = videoLayout.getHeight();
+                layoutParams.height = videoLayout.getWidth();
+                view.setLayoutParams(layoutParams);
 //            View focusedChild = view.getFocusedChild();
-            //
+                //
 //            Log.log("orientation",view.toString());
 //            Log.log("orientation",  o + "; " + view.getWidth() + "," + view.getHeight() + " | " + videoLayout.getWidth() + "," + videoLayout.getHeight() + " | " + container.getWidth() + "," + container.getHeight());
+            }
         }
-        super.onConfigurationChanged(newConfig);
+    }
+
+
+    private void resolveNormalVideoUI() {
+        //增加title
+        videoPlayer.getTitleTextView().setVisibility(View.GONE);
+        videoPlayer.getBackButton().setVisibility(View.GONE);
+    }
+
+    private GSYVideoPlayer getCurPlay() {
+        if (videoPlayer.getFullWindowPlayer() != null) {
+            return videoPlayer.getFullWindowPlayer();
+        }
+        return videoPlayer;
+    }
+
+
+    //video Interface
+    @Override
+    public void onPrepared(String url, Object... objects) {
+        if (orientationUtils == null)
+            return;
+        //开始播放了才能旋转和全屏
+        orientationUtils.setEnable(true);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+        isPlay = true;
+    }
+
+    @Override
+    public void onClickStartIcon(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onClickStartError(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onClickStop(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onClickStopFullscreen(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onClickResume(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onClickResumeFullscreen(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onClickSeekbar(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onClickSeekbarFullscreen(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onAutoComplete(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onEnterFullscreen(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onQuitFullscreen(String url, Object... objects) {
+        if (orientationUtils != null) {
+            orientationUtils.backToProtVideo();
+        }
+
+    }
+
+    @Override
+    public void onQuitSmallWidget(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onEnterSmallWidget(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onTouchScreenSeekVolume(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onTouchScreenSeekPosition(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onTouchScreenSeekLight(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onPlayError(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onClickStartThumb(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onClickBlank(String url, Object... objects) {
+
+    }
+
+    @Override
+    public void onClickBlankFullscreen(String url, Object... objects) {
+
     }
 }

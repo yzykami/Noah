@@ -125,7 +125,7 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
             }
             else
                 tvPicCount.setVisibility(View.GONE);
-            if(mediaArticle.isArticleTypVideo())
+            if(mediaArticle.isArticleTypeVideo())
             {
                 ivPlayIcon.setVisibility(View.VISIBLE);
             }

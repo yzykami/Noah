@@ -127,7 +127,7 @@ public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<Med
             }
             else
                 tvPicCount.setVisibility(View.GONE);
-            if(mediaArticle.isArticleTypVideo())
+            if(mediaArticle.isArticleTypeVideo())
             {
                 ivPlayIcon.setVisibility(View.VISIBLE);
             }

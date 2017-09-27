@@ -53,7 +53,8 @@ public class MediaArticle implements Serializable {
     public String createTime = "";
     public List<MediaComment> articleCommentObj = new ArrayList<>();
     public List<MediaLike> articleEvaluateObj = new ArrayList<>();
-    public List<MediaArticle> relatedArticlesObj;
+    public List<MediaArticle> relatedArticlesObj = new ArrayList<>();
+    public List<MediaAttach> videoObj = new ArrayList<>();
     public boolean isArticleKeep;
     public int isArticleEvaluate;
     public int evaluateValue;
@@ -90,6 +91,7 @@ public class MediaArticle implements Serializable {
     public final static int TYPE_TAG = 7;
     public final static int TYPE_SAFA = 8;
     public final static int TYPE_DIVIDER = 9;
+    public final static int TYPE_VIDEO = 10;
 
     public boolean isTitle() {
         return TYPE == TYPE_TITLE;
@@ -125,6 +127,10 @@ public class MediaArticle implements Serializable {
 
     public boolean isDivider() {
         return TYPE == TYPE_DIVIDER;
+    }
+
+    public boolean isVideo() {
+        return TYPE == TYPE_VIDEO;
     }
 
     public MediaArticle makeTitle() {
@@ -200,6 +206,14 @@ public class MediaArticle implements Serializable {
         return ma;
     }
 
+    public MediaArticle makeVideo() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.TYPE = TYPE_DIVIDER;
+        ma.videoObj = videoObj;
+        return ma;
+    }
+
     public List<String> getKeywords() {
         if (keywords != null && keywords instanceof ArrayList) {
             return (List<String>) keywords;
@@ -251,6 +265,13 @@ public class MediaArticle implements Serializable {
         List<MediaArticle> mla = iMsg.getJsonObject("articlesRObj").getModelList("relatedArticlesObj", new TypeToken<List<MediaArticle>>() {
         }.getType());
         ma.relatedArticlesObj = mla;
+
+        if (ma.isArticleTypeVideo()) {
+            List<MediaAttach> mlv = iMsg.getJsonObject("articlesRObj").getModelList("videoObj", new TypeToken<List<MediaAttach>>() {
+            }.getType());
+            ma.videoObj = mlv;
+
+        }
         try {
             int isArticleEvaluate = iMsg.result.getAsJsonObject().getAsJsonObject("articlesRObj").getAsJsonPrimitive("isArticleEvaluate").getAsInt();
             boolean isArticleKeep = iMsg.result.getAsJsonObject().getAsJsonObject("articlesRObj").getAsJsonPrimitive("isArticleKeep").getAsBoolean();
@@ -395,7 +416,7 @@ public class MediaArticle implements Serializable {
         return articleType == ARTICLE_TYPE_PICGALLERY;
     }
 
-    public boolean isArticleTypVideo() {
+    public boolean isArticleTypeVideo() {
         return articleType == ARTICLE_TYPE_VIDEO;
     }
 

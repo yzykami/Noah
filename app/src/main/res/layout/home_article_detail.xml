@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
+        android:id="@+id/video_item_player"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:visibility="gone" />
+
     <View
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
@@ -14,10 +20,10 @@
         android:background="@color/white" />
 
     <RelativeLayout
-        android:layout_below="@id/statusBar"
         android:id="@+id/rl_top"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/title_height"
+        android:layout_below="@id/statusBar"
         android:background="@color/white">
 
         <TextView
@@ -75,12 +81,15 @@
         android:fadingEdge="none"
         android:listSelector="@android:color/transparent"
         android:scrollbarStyle="outsideOverlay" />
+
     <View
-        android:layout_above="@+id/frame_input"
-        android:layout_below="@id/rl_top"
+        android:id="@+id/rl_divider"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/frame_input"
+        android:layout_below="@id/rl_top"
         android:background="@drawable/bg_mask" />
+
     <View
         android:id="@+id/maskView"
         android:layout_width="match_parent"
@@ -105,29 +114,28 @@
         android:background="@color/white"
         android:visibility="visible">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/videoLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparent"
-        android:visibility="gone">
-
-        <!-- View that will be shown while the fullscreen video loads. For example you could include
-        a "Loading..." message. However, in this particular example this view is actually defined in
-        view_loading_video.xml and inflated programmatically in ExampleActivity.java. The reason for
-        this is to keep the main layout (this file) cleaner. -->
-        <!-- <View
-            android:id="@+id/videoLoading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="invisible" /> -->
-
-    </RelativeLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 </RelativeLayout>
+
+<RelativeLayout
+android:id="@+id/videoLayout"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/transparent"
+android:visibility="gone">
+
+<!-- View that will be shown while the fullscreen video loads. For example you could include
+a "Loading..." message. However, in this particular example this view is actually defined in
+view_loading_video.xml and inflated programmatically in ExampleActivity.java. The reason for
+this is to keep the main layout (this file) cleaner. -->
+<!-- <View
+    android:id="@+id/videoLoading"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:visibility="invisible" /> -->
+
+</RelativeLayout></RelativeLayout>

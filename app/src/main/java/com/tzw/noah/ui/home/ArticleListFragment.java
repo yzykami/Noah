@@ -3,7 +3,6 @@ package com.tzw.noah.ui.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,14 +14,10 @@ import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.MediaCategory;
-import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
-import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.adapter.itemfactory.CircleListItemFactory;
-import com.tzw.noah.ui.adapter.itemfactory.MemberListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListDefaultItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListGalleryItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
@@ -31,8 +26,6 @@ import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicUDBigItemFatory
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicUDItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListTxtItemFatory;
 import com.tzw.noah.ui.fragment.ViewPagerBaseFragment;
-import com.tzw.noah.ui.sns.SnsMainActivity;
-import com.tzw.noah.ui.webview.WebViewActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.DividerItemDecoration;
 import com.tzw.noah.widgets.scrollablelayout.ScrollableHelper;
@@ -89,7 +82,7 @@ public class ArticleListFragment extends ViewPagerBaseFragment implements MediaL
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        android.util.Log.d("aaa",getTitle()+"___onCreateView");
+//        android.util.Log.d("aaa",getTitle()+"___onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.circle_list_fragment, container, false);
         ButterKnife.bind(this, view);
@@ -161,6 +154,8 @@ public class ArticleListFragment extends ViewPagerBaseFragment implements MediaL
             @Override
             public void onFailure(Call call, IOException e) {
                 activity.toast(getResources().getString(R.string.internet_fault));
+                mPtrFrame.refreshComplete();
+                adapter.loadMoreFailed();
             }
 
             @Override
@@ -254,7 +249,7 @@ public class ArticleListFragment extends ViewPagerBaseFragment implements MediaL
             Utils.showObjectString(o, activity);
             return;
         }
-        if(((MediaArticle)o).isArticleTypVideo())
+        if(((MediaArticle)o).isArticleTypeVideo())
         {
 //            activity.toast("视频模式未实现");
             Bundle bu = new Bundle();
@@ -281,7 +276,7 @@ public class ArticleListFragment extends ViewPagerBaseFragment implements MediaL
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        android.util.Log.d("aaa",getTitle()+"___setUserVisibleHint");
+//        android.util.Log.d("aaa",getTitle()+"___setUserVisibleHint");
         if (isVisibleToUser&&activity!=null)
             refreshListView();
     }
