@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.logger.Log;
+import com.tzw.noah.models.Advertising;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.MediaLike;
 import com.tzw.noah.net.Callback;
@@ -25,6 +26,7 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaGalleryRelativeFragmentItemFactory;
 import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
 import com.tzw.noah.utils.StatusBarUtil;
 
@@ -79,26 +81,31 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
 
     //    private AssemblyRecyclerAdapter adapter;
     static HomeDetailGalleryActivity instance;
-    String Tag = "HomeDetailActivity";
 
+    String Tag = "HomeDetailActivity";
     List<Object> items;
 
     String title = "";
+
     String htmlContent = "";
     MediaArticle mediaArticle;
     List<MediaArticle.GalleryArticle> list;
     private boolean isloading = false;
     private int isLike;
     private boolean isFavorite;
-
     //    String TAG_COMMENT = "全部评论";
 //    String TAG_RELATE = "相关文章";
 //    private LinearLayoutManager layoutManager;
     private boolean loginState;
 
     private int commentId = 0;
+
     private FragmentViewPagerAdapter fragmentAdapter;
     private boolean isLightOn = true;
+    private Advertising advertising;
+    int advPageIndex = -1;
+    int relativePageIndex = -1;
+    private int currentPageIndex;
 
 //    private MediaArticleDetailWebViewItemFatory webViewItemFatory;
 
@@ -148,7 +155,8 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
     }
 
     private void loadData() {
-        NetHelper.getInstance().mediaArticleDetails(mediaArticle.articleId, new Callback() {
+        int advId = 23002;
+        NetHelper.getInstance().mixArticleDetail(mediaArticle.articleId, advId, 1, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));
@@ -163,7 +171,10 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
                         isFavorite = mediaArticle.isArticleKeep;
                         if (mediaArticle.articleCommentObj.size() > 0)
                             commentId = mediaArticle.articleCommentObj.get(mediaArticle.articleCommentObj.size() - 1).articleCommentId;
-                        iMsg.systemOut();
+                        List<Advertising> advs = Advertising.loadList(iMsg);
+                        if (advs.size() > 0) {
+                            advertising = advs.get(0);
+                        }
                         initview();
                         rl_bg.setVisibility(View.GONE);
                     } else {
@@ -202,12 +213,23 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
         }
 
         List<Image> imageList = new ArrayList<>();
+        AssemblyFragmentStatePagerAdapter pagerAdapter = new AssemblyFragmentStatePagerAdapter(getSupportFragmentManager(), imageList);
         list = mediaArticle.getContentList();
         for (int i = 0; i < list.size(); i++) {
             Image image = new Image(list.get(i).image, list.get(i).image);
             imageList.add(image);
         }
-        AssemblyFragmentStatePagerAdapter pagerAdapter = new AssemblyFragmentStatePagerAdapter(getSupportFragmentManager(), imageList);
+        if (advertising != null) {
+            advPageIndex = imageList.size();
+            Image image = new Image(advertising.advertImage, advertising.advertImage);
+            imageList.add(image);
+        }
+        if (mediaArticle.relatedArticlesObj.size() > 0) {
+            relativePageIndex = imageList.size();
+            pagerAdapter.addItemFactory(new MediaGalleryRelativeFragmentItemFactory(this, ""));
+            pagerAdapter.getDataList().add(mediaArticle);
+            //pagerAdapter.getDataList().add();
+        }
         ImageFragmentItemFactory ifif;
         pagerAdapter.addItemFactory(ifif = new ImageFragmentItemFactory(this, ""));
         ifif.setImageClickListener(this);
@@ -229,6 +251,10 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
     LoadMoreItemFactory loadMoreItem;
 
     protected void updateData() {
+    }
+
+    public void handle_more(View view) {
+
     }
 
     @Override
@@ -296,28 +322,6 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
                 try {
                     if (iMsg.isSucceed()) {
                         boolean isFirstComment = false;
-//                        adapter.setNotifyOnChange(false);
-//                        int position = getfirstPosition(MediaArticle.TYPE_COMMENT);
-//                        if (position == -1) {
-//                            position = getfirstPosition(MediaArticle.TYPE_SAFA);
-//                            isFirstComment = true;
-//                            adapter.remove(adapter.getDataList().get(position));
-//                            adapter.insert(mediaArticle.makeDivider(), position++);
-//                            adapter.insert(mediaArticle.makeTag(TAG_COMMENT), position++);
-//                        }
-//                        MediaComment mc = MediaComment.load(iMsg);
-////                        mc.memberHeadPic=UserCache.getUser().memberHeadPic;
-////                        mc.memberNickName=UserCache.getUser().memberNickName;
-////                        mc.commentContent = content;
-//                        mediaArticle.articleCommentObj.add(0, mc);
-//                        adapter.insert(mc, position);
-//                        adapter.notifyDataSetChanged();
-//                        if (isFirstComment) {
-//                            loadMoreItem = new LoadMoreItemFactory(instance);
-//                            adapter.setLoadMoreItem(loadMoreItem);
-//                            adapter.setLoadMoreEnd(true);
-//                            recyclerView.setAdapter(adapter);
-//                        }
                         frame_input.switchEditMode(false);
                         frame_input.clearInputEdit();
                         showKeyboard(false);
@@ -453,6 +457,7 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
 
     @Override
     public void onPageSelected(int position) {
+        currentPageIndex = position;
         if (list != null && list.size() > position) {
             String ss = "恩格斯曾说过：“我们不要过分陶醉于我们人类对自然界的胜利。对于每一次这样的胜利，自然界都对我们进行报复。”\n" +
                     "西方的工业化进程中，中国的快速发展中，都经历了这样的报复。\n" +
@@ -468,6 +473,13 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
             int i = position + 1;
             tvPagesize.setText(i + "/" + list.size());
         }
+        if (position == advPageIndex) {
+
+        }
+        if (position == relativePageIndex) {
+
+        }
+        controlViewVisiable();
     }
 
     @Override
@@ -487,5 +499,31 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
             frameInput.setVisibility(View.VISIBLE);
         }
         isLightOn = !isLightOn;
+    }
+
+    //切换广告或者相关文章
+    public void controlViewVisiable() {
+        if (currentPageIndex == advPageIndex) {
+            tv_title.setText("广告");
+            llContent.setVisibility(View.GONE);
+            frameInput.setVisibility(View.GONE);
+            rl_top.setVisibility(View.VISIBLE);
+        } else if (currentPageIndex == relativePageIndex) {
+            tv_title.setText("图集推荐");
+            llContent.setVisibility(View.GONE);
+            frameInput.setVisibility(View.VISIBLE);
+            rl_top.setVisibility(View.VISIBLE);
+        } else {
+            tv_title.setText("");
+            if (!isLightOn) {
+                rl_top.setVisibility(View.GONE);
+                llContent.setVisibility(View.GONE);
+                frameInput.setVisibility(View.GONE);
+            } else {
+                rl_top.setVisibility(View.VISIBLE);
+                llContent.setVisibility(View.VISIBLE);
+                frameInput.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

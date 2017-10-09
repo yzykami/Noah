@@ -4,14 +4,11 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.tzw.noah.MainActivity;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.net.IMsg;
-import com.tzw.noah.sdk.MediaManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,14 +52,16 @@ public class MediaArticle implements Serializable {
     public List<MediaLike> articleEvaluateObj = new ArrayList<>();
     public List<MediaArticle> relatedArticlesObj = new ArrayList<>();
     public List<MediaAttach> videoObj = new ArrayList<>();
+    public List<Advertising> Advertisings = new ArrayList<>();
     public boolean isArticleKeep;
     public int isArticleEvaluate;
     public int evaluateValue;
     public int articleCommentSum;
-    public int appListShowType;
+    public int listShowType;
     public int articleContentImageNum;
 
     public String tag;
+    private boolean isRelative;
 
     public String getAuthor() {
         String author = "";
@@ -92,6 +91,8 @@ public class MediaArticle implements Serializable {
     public final static int TYPE_SAFA = 8;
     public final static int TYPE_DIVIDER = 9;
     public final static int TYPE_VIDEO = 10;
+    public final static int TYPE_DIVIDER_LINE = 11;
+    public final static int TYPE_DIVIDER_WHITE = 12;
 
     public boolean isTitle() {
         return TYPE == TYPE_TITLE;
@@ -127,6 +128,13 @@ public class MediaArticle implements Serializable {
 
     public boolean isDivider() {
         return TYPE == TYPE_DIVIDER;
+    }
+
+    public boolean isDividerLine() {
+        return TYPE == TYPE_DIVIDER_LINE;
+    }
+    public boolean isDividerWhite() {
+        return TYPE == TYPE_DIVIDER_WHITE;
     }
 
     public boolean isVideo() {
@@ -206,6 +214,20 @@ public class MediaArticle implements Serializable {
         return ma;
     }
 
+    public MediaArticle makeDividerLine() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.TYPE = TYPE_DIVIDER_LINE;
+        return ma;
+    }
+
+    public MediaArticle makeDividerWhite() {
+        MediaArticle ma = new MediaArticle();
+        ma.articleId = articleId;
+        ma.TYPE = TYPE_DIVIDER_WHITE;
+        return ma;
+    }
+
     public MediaArticle makeVideo() {
         MediaArticle ma = new MediaArticle();
         ma.articleId = articleId;
@@ -252,6 +274,12 @@ public class MediaArticle implements Serializable {
         }.getType());
     }
 
+    public static List<MediaArticle> loadSearchList(IMsg iMsg) {
+        IMsg iMsg2 = iMsg.getJsonObject("articleListRObj");
+        return iMsg2.getModelList("articleList", new TypeToken<List<MediaArticle>>() {
+        }.getType());
+    }
+
     public static MediaArticle load(IMsg iMsg) {
         IMsg iMsg2 = iMsg.getJsonObject("articlesRObj");
         MediaArticle ma = iMsg2.getModel("detailsObj", new TypeToken<MediaArticle>() {
@@ -264,6 +292,13 @@ public class MediaArticle implements Serializable {
         ma.articleEvaluateObj = mls;
         List<MediaArticle> mla = iMsg.getJsonObject("articlesRObj").getModelList("relatedArticlesObj", new TypeToken<List<MediaArticle>>() {
         }.getType());
+        if (mla != null) {
+            for (int i = 0; i < mla.size(); i++) {
+                MediaArticle rma = mla.get(i);
+                rma.isRelative = true;
+                mla.set(i, rma);
+            }
+        }
         ma.relatedArticlesObj = mla;
 
         if (ma.isArticleTypeVideo()) {
@@ -304,25 +339,25 @@ public class MediaArticle implements Serializable {
         if (TYPE != TYPE_LIST)
             return false;
 //        return LIST_TYPE_TXT == getListType();
-        return appListShowType == LIST_TYPE_TXT;
+        return listShowType == LIST_TYPE_TXT;
     }
 
     public boolean isListPicRL() {
         if (TYPE != TYPE_LIST)
             return false;
-        return appListShowType == LIST_TYPE_PIC_RL;
+        return listShowType == LIST_TYPE_PIC_RL;
     }
 
     public boolean isListPicUD() {
         if (TYPE != TYPE_LIST)
             return false;
-        return appListShowType == LIST_TYPE_PIC_UD;
+        return listShowType == LIST_TYPE_PIC_UD;
     }
 
     public boolean isListPicUDBig() {
         if (TYPE != TYPE_LIST)
             return false;
-        return appListShowType == LIST_TYPE_PIC_UD_BIG;
+        return listShowType == LIST_TYPE_PIC_UD_BIG;
     }
 
     public boolean isListViewpager() {
@@ -424,5 +459,9 @@ public class MediaArticle implements Serializable {
     public class GalleryArticle implements Serializable {
         public String image = "";
         public String text = "";
+    }
+
+    public boolean isRelative() {
+        return isRelative;
     }
 }

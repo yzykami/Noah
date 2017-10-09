@@ -22,7 +22,7 @@ import me.xiaopan.sketchsample.widget.SampleImageView;
 public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaListPicUDItemFatory.GalleryItem> {
 
     private MediaListListener mMediaListListener;
-    private int width = 0, height = 0;
+    private int width = 0, height = 0, ml = 0;
 
     public MediaListPicUDItemFatory(MediaListListener mMediaListListener) {
         this.mMediaListListener = mMediaListListener;
@@ -41,6 +41,7 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
         int screenWidth = Utils.getSrceenWidth();
         width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 3) / 3;
         height = width * 2 / 3;
+        ml = (int) viewGroup.getContext().getResources().getDimension(R.dimen.bjs) / 2;
 
         return new GalleryItem(R.layout.media_list_article_item_3pic, viewGroup);
     }
@@ -62,6 +63,8 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
         TextView tv_comment_count;
         @BindView(R.id.tv_pic_count)
         TextView tvPicCount;
+        @BindView(R.id.tv_tag)
+        TextView tvTag;
 
         Context mContext;
 
@@ -109,37 +112,47 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
                 int screenWidth = Utils.getSrceenWidth();
                 width = (int) (screenWidth - mContext.getResources().getDimension(R.dimen.bjs) * 3) / 3;
                 height = width * 15 / 23;
-                ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();
+                ml = (int) mContext.getResources().getDimension(R.dimen.bjs) / 2;
+
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) iv_cover.getLayoutParams();
                 lp.width = width;
                 lp.height = height;
                 iv_cover.setLayoutParams(lp);
-                ViewGroup.LayoutParams lp2 = iv_cover2.getLayoutParams();
+                LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) iv_cover2.getLayoutParams();
                 lp2.width = width;
                 lp2.height = height;
+                lp2.setMargins(ml,0,0,0);
                 iv_cover2.setLayoutParams(lp2);
-                ViewGroup.LayoutParams lp3 = iv_cover3.getLayoutParams();
+                LinearLayout.LayoutParams lp3 = (LinearLayout.LayoutParams) iv_cover3.getLayoutParams();
                 lp3.width = width;
                 lp3.height = height;
+                lp3.setMargins(ml,0,0,0);
                 iv_cover3.setLayoutParams(lp3);
             } else {
-                ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) iv_cover.getLayoutParams();
                 lp.width = width;
                 lp.height = height;
                 iv_cover.setLayoutParams(lp);
-                ViewGroup.LayoutParams lp2 = iv_cover2.getLayoutParams();
+                LinearLayout.LayoutParams lp2 = (LinearLayout.LayoutParams) iv_cover2.getLayoutParams();
                 lp2.width = width;
                 lp2.height = height;
+                lp2.setMargins(ml,0,0,0);
                 iv_cover2.setLayoutParams(lp2);
-                ViewGroup.LayoutParams lp3 = iv_cover3.getLayoutParams();
+                LinearLayout.LayoutParams lp3 = (LinearLayout.LayoutParams) iv_cover3.getLayoutParams();
                 lp3.width = width;
                 lp3.height = height;
+                lp3.setMargins(ml,0,0,0);
                 iv_cover3.setLayoutParams(lp3);
             }
         }
 
         @Override
         protected void onSetData(int position, final MediaArticle mediaArticle) {
-            String ss[] = mediaArticle.appArticleImage.split(",");
+            String[] ss = new String[0];
+            if (mediaArticle.appArticleImage.contains(","))
+                ss = mediaArticle.appArticleImage.split(",");
+            else if (mediaArticle.appArticleImage.contains(";"))
+                ss = mediaArticle.appArticleImage.split(";");
             List<SampleImageView> list = new ArrayList<>();
             list.add(iv_cover);
             list.add(iv_cover2);
@@ -150,8 +163,7 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
                 if (i < ss.length) {
                     iv.setVisibility(View.VISIBLE);
                     iv.displayRoundImageSmallThumb(ss[i]);
-                }
-                else
+                } else
                     iv.displayResourceImage(R.drawable.media_default_pic);
 //                    iv_cover.setVisibility(View.GONE);
             }
@@ -166,8 +178,12 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
             tv_comment_count.setText(mediaArticle.articleCommentSum + "人评");
 
             if (mediaArticle.isArticleTypPicGallery()) {
-                tvPicCount.setText(mediaArticle.articleContentImageNum+"图");
+                tvPicCount.setText(mediaArticle.articleContentImageNum + "图");
                 tvPicCount.setVisibility(View.VISIBLE);
+                tvTag.setVisibility(View.VISIBLE);
+                tvTag.setText("图集");
+                tvTag.setBackgroundResource(R.drawable.bg_red_border_round_1px);
+                tvTag.setTextColor(mContext.getResources().getColor(R.color.myRed));
             } else
                 tvPicCount.setVisibility(View.GONE);
         }

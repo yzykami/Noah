@@ -36,8 +36,8 @@ public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<Med
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
 
         int screenWidth = Utils.getSrceenWidth();
-        width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 3) / 3;
-        height = width * 2 / 3;
+        width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 2);
+        height = width * 9 / 16;
 
         return new GalleryItem(R.layout.media_list_article_item_bigpic, viewGroup);
     }
@@ -57,6 +57,8 @@ public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<Med
         TextView tvPicCount;
         @BindView(R.id.iv_play_icon)
         ImageView ivPlayIcon;
+        @BindView(R.id.tv_tag)
+        TextView tvTag;
 
         Context mContext;
 
@@ -84,55 +86,67 @@ public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<Med
                     }
                 }
             });
-//            if (width == 0) {
-//                int screenWidth = Utils.getSrceenWidth();
-//                width = (int) (screenWidth - mContext.getResources().getDimension(R.dimen.bjs) * 3) / 3;
-//                height = width * 15 / 23;
-//                ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();
-//                lp.width = width;
-//                lp.height = height;
-//                iv_cover.setLayoutParams(lp);
-//            } else {
-//                ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();
-//                lp.width = width;
-//                lp.height = height;
-//                iv_cover.setLayoutParams(lp);
-//            }
+            if (width == 0) {
+                int screenWidth = Utils.getSrceenWidth();
+                width = (int) (screenWidth - mContext.getResources().getDimension(R.dimen.bjs) * 2);
+                height = width * 9 / 16;
+                ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();
+                lp.width = width;
+                lp.height = height;
+                iv_cover.setLayoutParams(lp);
+            } else {
+                ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();
+                lp.width = width;
+                lp.height = height;
+                iv_cover.setLayoutParams(lp);
+            }
         }
 
         @Override
         protected void onSetData(int i, final MediaArticle mediaArticle) {
             String ss[] = mediaArticle.appArticleImage.split(",");
+            if (mediaArticle.appArticleImage.contains(","))
+                ss = mediaArticle.appArticleImage.split(",");
+            else if (mediaArticle.appArticleImage.contains(";"))
+                ss = mediaArticle.appArticleImage.split(";");
 
             if (mediaArticle.appArticleImage.isEmpty()) {
                 iv_cover.setVisibility(View.GONE);
             } else {
                 iv_cover.setVisibility(View.VISIBLE);
-                iv_cover.displayRoundImageSmallThumb(ss[0]);
+                iv_cover.setBackgroundResource(R.color.transParent);
+                iv_cover.displayRoundImageBigThumb(ss[0]);
             }
             tv_title.setText(mediaArticle.articleTitle);
             tv_time.setText(Utils.getStandardDate(mediaArticle.createTime));
-            if(mediaArticle.articleCommentSum==-1)
-            {
+            if (mediaArticle.articleCommentSum == -1) {
                 tv_comment_count.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 tv_comment_count.setVisibility(View.VISIBLE);
             }
             tv_comment_count.setText(mediaArticle.articleCommentSum + "人评");
 
             if (mediaArticle.isArticleTypPicGallery()) {
-                tvPicCount.setText(mediaArticle.articleContentImageNum+"图");
+                tvPicCount.setText(mediaArticle.articleContentImageNum + "图");
                 tvPicCount.setVisibility(View.VISIBLE);
-            }
-            else
+                tvTag.setVisibility(View.VISIBLE);
+                tvTag.setText("图集");
+                tvTag.setBackgroundResource(R.drawable.bg_red_border_round_1px);
+                tvTag.setTextColor(mContext.getResources().getColor(R.color.myRed));
+            } else {
                 tvPicCount.setVisibility(View.GONE);
-            if(mediaArticle.isArticleTypeVideo())
-            {
-                ivPlayIcon.setVisibility(View.VISIBLE);
+                tvTag.setVisibility(View.GONE);
             }
-            else
+            if (mediaArticle.isArticleTypeVideo()) {
+                ivPlayIcon.setVisibility(View.VISIBLE);
+                tvTag.setVisibility(View.VISIBLE);
+                tvTag.setText("视频");
+                tvTag.setBackgroundResource(R.drawable.bg_red_border_round_1px);
+                tvTag.setTextColor(mContext.getResources().getColor(R.color.myRed));
+            } else {
                 ivPlayIcon.setVisibility(View.GONE);
+                tvTag.setVisibility(View.GONE);
+            }
         }
     }
 }

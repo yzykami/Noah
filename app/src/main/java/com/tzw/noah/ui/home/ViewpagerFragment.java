@@ -26,8 +26,7 @@ import me.xiaopan.sketchsample.widget.SampleImageView;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ViewpagerFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * to handle interaction events.s
  * Use the {@link ViewpagerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -66,9 +65,6 @@ public class ViewpagerFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment CrashListFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -98,8 +94,8 @@ public class ViewpagerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_media_top, container, false);
         ButterKnife.bind(this, view);
 
-        tv_content.setText(mMediaArticle.appArticleImage);
-//        imageView.displayImage(mMediaArticle.appArticleImage);
+        tv_content.setText(mMediaArticle.articleTitle);
+        imageView.displayRoundImageBigThumb(mMediaArticle.appArticleImage);
         return view;
     }
 
@@ -142,13 +138,12 @@ public class ViewpagerFragment extends Fragment {
 //        // TODO: Update argument type and name
 //        void onFragmentInteraction(Uri uri);
 //    }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser){
-            if(tv_content!=null)
-            tv_content.setText(mMediaArticle.appArticleImage);
+        if (isVisibleToUser) {
+//            if (tv_content != null)
+//                tv_content.setText(mMediaArticle.appArticleImage);
 //            imageView.displayImage(mMediaArticle.appArticleImage);
         }
     }

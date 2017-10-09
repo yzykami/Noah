@@ -37,19 +37,11 @@ import okhttp3.Call;
 
 public class ChannelCache {
 
-    private static String token = "";
-    private static String loginKey = "";
-    private static long timeOffset = -12345678l;
     public static User user;
 
     static List<MediaCategory> channleList;
 
-    protected static final String PREFS_FILE = "usercache.xml";
-    protected static final String PREFS_TOKEN = "token";
-    protected static final String PREFS_LOGINKEY = "loginkey";
-    protected static final String PREFS_TIMEOFFSET = "timeoffset";
-
-    protected static final String DIR = "Media";
+//    protected static final String DIR = "Media";
     protected static final String FileName = "Channel";
 
 

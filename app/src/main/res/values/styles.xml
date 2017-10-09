@@ -96,7 +96,7 @@
     </style>
 
     <style name="pagertab_style_media">
-        <item name="android:background">@drawable/media_bg</item>
+        <item name="android:background">@color/transparent</item>
         <item name="apTabBackground">@color/transparent</item>
         <item name="android:textSize">@dimen/text_content</item>
         <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>

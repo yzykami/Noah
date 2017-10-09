@@ -31,6 +31,7 @@ import me.xiaopan.sketch.request.DisplayOptions;
 import me.xiaopan.sketch.request.RedisplayListener;
 import me.xiaopan.sketch.request.UriInfo;
 import me.xiaopan.sketch.request.UriScheme;
+import me.xiaopan.sketch.shaper.CircleImageShaper;
 import me.xiaopan.sketch.shaper.RoundRectImageShaper;
 import me.xiaopan.sketch.util.SketchUtils;
 import me.xiaopan.sketchsample.ImageOptions;
@@ -49,12 +50,16 @@ public class SampleImageView extends SketchImageView {
 
     public SampleImageView(Context context) {
         super(context);
+        getOptions().setLoadingImage(R.drawable.media_default_pic);
+        getOptions().setErrorImage(R.drawable.media_default_pic);
     }
 
     public SampleImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         setOnLongClickListener(new LongClickShowDrawableInfoListener());
+        getOptions().setLoadingImage(R.drawable.media_default_pic);
+        getOptions().setErrorImage(R.drawable.media_default_pic);
     }
 
     @Override

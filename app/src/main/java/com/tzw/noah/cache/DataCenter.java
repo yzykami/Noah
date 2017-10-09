@@ -15,6 +15,7 @@ import java.util.List;
 
 public class DataCenter {
     static DataCenter instance;
+    public static long INTEL_TIMEOUT =10000;
 
     private DataCenter() {
     }

@@ -26,31 +26,31 @@ public class ServiceMainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.service_main);
-        final ImageView iv = (ImageView) findViewById(R.id.iv);
-        final int[] ivResids = new int[]{R.drawable.p1, R.drawable.p2, R.drawable.p3, R.drawable.p4, R.drawable.p5, R.drawable.p6, R.drawable.p7, R.drawable.p8, R.drawable.p9, R.drawable.p10, R.drawable.p11};
-        int screenWidth = Utils.getSrceenWidth();
-        ViewGroup.LayoutParams lp = iv.getLayoutParams();
-        lp.width = screenWidth;
-        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        iv.setLayoutParams(lp);
-
-        iv.setMaxWidth(screenWidth);
-        iv.setMaxHeight(screenWidth * 10);
-        final int maxcount = 2;//ivResids.length
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                index++;
-                if (index >= maxcount)
-                    index %= maxcount;
-                iv.setImageBitmap(null);
-                if (bm != null)
-                    bm.recycle();
-                bm = null;
-                bm = BitmapFactory.decodeResource(getResources(), ivResids[index]);
-                iv.setImageBitmap(bm);
-            }
-        });
+//        final ImageView iv = (ImageView) findViewById(R.id.iv);
+//        final int[] ivResids = new int[]{R.drawable.p1, R.drawable.p2, R.drawable.p3, R.drawable.p4, R.drawable.p5, R.drawable.p6, R.drawable.p7, R.drawable.p8, R.drawable.p9, R.drawable.p10, R.drawable.p11};
+//        int screenWidth = Utils.getSrceenWidth();
+//        ViewGroup.LayoutParams lp = iv.getLayoutParams();
+//        lp.width = screenWidth;
+//        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+//        iv.setLayoutParams(lp);
+//
+//        iv.setMaxWidth(screenWidth);
+//        iv.setMaxHeight(screenWidth * 10);
+//        final int maxcount = 2;//ivResids.length
+//        iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                index++;
+//                if (index >= maxcount)
+//                    index %= maxcount;
+//                iv.setImageBitmap(null);
+//                if (bm != null)
+//                    bm.recycle();
+//                bm = null;
+//                bm = BitmapFactory.decodeResource(getResources(), ivResids[index]);
+//                iv.setImageBitmap(bm);
+//            }
+//        });
 
     }
 

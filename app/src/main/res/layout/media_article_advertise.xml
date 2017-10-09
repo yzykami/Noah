@@ -12,7 +12,6 @@
         android:paddingLeft="@dimen/bj"
         android:paddingRight="@dimen/bj"
         android:paddingTop="@dimen/bj"
-
         >
 
         <me.xiaopan.sketchsample.widget.SampleImageView
@@ -21,20 +20,7 @@
             android:layout_height="150dp"
             android:scaleType="centerCrop" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/pt5"
-            android:layout_marginTop="@dimen/pt5"
-            android:alpha="0.50"
-            android:background="@drawable/bg_black_fill_round"
-            android:paddingBottom="@dimen/pt1"
-            android:paddingLeft="@dimen/pt3"
-            android:paddingRight="@dimen/pt3"
-            android:paddingTop="@dimen/pt1"
-            android:text="广告"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp8" />
+
     </FrameLayout>
 </FrameLayout>
 

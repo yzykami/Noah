@@ -57,6 +57,8 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
         TextView tvPicCount;
         @BindView(R.id.iv_play_icon)
         ImageView ivPlayIcon;
+        @BindView(R.id.tv_tag)
+        TextView tvTag;
 
         Context mContext;
 
@@ -103,6 +105,10 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
         @Override
         protected void onSetData(int i, final MediaArticle mediaArticle) {
             String ss[] = mediaArticle.appArticleImage.split(",");
+            if (mediaArticle.appArticleImage.contains(","))
+                ss = mediaArticle.appArticleImage.split(",");
+            else if (mediaArticle.appArticleImage.contains(";"))
+                ss = mediaArticle.appArticleImage.split(";");
 
             if (mediaArticle.appArticleImage.isEmpty()) {
                 iv_cover.setVisibility(View.GONE);
@@ -120,16 +126,21 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
             tv_comment_count.setText(mediaArticle.articleCommentSum + "人评");
 
             if (mediaArticle.isArticleTypPicGallery()) {
-                tvPicCount.setText(mediaArticle.articleContentImageNum+"图");
+                tvPicCount.setText(mediaArticle.articleContentImageNum + "图");
                 tvPicCount.setVisibility(View.VISIBLE);
-            }
-            else
+                tvTag.setVisibility(View.VISIBLE);
+                tvTag.setText("图集");
+                tvTag.setBackgroundResource(R.drawable.bg_red_border_round_1px);
+                tvTag.setTextColor(mContext.getResources().getColor(R.color.myRed));
+            } else
                 tvPicCount.setVisibility(View.GONE);
-            if(mediaArticle.isArticleTypeVideo())
-            {
+            if (mediaArticle.isArticleTypeVideo()) {
                 ivPlayIcon.setVisibility(View.VISIBLE);
-            }
-            else
+                tvTag.setVisibility(View.VISIBLE);
+                tvTag.setText("视频");
+                tvTag.setBackgroundResource(R.drawable.bg_red_border_round_1px);
+                tvTag.setTextColor(mContext.getResources().getColor(R.color.myRed));
+            } else
                 ivPlayIcon.setVisibility(View.GONE);
         }
     }

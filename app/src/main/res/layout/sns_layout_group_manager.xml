@@ -48,7 +48,7 @@
             android:paddingLeft="@dimen/pt10"
             android:paddingRight="@dimen/pt10"
             android:paddingTop="@dimen/pt5"
-            android:src="@drawable/sns_personal_more"
+            android:src="@drawable/more_white"
             android:visibility="gone" />
     </RelativeLayout>
 

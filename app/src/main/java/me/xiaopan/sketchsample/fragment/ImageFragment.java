@@ -201,6 +201,9 @@ public class ImageFragment extends BaseFragment {
             } else {
                 options.setImageDisplayer(new FadeInImageDisplayer());
             }
+
+            //
+            options.setLoadingImage(R.drawable.logo_gray_fatter);
         }
 
         @Override

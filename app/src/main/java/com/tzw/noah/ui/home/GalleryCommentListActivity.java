@@ -48,7 +48,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/8/11.
  */
 
-public class GalleryCommentListActivity extends MyBaseActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, MediaListListener {
+public class GalleryCommentListActivity extends MyBaseActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
@@ -221,7 +221,7 @@ public class GalleryCommentListActivity extends MyBaseActivity implements MediaA
         adapter.addItemFactory(new MediaArticleDatailCommentItemFactory(this));
         adapter.addItemFactory(new MediaArticleDetailSafaItemFatory(this));
 //        adapter.addItemFactory(new MediaListTxtItemFatory(this));
-//        adapter.addItemFactory(new MediaListPicItemFatory(this));
+//        adapter.addItemFactory(new AdvListPicItemFatory(this));
 
         if (mediaArticle.articleCommentSum > 0) {
             loadMoreItem = new LoadMoreItemFactory(this);

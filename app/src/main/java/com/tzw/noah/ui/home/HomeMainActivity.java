@@ -24,6 +24,7 @@ import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
 import com.tzw.noah.ui.circle.PostListFragment;
+import com.tzw.noah.ui.sns.search.UserSearchActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -243,5 +244,12 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
 //                tabStrip.notifyDataSetChanged();
             }
         });
+    }
+
+    public void handle_search(View view) {
+        Intent intent = new Intent(HomeMainActivity.this, SearchActivity.class);
+        startActivity(intent);
+        this.getParent().overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
+//        this.getParent().overridePendingTransition(R.anim.window_push_enter, 0);
     }
 }

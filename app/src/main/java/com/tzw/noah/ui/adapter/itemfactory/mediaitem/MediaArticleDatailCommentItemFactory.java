@@ -78,8 +78,8 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
         LinearLayout llComment;
         @BindView(R.id.iv_notify)
         ImageView ivNotify;
-        @BindView(R.id.llr)
-        LinearLayout llr;
+        @BindView(R.id.ll_reply_count)
+        LinearLayout llReplyCount;
         @BindView(R.id.tv_comment_count)
         TextView tvCommentCount;
         private Context mContext;
@@ -121,11 +121,11 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
 
             imageView.displayImage(mc.memberHeadPic);
             tvName.setText(mc.memberNickName);
-            tvCommnet.setText(mc.commentContent);
+            tvCommnet.setText(trim(mc.commentContent));
             tvTime.setText(Utils.getStandardDate(mc.createTime));
             tvCommentCount.setText(mc.repliesNumber + "");
 
-            if(mc.isCommentDetail) {
+            if (mc.isCommentDetail) {
                 tvCommnet.setMaxLines(256);
                 llReply.setVisibility(View.GONE);
                 return;
@@ -141,7 +141,7 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
                         tv.setVisibility(View.GONE);
                     } else {
                         tv.setVisibility(View.VISIBLE);
-                        tv.setText(getClickableSpan(0, replys.get(i).memberNickName.length(), replys.get(i).memberNickName + ":   " + replys.get(i).commentContent));
+                        tv.setText(getClickableSpan(0, replys.get(i).memberNickName.length(), replys.get(i).memberNickName + ":   " + trim(replys.get(i).commentContent)));
                         tv.setMovementMethod(LinkMovementMethod.getInstance());
 //                        tv.setText(replys.get(i).memberNickName + ":   " +replys.get(i).commentContent);
                     }
@@ -198,5 +198,14 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
 //                mContext.startActivity(intent);
             }
         }
+    }
+
+    private String trim(String commentContent) {
+        String s = commentContent.trim();
+        if (s.contains("\r\n"))
+            s = s.replace("\r\n", "");
+        if (s.contains("\n"))
+            s = s.replace("\n", "");
+        return s;
     }
 }

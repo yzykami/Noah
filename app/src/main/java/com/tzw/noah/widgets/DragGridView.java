@@ -406,8 +406,8 @@ public class DragGridView extends FrameLayout {
         mCopyView.setX(l1[0] - l2[0]);
         mCopyView.setY(l1[1] - l2[1]);
         if (onDragSelectListener == null) {
-            mCopyView.setScaleX(1.2f);
-            mCopyView.setScaleY(1.2f);
+            mCopyView.setScaleX(1.3f);
+            mCopyView.setScaleY(1.3f);
         } else {
             onDragSelectListener.onDragSelect(mCopyView);
         }

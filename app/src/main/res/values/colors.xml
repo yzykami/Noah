@@ -24,6 +24,7 @@
     <color name="bg_light">#F4F4F4</color>
     <color name="bg_darkLight">#cccccc</color>
     <color name="textDarkGray">#101010</color>
+    <color name="textDarkLightGray">#666666</color>
     <color name="textLightGray">#bbbbbb</color>
     <color name="textLightLightGray">#bfbfbf</color>
     <color name="mask">#30666666</color>

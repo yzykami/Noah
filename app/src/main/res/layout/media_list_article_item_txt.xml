@@ -25,9 +25,9 @@
             layout="@layout/media_list_article_item_attribute"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/bjs"
+            android:layout_below="@+id/title"
             android:layout_marginBottom="@dimen/bjs"
-            android:layout_below="@+id/title"/>
+            android:layout_marginTop="@dimen/pt6" />
 
     </RelativeLayout>
 

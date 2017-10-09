@@ -8,6 +8,7 @@ import com.tzw.timeselector.Utils.TextUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -669,6 +670,7 @@ public class NetHelper {
         String method = "media/category";
         new WIRequest().Get(method, callback);
     }
+
     //获取栏目
     //media/category
     public IMsg mediaCategory() {
@@ -686,7 +688,7 @@ public class NetHelper {
     //获取文章详情
     //media/articleDetails?articleId={$articleId}
     public void mediaArticleDetails(int articleId, Callback callback) {
-        String method = "media/articleDetails?articleId=" + articleId ;
+        String method = "media/articleDetails?articleId=" + articleId;
         new WIRequest().Get(method, callback);
     }
 
@@ -714,16 +716,17 @@ public class NetHelper {
 
     // 文章评论
     //media/commentOnArticle
-    public void mediaComment(int articleId, String commentContent,int commentId, Callback callback) {
+    public void mediaComment(int articleId, String commentContent, int commentId, Callback callback) {
         String method = "media/commentOnArticle";
         List<Param> body = new ArrayList<>();
         body.add(new Param("articleId", articleId));
         body.add(new Param("commentContent", commentContent));
-        if(commentId!=0)
+        if (commentId != 0)
             body.add(new Param("beArticleCommentId", commentId));
         String bodyName = "articleCommentSObj";
         new WIRequest().Post(method, body, bodyName, callback);
     }
+
     //获取点赞列表
     //media/evaluateList/{$articleEvaluateId}/{$articleId}/{$pagesize}
     public void mediaLikeList(int articleId, int articleEvaluateId, int pagesize, Callback callback) {
@@ -740,22 +743,76 @@ public class NetHelper {
 
     //获取评论列表
     //media/revertList/{$articleId}/{$beArticleCommentId}/{$articleCommntId}/{$pagesize}
-    public void mediaCommentList(int articleId, int beArticleCommentId ,int articleCommntId, int pagesize, Callback callback) {
-        String method = "media/revertList/" + articleId + "/" + beArticleCommentId+ "/" + articleCommntId + "/" + pagesize;
+    public void mediaCommentList(int articleId, int beArticleCommentId, int articleCommntId, int pagesize, Callback callback) {
+        String method = "media/revertList/" + articleId + "/" + beArticleCommentId + "/" + articleCommntId + "/" + pagesize;
         new WIRequest().Get(method, callback);
     }
 
     // 文章评论
     //media/complain
-    public void mediaComplaint(int articleId, String type ,String content, Callback callback) {
+    public void mediaComplaint(int articleId, String type, String content, Callback callback) {
         String method = "media/complain";
         List<Param> body = new ArrayList<>();
         body.add(new Param("complaintsObjectId", articleId));
         body.add(new Param("complaintsType", type));
-        if(!TextUtil.isEmpty(content)) {
+        if (!TextUtil.isEmpty(content)) {
             body.add(new Param("complaintsValue", content));
         }
         String bodyName = "complainSObj";
         new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    // 文章搜索
+    //media/search
+    public void mediaSearch(String keyWords, int articleId, int pagesize, Callback callback) {
+        String method = "media/search";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("keyWords", keyWords));
+        body.add(new Param("articleId", articleId));
+        body.add(new Param("pagesize", pagesize));
+        String bodyName = "conditionsSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    //获取文章列表
+    //mix/articleList
+    public void mixArticleList(int channelId, int articleId, int pagesize, int advId, int advSize, Callback callback) {
+        String method = "mix/articleList";
+        HashMap<String, Object> mapSObj = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> mapArticle = new HashMap<>();
+        HashMap<String, Object> mapAdv = new HashMap<>();
+        mapArticle.put("channelId", channelId);
+        mapArticle.put("articleId", articleId);
+        mapArticle.put("pagesize", pagesize);
+
+        mapAdv.put(advId + "", advSize);
+
+        map.put("articleListObj", mapArticle);
+        map.put("advertisingObj", mapAdv);
+
+        mapSObj.put("articleListSObj", map);
+
+        new WIRequest().PostMap(method, mapSObj, callback);
+    }
+
+    //获取文章详情
+    //mix/articleList
+    public void mixArticleDetail(int articleId, int advId, int advSize, Callback callback) {
+        String method = "mix/articleDetails";
+        HashMap<String, Object> mapSObj = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
+//        HashMap<String, Object> mapArticle = new HashMap<>();
+        HashMap<String, Object> mapAdv = new HashMap<>();
+
+        mapAdv.put(advId + "", advSize);
+
+        map.put("articleId", articleId);
+//        map.put("articleListObj", mapArticle);
+        map.put("advertisingObj", mapAdv);
+
+        mapSObj.put("articleDetailsSObj", map);
+
+        new WIRequest().PostMap(method, mapSObj, callback);
     }
 }

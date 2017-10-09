@@ -6,4 +6,5 @@ package com.tzw.noah.ui.adapter.itemfactory.medialist;
 
 public interface MediaListListener {
     void onItemClick(int position, Object o);
+    void onGalleryPageScrollStateChanged(boolean isViewPagerScrolling);
 }

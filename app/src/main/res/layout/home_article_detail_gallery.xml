@@ -32,7 +32,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text=""
-            android:textColor="@color/textDarkGray"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_title" />
 
         <ImageView
@@ -59,13 +59,13 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/title_right_btn_right_bj"
             android:clickable="true"
-            android:onClick="handle_add"
+            android:onClick="handle_more"
             android:paddingBottom="@dimen/pt5"
             android:paddingLeft="@dimen/pt10"
             android:paddingRight="@dimen/pt10"
             android:paddingTop="@dimen/pt5"
-            android:src="@drawable/sns_add"
-            android:visibility="gone" />
+            android:src="@drawable/more_white"
+            android:visibility="visible" />
 
     </RelativeLayout>
 

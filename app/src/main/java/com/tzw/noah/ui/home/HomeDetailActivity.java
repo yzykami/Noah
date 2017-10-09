@@ -4,23 +4,20 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.shuyu.gsyvideoplayer.GSYPreViewManager;
-import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.StandardVideoAllCallBack;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
@@ -29,6 +26,7 @@ import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.logger.Log;
+import com.tzw.noah.models.Advertising;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.MediaComment;
 import com.tzw.noah.models.MediaLike;
@@ -38,9 +36,12 @@ import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
+import com.tzw.noah.ui.adapter.itemfactory.advertising.AdvDetailItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDatailCommentItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailAdvertiseItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailDividerItemFatory;
+import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailDividerLineItemFatory;
+import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailDividerWhiteItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailListener;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailSafaItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTagItemFatory;
@@ -48,11 +49,8 @@ import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTitleItem
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailWebViewItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleKeywordItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleLikeItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListDefaultItemFatory;
+import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleRelativeItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
-import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListTxtItemFatory;
-import com.tzw.noah.utils.StatusBarUtil;
 import com.tzw.noah.widgets.MyWebView;
 
 import java.io.IOException;
@@ -64,6 +62,7 @@ import butterknife.ButterKnife;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
 import me.xiaopan.assemblyadapter.OnRecyclerLoadMoreListener;
 import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
+import me.xiaopan.sketchsample.widget.SampleImageView;
 import okhttp3.Call;
 
 /**
@@ -77,8 +76,16 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
     RecyclerView recyclerView;
     @BindView(R.id.rl_bg)
     RelativeLayout rl_bg;
+    @BindView(R.id.rl_loading)
+    RelativeLayout rl_loading;
+    @BindView(R.id.rl_error)
+    RelativeLayout rl_error;
     @BindView(R.id.rl_top)
     RelativeLayout rl_top;
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
+    @BindView(R.id.iv_detail)
+    ImageView iv_detail;
     @BindView(R.id.rl_divider)
     View divider;
     @BindView(R.id.videoLayout)
@@ -91,6 +98,14 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
     View statusBar;
     @BindView(R.id.video_item_player)
     com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer videoPlayer;
+    @BindView(R.id.rl_video_cover)
+    RelativeLayout rl_video_cover;
+    @BindView(R.id.iv_adv)
+    SampleImageView iv_adv;
+    @BindView(R.id.tv_adv_close)
+    TextView tv_adv_close;
+    @BindView(R.id.tv_adv_reply)
+    TextView tv_adv_reply;
 
     private boolean isPlay;
     private boolean isPause;
@@ -108,6 +123,7 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
     String title = "";
     String htmlContent = "";
     MediaArticle mediaArticle;
+    Advertising advertising;
     private boolean isloading = false;
     private int isLike;
     private boolean isFavorite;
@@ -154,18 +170,9 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         }
         title = "";
         if (mediaArticle.isArticleTypeVideo()) {
-
             videoPlayer.setVisibility(View.VISIBLE);
-            rl_bg.setVisibility(View.GONE);
-            statusBar.setVisibility(View.GONE);
-            rl_top.setVisibility(View.GONE);
-            divider.setVisibility(View.GONE);
-
-            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
-            lp.addRule(RelativeLayout.BELOW, R.id.video_item_player);
-            recyclerView.setLayoutParams(lp);
-
-//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
         } else {
             videoPlayer.setVisibility(View.GONE);
 
@@ -173,19 +180,20 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
     }
 
     private void findview() {
-        rl_bg.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onWebViewLoadComplete();
-            }
-        }, 4000);
+
     }
 
     private void loadData() {
-        NetHelper.getInstance().mediaArticleDetails(mediaArticle.articleId, new Callback() {
+
+        setLoading();
+        int advId = 23001;
+        if (mediaArticle.isArticleTypeVideo())
+            advId = 23003;
+        NetHelper.getInstance().mixArticleDetail(mediaArticle.articleId, advId, 1, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                toast(getResources().getString(R.string.internet_fault));
+//                toast(getResources().getString(R.string.internet_fault));
+                setError();
             }
 
             @Override
@@ -197,12 +205,17 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
                         isFavorite = mediaArticle.isArticleKeep;
                         if (mediaArticle.articleCommentObj.size() > 0)
                             commentId = mediaArticle.articleCommentObj.get(mediaArticle.articleCommentObj.size() - 1).articleCommentId;
-                        iMsg.systemOut();
+                        List<Advertising> advs = Advertising.loadList(iMsg);
+                        if (advs.size() > 0) {
+                            advertising = advs.get(0);
+                        }
                         initview();
                     } else {
+                        setError();
                         toast(iMsg.getMsg());
                     }
                 } catch (Exception e) {
+                    setError();
                     Log.log(Tag, e);
                 }
             }
@@ -231,14 +244,29 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         transition.replace(R.id.frame_input, frame_input);
         transition.commit();
 
-        if(mediaArticle.isArticleTypeVideo())
+        if (mediaArticle.isArticleTypeVideo()) {
+            setComplete();
             initVideo();
+        }
 
         updateData();
     }
 
     private void initVideo() {
-        if(mediaArticle.videoObj.size()>0) {
+
+        statusBar.setVisibility(View.GONE);
+        statusBar.setBackgroundResource(R.color.transParent);
+        rl_top.setBackgroundResource(R.color.transParent);
+        iv_back.setImageResource(R.drawable.back_white);
+        iv_detail.setImageResource(R.drawable.more_white);
+//        rl_top.setVisibility(View.GONE);
+        divider.setVisibility(View.GONE);
+
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
+        lp.addRule(RelativeLayout.BELOW, R.id.video_item_player);
+        recyclerView.setLayoutParams(lp);
+
+        if (mediaArticle.videoObj.size() > 0) {
             //外部辅助的旋转，帮助全屏
             orientationUtils = new OrientationUtils(this, videoPlayer);
             orientationUtils.setEnable(false);
@@ -275,15 +303,32 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
         if (mediaArticle.getKeywords().size() > 0)
             items.add(mediaArticle.makeKeyword());
+
         items.add(mediaArticle.makeLiker());
+        //广告
+        if (advertising != null && mediaArticle.isArticleTypeArticle()) {
+
+            items.add(mediaArticle.makeDividerWhite());
+            items.add(advertising);
+        }
 //        images.add(mediaArticle.makeAdvertise());
 
+
+        // 相关文章
         if (mediaArticle.relatedArticlesObj.size() > 0) {
-            items.add(mediaArticle.makeDivider());
-            items.add(mediaArticle.makeTag(TAG_RELATE));
-            for (int i = 0; i < mediaArticle.relatedArticlesObj.size(); i++) {
+            //增加一个白色分割区
+//            if (advertising == null)//如果增加该判断,则在有广告的时候不加
+            items.add(mediaArticle.makeDividerWhite());
+//            items.add(mediaArticle.makeTag(TAG_RELATE));
+            //图文显示4条, 视频显示8条
+            int maxcount = 4;
+            if (mediaArticle.isArticleTypeVideo())
+                maxcount = 8;
+            for (int i = 0; i < mediaArticle.relatedArticlesObj.size() && i < maxcount; i++) {
                 mediaArticle.relatedArticlesObj.get(i).articleCommentSum = -1;
                 items.add(mediaArticle.relatedArticlesObj.get(i));
+                if (i < mediaArticle.relatedArticlesObj.size() - 1 && i < maxcount-1 )
+                    items.add(mediaArticle.makeDividerLine());
             }
         }
 
@@ -303,14 +348,16 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         adapter.addItemFactory(new MediaArticleKeywordItemFatory(this));
         adapter.addItemFactory(new MediaArticleLikeItemFatory(this));
         adapter.addItemFactory(new MediaArticleDetailDividerItemFatory(this));
+        adapter.addItemFactory(new MediaArticleDetailDividerLineItemFatory(this));
+        adapter.addItemFactory(new MediaArticleDetailDividerWhiteItemFatory(this));
         adapter.addItemFactory(new MediaArticleDetailTagItemFatory(this));
         adapter.addItemFactory(new MediaArticleDetailAdvertiseItemFatory(this));
         adapter.addItemFactory(new MediaArticleDatailCommentItemFactory(this));
         adapter.addItemFactory(new MediaArticleDetailSafaItemFatory(this));
 
-        adapter.addItemFactory(new MediaListTxtItemFatory(this));
-        adapter.addItemFactory(new MediaListPicItemFatory(this));
-        adapter.addItemFactory(new MediaListDefaultItemFatory(this));
+        adapter.addItemFactory(new MediaArticleRelativeItemFatory(this));
+
+        adapter.addItemFactory(new AdvDetailItemFatory(this));
 
         if (mediaArticle.articleCommentObj.size() > 0) {
             loadMoreItem = new LoadMoreItemFactory(this);
@@ -326,6 +373,42 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
     private void doWorking() {
     }
+
+    public void handle_more(View view) {
+
+    }
+
+    public void setLoading() {
+        rl_bg.setVisibility(View.VISIBLE);
+        rl_loading.setVisibility(View.VISIBLE);
+        rl_error.setVisibility(View.GONE);
+        rl_bg.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (rl_bg.getVisibility() == View.VISIBLE) {
+                    setError();
+                }
+            }
+        }, DataCenter.INTEL_TIMEOUT);
+    }
+
+    public void setComplete() {
+        rl_bg.setVisibility(View.GONE);
+    }
+
+    public void setError() {
+        rl_bg.setVisibility(View.VISIBLE);
+        rl_loading.setVisibility(View.GONE);
+        rl_error.setVisibility(View.VISIBLE);
+        TextView btn = (TextView) rl_error.findViewById(R.id.btn_rlbg);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+    }
+
 
     @Override
     public void onSearchClick(int position, Object optionsKey) {
@@ -414,12 +497,34 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
                 showKeyboardDelayed(frame_input.getEditView(), 0);
             }
             if (((MediaArticle) o).TYPE == MediaArticle.TYPE_LIST) {
-                Bundle bu = new Bundle();
-                bu.putSerializable("DATA", (MediaArticle) o);
-                startActivity2(HomeDetailActivity.class, bu);
-                this.finish();
+                if (o instanceof MediaArticle) {
+                    if (((MediaArticle) o).isArticleTypeVideo()) {
+                        Bundle bu = new Bundle();
+                        bu.putSerializable("DATA", (MediaArticle) o);
+                        startActivity2(HomeDetailActivity.class, bu);
+                        this.finish();
+                        return;
+                    } else if (((MediaArticle) o).isArticleTypPicGallery()) {
+                        Bundle bu = new Bundle();
+                        bu.putSerializable("DATA", (MediaArticle) o);
+                        startActivity2(HomeDetailGalleryActivity.class, bu);
+                        this.finish();
+                        return;
+                    } else {
+                        Bundle bu = new Bundle();
+                        bu.putSerializable("DATA", (MediaArticle) o);
+                        startActivity2(HomeDetailActivity.class, bu);
+                        this.finish();
+                        return;
+                    }
+                }
             }
         }
+    }
+
+    @Override
+    public void onGalleryPageScrollStateChanged(boolean isViewPagerScrolling) {
+
     }
 
     @Override
@@ -429,7 +534,7 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
     @Override
     public void onWebViewLoadComplete() {
-        rl_bg.setVisibility(View.GONE);
+        setComplete();
     }
 
     @Override
@@ -490,24 +595,30 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
     @Override
     public void onCommentClick() {
-        int position = getfirstPosition(MediaArticle.TYPE_TAG, TAG_COMMENT);
-        if (position == -1) {
-            position = getfirstPosition(MediaArticle.TYPE_SAFA);
-            if (position != -1) {
-                frame_input.switchEditMode(true);
-                showKeyboardDelayed(frame_input.getEditView(), 100);
-            }
-        }
-        if (position == -1)
-            return;
-        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(mContext) {
-            @Override
-            protected int getVerticalSnapPreference() {
-                return LinearSmoothScroller.SNAP_TO_START;
-            }
-        };
-        smoothScroller.setTargetPosition(position);
-        layoutManager.startSmoothScroll(smoothScroller);
+//        int position = getfirstPosition(MediaArticle.TYPE_TAG, TAG_COMMENT);
+//        if (position == -1) {
+//            position = getfirstPosition(MediaArticle.TYPE_SAFA);
+//            if (position != -1) {
+//                frame_input.switchEditMode(true);
+//                showKeyboardDelayed(frame_input.getEditView(), 100);
+//            }
+//        }
+//        if (position == -1)
+//            return;
+//        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(mContext) {
+//            @Override
+//            protected int getVerticalSnapPreference() {
+//                return LinearSmoothScroller.SNAP_TO_START;
+//            }
+//        };
+//        smoothScroller.setTargetPosition(position);
+//        layoutManager.startSmoothScroll(smoothScroller);
+
+        Bundle bu = new Bundle();
+        bu.putSerializable("DATA", mediaArticle);
+//        bu.putSerializable("DATA2", data);
+//        DataCenter.getInstance().setMediaComment(mMediaComment);
+        startActivity2(GalleryCommentListActivity.class, bu);
     }
 
     @Override
@@ -707,6 +818,46 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         });
     }
 
+    private void showVideoAdv() {
+        if (advertising != null) {
+            iv_detail.setVisibility(View.GONE);
+            rl_video_cover.setVisibility(View.VISIBLE);
+            iv_adv.displayImage(advertising.advertImage);
+            final CountDownTimer timer = new CountDownTimer(15 * 1000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    //每隔countDownInterval秒会回调一次onTick()方法
+//                    Log.d(TAG, "onTick  " + millisUntilFinished / 1000);
+                    tv_adv_close.setText(millisUntilFinished / 1000 + " | 关闭广告 ");
+                }
+
+                @Override
+                public void onFinish() {
+//                    Log.d(TAG, "onFinish -- 倒计时结束");
+                    iv_detail.setVisibility(View.VISIBLE);
+                    rl_video_cover.setVisibility(View.GONE);
+                }
+            };
+            timer.start();// 开始计时
+            tv_adv_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    timer.cancel();
+                    iv_detail.setVisibility(View.VISIBLE);
+                    rl_video_cover.setVisibility(View.GONE);
+                }
+            });
+            tv_adv_reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    iv_detail.setVisibility(View.VISIBLE);
+                    rl_video_cover.setVisibility(View.GONE);
+                    videoPlayer.startPlayLogic();
+                }
+            });
+        }
+    }
+
     @Override
     public void onBackPressed() {
 
@@ -763,6 +914,8 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
         super.onConfigurationChanged(newConfig);
         //如果旋转了就全屏
         if (mediaArticle.isArticleTypeVideo()) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
             if (isPlay && !isPause) {
                 videoPlayer.onConfigurationChanged(this, newConfig, orientationUtils);
             }
@@ -853,7 +1006,10 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
     @Override
     public void onAutoComplete(String url, Object... objects) {
-
+        if (orientationUtils != null) {
+            orientationUtils.backToProtVideo();
+        }
+        showVideoAdv();
     }
 
     @Override
@@ -863,10 +1019,8 @@ public class HomeDetailActivity extends MyBaseActivity implements MediaArticleDe
 
     @Override
     public void onQuitFullscreen(String url, Object... objects) {
-        if (orientationUtils != null) {
-            orientationUtils.backToProtVideo();
-        }
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
