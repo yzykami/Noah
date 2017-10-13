@@ -3,12 +3,8 @@ package com.tzw.noah.ui.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -23,11 +19,8 @@ import android.widget.TextView;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.cache.SearchHistoryCache;
-import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.MediaArticle;
-import com.tzw.noah.models.MediaComment;
-import com.tzw.noah.models.MediaLike;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
@@ -57,12 +50,16 @@ import okhttp3.Call;
  * Created by yzy on 2017/8/11.
  */
 
-public class SearchActivity extends MySwipeBackActivity implements OnRecyclerLoadMoreListener, MediaListListener {
+public class KeywordActivity extends MySwipeBackActivity implements OnRecyclerLoadMoreListener, MediaListListener {
 
     @BindView(R.id.list_view)
     RecyclerView recyclerView;
     @BindView(R.id.rl_bg)
     RelativeLayout rl_bg;
+    @BindView(R.id.rl_search)
+    RelativeLayout rl_search;
+    @BindView(R.id.rl_title)
+    RelativeLayout rl_title;
     @BindView(R.id.rl_loading)
     RelativeLayout rl_loading;
     @BindView(R.id.rl_error)
@@ -77,23 +74,24 @@ public class SearchActivity extends MySwipeBackActivity implements OnRecyclerLoa
     FlowLayout flowlayout;
     @BindView(R.id.et_keyword)
     EditText et_keyword;
-    @BindView(R.id.tv_cancel)
-    TextView tv_cancel;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
     //    @BindView(R.id.maskView)
 //    View maskView;
-    Context mContext = SearchActivity.this;
+    Context mContext = KeywordActivity.this;
 
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-    static SearchActivity instance;
-    String Tag = "SearchActivity";
+    static KeywordActivity instance;
+    String Tag = "KeywordActivity";
 
     List<MediaArticle> items;
     List<String> list_history;
 
     //    String title = "评论详情";
-    String htmlContent = "";
+    String key = "";
+    int keyId = 0;
     //    MediaArticle mediaArticle;
 //    MediaComment mMediaComment;
     int articleId = 0;
@@ -103,9 +101,9 @@ public class SearchActivity extends MySwipeBackActivity implements OnRecyclerLoa
 
     LoadMoreItemFactory loadMoreItem;
 
-    public static SearchActivity getInstance() {
+    public static KeywordActivity getInstance() {
         if (instance == null) {
-            instance = new SearchActivity();
+            instance = new KeywordActivity();
         }
         return instance;
     }
@@ -120,44 +118,61 @@ public class SearchActivity extends MySwipeBackActivity implements OnRecyclerLoa
         initdata();
         findview();
         initview();
+        setLoading();
+        doSearch();
     }
 
 
     private void initdata() {
-        rl_nohistory.setVisibility(View.VISIBLE);
-        ll_history.setVisibility(View.GONE);
-        list_history = SearchHistoryCache.getSearchHistorys(mContext);
-        flowlayout.removeAllViews();
-        if (list_history.size() > 0) {
-            rl_nohistory.setVisibility(View.GONE);
-            ll_history.setVisibility(View.VISIBLE);
-            int height = Utils.dp2px(mContext, 24);
-            int width = ViewGroup.LayoutParams.WRAP_CONTENT;
-            for (String key : list_history) {
-                ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(width, height);
-                lp.setMargins(0, 0, Utils.dp2px(mContext, 10), 0);
-                final TextView tv = new TextView(mContext);
-                tv.setPadding(Utils.dp2px(mContext, 10), 0, Utils.dp2px(mContext, 10), 0);
-                tv.setTextColor(mContext.getResources().getColor(R.color.textDarkGray));
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-                tv.setText(key);
-                tv.setGravity(Gravity.CENTER_VERTICAL);
-                tv.setLines(1);
-                tv.setBackgroundResource(R.drawable.bg_gray_fill_round);
-                tv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        et_keyword.setText(tv.getText());
-                        articleId = 0;
-                        addHistory(et_keyword.getText().toString());
-                        setLoading();
-                        doSearch();
-                        showKeyboard(false);
-                    }
-                });
-                flowlayout.addView(tv, lp);
+
+        Bundle bu = getIntent().getExtras();
+        if (bu != null) {
+            key = bu.getString("key");
+            String keyIdStr = bu.getString("keyId");
+            try {
+                keyId = Integer.parseInt(keyIdStr);
+            } catch (Exception e) {
+
             }
         }
+
+        rl_nohistory.setVisibility(View.GONE);
+        ll_history.setVisibility(View.GONE);
+
+        rl_search.setVisibility(View.GONE);
+        rl_title.setVisibility(View.VISIBLE);
+//        list_history = SearchHistoryCache.getSearchHistorys(mContext);
+//        flowlayout.removeAllViews();
+//        if (list_history.size() > 0) {
+//            rl_nohistory.setVisibility(View.GONE);
+//            ll_history.setVisibility(View.VISIBLE);
+//            int height = Utils.dp2px(mContext, 24);
+//            int width = ViewGroup.LayoutParams.WRAP_CONTENT;
+//            for (String key : list_history) {
+//                ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(width, height);
+//                lp.setMargins(0, 0, Utils.dp2px(mContext, 10), 0);
+//                final TextView tv = new TextView(mContext);
+//                tv.setPadding(Utils.dp2px(mContext, 10), 0, Utils.dp2px(mContext, 10), 0);
+//                tv.setTextColor(mContext.getResources().getColor(R.color.textDarkGray));
+//                tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+//                tv.setText(key);
+//                tv.setGravity(Gravity.CENTER_VERTICAL);
+//                tv.setLines(1);
+//                tv.setBackgroundResource(R.drawable.bg_gray_fill_round);
+//                tv.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        et_keyword.setText(tv.getText());
+//                        articleId = 0;
+//                        addHistory(et_keyword.getText().toString());
+//                        setLoading();
+//                        doSearch();
+//                        showKeyboard(false);
+//                    }
+//                });
+//                flowlayout.addView(tv, lp);
+//            }
+//        }
     }
 
     private void findview() {
@@ -193,42 +208,43 @@ public class SearchActivity extends MySwipeBackActivity implements OnRecyclerLoa
 
 
     private void initview() {
+        tv_title.setText(key);
         rl_bg.setVisibility(View.GONE);
         layoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(mContext, R.drawable.recycleview_divider_pt5));
 
-        tv_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.window_pop_enter, R.anim.window_pop_exit);
-            }
-        });
-        et_keyword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    if (et_keyword.getText().toString().equals("")) {
-//                        toast("请输入关键字");
-                        adapter.clear();
-                        initdata();
-                        return true;
-                    }
-
-                    articleId = 0;
-                    addHistory(et_keyword.getText().toString());
-                    setLoading();
-                    doSearch();
-                    showKeyboard(false);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-        showKeyboardDelayed(et_keyword);
+//        tv_cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//                overridePendingTransition(R.anim.window_pop_enter, R.anim.window_pop_exit);
+//            }
+//        });
+//        et_keyword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_SEARCH
+//                        || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+//                    if (et_keyword.getText().toString().equals("")) {
+////                        toast("请输入关键字");
+//                        adapter.clear();
+//                        initdata();
+//                        return true;
+//                    }
+//
+//                    articleId = 0;
+//                    addHistory(et_keyword.getText().toString());
+//                    setLoading();
+//                    doSearch();
+//                    showKeyboard(false);
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//            }
+//        });
+//        showKeyboardDelayed(et_keyword);
 
         initAdapter();
 
@@ -264,9 +280,8 @@ public class SearchActivity extends MySwipeBackActivity implements OnRecyclerLoa
     }
 
     private void doSearch() {
-        if (et_keyword.getText().toString().equals(""))
-            return;
-        NetHelper.getInstance().mediaSearch(et_keyword.getText().toString(), articleId, DataCenter.pagesize, new StringDialogCallback(mContext) {
+
+        NetHelper.getInstance().mediaKeywordList(keyId, articleId, DataCenter.pagesize, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));
@@ -286,12 +301,11 @@ public class SearchActivity extends MySwipeBackActivity implements OnRecyclerLoa
                             adapter.clear();
                         }
                         //
-                        for (int i=0; i<items.size(); i++) {
+                        for (int i = 0; i < items.size(); i++) {
                             MediaArticle ma = items.get(i);
-                            if(ma.isListPicUDBig())
-                            {
+                            if (ma.isListPicUDBig()) {
                                 ma.listShowType = MediaArticle.LIST_TYPE_PIC_RL;
-                                items.set(i,ma);
+                                items.set(i, ma);
                             }
                         }
                         adapter.addAll(items);
@@ -399,6 +413,12 @@ public class SearchActivity extends MySwipeBackActivity implements OnRecyclerLoa
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+        overridePendingTransition(R.anim.window_pop_enter, R.anim.window_pop_exit);
+    }
+
+    @Override
+    public void handle_back(View v) {
+        super.handle_back(v);
         overridePendingTransition(R.anim.window_pop_enter, R.anim.window_pop_exit);
     }
 

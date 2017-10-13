@@ -13,8 +13,8 @@
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pt0"
-        android:background="@color/white"
-        />
+        android:background="@color/white" />
+
     <ScrollView
         android:id="@+id/sv"
         android:layout_width="match_parent"
@@ -59,8 +59,8 @@
                             android:id="@+id/tv_zan"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
                             android:layout_marginLeft="@dimen/pt4"
+                            android:gravity="center_vertical"
                             android:maxLines="1"
                             android:text="消息"
                             android:textColor="@color/textDarkGray"
@@ -73,6 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
                         android:layout_alignParentRight="true"
+                        android:onClick="handle_favorite"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -87,8 +88,8 @@
                             android:id="@+id/tv_zan_comment_count"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
                             android:layout_marginLeft="@dimen/pt4"
+                            android:gravity="center_vertical"
                             android:maxLines="1"
                             android:text="收藏"
                             android:textColor="@color/textDarkGray"
@@ -103,8 +104,8 @@
                     android:layout_marginLeft="@dimen/bj"
                     android:layout_marginRight="@dimen/bj"
                     android:layout_marginTop="@dimen/pt10"
-                    android:onClick="handle_userdetail"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:onClick="handle_userdetail">
 
                     <LinearLayout
                         android:id="@+id/ll_user"
@@ -116,7 +117,7 @@
                             android:id="@+id/iv_head"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:src="@drawable/mine_default_user"/>
+                            android:src="@drawable/mine_default_user" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -163,11 +164,12 @@
                         android:layout_centerInParent="true"
                         android:background="@drawable/bg_red_border_round"
                         android:maxLines="1"
+                        android:onClick="handle_login"
                         android:padding="@dimen/pt5"
                         android:text="立即登录"
-                        android:onClick="handle_login"
                         android:textColor="@color/myRed"
                         android:textSize="@dimen/text_content" />
+
                     <ImageView
                         android:id="@+id/iv_next"
                         android:layout_width="wrap_content"
@@ -175,8 +177,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:src="@drawable/mine_arrow_white"
-                        android:visibility="gone"
-                        />
+                        android:visibility="gone" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -184,8 +185,7 @@
                 android:id="@+id/ll_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="11dp"
-                android:layout_marginTop="11dp"
+                android:layout_marginTop="@dimen/pt12"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -194,10 +194,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingTop="@dimen/pt12"
-                    android:paddingBottom="@dimen/pt12"
                     android:onClick="handle_friendlist"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/pt12"
+                    android:paddingTop="@dimen/pt12">
 
                     <ImageView
                         android:id="@+id/iv_1"
@@ -248,9 +248,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="handle_friendlist_group"
-                    android:paddingTop="@dimen/pt12"
+                    android:orientation="vertical"
                     android:paddingBottom="@dimen/pt12"
-                    android:orientation="vertical">
+                    android:paddingTop="@dimen/pt12">
 
                     <ImageView
                         android:id="@+id/iv_2"
@@ -298,12 +298,12 @@
                 <LinearLayout
                     android:id="@+id/ll_3"
                     android:layout_width="0dp"
-                    android:paddingTop="@dimen/pt12"
-                    android:paddingBottom="@dimen/pt12"
                     android:layout_height="wrap_content"
-                    android:onClick="handle_circle"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:onClick="handle_circle"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/pt12"
+                    android:paddingTop="@dimen/pt12">
 
                     <ImageView
                         android:id="@+id/iv_3"
@@ -353,9 +353,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingTop="@dimen/pt12"
+                    android:orientation="vertical"
                     android:paddingBottom="@dimen/pt12"
-                    android:orientation="vertical">
+                    android:paddingTop="@dimen/pt12">
 
                     <ImageView
                         android:id="@+id/iv_4"
@@ -405,9 +405,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingTop="@dimen/pt12"
+                    android:orientation="vertical"
                     android:paddingBottom="@dimen/pt12"
-                    android:orientation="vertical">
+                    android:paddingTop="@dimen/pt12">
 
                     <ImageView
                         android:id="@+id/iv_5"
@@ -454,10 +454,11 @@
                 android:id="@+id/rl1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/pt0"
+                android:layout_marginTop="@dimen/pt12"
                 android:background="@color/white"
                 android:clickable="true"
-                android:onClick="handle_1">
+                android:onClick="handle_1"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -495,7 +496,9 @@
                 android:layout_marginTop="@dimen/pt1"
                 android:background="@color/white"
                 android:clickable="true"
-                android:onClick="handle_2">
+                android:onClick="handle_2"
+
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -533,7 +536,8 @@
                 android:layout_marginTop="@dimen/pt1"
                 android:background="@color/white"
                 android:clickable="true"
-                android:onClick="handle_3">
+                android:onClick="handle_3"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -753,9 +757,10 @@
                     android:textColor="@color/mygray"
                     android:textSize="@dimen/sp14" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="70dp"/>
+                android:layout_height="70dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

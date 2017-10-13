@@ -212,4 +212,9 @@ public class GalleryRelativeFragment extends Fragment implements MediaArticleDet
     public void toggledFullscreen(boolean fullscreen) {
 
     }
+
+    @Override
+    public void onKeywordClick(String key, String keyId) {
+
+    }
 }

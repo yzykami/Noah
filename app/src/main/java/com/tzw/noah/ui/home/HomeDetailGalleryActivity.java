@@ -26,9 +26,11 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.MySwipeBackActivity;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaGalleryRelativeFragmentItemFactory;
 import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
 import com.tzw.noah.utils.StatusBarUtil;
+import com.tzw.noah.widgets.swipeback.SwipeBackLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +53,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/8/11.
  */
 
-public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, ViewPager.OnPageChangeListener, ImageFragmentItemFactory.ImageClickListener {
+public class HomeDetailGalleryActivity extends MySwipeBackActivity implements InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, ViewPager.OnPageChangeListener, ImageFragmentItemFactory.ImageClickListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.rl_top)
@@ -120,6 +122,7 @@ public class HomeDetailGalleryActivity extends MyBaseActivity implements InputFr
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_article_detail_gallery);
+        setDragEdge(SwipeBackLayout.DragEdge.TOP);
         ButterKnife.bind(this);
         StatusBarUtil.transparencyBar(this);
         setStatusBarHeight();

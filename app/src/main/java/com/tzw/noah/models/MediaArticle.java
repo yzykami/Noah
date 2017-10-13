@@ -31,6 +31,7 @@ public class MediaArticle implements Serializable {
     public String articleAbstract = "";
     public String keyWordIds = "";
     public Object keywords;// = new ArrayList<>();
+    public Object arrKeywordIds;// = new ArrayList<>();
     //    public Object liker = null;
     public String articleAuthor = "";
     public int ifOriginal;
@@ -171,6 +172,7 @@ public class MediaArticle implements Serializable {
         MediaArticle ma = new MediaArticle();
         ma.articleId = articleId;
         ma.keywords = this.keywords;
+        ma.arrKeywordIds = this.arrKeywordIds;
         ma.TYPE = TYPE_KEYWORD;
         return ma;
     }
@@ -239,6 +241,12 @@ public class MediaArticle implements Serializable {
     public List<String> getKeywords() {
         if (keywords != null && keywords instanceof ArrayList) {
             return (List<String>) keywords;
+        }
+        return new ArrayList<String>();
+    }
+    public List<String> getKeywordIds() {
+        if (arrKeywordIds != null && arrKeywordIds instanceof ArrayList) {
+            return (List<String>) arrKeywordIds;
         }
         return new ArrayList<String>();
     }

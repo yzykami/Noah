@@ -390,17 +390,20 @@ public class ArticleListFragment extends ViewPagerBaseFragment implements MediaL
             if (((MediaArticle) o).isArticleTypeVideo()) {
                 Bundle bu = new Bundle();
                 bu.putSerializable("DATA", (MediaArticle) o);
-                activity.startActivity2(HomeDetailActivity.class, bu);
+                activity.startActivity2(HomeDetailVideoActivity.class, bu);
+                activity.getParent().overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
                 return;
             } else if (((MediaArticle) o).isArticleTypPicGallery()) {
                 Bundle bu = new Bundle();
                 bu.putSerializable("DATA", (MediaArticle) o);
                 activity.startActivity2(HomeDetailGalleryActivity.class, bu);
+
                 return;
             } else {
                 Bundle bu = new Bundle();
                 bu.putSerializable("DATA", (MediaArticle) o);
                 activity.startActivity2(HomeDetailActivity.class, bu);
+                activity.getParent().overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
             }
         } else {
 

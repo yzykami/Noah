@@ -222,7 +222,7 @@
                     android:layout_height="150dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="85dp"
-                    android:src="@drawable/hint_search_none" />
+                    android:src="@drawable/hint_collect_none" />
 
                 <TextView
                     android:id="@+id/tv_empty_bg"
@@ -230,9 +230,22 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="33dp"
-                    android:text="搜索不到内容哦，换个关键词试试~"
+                    android:text="您还没收藏的文章哦，快读逛逛吧~"
                     android:textColor="@color/textDarkLightGray"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/btn_empty"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="23dp"
+                    android:background="@drawable/bg_red_fill_round"
+                    android:gravity="center"
+                    android:text="去逛逛"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

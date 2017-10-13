@@ -32,7 +32,8 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
     HomeDetailActivity mActivity;
 
     public MediaArticleDetailWebViewItemFatory(MediaArticleDetailListener mMediaListListener) {
-        mActivity = (HomeDetailActivity) mMediaListListener;
+        if(mMediaListListener instanceof  HomeDetailActivity)
+            mActivity = (HomeDetailActivity) mMediaListListener;
         this.mMediaListListener = mMediaListListener;
     }
 

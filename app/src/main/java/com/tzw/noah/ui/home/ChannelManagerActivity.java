@@ -13,6 +13,7 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.MySwipeBackActivity;
 import com.tzw.noah.widgets.DragGridView;
 import com.tzw.noah.widgets.MyAdapter;
 
@@ -28,7 +29,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/6/9.
  */
 
-public class ChannelManagerActivity extends MyBaseActivity {
+public class ChannelManagerActivity extends MySwipeBackActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;

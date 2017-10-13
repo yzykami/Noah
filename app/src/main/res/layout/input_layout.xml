@@ -22,7 +22,7 @@
         android:paddingBottom="@dimen/pt5"
         android:paddingTop="@dimen/pt5">
 
-        <EditText
+        <com.tzw.noah.widgets.KeyBackObservableEditText
             android:id="@+id/tv_edit"
             style="@style/edit_text_style"
             android:layout_width="match_parent"

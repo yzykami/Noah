@@ -211,7 +211,6 @@ public class FriendFragment extends MyFragment {
     private void refreshListView2() {
         items = DataCenter.getInstance().getFriendList();
         for (int i = 0; i < items.size(); i++) {
-            Log.log("aaa", items.get(i).getName());
         }
         items = Utils.processUser(items);
         Collections.sort(items, new MyCompare());

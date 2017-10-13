@@ -24,7 +24,7 @@
             android:id="@+id/iv_adv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tv_adv_close"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/bjs"
-            android:layout_marginTop="@dimen/bjs"
+            android:layout_marginTop="35dp"
             android:background="@drawable/bg_black_fill_round_alpha30"
             android:drawableRight="@drawable/media_editor_delete"
             android:paddingBottom="@dimen/pt4"
@@ -41,7 +41,7 @@
             android:paddingTop="@dimen/pt4"
             android:text="15 | 关闭广告 "
             android:textColor="@color/white"
-            android:textSize="@dimen/sp12"/>
+            android:textSize="@dimen/sp12" />
 
         <TextView
             android:id="@+id/tv_adv_reply"
@@ -58,7 +58,8 @@
             android:paddingTop="@dimen/pt4"
             android:text=" 重播上一个视频"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp12" />
+            android:textSize="@dimen/sp12"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <View
@@ -123,7 +124,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/frame_input"
-        android:layout_below="@id/rl_top"
+        android:layout_below="@+id/video_item_player"
         android:choiceMode="singleChoice"
         android:divider="@null"
         android:fadingEdge="none"
@@ -143,7 +144,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/frame_input"
-        android:layout_below="@id/rl_top"
         android:background="@color/mask"
         android:visibility="gone" />
 

@@ -24,6 +24,7 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.MySwipeBackActivity;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDatailCommentItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailDividerItemFatory;
@@ -48,7 +49,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/8/11.
  */
 
-public class GalleryCommentListActivity extends MyBaseActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener {
+public class GalleryCommentListActivity extends MySwipeBackActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
@@ -380,6 +381,11 @@ public class GalleryCommentListActivity extends MyBaseActivity implements MediaA
 
     @Override
     public void toggledFullscreen(boolean fullscreen) {
+
+    }
+
+    @Override
+    public void onKeywordClick(String key, String keyId) {
 
     }
 

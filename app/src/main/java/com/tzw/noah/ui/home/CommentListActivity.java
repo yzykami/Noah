@@ -25,6 +25,7 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.MySwipeBackActivity;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDatailCommentItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailAdvertiseItemFatory;
@@ -56,7 +57,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/8/11.
  */
 
-public class CommentListActivity extends MyBaseActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener {
+public class CommentListActivity extends MySwipeBackActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
@@ -390,25 +391,33 @@ public class CommentListActivity extends MyBaseActivity implements MediaArticleD
     }
 
     @Override
+    public void onKeywordClick(String key, String keyId) {
+
+    }
+
+    @Override
     public void onCommentClick() {
-        int position = getfirstPosition(MediaArticle.TYPE_TAG, TAG_COMMENT);
-        if (position == -1) {
-            position = getfirstPosition(MediaArticle.TYPE_SAFA);
-            if (position != -1) {
-                frame_input.switchEditMode(true);
-                showKeyboardDelayed(frame_input.getEditView(), 100);
-            }
-        }
-        if (position == -1)
-            return;
-        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(mContext) {
-            @Override
-            protected int getVerticalSnapPreference() {
-                return LinearSmoothScroller.SNAP_TO_START;
-            }
-        };
-        smoothScroller.setTargetPosition(position);
-        layoutManager.startSmoothScroll(smoothScroller);
+//        int position = getfirstPosition(MediaArticle.TYPE_TAG, TAG_COMMENT);
+//        if (position == -1) {
+//            position = getfirstPosition(MediaArticle.TYPE_SAFA);
+//            if (position != -1) {
+//                frame_input.switchEditMode(true);
+//                showKeyboardDelayed(frame_input.getEditView(), 100);
+//            }
+//        }
+//        if (position == -1)
+//            return;
+//        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(mContext) {
+//            @Override
+//            protected int getVerticalSnapPreference() {
+//                return LinearSmoothScroller.SNAP_TO_START;
+//            }
+//        };
+//        smoothScroller.setTargetPosition(position);
+//        layoutManager.startSmoothScroll(smoothScroller);
+
+        frame_input.switchEditMode(true);
+        showKeyboardDelayed(frame_input.getEditView(), 100);
     }
 
     @Override

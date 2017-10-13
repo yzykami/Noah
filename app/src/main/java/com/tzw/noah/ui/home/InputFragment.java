@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+//import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tzw.noah.R;
+import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.MediaComment;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.utils.KeyboardChangeListener;
 import com.tzw.noah.utils.SoftHideKeyBoardUtil;
+import com.tzw.noah.widgets.KeyBackObservableEditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +39,7 @@ import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
  */
 public class InputFragment extends Fragment {
     @BindView(R.id.tv_edit)
-    EditText tv_edit;
+    KeyBackObservableEditText tv_edit;
     @BindView(R.id.tv_send)
     TextView tv_send;
     @BindView(R.id.tv_comment_count)
@@ -84,7 +87,7 @@ public class InputFragment extends Fragment {
     }
 
     public InputFragment setBackgroundBlack(View view) {
-        this.ll_content =view;
+        this.ll_content = view;
         this.isBlackBackground = true;
         return this;
     }
@@ -139,8 +142,11 @@ public class InputFragment extends Fragment {
                     public void onKeyboardChange(boolean isShow, int keyboardHeight) {
                         if (isShow)
                             switchEditMode(true);
-                        else
+                        else {
+
+//                            Log.log("bbb", "keyboard_close");
                             switchEditMode(false);
+                        }
                     }
                 }));
 
@@ -157,6 +163,7 @@ public class InputFragment extends Fragment {
         maskView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                keyboradUtil.setFullScreen();
                 activity.showKeyboard(false);
 //                switchEditMode(false);
             }
@@ -234,6 +241,15 @@ public class InputFragment extends Fragment {
 //                tv_count.setText((maxCount - temp.length()) + "");
             }
         });
+
+        tv_edit.setOnBackPressedListener(new KeyBackObservableEditText.OnBackPressedListener() {
+            @Override
+            public boolean onBackPressed() {
+                keyboradUtil.setFullScreen();
+//                Log.log("bbb", "tv_edit_onbackpress");
+                return false;
+            }
+        });
         initview();
 
         return view;
@@ -309,12 +325,13 @@ public class InputFragment extends Fragment {
             if (isBlackBackground) {
                 tv_edit.setBackgroundResource(R.drawable.bg_lightblack_fill_round);
                 ll_content.setVisibility(View.GONE);
-            }
-            else
+            } else
                 tv_edit.setBackgroundResource(R.color.transParent);
             tv_edit.setMaxLines(6);
 
         } else {
+            keyboradUtil.setFullScreen();
+
             rl_comment.setVisibility(View.VISIBLE);
             iv_fav.setVisibility(View.VISIBLE);
             iv_like.setVisibility(View.VISIBLE);
@@ -324,8 +341,7 @@ public class InputFragment extends Fragment {
             if (isBlackBackground) {
                 tv_edit.setBackgroundResource(R.drawable.bg_lightblack_fill_round);
                 ll_content.setVisibility(View.VISIBLE);
-            }
-            else
+            } else
                 tv_edit.setBackgroundResource(R.drawable.bg_gray_fill_round);
             tv_edit.setMaxLines(1);
         }

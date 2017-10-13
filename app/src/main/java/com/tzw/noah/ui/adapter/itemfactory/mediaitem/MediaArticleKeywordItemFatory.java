@@ -81,7 +81,10 @@ public class MediaArticleKeywordItemFatory extends AssemblyRecyclerItemFactory<M
             int height = Utils.dp2px(mContext, 24);
             int width = ViewGroup.LayoutParams.WRAP_CONTENT;
             List<String> keywords = mediaArticle.getKeywords();//new String[]{"哈哈","哈哈补补","哈哈呵呵"};
-            for (String key:keywords) {
+            List<String> keywordIds = mediaArticle.getKeywordIds();//new String[]{"哈哈","哈哈补补","哈哈呵呵"};
+            for (int i =0;i<keywords.size()&&i<keywordIds.size();i++) {
+                final String key = keywords.get(i);
+                final String keyId = keywordIds.get(i);
                 ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(width, height);
                 lp.setMargins(0, 0, Utils.dp2px(mContext, 10), 0);
                 TextView tv = new TextView(mContext);
@@ -92,6 +95,13 @@ public class MediaArticleKeywordItemFatory extends AssemblyRecyclerItemFactory<M
                 tv.setGravity(Gravity.CENTER_VERTICAL);
                 tv.setLines(1);
                 tv.setBackgroundResource(R.drawable.bg_gray_fill_round);
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(mMediaListListener!=null)
+                            mMediaListListener.onKeywordClick(key,keyId);
+                    }
+                });
                 container.addView(tv, lp);
             }
         }

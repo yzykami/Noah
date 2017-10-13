@@ -815,4 +815,18 @@ public class NetHelper {
 
         new WIRequest().PostMap(method, mapSObj, callback);
     }
+
+
+    //获取评论列表
+    //media/articleListByKeyword/{$keywordId}/{$articleId}/{$pagesize}
+    public void mediaKeywordList(int keywordId, int articleId, int pagesize, Callback callback) {
+        String method = "media/articleListByKeyword/" + keywordId + "/" + articleId + "/" + pagesize;
+        new WIRequest().Get(method, callback);
+    }
+    //获取评论列表
+    //media/ collectionList/{$userKeepArticleId }/{$pagesize}
+    public void mediaFavoriteList(int articleId, int pagesize, Callback callback) {
+        String method = "media/collectionList/" + articleId + "/" + pagesize;
+        new WIRequest().Get(method, callback);
+    }
 }

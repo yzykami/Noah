@@ -40,6 +40,8 @@ import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.home.FavoriteActivity;
+import com.tzw.noah.ui.home.SearchActivity;
 import com.tzw.noah.ui.mine.setting.PersonalSettingActivity;
 import com.tzw.noah.ui.mine.setting.SettingActivity;
 import com.tzw.noah.ui.sns.add.AddActivity;
@@ -197,15 +199,15 @@ public class MineMainActivity extends MyBaseActivity  {
     }
 
     public void handle_1(View view){
-        throw new RuntimeException(mycontext.toString()
-                + "测试异常1");
+//        throw new RuntimeException(mycontext.toString()
+//                + "测试异常1");
 
         //Toast.makeText(mycontext, "该功能正在研发中...", Toast.LENGTH_SHORT).show();
     }
 
     public void handle_2(View view) {
-        throw new RuntimeException(mycontext.toString()
-                + "测试异常2");
+//        throw new RuntimeException(mycontext.toString()
+//                + "测试异常2");
 //        Toast.makeText(mycontext, "该功能正在研发中...", Toast.LENGTH_SHORT).show();
     }
 
@@ -369,4 +371,8 @@ public class MineMainActivity extends MyBaseActivity  {
         }
     }
 
+    public void handle_favorite(View view) {
+        startActivity(FavoriteActivity.class);
+        getParent().overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
+    }
 }

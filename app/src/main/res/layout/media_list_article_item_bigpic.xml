@@ -33,9 +33,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_weight="1"
-                android:src="@drawable/media_default_pic"
-                android:scaleType="centerCrop"
-                android:background="#e8e8e8" />
+                android:src="@drawable/media_default_pic_big"
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/tv_adv_tag"

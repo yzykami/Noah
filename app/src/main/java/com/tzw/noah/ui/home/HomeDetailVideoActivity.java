@@ -9,11 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,7 +72,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/8/11.
  */
 
-public class HomeDetailActivity extends MySwipeBackActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, MediaListListener, StandardVideoAllCallBack {
+public class HomeDetailVideoActivity extends MyBaseActivity implements MediaArticleDetailListener, OnRecyclerLoadMoreListener, SearchHeadFactory.OnItemClickListener, InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, MediaListListener, StandardVideoAllCallBack {
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.list_view)
@@ -111,13 +112,14 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 
     private boolean isPlay;
     private boolean isPause;
+    private boolean isComplete;
 
-    Context mContext = HomeDetailActivity.this;
+    Context mContext = HomeDetailVideoActivity.this;
 
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-    static HomeDetailActivity instance;
+    static HomeDetailVideoActivity instance;
     String Tag = "HomeDetailActivity";
 
     List<Object> items;
@@ -138,10 +140,11 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     private int commentId = 0;
     private MediaArticleDetailWebViewItemFatory webViewItemFatory;
     private OrientationUtils orientationUtils;
+    OrientationEventListener mOrientationEventListener;
 
-    public static HomeDetailActivity getInstance() {
+    public static HomeDetailVideoActivity getInstance() {
         if (instance == null) {
-            instance = new HomeDetailActivity();
+            instance = new HomeDetailVideoActivity();
         }
         return instance;
     }
@@ -149,9 +152,9 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_article_detail);
+        setContentView(R.layout.home_article_detail2);
         ButterKnife.bind(this);
-        setStatusBarLightMode();
+        setStatusBarDarkMode();
         instance = this;
         mLoginListener = this;
         initdata();
@@ -172,11 +175,35 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
         }
         title = "";
         if (mediaArticle.isArticleTypeVideo()) {
+            mOrientationEventListener = new OrientationEventListener(this) {
+                @Override
+                public void onOrientationChanged(int rotation) {
+//                    com.tzw.noah.logger.Log.log("aaa", "rotation: " + rotation);
+
+                    if (((rotation >= 0) && (rotation <= 30)) || (rotation >= 330)) {
+                        mOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                        if (needResetPort && !isComplete) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                            needResetPort = false;
+//                            mOrientationEventListener.disable();
+                        }
+                    }
+                    // 设置横屏
+                    else if (((rotation >= 230) && (rotation <= 310))) {
+                        mOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                    }
+                    // 设置反向横屏
+                    else if (rotation > 30 && rotation < 95) {
+                        mOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+
+                    }
+                }
+            };
+            mOrientationEventListener.enable();
             videoPlayer.setVisibility(View.VISIBLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            videoPlayer.setVisibility(View.GONE);
+//            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//            videoPlayer.setVisibility(View.GONE);
 
         }
     }
@@ -256,7 +283,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 
     private void initVideo() {
 
-        statusBar.setVisibility(View.GONE);
+//        statusBar.setVisibility(View.GONE);
         statusBar.setBackgroundResource(R.color.transParent);
         rl_top.setBackgroundResource(R.color.transParent);
         iv_back.setImageResource(R.drawable.back_white);
@@ -264,9 +291,9 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 //        rl_top.setVisibility(View.GONE);
         divider.setVisibility(View.GONE);
 
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
-        lp.addRule(RelativeLayout.BELOW, R.id.video_item_player);
-        recyclerView.setLayoutParams(lp);
+//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
+//        lp.addRule(RelativeLayout.BELOW, R.id.video_item_player);
+//        recyclerView.setLayoutParams(lp);
 
         videoPlayer.getBackButton().setVisibility(View.GONE);
         if (mediaArticle.videoObj.size() > 0) {
@@ -288,15 +315,13 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
                 @Override
                 public void onClick(View v) {
                     //直接横屏
-                    orientationUtils.resolveByClick();
+//                    orientationUtils.resolveByClick();
 
                     //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
-                    videoPlayer.startWindowFullscreen(HomeDetailActivity.this, true, true);
+                    videoPlayer.startWindowFullscreen(HomeDetailVideoActivity.this, true, true);
                 }
             });
             videoPlayer.setStandardVideoAllCallBack(this);
-
-
         }
 
         iv_adv.getOptions().setLoadingImage(R.drawable.logo_gray_fatter);
@@ -392,8 +417,21 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     private void doWorking() {
     }
 
+    private View mChildOfContent;
+    private FrameLayout.LayoutParams frameLayoutParams;
+
     public void handle_more(View view) {
 
+        if (mChildOfContent == null) {
+            FrameLayout content = (FrameLayout) findViewById(android.R.id.content);
+            content.setBackgroundResource(R.color.myBlue);
+            //2､获取到setContentView放进去的View
+            mChildOfContent = content.getChildAt(0);
+            frameLayoutParams = (FrameLayout.LayoutParams) mChildOfContent.getLayoutParams();
+
+        }
+        frameLayoutParams.height -= 300;
+        mChildOfContent.requestLayout();
     }
 
     public void setLoading() {
@@ -519,7 +557,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
                     if (((MediaArticle) o).isArticleTypeVideo()) {
                         Bundle bu = new Bundle();
                         bu.putSerializable("DATA", (MediaArticle) o);
-                        startActivity2(HomeDetailActivity.class, bu);
+                        startActivity2(HomeDetailVideoActivity.class, bu);
                         this.finish();
                         return;
                     } else if (((MediaArticle) o).isArticleTypPicGallery()) {
@@ -531,7 +569,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
                     } else {
                         Bundle bu = new Bundle();
                         bu.putSerializable("DATA", (MediaArticle) o);
-                        startActivity2(HomeDetailActivity.class, bu);
+                        startActivity2(HomeDetailVideoActivity.class, bu);
                         this.finish();
                         return;
                     }
@@ -845,43 +883,58 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
         });
     }
 
+    CountDownTimer timer;
+
     private void showVideoAdv() {
+//        if (!isComplete)
+//            return;
+//        if (videoPlayer.getFullWindowPlayer() != null)
+//            return;
+
         if (advertising != null) {
+
             iv_detail.setVisibility(View.GONE);
             rl_video_cover.setVisibility(View.VISIBLE);
             iv_adv.displayImage(advertising.advertImage);
-//            final CountDownTimer timer = new CountDownTimer(15 * 1000, 1000) {
-//                @Override
-//                public void onTick(long millisUntilFinished) {
-//                    //每隔countDownInterval秒会回调一次onTick()方法
-////                    Log.d(TAG, "onTick  " + millisUntilFinished / 1000);
-//                    tv_adv_close.setText(millisUntilFinished / 1000 + " | 关闭广告 ");
-//                }
-//
-//                @Override
-//                public void onFinish() {
-////                    Log.d(TAG, "onFinish -- 倒计时结束");
-//                    iv_detail.setVisibility(View.VISIBLE);
-//                    rl_video_cover.setVisibility(View.GONE);
-//                }
-//            };
-//            timer.start();// 开始计时
+
+            if (timer == null) {
+                timer = new CountDownTimer(15 * 1000, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        //每隔countDownInterval秒会回调一次onTick()方法
+//                    Log.d(TAG, "onTick  " + millisUntilFinished / 1000);
+                        tv_adv_close.setText(millisUntilFinished / 1000 + " | 关闭广告 ");
+                    }
+
+                    @Override
+                    public void onFinish() {
+//                    Log.d(TAG, "onFinish -- 倒计时结束");
+                        iv_detail.setVisibility(View.VISIBLE);
+                        rl_video_cover.setVisibility(View.GONE);
+//                        isComplete = false;
+                        timer = null;
+                    }
+                };
+                timer.start();// 开始计时
+            }
             tv_adv_close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    timer.cancel();
+                    timer.cancel();
+                    timer = null;
+//                    isComplete = false;
                     iv_detail.setVisibility(View.VISIBLE);
                     rl_video_cover.setVisibility(View.GONE);
                 }
             });
-//            tv_adv_reply.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    iv_detail.setVisibility(View.VISIBLE);
-//                    rl_video_cover.setVisibility(View.GONE);
-//                    videoPlayer.startPlayLogic();
-//                }
-//            });
+            tv_adv_reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    iv_detail.setVisibility(View.VISIBLE);
+                    rl_video_cover.setVisibility(View.GONE);
+                    videoPlayer.startPlayLogic();
+                }
+            });
         }
     }
 
@@ -896,6 +949,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
             return;
         }
         super.onBackPressed();
+        overridePendingTransition(R.anim.window_pop_enter, R.anim.window_pop_exit);
     }
 
 
@@ -927,6 +981,9 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
         if (orientationUtils != null)
             orientationUtils.releaseListener();
 
+        if (mOrientationEventListener != null)
+            mOrientationEventListener.disable();
+
         if (mediaArticle.isArticleTypeArticle())
             if (webViewItemFatory != null) {
                 MyWebView webView = webViewItemFatory.item.getWebView();
@@ -936,19 +993,39 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     }
 
 
+    int mOrientation = 0;
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+
         //如果旋转了就全屏
+
         if (mediaArticle.isArticleTypeVideo()) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            if (isPlay && !isPause) {
-                videoPlayer.onConfigurationChanged(this, newConfig, orientationUtils);
+            mOrientation = newConfig.orientation;
+//            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            //如果不需要调整
+            boolean isKeepPortrait = true;
+            if (!needResetPort) {
+                if (isPlay && !isPause && !isComplete) {
+                    videoPlayer.onConfigurationChanged(this, newConfig, orientationUtils);
+                }
+
             }
+//            else {
+//                if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+//                    isSecond = true;
+//                if (isSecond && newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+//                    needResetPort = false;
+//            }
+
+
+            super.onConfigurationChanged(newConfig);
         }
         //网页视频
         else if (mediaArticle.isArticleTypeArticle()) {
+            super.onConfigurationChanged(newConfig);
+
             int o = newConfig.orientation;
             View view = videoLayout.getChildAt(0);
             if (view != null) {
@@ -989,6 +1066,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
         orientationUtils.setEnable(true);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         isPlay = true;
+        isComplete = false;
     }
 
     @Override
@@ -1008,7 +1086,6 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 
     @Override
     public void onClickStopFullscreen(String url, Object... objects) {
-
     }
 
     @Override
@@ -1031,11 +1108,19 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 
     }
 
+    boolean needResetPort = false;
+    boolean isSecond = false;
+
     @Override
     public void onAutoComplete(String url, Object... objects) {
-        if (orientationUtils != null) {
-            orientationUtils.backToProtVideo();
+        if (mOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            needResetPort = true;
+            isSecond = false;
         }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        StandardGSYVideoPlayer.backFromWindowFull(this);
+        isComplete = true;
         showVideoAdv();
     }
 
@@ -1046,8 +1131,11 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 
     @Override
     public void onQuitFullscreen(String url, Object... objects) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (mOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            needResetPort = true;
+            isSecond = false;
+        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     @Override
@@ -1095,14 +1183,9 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 
     }
 
-
-    ///////
     @Override
-    public void onViewPositionChanged(float fractionAnchor, float fractionScreen) {
-        super.onViewPositionChanged(fractionAnchor, fractionScreen);
-//        if(fractionScreen==0)
-        if(mediaArticle.isArticleTypeVideo())
-        {
-        }
+    public void handle_back(View v) {
+        super.handle_back(v);
+        overridePendingTransition(R.anim.window_pop_enter, R.anim.window_pop_exit);
     }
 }

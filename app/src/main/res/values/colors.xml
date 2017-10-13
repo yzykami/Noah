@@ -28,4 +28,5 @@
     <color name="textLightGray">#bbbbbb</color>
     <color name="textLightLightGray">#bfbfbf</color>
     <color name="mask">#30666666</color>
+    <color name="black_p50">#7f000000</color>
 </resources>

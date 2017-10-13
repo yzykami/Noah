@@ -70,8 +70,7 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
     protected void onDestroy() {
         try {
             listActivity.remove(this);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onDestroy();
@@ -104,7 +103,7 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
         if (statusBar == null)
             statusBar = findViewById(R.id.statusBar);
         StatusBarUtil.transparencyBar(this);
-        StatusBarUtil.StatusBarDarkMode(this);
+//        StatusBarUtil.StatusBarDarkMode(this);
         StatusBarUtil.setStatusBarColor(this, R.color.transParent);
         setStatusBarHeight(statusBar);
     }
@@ -164,6 +163,33 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
     }
 
     //不需要登录
+    public void startActivity2NoOPT(Class<?> cls) {
+        startActivity2NoOPT(cls, null);
+    }
+
+    //不需要登录
+    public void startActivity2NoOPT(Class<?> cls, Bundle bu) {
+        Intent intent = new Intent(this, cls);
+        if (bu != null)
+            intent.putExtras(bu);
+        startActivity(intent);
+    }
+
+    //不需要登录
+    public void startActivityForResult2NoOPT(int real_requestcode, Class<?> cls) {
+        startActivityForResult2NoOPT(real_requestcode, cls, null);
+    }
+
+    //不需要登录
+    public void startActivityForResult2NoOPT(int real_requestcode, Class<?> cls, Bundle bu) {
+        Intent intent = new Intent(this, cls);
+        if (bu != null)
+            intent.putExtras(bu);
+        startActivityForResult(intent, real_requestcode);
+    }
+
+
+    //不需要登录
     public void startActivity2(Class<?> cls) {
         startActivity2(cls, null);
     }
@@ -174,7 +200,9 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
         if (bu != null)
             intent.putExtras(bu);
         startActivity(intent);
+        overridePendingTransitionRight2Left();
     }
+
     //不需要登录
     public void startActivityForResult2(int real_requestcode, Class<?> cls) {
         startActivityForResult2(real_requestcode, cls, null);
@@ -186,6 +214,7 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
         if (bu != null)
             intent.putExtras(bu);
         startActivityForResult(intent, real_requestcode);
+        overridePendingTransitionRight2Left();
     }
 
     //需要登录
@@ -377,6 +406,10 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
             layoutParams.height = getStatusBarHeight();
             statusBar.setLayoutParams(layoutParams);
         }
+    }
+
+    protected void overridePendingTransitionRight2Left() {
+        overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
     }
 }
 

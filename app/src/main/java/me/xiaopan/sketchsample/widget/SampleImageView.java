@@ -85,7 +85,6 @@ public class SampleImageView extends SketchImageView {
     }
 
 
-
     public void displayImageSmallThumb(String uri) {
         if (uri != null) {
             if (uri.contains(DataCenter.prefix)) {
@@ -109,6 +108,9 @@ public class SampleImageView extends SketchImageView {
     }
 
     public void displayRoundImageBigThumb(String uri) {
+        getOptions().setLoadingImage(R.drawable.media_default_pic_big);
+        getOptions().setErrorImage(R.drawable.media_default_pic_big);
+
         final String uu = uri;
         setRound(DataCenter.mRadius);
 
@@ -116,9 +118,11 @@ public class SampleImageView extends SketchImageView {
                 new ViewTreeObserver.OnPreDrawListener() {
                     @Override
                     public boolean onPreDraw() {
-                        getViewTreeObserver().removeOnPreDrawListener(this);
-                        getOptions().setShapeSize(getWidth(), getHeight());
-                        displayImageBigThumb(uu);
+                        if (getWidth() > 0) {
+                            getViewTreeObserver().removeOnPreDrawListener(this);
+                            getOptions().setShapeSize(getWidth(), getHeight());
+                            displayImageBigThumb(uu);
+                        }
                         return true;
                     }
                 });

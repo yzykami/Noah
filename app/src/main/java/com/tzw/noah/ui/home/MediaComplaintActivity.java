@@ -18,6 +18,7 @@ import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.MySwipeBackActivity;
 import com.tzw.noah.utils.Utils;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/6/9.
  */
 
-public class MediaComplaintActivity extends MyBaseActivity {
+public class MediaComplaintActivity extends MySwipeBackActivity {
 
     String TAG = "MediaComplaintActivity";
     MediaComplaintActivity mycontext = MediaComplaintActivity.this;

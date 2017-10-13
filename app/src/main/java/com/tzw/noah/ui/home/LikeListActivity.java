@@ -21,6 +21,7 @@ import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.MySwipeBackActivity;
 import com.tzw.noah.ui.adapter.itemfactory.MemberListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.media.LikeListItemFactory;
 import com.tzw.noah.ui.sns.add.AddActivity;
@@ -46,7 +47,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/7/4.
  */
 
-public class LikeListActivity extends MyBaseActivity implements LikeListItemFactory.OnImageClickListener, OnRecyclerLoadMoreListener {
+public class LikeListActivity extends MySwipeBackActivity implements LikeListItemFactory.OnImageClickListener, OnRecyclerLoadMoreListener {
     @BindView(R.id.header_list_view_frame)
     PtrClassicFrameLayout mPtrFrame;
 

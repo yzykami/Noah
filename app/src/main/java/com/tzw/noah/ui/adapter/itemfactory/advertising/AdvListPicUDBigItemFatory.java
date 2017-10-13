@@ -116,7 +116,6 @@ public class AdvListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<AdvLi
                 iv_cover.setVisibility(View.GONE);
             } else {
                 iv_cover.setVisibility(View.VISIBLE);
-                iv_cover.setBackgroundResource(R.color.transParent);
                 iv_cover.displayRoundImageBigThumb(ss[0]);
             }
             tv_title.setText(mediaArticle.advertTitle);

@@ -98,35 +98,51 @@
             android:name=".ui.home.HomeDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.Swipe.Back" />
+        <activity
+            android:name=".ui.home.HomeDetailVideoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.home.LikeListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Swipe.Back" />
         <activity
             android:name=".ui.home.CommentListActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Swipe.Back" />
         <activity
             android:name=".ui.home.MediaComplaintActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Swipe.Back" />
         <activity
             android:name=".ui.home.HomeDetailGalleryActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Swipe.Back" />
         <activity
             android:name=".ui.home.GalleryCommentListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Swipe.Back" />
         <activity
             android:name=".ui.home.ChannelManagerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Swipe.Back" />
         <activity
             android:name=".ui.home.SearchActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.Swipe.Back" />
+        <activity
+            android:name=".ui.home.KeywordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Swipe.Back" />
+        <activity
+            android:name=".ui.home.FavoriteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Swipe.Back" />
         <activity
             android:name=".ui.circle.CirileMainActivity"
             android:screenOrientation="portrait"

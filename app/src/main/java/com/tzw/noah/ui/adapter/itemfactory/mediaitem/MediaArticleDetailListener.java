@@ -16,4 +16,6 @@ public interface MediaArticleDetailListener {
     void onComplaintClick();
 
     void toggledFullscreen(boolean fullscreen);
+
+    void onKeywordClick(String key, String keyId);
 }
