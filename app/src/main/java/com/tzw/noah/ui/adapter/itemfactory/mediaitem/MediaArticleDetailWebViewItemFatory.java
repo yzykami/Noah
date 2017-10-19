@@ -12,6 +12,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.ui.home.HomeDetailActivity;
 import com.tzw.noah.ui.mine.MineMainActivity;
@@ -32,7 +33,7 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
     HomeDetailActivity mActivity;
 
     public MediaArticleDetailWebViewItemFatory(MediaArticleDetailListener mMediaListListener) {
-        if(mMediaListListener instanceof  HomeDetailActivity)
+        if (mMediaListListener instanceof HomeDetailActivity)
             mActivity = (HomeDetailActivity) mMediaListListener;
         this.mMediaListListener = mMediaListListener;
     }
@@ -75,7 +76,7 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
         protected void onSetData(int i, MediaArticle content) {
             if (height != 0) {
                 ViewGroup.LayoutParams lp = webView.getLayoutParams();
-                if(lp.height!=0)
+                if (lp.height != 0)
                     return;
                 lp.height = height;
                 webView.setLayoutParams(lp);
@@ -84,6 +85,8 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
             WebSettings wSet = webView.getSettings();
             wSet.setJavaScriptEnabled(true);
             webView.loadDataWithBaseURL("about:blank", content.getContentString(), "text/html", "utf-8", null);
+//            webView.loadUrl("http://10.0.9.2:7072/home/media/detail/id/70.html");
+
             webView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -98,14 +101,9 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
                     webView.setImageClickListner();
                     //解析 HTML
                     webView.parseHTML(view);
-
+                    webView.loadUrl("javascript:handleLogin(\"" + UserCache.getLoginKey() + "\")");
                     webView.loadUrl(getOutCss("file:///android_asset/video.css"));
-//                    Toast.makeText(mContext, "old.height = " + height + ",height = " + webView.getHeight(), Toast.LENGTH_SHORT).show();
 
-//                    if (mMediaListListener != null) {
-//                        mMediaListListener.onWebViewLoadComplete();
-//                    }
-//                    height = webView.getHeight();
                 }
             });
 

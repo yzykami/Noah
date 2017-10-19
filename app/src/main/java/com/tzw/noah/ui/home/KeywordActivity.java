@@ -83,7 +83,7 @@ public class KeywordActivity extends MySwipeBackActivity implements OnRecyclerLo
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-    static KeywordActivity instance;
+    KeywordActivity instance;
     String Tag = "KeywordActivity";
 
     List<MediaArticle> items;
@@ -101,12 +101,12 @@ public class KeywordActivity extends MySwipeBackActivity implements OnRecyclerLo
 
     LoadMoreItemFactory loadMoreItem;
 
-    public static KeywordActivity getInstance() {
-        if (instance == null) {
-            instance = new KeywordActivity();
-        }
-        return instance;
-    }
+//    public static KeywordActivity getInstance() {
+//        if (instance == null) {
+//            instance = new KeywordActivity();
+//        }
+//        return instance;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

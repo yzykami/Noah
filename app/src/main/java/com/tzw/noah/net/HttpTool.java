@@ -2,6 +2,7 @@ package com.tzw.noah.net;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.logger.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -12,6 +13,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.FormBody;
@@ -28,31 +30,38 @@ import okhttp3.internal.Util;
  */
 
 public class HttpTool {
-    static MyHttpConnectionImpl mhc;
+    private static long CONNECT_TIMEOUT = 10;
+
+//    static MyHttpConnectionImpl mhc;
     static HttpTool instance;
     private OkHttpClient mOkHttpClient;
 
     public static HttpTool getInstance() {
         if (instance == null) {
             synchronized (HttpTool.class) {
+                HttpTool.CONNECT_TIMEOUT = UserCache.getTimeOut();
                 instance = new HttpTool();
-                mhc = MyHttpConnectionImpl.getInstance();
+//                mhc = MyHttpConnectionImpl.getInstance();
             }
         }
         return instance;
     }
 
     HttpTool() {
-        mOkHttpClient = new OkHttpClient();
+        mOkHttpClient = new OkHttpClient().newBuilder().connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS).build();
+    }
+
+    public void setTimeout(int timeout) {
+        mOkHttpClient = new OkHttpClient().newBuilder().connectTimeout(timeout, TimeUnit.SECONDS).build();
     }
 
     public void createNewClient() {
         mOkHttpClient = new OkHttpClient();
     }
 
-    public static String Get(String url) {
-        return mhc.Get("", url);
-    }
+//    public static String Get(String url) {
+//        return mhc.Get("", url);
+//    }
 
     //HttpGet异步请求
     public void HttpGet(String url, final Callback callback) {
@@ -92,14 +101,14 @@ public class HttpTool {
         });
     }
 
-    public static String Post(String url, Param params) {
-        try {
-            return mhc.post(url, params).body().toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
+//    public static String Post(String url, Param params) {
+//        try {
+//            return mhc.post(url, params).body().toString();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return "";
+//        }
+//    }
 
 
     //HttpGet同步请求
@@ -466,7 +475,7 @@ public class HttpTool {
                 }
             }
         }
-        String json ="";
+        String json = "";
         if (body != null && body.size() > 0) {
             for (Param param : body) {
                 multipartBodyBuilder.addFormDataPart(param.key, param.value.toString());

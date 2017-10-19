@@ -38,6 +38,12 @@ public class NetHelper {
         return mr;
     }
 
+    //base/time
+    public void getBaseTime(Callback callback) {
+        String method = "base/time";
+        new WIRequest().Get(method, callback);
+    }
+
     //base/deviceID
     public IMsg getBaseDeviceID() {
         String method = "base/deviceID";
@@ -52,6 +58,12 @@ public class NetHelper {
         return mr;
     }
 
+    //base/config
+    public void getBaseConfig(Callback callback) {
+        String method = "base/config";
+        new WIRequest().Get(method, callback);
+    }
+
     //base/area
     public IMsg getBaseArea() {
         String method = "base/area";
@@ -59,11 +71,23 @@ public class NetHelper {
         return mr;
     }
 
+    //base/area
+    public void getBaseArea(Callback callback) {
+        String method = "base/area";
+        new WIRequest().Get(method, callback);
+    }
+
     //base/appcache
     public IMsg getBaseAppCache() {
         String method = "base/appCache";
         IMsg mr = new WIRequest().Get(method);
         return mr;
+    }
+
+    //base/appcache
+    public void getBaseAppCache(Callback callback) {
+        String method = "base/appCache";
+        new WIRequest().Get(method, callback);
     }
 
     //base/allAppCache
@@ -80,11 +104,23 @@ public class NetHelper {
         return mr;
     }
 
+    //base/dictType
+    public void getBaseDictType(Callback callback) {
+        String method = "base/dictType";
+        new WIRequest().Get(method, callback);
+    }
+
     //base/dict
     public IMsg getBaseDict() {
         String method = "base/dict";
         IMsg mr = new WIRequest().Get(method);
         return mr;
+    }
+
+    //base/dict
+    public void getBaseDict(Callback callback) {
+        String method = "base/dict";
+        new WIRequest().Get(method, callback);
     }
 
     public IMsg setDeviceId(String deviceId) {
@@ -703,16 +739,16 @@ public class NetHelper {
         new WIRequest().Post(method, body, bodyName, callback);
     }
 
-    // 文章收藏
-    //media/saveToFavorite
-    public void mediaFavorite(int articleId, int status, Callback callback) {
-        String method = "media/saveToFavorite";
-        List<Param> body = new ArrayList<>();
-        body.add(new Param("articleId", articleId));
-        body.add(new Param("status", status));
-        String bodyName = "favoriteSObj";
-        new WIRequest().Post(method, body, bodyName, callback);
-    }
+//    // 文章收藏
+//    //media/saveToFavorite
+//    public void mediaFavorite(int articleId, int status, Callback callback) {
+//        String method = "media/saveToFavorite";
+//        List<Param> body = new ArrayList<>();
+//        body.add(new Param("articleId", articleId));
+//        body.add(new Param("status", status));
+//        String bodyName = "favoriteSObj";
+//        new WIRequest().Post(method, body, bodyName, callback);
+//    }
 
     // 文章评论
     //media/commentOnArticle
@@ -823,10 +859,30 @@ public class NetHelper {
         String method = "media/articleListByKeyword/" + keywordId + "/" + articleId + "/" + pagesize;
         new WIRequest().Get(method, callback);
     }
+
     //获取评论列表
     //media/ collectionList/{$userKeepArticleId }/{$pagesize}
     public void mediaFavoriteList(int articleId, int pagesize, Callback callback) {
         String method = "media/collectionList/" + articleId + "/" + pagesize;
         new WIRequest().Get(method, callback);
+    }
+
+    //获取评论列表
+    //mix/collectionList/{$infoType}/{$userKeepArticleId }/{$pagesize}
+    public void mediaMixFavoriteList(int infoType, int articleId, int pagesize, Callback callback) {
+        String method = "mix/collectionList/" + infoType + "/" + articleId + "/" + pagesize;
+        new WIRequest().Get(method, callback);
+    }
+
+    // 文章收藏
+    //mix/saveToFavorite
+    public void mediaMixFavorite(int infoType, String articleId, int status, Callback callback) {
+        String method = "mix/saveToFavorite";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("infoType", infoType));
+        body.add(new Param("infoIds", articleId));
+        body.add(new Param("status", status));
+        String bodyName = "favoriteSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
     }
 }

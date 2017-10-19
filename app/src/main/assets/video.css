@@ -1,3 +1,67 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    border: 0 none;
+    font-size: 100%;
+    font-style: inherit;
+    font-weight: inherit;
+    margin: 0;
+    outline: 0 none;
+    padding: 0; }
+
+body{
+    font-family: PingFang SC,'Microsoft Yahei',Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,Helvetica Neue,Arial,sans-serif;
+    line-height: 1.4;
+}
+
+ul,ol,dl{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+input{
+    padding: 0;
+}
+
+label{
+    cursor: pointer;
+}
+
+.btn:hover{
+    color: #fff;
+    background-color: #287dcd;
+    border-color: #204d74;
+}
+
+.btn:active{
+    color:#fff;
+    background-color:#204d74;
+    border-color:#204d74;
+}
+
+input, textarea {
+     display: inline-block;
+     margin: 0;
+     padding: 0;
+     border-radius: 0;
+     border: none;
+     font-size: 100%;
+     font-family: 'Helvetica Neue',Helvetica,'Hiragino Sans GB','Segoe UI','Microsoft Yahei',Tahoma,Arial,STHeiti,sans-serif;
+     line-height: 1.2em;
+     color: inherit;
+     outline: 0;
+     -webkit-appearance: none;
+     resize: none;
+}
+
+.container{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
 video::-internal-media-controls-download-button {
 display:none;
 }

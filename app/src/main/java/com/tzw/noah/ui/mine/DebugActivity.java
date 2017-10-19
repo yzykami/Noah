@@ -10,27 +10,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.cache.DataCenter;
-import com.tzw.noah.logger.Log;
-import com.tzw.noah.models.User;
-import com.tzw.noah.net.IMsg;
-import com.tzw.noah.net.StringDialogCallback;
-import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.sns.friendlist.FriendAdapter;
-import com.tzw.noah.ui.sns.friendlist.MyCompare;
-import com.tzw.noah.ui.sns.personal.PersonalActivity;
-import com.tzw.noah.utils.Utils;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Call;
 
 /**
  * Created by yzy on 2017/7/12.
@@ -53,13 +40,21 @@ public class DebugActivity extends MyBaseActivity {
 
     List<String> items;
 
-    public static int TYPE_CRASH_LIST = 1001;
-    public static int TYPE_CRASH_DETAIL_INDEX = 1002;
-    public static int TYPE_CRASH_DETAIL_CONTENT = 1003;
+    public static int TYPE_NETTOOL = 1001;
 
-    public static int TYPE_DATEBASE_LIST = 2001;
-    public static int TYPE_DATEBASE_TABLE_LIST = 2002;
-    public static int TYPE_DATEBASE_TABLE = 2003;
+    public static int TYPE_SYSTEMPARAMS = 2001;
+
+    public static int TYPE_SYSTEMCACHE = 3001;
+
+    public static int TYPE_CRASH_LIST = 4001;
+    public static int TYPE_CRASH_DETAIL_INDEX = 4002;
+    public static int TYPE_CRASH_DETAIL_CONTENT = 4003;
+
+    public static int TYPE_THIRDPARTY = 5001;
+
+    public static int TYPE_DATEBASE_LIST = 6001;
+    public static int TYPE_DATEBASE_TABLE_LIST = 6002;
+    public static int TYPE_DATEBASE_TABLE = 6003;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,7 +83,11 @@ public class DebugActivity extends MyBaseActivity {
     private void initview() {
         tv_title.setText(title);
         items = new ArrayList<>();
+        items.add("网络工具");
+        items.add("系统参数");
+        items.add("缓存相关");
         items.add("异常日志");
+        items.add("第三方服务");
         items.add("数据库");
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,6 +99,18 @@ public class DebugActivity extends MyBaseActivity {
                 }
                 if (items.get(position).equals("数据库")) {
                     startDetailActivity(mContext, "数据库", TYPE_DATEBASE_LIST, null);
+                }
+                if (items.get(position).equals("网络工具")) {
+                    startDetailActivity(mContext, "网络工具", TYPE_NETTOOL, null);
+                }
+                if (items.get(position).equals("系统参数")) {
+                    startDetailActivity(mContext, "系统参数", TYPE_SYSTEMPARAMS, null);
+                }
+                if (items.get(position).equals("第三方服务")) {
+                    startDetailActivity(mContext, "第三方服务", TYPE_THIRDPARTY, null);
+                }
+                if (items.get(position).equals("缓存相关")) {
+                    startDetailActivity(mContext, "缓存相关", TYPE_SYSTEMCACHE, null);
                 }
             }
         });

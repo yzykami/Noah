@@ -3,8 +3,8 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/bjs"
-    android:layout_marginRight="@dimen/bjs"
+    android:layout_marginLeft="@dimen/bj"
+    android:layout_marginRight="@dimen/bj"
     android:background="@color/bg_light"
     android:orientation="vertical">
 

@@ -4,7 +4,10 @@ import android.Manifest;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -47,6 +51,7 @@ import com.tzw.noah.ui.mine.LoginActivity;
 import com.tzw.noah.ui.mine.MineMainActivity;
 import com.tzw.noah.ui.service.ServiceMainActivity;
 import com.tzw.noah.ui.sns.SnsMainActivity;
+import com.tzw.noah.ui.sns.friendlist.FriendListActivity;
 import com.tzw.noah.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -90,6 +95,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        printTime(this,"MainActivity");
         super.onCreate(savedInstanceState);
         instance = this;
 
@@ -102,6 +108,21 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 //        registerMsgUnreadInfoObserver(true);
 //        registerSystemMessageObservers(true);
 //        requestSystemMessageUnreadCount();
+        printTime(this,"MainActivity");
+
+        Uri uri = getIntent().getData();
+        if (uri != null) {
+            Log.d("aaa-oncreate",uri.toString());
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Uri uri = intent.getData();
+        if (uri != null) {
+            Log.d("aaa-newIntent",uri.toString());
+        }
     }
 
     private void waitLoading() {
@@ -116,8 +137,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 //        new Thread(new Monitor()).start();
     }
 
-    public void ss()
-    {
+    public void ss() {
         tabHost.getTabWidget().removeViewAt(0);
         Intent intent1 = new Intent();
         intent1.setClass(MainActivity.this, HomeMainActivity.class);
@@ -144,7 +164,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         tabHost.addTab(tabHost.newTabSpec("3").setIndicator("3").setContent(intent3));
 
         Intent intent4 = new Intent();
-        intent4.setClass(MainActivity.this, ServiceMainActivity.class);//SnsMainActivity.class);
+        intent4.setClass(MainActivity.this, FriendListActivity.class);//ServiceMainActivity.class);//SnsMainActivity.class);
         tabHost.addTab(tabHost.newTabSpec("4").setIndicator("4").setContent(intent4));
 
         Intent intent5 = new Intent();
@@ -186,13 +206,16 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         iv_navi = (ImageView) findViewById(R.id.iv_navi);
 //        tab1 = (View) findViewById(R.id.tab1);
 //        tab1.setVisibility(View.GONE);
-        iv_navi.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                iv_navi.setVisibility(View.GONE);
-                instance.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            }
-        }, 200);
+//        iv_navi.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                iv_navi.setVisibility(View.GONE);
+//                Bitmap bmp = ((BitmapDrawable) iv_navi.getDrawable()).getBitmap();
+//                iv_navi = null;
+////                bmp.recycle();
+//                instance.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//            }
+//        }, 120);
 
         selectUserTag();
         mDelivery.postDelayed(new Runnable() {
@@ -204,7 +227,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
     }
 
 
-    private int login_requestcode =100;
+    private int login_requestcode = 100;
     View.OnClickListener l = new View.OnClickListener() {
 
         public void onClick(View arg0) {
@@ -213,7 +236,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 
                 iv_home.setImageResource(R.drawable.tab_home_clicked_2);
                 iv_circle.setImageResource(R.drawable.tab_circle_2);
-                iv_service.setImageResource(R.drawable.tab_service_2);
+                iv_service.setImageResource(R.drawable.tab_friend);
                 iv_friend.setImageResource(R.drawable.tab_friend_2);
                 iv_mine.setImageResource(R.drawable.tab_mine_2);
 
@@ -229,7 +252,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 
                 iv_home.setImageResource(R.drawable.tab_home_2);
                 iv_circle.setImageResource(R.drawable.tab_circle_clicked_2);
-                iv_service.setImageResource(R.drawable.tab_service_2);
+                iv_service.setImageResource(R.drawable.tab_friend);
                 iv_friend.setImageResource(R.drawable.tab_friend_2);
                 iv_mine.setImageResource(R.drawable.tab_mine_2);
 
@@ -241,8 +264,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 
             } else if (arg0 == layout3) {
 
-                if(!UserCache.isLogin())
-                {
+                if (!UserCache.isLogin()) {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivityForResult(intent, login_requestcode);
                     return;
@@ -254,7 +276,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
                 iv_home.setImageResource(R.drawable.tab_home_2);
                 iv_circle.setImageResource(R.drawable.tab_circle_2);
                 iv_friend.setImageResource(R.drawable.tab_friend_clicked_2);
-                iv_service.setImageResource(R.drawable.tab_service_2);
+                iv_service.setImageResource(R.drawable.tab_friend);
                 iv_mine.setImageResource(R.drawable.tab_mine_2);
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
@@ -264,12 +286,18 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
                 tab_mine_text.setTextColor(getResources().getColorStateList(R.color.mygray));
 
             } else if (arg0 == layout4) {
+                if (!UserCache.isLogin()) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, login_requestcode);
+                    return;
+                }
+
                 tabHost.setCurrentTabByTag("4");
 
                 iv_home.setImageResource(R.drawable.tab_home_2);
                 iv_circle.setImageResource(R.drawable.tab_circle_2);
                 iv_friend.setImageResource(R.drawable.tab_friend_2);
-                iv_service.setImageResource(R.drawable.tab_service_clicked_2);
+                iv_service.setImageResource(R.drawable.tab_friend_clicked);
                 iv_mine.setImageResource(R.drawable.tab_mine_2);
 
                 tab_home_text.setTextColor(getResources().getColorStateList(R.color.mygray));
@@ -283,7 +311,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
 
                 iv_home.setImageResource(R.drawable.tab_home_2);
                 iv_circle.setImageResource(R.drawable.tab_circle_2);
-                iv_service.setImageResource(R.drawable.tab_service_2);
+                iv_service.setImageResource(R.drawable.tab_friend);
                 iv_friend.setImageResource(R.drawable.tab_friend_2);
                 iv_mine.setImageResource(R.drawable.tab_mine_clicked_2);
 
@@ -303,9 +331,14 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         tabHost.postDelayed(new Runnable() {
             @Override
             public void run() {
-                selectTag(4);
+                selectTag(0);
+                iv_navi.setVisibility(View.GONE);
+                Bitmap bmp = ((BitmapDrawable) iv_navi.getDrawable()).getBitmap();
+                iv_navi = null;
+//                bmp.recycle();
+                instance.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
-        }, 100);
+        }, 120);
 
 
 //        iv_home.setImageResource(R.drawable.tab_home);
@@ -442,11 +475,13 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         if (resultCode == 1) {
             selectTag(2);
             return;
-        }
-        else{
-            Toast.makeText(MainActivity.this,"请先登录", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
 
     private class Monitor implements Runnable {
         @Override
@@ -485,5 +520,22 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
                 });
             }
         }
+    }
+
+    long firstTime, preSystime = 0;
+
+    protected void printTime(Context context, String pre) {
+        if(1==1)
+            return;
+        long currentSystime = System.currentTimeMillis();
+        long totaltime, interval = 0;
+        if (preSystime != 0)
+            interval = currentSystime - preSystime;
+        else
+            firstTime = currentSystime;
+        totaltime = currentSystime - firstTime;
+        String msg = pre + currentSystime + " " + interval + " " + totaltime;
+        preSystime = currentSystime;
+        android.util.Log.d("init-time", msg);
     }
 }

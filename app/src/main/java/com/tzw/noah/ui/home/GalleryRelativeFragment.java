@@ -95,6 +95,9 @@ public class GalleryRelativeFragment extends Fragment implements MediaArticleDet
         }
         adapter = new AssemblyRecyclerAdapter(mMediaArticle.relatedArticlesObj);
         adapter.addItemFactory(new MediaGalleryRelativeItemFactory(this));
+//        adapter.addAll(mMediaArticle.relatedArticlesObj);
+//        adapter.addAll(mMediaArticle.relatedArticlesObj);
+//        adapter.addAll(mMediaArticle.relatedArticlesObj);
         recyclerView.setAdapter(adapter);
 
         return view;

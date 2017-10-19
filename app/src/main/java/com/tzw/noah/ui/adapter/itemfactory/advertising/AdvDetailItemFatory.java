@@ -102,6 +102,12 @@ public class AdvDetailItemFatory extends AssemblyRecyclerItemFactory<AdvDetailIt
                 lp.height = height;
                 iv_cover.setLayoutParams(lp);
             }
+
+            View view = container.getChildAt(0);
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) view.getLayoutParams();
+            int bj = (int) mContext.getResources().getDimension(R.dimen.bj);
+            lp.setMargins(bj, 0, bj, 0);
+            view.setLayoutParams(lp);
         }
 
         @Override

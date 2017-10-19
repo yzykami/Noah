@@ -117,7 +117,8 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-    static HomeDetailActivity instance;
+//    static HomeDetailActivity instance;
+    HomeDetailActivity instance;
     String Tag = "HomeDetailActivity";
 
     List<Object> items;
@@ -139,12 +140,12 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     private MediaArticleDetailWebViewItemFatory webViewItemFatory;
     private OrientationUtils orientationUtils;
 
-    public static HomeDetailActivity getInstance() {
-        if (instance == null) {
-            instance = new HomeDetailActivity();
-        }
-        return instance;
-    }
+//    public static HomeDetailActivity getInstance() {
+//        if (instance == null) {
+//            instance = new HomeDetailActivity();
+//        }
+//        return instance;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -393,7 +394,11 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     }
 
     public void handle_more(View view) {
-
+        MyWebView webView = webViewItemFatory.item.getWebView();
+//        webView.loadUrl("javascript:handleTest (" + UserCache.getUser().memberNo + "," + UserCache.getUser().memberNickName + ")");
+//        webView.loadUrl("javascript:handleTest (\""+UserCache.getLoginKey()+"\",2)");
+        toast("js: " + UserCache.getLoginKey());
+        webView.loadUrl("javascript:handleLogin(\"" + UserCache.getLoginKey() + "\")");
     }
 
     public void setLoading() {
@@ -814,7 +819,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
             }
         }
         final int finalPosition = position;
-        NetHelper.getInstance().mediaFavorite(mediaArticle.articleId, isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaMixFavorite(0,mediaArticle.articleId+"", isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 isloading = false;
@@ -1101,8 +1106,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     public void onViewPositionChanged(float fractionAnchor, float fractionScreen) {
         super.onViewPositionChanged(fractionAnchor, fractionScreen);
 //        if(fractionScreen==0)
-        if(mediaArticle.isArticleTypeVideo())
-        {
+        if (mediaArticle.isArticleTypeVideo()) {
         }
     }
 }

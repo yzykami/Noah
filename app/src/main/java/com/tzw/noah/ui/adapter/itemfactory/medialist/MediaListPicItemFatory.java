@@ -1,14 +1,17 @@
 package com.tzw.noah.ui.adapter.itemfactory.medialist;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.MediaArticle;
+import com.tzw.noah.ui.adapter.MediaListItemAssemblyRecyclerItem;
 import com.tzw.noah.utils.Utils;
 
 import butterknife.BindView;
@@ -19,7 +22,7 @@ import me.xiaopan.sketchsample.widget.SampleImageView;
 public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaListPicItemFatory.GalleryItem> {
 
     private MediaListListener mMediaListListener;
-    private int width = 0, height = 0;
+    private int width = 0, height = 0, bjs = 0, btnsize = 0;
 
     public MediaListPicItemFatory(MediaListListener mMediaListListener) {
         this.mMediaListListener = mMediaListListener;
@@ -36,15 +39,17 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
 
         int screenWidth = Utils.getSrceenWidth();
-        width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 3) / 3;
+        btnsize = Utils.dp2px(viewGroup.getContext(),34);
+        bjs = (int) viewGroup.getContext().getResources().getDimension(R.dimen.bjs);
+        width = (int) (screenWidth - bjs * 3) / 3;
         height = width * 2 / 3;
 
         return new GalleryItem(R.layout.media_list_article_item_pic, viewGroup);
     }
 
-    public class GalleryItem extends BindAssemblyRecyclerItem<MediaArticle> {
+    public class GalleryItem extends MediaListItemAssemblyRecyclerItem<MediaArticle> {
         @BindView(R.id.container)
-        LinearLayout container;
+        RelativeLayout container;
         @BindView(R.id.iv_cover)
         SampleImageView iv_cover;
         @BindView(R.id.tv_title)
@@ -61,6 +66,8 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
         TextView tvTag;
 
         Context mContext;
+
+        ImageView ivSelect;
 
         public GalleryItem(int itemLayoutId, ViewGroup parent) {
             super(itemLayoutId, parent);
@@ -142,6 +149,8 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
                 tvTag.setTextColor(mContext.getResources().getColor(R.color.myRed));
             } else
                 ivPlayIcon.setVisibility(View.GONE);
+
+            initEditMode(container, mediaArticle, mMediaListListener);
         }
     }
 }

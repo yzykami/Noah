@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/pt10"
+            android:layout_marginRight="@dimen/bj"
             android:drawableLeft="@drawable/media_complaint"
             android:drawablePadding="@dimen/pt7"
             android:paddingBottom="@dimen/pt10"

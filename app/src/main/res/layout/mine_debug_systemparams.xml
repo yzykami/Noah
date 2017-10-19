@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginTop="@dimen/bj"
+            android:text="HTTP请求超时时间 : "
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/sp14" />
+
+        <EditText
+            android:id="@+id/et_timeout"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_content"
+            android:inputType="number"
+            android:text="10"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:id="@+id/tv_set_timeout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/bj"
+            android:text="设置"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/sp14" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_offset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/bj"
+        android:layout_marginTop="0dp"
+        android:text="时间偏移量 : "
+        android:textColor="@color/textDarkGray"
+        android:textSize="@dimen/sp14" />
+
+    <TextView
+        android:id="@+id/tv_deviceid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/bj"
+        android:layout_marginTop="@dimen/bj"
+        android:text="设备编码 : "
+        android:textColor="@color/textDarkGray"
+        android:textSize="@dimen/sp14" />
+
+    <TextView
+        android:id="@+id/tv_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/bj"
+        android:layout_marginTop="@dimen/bj"
+        android:text="登录Key : "
+        android:textColor="@color/textDarkGray"
+        android:textSize="@dimen/sp14" />
+
+    <TextView
+        android:id="@+id/tv_token"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/bj"
+        android:layout_marginTop="@dimen/bj"
+        android:text="登录Token : "
+        android:textColor="@color/textDarkGray"
+        android:textSize="@dimen/sp14" />
+
+    <TextView
+        android:id="@+id/tv_db_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/bj"
+        android:layout_marginTop="@dimen/bj"
+        android:text="数据库版本信息 : "
+        android:textColor="@color/textDarkGray"
+        android:textSize="@dimen/sp14" />
+
+</LinearLayout>

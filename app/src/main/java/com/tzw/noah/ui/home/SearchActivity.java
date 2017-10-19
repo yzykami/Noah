@@ -86,7 +86,7 @@ public class SearchActivity extends MySwipeBackActivity implements OnRecyclerLoa
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-    static SearchActivity instance;
+    SearchActivity instance;
     String Tag = "SearchActivity";
 
     List<MediaArticle> items;
@@ -103,12 +103,12 @@ public class SearchActivity extends MySwipeBackActivity implements OnRecyclerLoa
 
     LoadMoreItemFactory loadMoreItem;
 
-    public static SearchActivity getInstance() {
-        if (instance == null) {
-            instance = new SearchActivity();
-        }
-        return instance;
-    }
+//    public static SearchActivity getInstance() {
+//        if (instance == null) {
+//            instance = new SearchActivity();
+//        }
+//        return instance;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

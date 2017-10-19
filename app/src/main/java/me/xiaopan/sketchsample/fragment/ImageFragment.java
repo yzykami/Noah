@@ -131,10 +131,10 @@ public class ImageFragment extends BaseFragment {
         boolean showHighDefinitionImage = AppConfig.getBoolean(getContext(), AppConfig.Key.SHOW_UNSPLASH_LARGE_IMAGE);
         finalShowImageUrl = showHighDefinitionImage && !TextUtils.isEmpty(image.highDefinitionUrl) ? image.highDefinitionUrl : image.regularUrl;
 
-        imageZoomHelper.onViewCreated();
-        largeImageHelper.onViewCreated();
-        mappingHelper.onViewCreated();
-        clickHelper.onViewCreated();
+//        imageZoomHelper.onViewCreated();
+//        largeImageHelper.onViewCreated();
+//        mappingHelper.onViewCreated();
+//        clickHelper.onViewCreated();
         showImageHelper.onViewCreated();
 
         EventBus.getDefault().register(this);

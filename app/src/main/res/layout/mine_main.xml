@@ -406,6 +406,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical"
+                    android:onClick="handle_qrscan"
                     android:paddingBottom="@dimen/pt12"
                     android:paddingTop="@dimen/pt12">
 
@@ -758,9 +759,6 @@
                     android:textSize="@dimen/sp14" />
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="70dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -51,16 +51,14 @@
     <!--<uses-permission android:name="com.netease.nim.demo.permission.MIPUSH_RECEIVE"/>-->
 
     <!--android:theme="@style/AppTheme.NoActionBar"-->
+    <!--android:theme="@style/WelcomeEntranceActionBarTheme1"-->
 
     <application
         android:name="com.tzw.noah.AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/WelcomeEntranceActionBarTheme1"
-        tools:replace="Android:icon, android:theme">
+        android:supportsRtl="true">
 
         <!-- 如果IDE是Eclipse，此处可将build.gradle中的AMAP_KEY定义拷贝过来。 -->
         <meta-data
@@ -76,20 +74,32 @@
         <!--android:required="false"/>-->
 
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:theme="@style/WelcomeEntranceActionBarTheme1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"></category>
+
+                <data android:scheme="tzw"></data>
+            </intent-filter>
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".WelcomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/WelcomeEntranceActionBarTheme1">
+
+
+        </activity>
         <activity
             android:name=".ui.home.HomeMainActivity"
             android:screenOrientation="portrait"
@@ -98,23 +108,23 @@
             android:name=".ui.home.HomeDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.Swipe.Back" />
+            android:theme="@style/Theme.Swipe.Back"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.home.HomeDetailVideoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.home.LikeListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Swipe.Back" />
         <activity
             android:name=".ui.home.CommentListActivity"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Swipe.Back" />
+            android:theme="@style/Theme.Swipe.Back"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.home.MediaComplaintActivity"
             android:screenOrientation="portrait"
@@ -122,7 +132,7 @@
         <activity
             android:name=".ui.home.HomeDetailGalleryActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Swipe.Back" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.home.GalleryCommentListActivity"
             android:screenOrientation="portrait"
@@ -263,6 +273,10 @@
             android:name=".ui.mine.DebugDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.google.zxing.demo.WeChatCaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarBlack" />
         <activity
             android:name=".ui.sns.friendlist.FriendListActivity"
             android:screenOrientation="portrait"

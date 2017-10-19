@@ -83,9 +83,13 @@ public class AppContext extends Application { //NimApplication {//Application {
     private static android.os.Handler mdelivery;
     public static boolean loadCompeleted = false;
 
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
+    protected void attachBaseContext(Context context) {
+        printTime(context, "base");
+        super.attachBaseContext(context);
+        printTime(context, "base");
         MultiDex.install(this);
+        printTime(context, "base");
+
     }
 
     @Override
@@ -98,34 +102,43 @@ public class AppContext extends Application { //NimApplication {//Application {
 //            public void run() {
 
         instance = getApplicationContext();
-
+        Context context = instance;
+        printTime(context, "onCreate");
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////云信初始化////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         DemoCache.setContext(instance);
+        printTime(context, "DemoCache");
         // 注册小米推送appID 、appKey 以及在云信管理后台添加的小米推送证书名称，该逻辑放在 NIMClient init 之前
         //NIMPushClient.registerMiPush(this, "DEMO_MI_PUSH", "2882303761517502883", "5671750254883");
         // 注册自定义小米推送消息处理，这个是可选项
         //NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
         NIMClient.init(instance, getLoginInfo(), getOptions());
+        printTime(context, "NIMClient");
         ExtraOptions.provide();
+        printTime(context, "ExtraOptions");
         // crash handler
 //        AppCrashHandler.getInstance(instance);
         CrashHandler.getInstance().init(instance);
+        printTime(context, "CrashHandler");
         if (inMainProcess()) {
 
             // init pinyin
             PinYin.init(instance);
             PinYin.validate();
+            printTime(context, "PinYin");
 
             // 初始化UIKit模块
             initUIKit();
+            printTime(context, "initUIKit");
 
             // 注册通知消息过滤器
             registerIMMessageFilter();
+            printTime(context, "registerIMMessageFilter");
 
             // 初始化消息提醒
             NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
+            printTime(context, "toggleNotification");
 
             // 注册网络通话来电
 //                    registerAVChatIncomingCallObserver(true);
@@ -135,9 +148,11 @@ public class AppContext extends Application { //NimApplication {//Application {
 
             // 注册语言变化监听
             registerLocaleReceiver(true);
+            printTime(context, "registerLocaleReceiver");
 
             OnlineStateEventManager.init();
-        }
+            printTime(context, "OnlineStateEventManager");
+
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////noah初始化////////////////////////////////////////////////////////
@@ -145,14 +160,18 @@ public class AppContext extends Application { //NimApplication {//Application {
         go = new GobalObserverImpl();
         NimUIKit.setGobalObserver(go);
         NimDemo.setGobalObserver(go);
+        printTime(context, "setGobalObserver");
         Log.init();
+        printTime(context, "Log.init");
 //        AppCache.firstInstall();
         new DBInit().systemCacheInit();
+        printTime(context, "systemCacheInit");
         new DBInit().snsInit();
+        printTime(context, "snsInit");
         NimInit.init(instance);
+        printTime(context, "NimInit");
         loadCompeleted = true;
-
-        //});
+        }
     }
 
     public static Context getContext() {
@@ -395,4 +414,21 @@ public class AppContext extends Application { //NimApplication {//Application {
         }
     };
 
+
+    long firstTime, preSystime = 0;
+
+    private void printTime(Context context, String pre) {
+//        if(1==1)
+//            return;
+        long currentSystime = System.currentTimeMillis();
+        long totaltime, interval = 0;
+        if (preSystime != 0)
+            interval = currentSystime - preSystime;
+        else
+            firstTime = currentSystime;
+        totaltime = currentSystime - firstTime;
+        String msg = pre + currentSystime + " " + interval + " " + totaltime;
+        preSystime = currentSystime;
+        android.util.Log.d("init-time", msg);
+    }
 }

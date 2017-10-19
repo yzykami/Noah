@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="本地缓存 :"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingBottom="@dimen/bj"
+                android:paddingLeft="@dimen/bj"
+                android:paddingRight="@dimen/bj"
+                android:paddingTop="@dimen/bj"
+                android:text="升级缓存"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_local"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/pt6"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_total_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:text="缓存总版本 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_area_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="地区信息缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_config_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="系统配置缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_dictype_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="字典类型缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_dic_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="字典信息缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_word_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="敏感字缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/pt20"
+            android:background="@color/bg_light" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginTop="@dimen/pt20"
+            android:text="服务端缓存 :"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/sp14" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/pt6"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="缓存总版本 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="地区信息缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_config"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="系统配置缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_dictype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="字典类型缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_dic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="字典信息缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:id="@+id/tv_word"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bj"
+                android:text="敏感字缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

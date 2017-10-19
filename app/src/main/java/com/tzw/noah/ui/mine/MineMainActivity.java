@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.demo.WeChatCaptureActivity;
 import com.netease.nim.demo.contact.activity.UserProfileSettingActivity;
 import com.netease.nim.uikit.common.media.picker.PickImageHelper;
 import com.netease.nim.uikit.permission.BaseMPermission;
@@ -28,6 +29,7 @@ import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.module.Container;
+import com.netease.nimlib.sdk.friend.model.Friend;
 import com.tzw.noah.MainActivity;
 import com.tzw.noah.R;
 import com.tzw.noah.appupdate.UpdateManager;
@@ -64,7 +66,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/6/8.
  */
 
-public class MineMainActivity extends MyBaseActivity  {
+public class MineMainActivity extends MyBaseActivity {
 
     String TAG = "MineMainActivity";
     MineMainActivity mycontext = MineMainActivity.this;
@@ -109,7 +111,6 @@ public class MineMainActivity extends MyBaseActivity  {
         tv_airtle_num = (TextView) findViewById(R.id.tv_airtle_num);
         tv_reply_num = (TextView) findViewById(R.id.tv_reply_num);
         iv_head = (SampleImageViewHead) findViewById(R.id.iv_head);
-
 
 
         iv_head.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +199,7 @@ public class MineMainActivity extends MyBaseActivity  {
         startActivity2(DebugActivity.class);
     }
 
-    public void handle_1(View view){
+    public void handle_1(View view) {
 //        throw new RuntimeException(mycontext.toString()
 //                + "测试异常1");
 
@@ -256,13 +257,17 @@ public class MineMainActivity extends MyBaseActivity  {
     }
 
     public void handle_friendlist(View view) {
-        startActivity(FriendListActivity.class);
+        FriendListActivity.selectPage = 0;
+        MainActivity.getInstance().selectTag(3);
+        //startActivity(FriendListActivity.class);
     }
 
     public void handle_friendlist_group(View view) {
-        Bundle bu = new Bundle();
-        bu.putInt("DATA", 3);
-        startActivity(FriendListActivity.class, bu);
+        FriendListActivity.selectPage = 3;
+        MainActivity.getInstance().selectTag(3);
+//        Bundle bu = new Bundle();
+//        bu.putInt("DATA", 3);
+//        startActivity(FriendListActivity.class, bu);
     }
 
     public void handle_circle(View view) {
@@ -374,5 +379,9 @@ public class MineMainActivity extends MyBaseActivity  {
     public void handle_favorite(View view) {
         startActivity(FavoriteActivity.class);
         getParent().overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
+    }
+
+    public void handle_qrscan(View view) {
+        startActivity2NoOPT(WeChatCaptureActivity.class);
     }
 }

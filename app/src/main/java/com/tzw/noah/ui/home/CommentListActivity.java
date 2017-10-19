@@ -73,7 +73,7 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-    static CommentListActivity instance;
+    CommentListActivity instance;
     String Tag = "CommentListActivity";
 
     List<Object> items;
@@ -92,12 +92,12 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
     private boolean loginState;
     private int commentId = 0;
 
-    public static CommentListActivity getInstance() {
-        if (instance == null) {
-            instance = new CommentListActivity();
-        }
-        return instance;
-    }
+//    public static CommentListActivity getInstance() {
+//        if (instance == null) {
+//            instance = new CommentListActivity();
+//        }
+//        return instance;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -261,6 +261,10 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
     }
 
     private void doWorking() {
+    }
+
+    public void handle_more(View view) {
+
     }
 
     @Override
@@ -588,7 +592,7 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
             }
         }
         final int finalPosition = position;
-        NetHelper.getInstance().mediaFavorite(mediaArticle.articleId, isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaMixFavorite(0,mediaArticle.articleId+"", isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 isloading = false;

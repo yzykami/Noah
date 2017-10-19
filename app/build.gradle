@@ -28,6 +28,8 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs', 'libs-sdk']
+//            res.srcDirs = ['.\src\main\res', 'res-zxing']
+            main.res.srcDirs += ['src/main/res-zxing']
         }
     }
 }

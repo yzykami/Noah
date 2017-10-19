@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/bjs"
-        android:layout_marginRight="@dimen/bjs"
-        android:layout_marginTop="@dimen/bjs"
+        android:layout_height="wrap_content">
 
-        android:background="@color/white">
-
-        <include
-            android:id="@+id/title"
-            layout="@layout/media_list_article_item_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <include
-            layout="@layout/media_list_article_item_attribute"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
             android:layout_marginBottom="@dimen/bjs"
-            android:layout_marginTop="@dimen/pt6" />
+            android:layout_marginLeft="@dimen/bjs"
+            android:layout_marginRight="@dimen/bjs"
+            android:layout_marginTop="@dimen/bjs"
+            android:background="@color/white">
 
+            <include
+                android:id="@+id/title"
+                layout="@layout/media_list_article_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/media_list_article_item_attribute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:layout_marginTop="@dimen/pt6" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

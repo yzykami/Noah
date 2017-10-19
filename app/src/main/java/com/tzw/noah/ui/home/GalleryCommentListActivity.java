@@ -65,7 +65,7 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-    static GalleryCommentListActivity instance;
+    GalleryCommentListActivity instance;
     String Tag = "CommentListActivity";
 
     List<Object> items;
@@ -84,12 +84,12 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
     private boolean loginState;
     private int commentId = 0;
 
-    public static GalleryCommentListActivity getInstance() {
-        if (instance == null) {
-            instance = new GalleryCommentListActivity();
-        }
-        return instance;
-    }
+//    public static GalleryCommentListActivity getInstance() {
+//        if (instance == null) {
+//            instance = new GalleryCommentListActivity();
+//        }
+//        return instance;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -253,6 +253,10 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
     }
 
     private void doWorking() {
+    }
+
+    public void handle_more(View view) {
+
     }
 
     @Override
@@ -579,7 +583,7 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
             }
         }
         final int finalPosition = position;
-        NetHelper.getInstance().mediaFavorite(mediaArticle.articleId, isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaMixFavorite(0,mediaArticle.articleId+"", isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 isloading = false;

@@ -43,7 +43,8 @@
             android:id="@+id/frame_circle"
             android:layout_width="fill_parent"
             android:layout_height="48.0dip"
-            android:layout_weight="1.0">
+            android:layout_weight="1.0"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_circle"
@@ -134,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="2.0dip"
-                android:text="服务"
+                android:text="好友"
                 android:textColor="@color/mygray"
                 android:textSize="10.0dip" />
         </FrameLayout>

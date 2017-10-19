@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
+import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.MySwipeBackActivity;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicItemFatory;
@@ -31,6 +33,7 @@ import com.tzw.noah.widgets.DividerItemDecoration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -71,6 +74,12 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
     EditText et_keyword;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_right)
+    TextView tv_right;
+    @BindView(R.id.tv_delete)
+    TextView tv_delete;
+    @BindView(R.id.rl_delete)
+    RelativeLayout rl_delete;
     //    @BindView(R.id.maskView)
 //    View maskView;
     Context mContext = FavoriteActivity.this;
@@ -78,7 +87,7 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-    static FavoriteActivity instance;
+    FavoriteActivity instance;
     String Tag = "FavoriteActivity";
 
     List<MediaArticle> items;
@@ -89,19 +98,22 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
     int keyId = 0;
     //    MediaArticle mediaArticle;
 //    MediaComment mMediaComment;
+    int typeId = 0;
     int articleId = 0;
     private boolean isloading = false;
+
+    boolean isEditMode = false;
 
     private LinearLayoutManager layoutManager;
 
     LoadMoreItemFactory loadMoreItem;
 
-    public static FavoriteActivity getInstance() {
-        if (instance == null) {
-            instance = new FavoriteActivity();
-        }
-        return instance;
-    }
+//    public static FavoriteActivity getInstance() {
+//        if (instance == null) {
+//            instance = new FavoriteActivity();
+//        }
+//        return instance;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,71 +148,12 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
 
         rl_search.setVisibility(View.GONE);
         rl_title.setVisibility(View.VISIBLE);
-//        list_history = SearchHistoryCache.getSearchHistorys(mContext);
-//        flowlayout.removeAllViews();
-//        if (list_history.size() > 0) {
-//            rl_nohistory.setVisibility(View.GONE);
-//            ll_history.setVisibility(View.VISIBLE);
-//            int height = Utils.dp2px(mContext, 24);
-//            int width = ViewGroup.LayoutParams.WRAP_CONTENT;
-//            for (String key : list_history) {
-//                ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(width, height);
-//                lp.setMargins(0, 0, Utils.dp2px(mContext, 10), 0);
-//                final TextView tv = new TextView(mContext);
-//                tv.setPadding(Utils.dp2px(mContext, 10), 0, Utils.dp2px(mContext, 10), 0);
-//                tv.setTextColor(mContext.getResources().getColor(R.color.textDarkGray));
-//                tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-//                tv.setText(key);
-//                tv.setGravity(Gravity.CENTER_VERTICAL);
-//                tv.setLines(1);
-//                tv.setBackgroundResource(R.drawable.bg_gray_fill_round);
-//                tv.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        et_keyword.setText(tv.getText());
-//                        articleId = 0;
-//                        addHistory(et_keyword.getText().toString());
-//                        setLoading();
-//                        doSearch();
-//                        showKeyboard(false);
-//                    }
-//                });
-//                flowlayout.addView(tv, lp);
-//            }
-//        }
     }
 
     private void findview() {
 
 
     }
-
-//    private void loadData() {
-//        NetHelper.getInstance().mediaArticleDetails(mediaArticle.articleId, new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                toast(getResources().getString(R.string.internet_fault));
-//            }
-//
-//            @Override
-//            public void onResponse(IMsg iMsg) {
-//                try {
-//                    if (iMsg.isSucceed()) {
-//                        mediaArticle = MediaArticle.load(iMsg);
-//                        isLike = mediaArticle.isArticleEvaluate;
-//                        isFavorite = mediaArticle.isArticleKeep;
-//                        iMsg.systemOut();
-//                        initview();
-//                    } else {
-//                        toast(iMsg.getMsg());
-//                    }
-//                } catch (Exception e) {
-//                    Log.log(Tag, e);
-//                }
-//            }
-//        });
-//    }
-
 
     private void initview() {
         tv_title.setText("我的收藏");
@@ -209,40 +162,13 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(mContext, R.drawable.recycleview_divider_pt5));
 
-//        tv_cancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//                overridePendingTransition(R.anim.window_pop_enter, R.anim.window_pop_exit);
-//            }
-//        });
-//        et_keyword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if (actionId == EditorInfo.IME_ACTION_SEARCH
-//                        || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-//                    if (et_keyword.getText().toString().equals("")) {
-////                        toast("请输入关键字");
-//                        adapter.clear();
-//                        initdata();
-//                        return true;
-//                    }
-//
-//                    articleId = 0;
-//                    addHistory(et_keyword.getText().toString());
-//                    setLoading();
-//                    doSearch();
-//                    showKeyboard(false);
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//            }
-//        });
-//        showKeyboardDelayed(et_keyword);
-
         initAdapter();
-
+        tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doDelete();
+            }
+        });
     }
 
     private void addHistory(String s) {
@@ -276,7 +202,7 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
 
     private void doSearch() {
 
-        NetHelper.getInstance().mediaFavoriteList(articleId, DataCenter.pagesize, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaMixFavoriteList(typeId, articleId, DataCenter.pagesize, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));
@@ -331,6 +257,57 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
         });
     }
 
+
+    public void doDelete() {
+//        if (!makesureLogin()) {
+//            return;
+//        }
+//        if (isloading)
+//            return;
+//        else
+//            isloading = true;
+        String ids = "";
+        List<MediaArticle> list = adapter.getDataList();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).isSelected)
+                ids += list.get(i).articleId + ",";
+        }
+        if (TextUtils.isEmpty(ids))
+            return;
+        NetHelper.getInstance().mediaMixFavorite(0, ids, 0, new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                isloading = false;
+                ((MyBaseActivity) mContext).toast(mContext.getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                isloading = false;
+                try {
+                    if (iMsg.isSucceed()) {
+                        ((MyBaseActivity) mContext).toast("取消收藏成功");
+                        List<MediaArticle> list = adapter.getDataList();
+                        Iterator<MediaArticle> iterator = list.iterator();
+                        while (iterator.hasNext()) {
+                            MediaArticle ma = iterator.next();
+                            if (ma.isSelected)
+                                iterator.remove();
+                        }
+                        if (list.size() == 0)
+                            setEmpty();
+                        adapter.setDataList(list);
+                        handle_edit(null);
+                    } else {
+                        ((MyBaseActivity) mContext).toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(Tag, e);
+                }
+            }
+        });
+    }
+
     @Override
     public void onLoadMore(AssemblyRecyclerAdapter assemblyRecyclerAdapter) {
         doSearch();
@@ -356,6 +333,26 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
                 bu.putSerializable("DATA", (MediaArticle) o);
                 startActivity2(HomeDetailActivity.class, bu);
             }
+        } else if (o instanceof String) {
+
+            refreshDeleteLayout();
+        }
+    }
+
+    private void refreshDeleteLayout() {
+        int count = 0;
+        List<MediaArticle> list = adapter.getDataList();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).isSelected)
+                count++;
+        }
+        if (count == 0) {
+            tv_delete.setText("删除");
+            tv_delete.setTextColor(getResources().getColor(R.color.textLightGray));
+        } else {
+            tv_delete.setText("删除(" + count + ")");
+            tv_delete.setTextColor(getResources().getColor(R.color.textDarkGray));
+
         }
     }
 
@@ -439,5 +436,28 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
 
     public void handle_clear_editor(View view) {
         et_keyword.setText("");
+    }
+
+
+    public void handle_edit(View view) {
+        isEditMode = !isEditMode;
+        if (isEditMode) {
+            tv_right.setText("取消");
+            rl_delete.setVisibility(View.VISIBLE);
+        } else {
+            tv_right.setText("编辑");
+            rl_delete.setVisibility(View.GONE);
+        }
+
+        List<MediaArticle> list = adapter.getDataList();
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).isEditMode = isEditMode;
+            if (isEditMode)
+                list.get(i).isSelected = false;
+        }
+        adapter.setDataList(list);
+        refreshDeleteLayout();
+
+//        adapter.notifyDataSetChanged();
     }
 }

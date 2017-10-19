@@ -119,7 +119,7 @@ public class HomeDetailVideoActivity extends MyBaseActivity implements MediaArti
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-    static HomeDetailVideoActivity instance;
+    HomeDetailVideoActivity instance;
     String Tag = "HomeDetailActivity";
 
     List<Object> items;
@@ -142,12 +142,12 @@ public class HomeDetailVideoActivity extends MyBaseActivity implements MediaArti
     private OrientationUtils orientationUtils;
     OrientationEventListener mOrientationEventListener;
 
-    public static HomeDetailVideoActivity getInstance() {
-        if (instance == null) {
-            instance = new HomeDetailVideoActivity();
-        }
-        return instance;
-    }
+//    public static HomeDetailVideoActivity getInstance() {
+//        if (instance == null) {
+//            instance = new HomeDetailVideoActivity();
+//        }
+//        return instance;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -422,16 +422,16 @@ public class HomeDetailVideoActivity extends MyBaseActivity implements MediaArti
 
     public void handle_more(View view) {
 
-        if (mChildOfContent == null) {
-            FrameLayout content = (FrameLayout) findViewById(android.R.id.content);
-            content.setBackgroundResource(R.color.myBlue);
-            //2､获取到setContentView放进去的View
-            mChildOfContent = content.getChildAt(0);
-            frameLayoutParams = (FrameLayout.LayoutParams) mChildOfContent.getLayoutParams();
-
-        }
-        frameLayoutParams.height -= 300;
-        mChildOfContent.requestLayout();
+//        if (mChildOfContent == null) {
+//            FrameLayout content = (FrameLayout) findViewById(android.R.id.content);
+//            content.setBackgroundResource(R.color.myBlue);
+//            //2､获取到setContentView放进去的View
+//            mChildOfContent = content.getChildAt(0);
+//            frameLayoutParams = (FrameLayout.LayoutParams) mChildOfContent.getLayoutParams();
+//
+//        }
+//        frameLayoutParams.height -= 300;
+//        mChildOfContent.requestLayout();
     }
 
     public void setLoading() {
@@ -852,7 +852,7 @@ public class HomeDetailVideoActivity extends MyBaseActivity implements MediaArti
             }
         }
         final int finalPosition = position;
-        NetHelper.getInstance().mediaFavorite(mediaArticle.articleId, isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaMixFavorite(0,mediaArticle.articleId+"", isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 isloading = false;

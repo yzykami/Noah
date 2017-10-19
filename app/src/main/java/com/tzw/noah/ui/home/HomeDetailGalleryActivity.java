@@ -27,6 +27,7 @@ import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.MySwipeBackActivity;
+import com.tzw.noah.ui.adapter.itemfactory.advertising.AdvDetailGalleryItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaGalleryRelativeFragmentItemFactory;
 import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
 import com.tzw.noah.utils.StatusBarUtil;
@@ -40,6 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.xiaopan.assemblyadapter.AssemblyFragmentStatePagerAdapter;
 import me.xiaopan.sketchsample.adapter.itemfactory.ImageFragmentItemFactory;
+import me.xiaopan.sketchsample.adapter.itemfactory.ImageFragmentItemFactory2;
 import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
 import me.xiaopan.sketchsample.adapter.itemfactory.PageMenuItemFactory;
 import me.xiaopan.sketchsample.bean.Image;
@@ -53,7 +55,7 @@ import okhttp3.Call;
  * Created by yzy on 2017/8/11.
  */
 
-public class HomeDetailGalleryActivity extends MySwipeBackActivity implements InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, ViewPager.OnPageChangeListener, ImageFragmentItemFactory.ImageClickListener {
+public class HomeDetailGalleryActivity extends MySwipeBackActivity implements InputFragment.InputFragmentListener, MyBaseActivity.LoginListener, ViewPager.OnPageChangeListener, ImageFragmentItemFactory2.ImageClickListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.rl_top)
@@ -82,7 +84,7 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
     InputFragment frame_input;
 
     //    private AssemblyRecyclerAdapter adapter;
-    static HomeDetailGalleryActivity instance;
+    HomeDetailGalleryActivity instance;
 
     String Tag = "HomeDetailActivity";
     List<Object> items;
@@ -111,12 +113,12 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
 
 //    private MediaArticleDetailWebViewItemFatory webViewItemFatory;
 
-    public static HomeDetailGalleryActivity getInstance() {
-        if (instance == null) {
-            instance = new HomeDetailGalleryActivity();
-        }
-        return instance;
-    }
+//    public static HomeDetailGalleryActivity getInstance() {
+//        if (instance == null) {
+//            instance = new HomeDetailGalleryActivity();
+//        }
+//        return instance;
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,6 +128,7 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
         ButterKnife.bind(this);
         StatusBarUtil.transparencyBar(this);
         setStatusBarHeight();
+//        setStatusBarLightMode();
         instance = this;
         mLoginListener = this;
         initdata();
@@ -199,21 +202,23 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
         transition.replace(R.id.frame_input, frame_input);
         transition.commit();
 
-        if (fragmentAdapter == null) {
-            ArrayList<Fragment> fragments = new ArrayList<>();
-            List<String> titles = new ArrayList<>();
-            list = mediaArticle.getContentList();
-            for (int i = 0; i < list.size(); i++) {
+//        if (fragmentAdapter == null) {
+//            ArrayList<Fragment> fragments = new ArrayList<>();
+//            List<String> titles = new ArrayList<>();
+//            list = mediaArticle.getContentList();
+//            for (int i = 0; i < list.size(); i++) {
 //                fragments.add(new GalleryFragment().setGallery(list.get(i)).setPage(list.size(), i).setMediaCategory(mediaArticle));
 //                titles.add("");
 //                boolean showTools = AppConfig.getBoolean(mContext, AppConfig.Key.SHOW_TOOLS_IN_IMAGE_DETAIL);
 //                Image image = new Image(list.get(i).image, list.get(i).image);
 //                ImageFragment fragmentImage = ImageFragment.build(image, "", showTools);
 //                fragments.add(fragmentImage);
-            }
-
-            fragmentAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
-        }
+//                GalleryImageFragment galleryImageFragment = GalleryImageFragment.newInstance(list.get(i).image);
+//                fragments.add(galleryImageFragment);
+//            }
+//
+//            fragmentAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
+//        }
 
         List<Image> imageList = new ArrayList<>();
         AssemblyFragmentStatePagerAdapter pagerAdapter = new AssemblyFragmentStatePagerAdapter(getSupportFragmentManager(), imageList);
@@ -224,17 +229,22 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
         }
         if (advertising != null) {
             advPageIndex = imageList.size();
-            Image image = new Image(advertising.advertImage, advertising.advertImage);
-            imageList.add(image);
+//            Image image = new Image(advertising.advertImage, advertising.advertImage);
+//            imageList.add(image);
+            pagerAdapter.addItemFactory(new AdvDetailGalleryItemFactory(this, ""));
+            pagerAdapter.getDataList().add(advertising);
         }
         if (mediaArticle.relatedArticlesObj.size() > 0) {
-            relativePageIndex = imageList.size();
+            if (advPageIndex != -1)
+                relativePageIndex = advPageIndex + 1;
+            else
+                relativePageIndex = imageList.size();
             pagerAdapter.addItemFactory(new MediaGalleryRelativeFragmentItemFactory(this, ""));
             pagerAdapter.getDataList().add(mediaArticle);
             //pagerAdapter.getDataList().add();
         }
-        ImageFragmentItemFactory ifif;
-        pagerAdapter.addItemFactory(ifif = new ImageFragmentItemFactory(this, ""));
+        ImageFragmentItemFactory2 ifif;
+        pagerAdapter.addItemFactory(ifif = new ImageFragmentItemFactory2(this, ""));
         ifif.setImageClickListener(this);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOnPageChangeListener(this);
@@ -256,8 +266,21 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
     protected void updateData() {
     }
 
+    private View mChildOfContent;
+    private FrameLayout.LayoutParams frameLayoutParams;
+
     public void handle_more(View view) {
 
+        if (mChildOfContent == null) {
+            FrameLayout content = (FrameLayout) findViewById(android.R.id.content);
+            content.setBackgroundResource(R.color.myBlue);
+            //2､获取到setContentView放进去的View
+            mChildOfContent = content.getChildAt(0);
+            frameLayoutParams = (FrameLayout.LayoutParams) mChildOfContent.getLayoutParams();
+
+        }
+        frameLayoutParams.height -= 300;
+        mChildOfContent.requestLayout();
     }
 
     @Override
@@ -417,7 +440,7 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
         else
             isloading = true;
 
-        NetHelper.getInstance().mediaFavorite(mediaArticle.articleId, isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaMixFavorite(0,mediaArticle.articleId+"", isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 isloading = false;

@@ -4,13 +4,14 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.tzw.noah.models.Advertising;
+import com.tzw.noah.ui.home.GalleryAdvFragment;
 
 import me.xiaopan.assemblyadapter.AssemblyFragmentItemFactory;
 import me.xiaopan.sketchsample.bean.Image;
 import me.xiaopan.sketchsample.fragment.ImageFragment;
 import me.xiaopan.sketchsample.util.AppConfig;
 
-public class AdvDetailGalleryItemFactory extends AssemblyFragmentItemFactory<Image> {
+public class AdvDetailGalleryItemFactory extends AssemblyFragmentItemFactory<Advertising> {
     private Context context;
     private String loadingImageOptionsId;
 
@@ -35,16 +36,16 @@ public class AdvDetailGalleryItemFactory extends AssemblyFragmentItemFactory<Ima
     }
 
     @Override
-    public Fragment createFragment(int i, Image image) {
+    public Fragment createFragment(int i, Advertising advertising) {
         boolean showTools = AppConfig.getBoolean(context, AppConfig.Key.SHOW_TOOLS_IN_IMAGE_DETAIL);
-        ImageFragment fragment = ImageFragment.build(image, loadingImageOptionsId, showTools);
-        fragment.setImageClickListener(new ImageFragment.ImageClickListener() {
-            @Override
-            public void onImageClick() {
-                if (mImageClickListener != null)
-                    mImageClickListener.onImageClick();
-            }
-        });
+        GalleryAdvFragment fragment =new GalleryAdvFragment().setAdvertising(advertising);
+//        fragment.setImageClickListener(new ImageFragment.ImageClickListener() {
+//            @Override
+//            public void onImageClick() {
+//                if (mImageClickListener != null)
+//                    mImageClickListener.onImageClick();
+//            }
+//        });
         return fragment;
     }
 }

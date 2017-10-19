@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.tzw.noah.R;
+import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.utils.Utils;
 import com.tzw.timeselector.Utils.ScreenUtil;
 
@@ -18,7 +19,7 @@ import com.tzw.timeselector.Utils.ScreenUtil;
  * Created by yzy on 2017/6/8.
  */
 
-public class ServiceMainActivity extends AppCompatActivity {
+public class ServiceMainActivity extends MyBaseActivity {
     int index = 0;
     Bitmap bm;
 

@@ -1,81 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/pt12"
-        android:layout_marginLeft="@dimen/bjs"
-        android:layout_marginRight="@dimen/bjs"
-        android:layout_marginTop="@dimen/pt12"
-        android:background="@color/white">
-
-        <include
-            layout="@layout/media_list_article_item_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/rl_cover" />
-
-        <include
-            layout="@layout/media_list_article_item_attribute"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/rl_cover"
-            android:layout_toLeftOf="@+id/rl_cover" />
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/rl_cover"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/bjs">
+            android:layout_marginBottom="@dimen/bjs"
+            android:layout_marginLeft="@dimen/bjs"
+            android:layout_marginRight="@dimen/bjs"
+            android:layout_marginTop="@dimen/bjs"
+            android:background="@color/white">
 
-            <me.xiaopan.sketchsample.widget.SampleImageView
-                android:id="@+id/iv_cover"
-                android:layout_width="120dp"
-                android:layout_height="80dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/media_default_pic" />
+            <include
+                layout="@layout/media_list_article_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/rl_cover" />
 
-            <RelativeLayout
+            <include
+                layout="@layout/media_list_article_item_attribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/iv_cover"
-                android:layout_alignLeft="@id/iv_cover"
-                android:layout_alignRight="@id/iv_cover"
-                android:layout_alignTop="@id/iv_cover">
+                android:layout_alignBottom="@+id/rl_cover"
+                android:layout_toLeftOf="@+id/rl_cover" />
 
-                <TextView
-                    android:id="@+id/tv_pic_count"
+            <RelativeLayout
+                android:id="@+id/rl_cover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/bjs">
+
+                <me.xiaopan.sketchsample.widget.SampleImageView
+                    android:id="@+id/iv_cover"
+                    android:layout_width="120dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/media_default_pic" />
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="@dimen/pt5"
-                    android:layout_marginRight="@dimen/pt5"
-                    android:alpha="0.50"
-                    android:background="@drawable/bg_black_fill_round"
-                    android:paddingBottom="@dimen/pt1"
-                    android:paddingLeft="@dimen/pt3"
-                    android:paddingRight="@dimen/pt3"
-                    android:paddingTop="@dimen/pt1"
-                    android:text="3图"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp8" />
+                    android:layout_alignBottom="@id/iv_cover"
+                    android:layout_alignLeft="@id/iv_cover"
+                    android:layout_alignRight="@id/iv_cover"
+                    android:layout_alignTop="@id/iv_cover">
 
-                <ImageView
-                    android:id="@+id/iv_play_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/media_video_play" />
+                    <TextView
+                        android:id="@+id/tv_pic_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="@dimen/pt5"
+                        android:layout_marginRight="@dimen/pt5"
+                        android:alpha="0.50"
+                        android:background="@drawable/bg_black_fill_round"
+                        android:paddingBottom="@dimen/pt1"
+                        android:paddingLeft="@dimen/pt3"
+                        android:paddingRight="@dimen/pt3"
+                        android:paddingTop="@dimen/pt1"
+                        android:text="3图"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp8" />
+
+                    <ImageView
+                        android:id="@+id/iv_play_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/media_video_play" />
+                </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
-
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

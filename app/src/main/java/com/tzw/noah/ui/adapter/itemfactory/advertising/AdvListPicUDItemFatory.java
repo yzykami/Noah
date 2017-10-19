@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
@@ -49,7 +50,7 @@ public class AdvListPicUDItemFatory extends AssemblyRecyclerItemFactory<AdvListP
 
     public class GalleryItem extends BindAssemblyRecyclerItem<Advertising> {
         @BindView(R.id.container)
-        LinearLayout container;
+        RelativeLayout container;
         @BindView(R.id.iv_cover)
         SampleImageView iv_cover;
         @BindView(R.id.iv_cover2)

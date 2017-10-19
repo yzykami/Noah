@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<LinearLayout -->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:id="@+id/container"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="@color/bg_light"-->
-    <!--android:orientation="vertical"-->
-    <!--tools:context="com.tzw.noah.MainActivity">-->
 
-    <com.tzw.noah.widgets.MyWebView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.tzw.noah.widgets.MyWebView>
-<!--</LinearLayout>-->
+<com.tzw.noah.widgets.MyWebView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/webView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/pt0"
+    android:layout_marginLeft="@dimen/bj"
+    android:layout_marginRight="@dimen/bj"
+    android:layout_marginTop="@dimen/pt20"></com.tzw.noah.widgets.MyWebView>

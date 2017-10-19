@@ -32,6 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
         //CursorFactory设置为null,使用默认值
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        db = getWritableDatabase();
     }
 
     //数据库第一次被创建时onCreate会被调用
@@ -78,11 +79,10 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public <T> List<T> queryAll(Class<T> t, String sql) {
-        //sql = "SELECT * FROM Area"
         List<T> list = new ArrayList<>();
-        ArrayList<Area> Areas = new ArrayList<Area>();
-        Cursor c = db.rawQuery(sql, null);
+        Cursor c = null;
         try {
+            c = db.rawQuery(sql, null);
             Class tclass = Class.forName(t.getName());
             Field[] fields = tclass.getDeclaredFields();
             for (Field field : fields) {
@@ -145,13 +145,10 @@ public class DBHelper extends SQLiteOpenHelper {
         T t = tList.get(0);
         db.beginTransaction();  //开始事务
         try {
-
             Class tclass = Class.forName(t.getClass().getName());
-
             Field[] fields = tclass.getDeclaredFields();
-            db.execSQL("delete from "+tableName);
-
-            String sql = "INSERT INTO "+tableName+" VALUES(null";
+            db.execSQL("delete from " + tableName);
+            String sql = "INSERT INTO " + tableName + " VALUES(";
             List<Object> objs = new ArrayList<>();
             for (T tt : tList) {
                 for (Field field : fields) {
@@ -159,23 +156,10 @@ public class DBHelper extends SQLiteOpenHelper {
                     if (a == null) {
                         continue;
                     }
-                    String fname = field.getName();
-                    Type ftype = field.getType();
-
-                    if (a == null) {
-                        continue;
-                    }
                     sql += ",?";
                     objs.add(field.get(tt));
-//                    if (ftype.equals(new TypeToken<String>() {
-//                    }.getType())) {
-//                    }
-//                    if (ftype.equals(int.class)) {
-//                    }
-//                    if (ftype.equals(double.class)) {
-//                    }
                 }
-                sql+=")";
+                sql += ")";
                 db.execSQL(sql, objs.toArray(new Object[objs.size()]));
             }
             db.setTransactionSuccessful();  //设置事务成功完成

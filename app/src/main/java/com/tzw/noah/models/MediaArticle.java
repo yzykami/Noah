@@ -64,6 +64,10 @@ public class MediaArticle implements Serializable {
     public String tag;
     private boolean isRelative;
 
+
+    public boolean isEditMode;
+    public boolean isSelected;
+
     public String getAuthor() {
         String author = "";
         if (ifOriginal == 0)

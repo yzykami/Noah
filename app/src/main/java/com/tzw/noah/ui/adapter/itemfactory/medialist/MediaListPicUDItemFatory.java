@@ -1,14 +1,17 @@
 package com.tzw.noah.ui.adapter.itemfactory.medialist;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.MediaArticle;
+import com.tzw.noah.ui.adapter.MediaListItemAssemblyRecyclerItem;
 import com.tzw.noah.utils.Utils;
 
 import java.util.ArrayList;
@@ -22,7 +25,7 @@ import me.xiaopan.sketchsample.widget.SampleImageView;
 public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaListPicUDItemFatory.GalleryItem> {
 
     private MediaListListener mMediaListListener;
-    private int width = 0, height = 0, ml = 0;
+    private int width = 0, height = 0, ml = 0 ,bjs, btnsize;
 
     public MediaListPicUDItemFatory(MediaListListener mMediaListListener) {
         this.mMediaListListener = mMediaListListener;
@@ -39,6 +42,9 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
 
         int screenWidth = Utils.getSrceenWidth();
+        btnsize = Utils.dp2px(viewGroup.getContext(),34);
+        bjs = (int) viewGroup.getContext().getResources().getDimension(R.dimen.bjs);
+
         width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 3) / 3;
         height = width * 2 / 3;
         ml = (int) viewGroup.getContext().getResources().getDimension(R.dimen.bjs) / 2;
@@ -46,9 +52,9 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
         return new GalleryItem(R.layout.media_list_article_item_3pic, viewGroup);
     }
 
-    public class GalleryItem extends BindAssemblyRecyclerItem<MediaArticle> {
+    public class GalleryItem extends MediaListItemAssemblyRecyclerItem<MediaArticle> {
         @BindView(R.id.container)
-        LinearLayout container;
+        RelativeLayout container;
         @BindView(R.id.iv_cover)
         SampleImageView iv_cover;
         @BindView(R.id.iv_cover2)
@@ -186,6 +192,8 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
                 tvTag.setTextColor(mContext.getResources().getColor(R.color.myRed));
             } else
                 tvPicCount.setVisibility(View.GONE);
+
+            initEditMode(container, mediaArticle, mMediaListListener);
         }
     }
 }

@@ -12,11 +12,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tzw.noah.R;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
 import com.tzw.noah.ui.sns.add.AddActivity;
+import com.tzw.noah.utils.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class FriendListActivity extends MyBaseActivity implements ViewPager.OnPa
     Context mContext = FriendListActivity.this;
 //    private AssemblyRecyclerAdapter adapter;
 
-    int selectPage;
+    public static int selectPage;
     List<Fragment> fragmentList = null;
     private boolean firstLoad = true;
 
@@ -56,7 +58,8 @@ public class FriendListActivity extends MyBaseActivity implements ViewPager.OnPa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sns_layout_friendlist);
         ButterKnife.bind(this);
-
+        StatusBarUtil.transparencyBar(this);
+        setStatusBarHeight();
         initdata();
         findview();
         initview();
@@ -208,5 +211,23 @@ public class FriendListActivity extends MyBaseActivity implements ViewPager.OnPa
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    // 退出时间
+    private long currentBackPressedTime = 0;
+    // 退出间隔
+    private static final int BACK_PRESSED_INTERVAL = 2000;
+
+    //重写onBackPressed()方法,继承自退出的方法
+    @Override
+    public void onBackPressed() {
+        // 判断时间间隔
+        if (System.currentTimeMillis() - currentBackPressedTime > BACK_PRESSED_INTERVAL) {
+            currentBackPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+        } else {
+            // 退出
+            finish();
+        }
     }
 }

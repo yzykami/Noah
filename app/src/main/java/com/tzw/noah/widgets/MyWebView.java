@@ -17,6 +17,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
 
 import org.jsoup.Jsoup;
@@ -94,10 +95,17 @@ public class MyWebView extends WebView {
 //            }
 //        });
 
+//        int fontSize = 16;//(int) getResources().getDimension(R.dimen.sp8);
+//        Log.i("aaa", "initView: fontSize = " + fontSize);
+//        this.getSettings().setDefaultFontSize(fontSize);
         this.getSettings().setJavaScriptEnabled(true);
         this.getSettings().setDefaultTextEncodingName("UTF-8");
 //        this.getSettings().setSupportZoom(true);
         this.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+
+//        this.getSettings().setUseWideViewPort(true);
+//        this.getSettings().setLoadWithOverviewMode(true);
+//        this.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
 
         //载入js
         this.addJavascriptInterface(new MyJavascriptInterface(context), "imageListener");
@@ -105,6 +113,8 @@ public class MyWebView extends WebView {
         this.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
         //video全屏处理
         this.addJavascriptInterface(new JavascriptInterface(), "_VideoEnabledWebView");
+
+        this.setBackgroundResource(R.color.myBlue);
     }
 
 

@@ -4,14 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
@@ -23,25 +18,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
 import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
-import me.xiaopan.sketchsample.bean.Image;
-import me.xiaopan.sketchsample.fragment.ImageFragment;
-import me.xiaopan.sketchsample.util.AppConfig;
+import me.xiaopan.sketchsample.widget.SampleImageView;
 
 /**
  * Created by yzy on 2017/8/30.
  */
 public class GalleryAdvFragment extends Fragment {
 
-    @BindView(R.id.iv_cover)
-    FrameLayout ivCover;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
-    @BindView(R.id.tv_pagesize)
-    TextView tvPagesize;
-    @BindView(R.id.tv_content)
-    TextView tvContent;
-    @BindView(R.id.ll_content)
-    LinearLayout llContent;
 
     String Tag = "GalleryFragment";
 
@@ -53,6 +36,12 @@ public class GalleryAdvFragment extends Fragment {
     GalleryAdvFragment instance;
     MediaArticle mMediaArticle;
     boolean isFirstLoad = true;
+    @BindView(R.id.iv_cover)
+    SampleImageView ivCover;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.tv_next)
+    TextView tvNext;
     private int articleId = 0;
     int channelId;
     private MediaArticle.GalleryArticle gallery;
@@ -69,6 +58,7 @@ public class GalleryAdvFragment extends Fragment {
         this.gallery = gallery;
         return this;
     }
+
     public GalleryAdvFragment setAdvertising(Advertising advertising) {
         this.advertising = advertising;
         return this;
@@ -79,29 +69,14 @@ public class GalleryAdvFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_image, container, false);
+        View view = inflater.inflate(R.layout.fragment_gallery_adv, container, false);
         ButterKnife.bind(this, view);
         instance = this;
 
-//        ivCover.displayImage(gallery.image);
+        ivCover.getOptions().setLoadingImage(R.drawable.logo_gray_fatter);
+        ivCover.displayImage(advertising.advertImage);
+        tvTitle.setText(advertising.advertTitle);
 
-        boolean showTools = AppConfig.getBoolean(mContext, AppConfig.Key.SHOW_TOOLS_IN_IMAGE_DETAIL);
-        Image image = new Image(gallery.image,gallery.image);
-        ImageFragment fragmentImage = ImageFragment.build(image, "", showTools);
-
-        FragmentManager fm = getChildFragmentManager();
-        FragmentTransaction transition= fm.beginTransaction();
-        transition.replace(R.id.iv_cover,fragmentImage);
-        transition.commit();
-
-        tvTitle.setText(mMediaArticle.articleTitle);
-        if (TextUtils.isEmpty(gallery.text)) {
-            tvContent.setVisibility(View.GONE);
-        } else {
-            tvContent.setVisibility(View.VISIBLE);
-            tvContent.setText(gallery.text);
-        }
-        tvPagesize.setText(index + "/" + size);
 
         return view;
     }
@@ -156,5 +131,10 @@ public class GalleryAdvFragment extends Fragment {
         this.size = size;
         this.index = i;
         return this;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

@@ -13,7 +13,11 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom"
         android:orientation="vertical">
-
+        <View
+            android:id="@+id/statusBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt0"
+            android:background="@color/myRed" />
         <RelativeLayout
             android:id="@+id/rl_top"
             android:layout_width="fill_parent"

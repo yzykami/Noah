@@ -411,6 +411,22 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
     protected void overridePendingTransitionRight2Left() {
         overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
     }
+
+
+    long firstTime, preSystime = 0;
+
+    protected void printTime(Context context, String pre) {
+        long currentSystime = System.currentTimeMillis();
+        long totaltime, interval = 0;
+        if (preSystime != 0)
+            interval = currentSystime - preSystime;
+        else
+            firstTime = currentSystime;
+        totaltime = currentSystime - firstTime;
+        String msg = pre + currentSystime + " " + interval + " " + totaltime;
+        preSystime = currentSystime;
+        android.util.Log.d("init-time", msg);
+    }
 }
 
 class ClassMap {

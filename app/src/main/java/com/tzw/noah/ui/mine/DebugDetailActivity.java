@@ -16,6 +16,10 @@ import com.tzw.noah.ui.mine.fragment.CrashListFragment;
 import com.tzw.noah.ui.mine.fragment.DatabaseListFragment;
 import com.tzw.noah.ui.mine.fragment.DatabaseTableFragment;
 import com.tzw.noah.ui.mine.fragment.DatabaseTableListFragment;
+import com.tzw.noah.ui.mine.fragment.NetToolFragment;
+import com.tzw.noah.ui.mine.fragment.SystemCacheFragment;
+import com.tzw.noah.ui.mine.fragment.SystemParamsFragment;
+import com.tzw.noah.ui.mine.fragment.ThirdPartyFragment;
 
 import java.util.List;
 
@@ -87,10 +91,18 @@ public class DebugDetailActivity extends MyBaseActivity {
             transaction.replace(R.id.framelayout, CrashDetailContentFragment.newInstance("", ""));
         } else if (type == DebugActivity.TYPE_DATEBASE_LIST) {
             transaction.replace(R.id.framelayout, DatabaseListFragment.newInstance());
-        }else if (type == DebugActivity.TYPE_DATEBASE_TABLE_LIST) {
+        } else if (type == DebugActivity.TYPE_DATEBASE_TABLE_LIST) {
             transaction.replace(R.id.framelayout, DatabaseTableListFragment.newInstance());
-        }else if (type == DebugActivity.TYPE_DATEBASE_TABLE) {
+        } else if (type == DebugActivity.TYPE_DATEBASE_TABLE) {
             transaction.replace(R.id.framelayout, DatabaseTableFragment.newInstance());
+        } else if (type == DebugActivity.TYPE_NETTOOL) {
+            transaction.replace(R.id.framelayout, NetToolFragment.newInstance());
+        } else if (type == DebugActivity.TYPE_SYSTEMPARAMS) {
+            transaction.replace(R.id.framelayout, SystemParamsFragment.newInstance());
+        } else if (type == DebugActivity.TYPE_THIRDPARTY) {
+            transaction.replace(R.id.framelayout, ThirdPartyFragment.newInstance());
+        } else if (type == DebugActivity.TYPE_SYSTEMCACHE) {
+            transaction.replace(R.id.framelayout, SystemCacheFragment.newInstance());
         }
         transaction.commit();
     }

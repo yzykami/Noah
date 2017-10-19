@@ -60,13 +60,11 @@ public class DataCenter {
     List<User> followList;
     List<User> fansList;
     List<User> blackList;
-
     List<Group> groupList;
     List<Group> discussList;
 
     Group group;
     List<GroupMember> groupMemberList;
-
 
     List<GroupMember> ownerList;
     List<GroupMember> managerList;

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.R;
 import com.tzw.noah.logger.Log;
+import com.tzw.noah.models.AppCacheModel;
 import com.tzw.noah.models.Area;
 import com.tzw.noah.models.Dict;
 import com.tzw.noah.models.User;
@@ -233,12 +234,11 @@ public class DBManager {
         return Dicts;
     }
 
-    public int getSystemCacheVersion()
-    {
+    public int getSystemCacheVersion() {
         int version = 0;
         Cursor c = null;
         try {
-            String sql= "select appCacheVersion from appcache where appcacheid='AllCache'";
+            String sql = "select appCacheVersion from appcache where appcacheid='AllCache'";
             c = db.rawQuery(sql, null);
             while (c.moveToNext()) {
                 version = c.getInt(0);
@@ -250,5 +250,48 @@ public class DBManager {
                 c.close();
         }
         return version;
+    }
+
+    public List<AppCacheModel> getAppCaches() {
+        return helper.queryAll(AppCacheModel.class, "select * from appcache order by appCacheSort");
+    }
+
+    public void updateSystemCacheVersion(String appCacheId, int appCacheVersion) {
+        try {
+            String sql = "update appcache set appCacheVersion = " + appCacheVersion + " where appCacheId = '" + appCacheId + "'";
+            db.execSQL(sql);
+        } catch (Exception e) {
+            Log.log("DBManager", e);
+        } finally {
+        }
+    }
+
+
+    public void updateArea(List list, int lastVersion) {
+        helper.insert(list, "area");
+        updateSystemCacheVersion("AreaCache", lastVersion);
+    }
+
+    public void updateConfiguration(List list, int lastVersion) {
+        helper.insert(list, "Configuration");
+        updateSystemCacheVersion("ConfigurationCache", lastVersion);
+    }
+
+    public void updateDictionary(List list, int lastVersion) {
+        helper.insert(list, "Dictionary");
+        updateSystemCacheVersion("DictionaryCache", lastVersion);
+    }
+
+    public void updateDictionaryTpye(List list, int lastVersion) {
+        helper.insert(list, "DictionaryTpye");
+        updateSystemCacheVersion("DictionaryTpyeCache", lastVersion);
+    }
+
+    public void updateSensitiveWords(List list, int lastVersion) {
+        updateSystemCacheVersion("SensitiveWordsCache", lastVersion);
+    }
+
+    public void updateAllCache(List list, int lastVersion) {
+        updateSystemCacheVersion("AllCache", lastVersion);
     }
 }

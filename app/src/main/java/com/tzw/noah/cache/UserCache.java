@@ -8,6 +8,8 @@ import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.AppContext;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
+import com.tzw.noah.net.HttpTool;
+import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.WIRequest;
 
 import java.lang.reflect.Field;
@@ -21,12 +23,14 @@ public class UserCache {
     private static String token = "";
     private static String loginKey = "";
     private static long timeOffset = -12345678l;
+    private static long timeOut = 10;
     public static User user;
 
     protected static final String PREFS_FILE = "usercache.xml";
     protected static final String PREFS_TOKEN = "token";
     protected static final String PREFS_LOGINKEY = "loginkey";
     protected static final String PREFS_TIMEOFFSET = "timeoffset";
+    protected static final String PREFS_TIMEOUT = "timeout";
 
     public static User getUser() {
         if (user != null)
@@ -146,6 +150,26 @@ public class UserCache {
         UserCache.timeOffset = TimeOffset;
         WIRequest.TimeOffset = TimeOffset;
         prefs.edit().putLong(PREFS_TIMEOFFSET, TimeOffset).commit();
+    }
+
+    public static long getTimeOut() {
+        Context context = AppContext.getContext();
+        final SharedPreferences prefs = context
+                .getSharedPreferences(PREFS_FILE, 0);
+        timeOut = prefs.getLong(PREFS_TIMEOUT, 0);
+        if (timeOut == 0)
+            timeOut = 10;
+        return timeOut;
+    }
+
+    public static void setTimeOut(long timeOut) {
+        Context context = AppContext.getContext();
+        final SharedPreferences prefs = context
+                .getSharedPreferences(PREFS_FILE, 0);
+        UserCache.timeOut = timeOut;
+        HttpTool.getInstance().setTimeout((int) timeOut);
+        DataCenter.INTEL_TIMEOUT = timeOut * 1000;
+        prefs.edit().putLong(PREFS_TIMEOUT, timeOut).commit();
     }
 
     public static boolean isLogin() {
