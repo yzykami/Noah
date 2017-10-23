@@ -35,7 +35,7 @@ public class MediaGalleryRelativeItemFactory extends AssemblyRecyclerItemFactory
 
     @Override
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
-        int screenWidth = Utils.getSrceenWidth();
+        int screenWidth = Utils.getScreenWidth();
         width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.pt10) * 1) / 2;
         if (getAdapter().getDataCount() == 1)
             width = screenWidth;

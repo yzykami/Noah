@@ -86,7 +86,7 @@ public class MediaListTxtItemFatory extends AssemblyRecyclerItemFactory<MediaLis
             } else {
                 tv_comment_count.setVisibility(View.VISIBLE);
             }
-            tv_comment_count.setText(mediaArticle.articleCommentSum + "人评");
+            tv_comment_count.setText(mediaArticle.articleCommentSum + "评");
 
             initEditMode(container, mediaArticle, mMediaListListener);
         }

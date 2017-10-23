@@ -28,7 +28,7 @@ public class JsonTool {
     }
 
     public JsonTool load(String jsonStr) {
-        gson = new GsonBuilder().create();
+        gson = new GsonBuilder().disableHtmlEscaping().create();
         return new JsonTool();
     }
 

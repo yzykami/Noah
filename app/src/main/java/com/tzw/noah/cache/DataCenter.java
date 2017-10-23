@@ -27,7 +27,7 @@ public class DataCenter {
         return instance;
     }
 
-    public static int screenWidth = Utils.getSrceenWidth();
+    public static int screenWidth = Utils.getScreenWidth();
     public static int pagesize = 10;
     public static int service_pagesize = 10;
     public static int mRadius = 6;

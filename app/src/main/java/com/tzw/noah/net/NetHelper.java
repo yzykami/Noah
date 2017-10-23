@@ -218,6 +218,33 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
+    //扫码成功
+    //member/changeCode
+    public void memberChangeCode(String qrcode, Callback callback) {
+        String method = "member/changeCode";
+        String bodyName = "";
+        List<Param> body = Param.makeSingleParam("clientCode", qrcode);
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    //扫码登录
+    //member/loginByVcode
+    public void memberLoginByVcode(String qrcode, Callback callback) {
+        String method = "member/loginByVcode";
+        String bodyName = "";
+        List<Param> body = Param.makeSingleParam("clientCode", qrcode);
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
+    //扫码取消登录
+    //member/cancelLogin
+    public void memberCancelLogin(String qrcode, Callback callback) {
+        String method = "member/cancelLogin";
+        String bodyName = "";
+        List<Param> body = Param.makeSingleParam("clientCode", qrcode);
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
+
     //获取系统推荐昵称
     //operation/feedback
     public void operationFeedback(List<Param> body, Callback callback) {
@@ -366,7 +393,7 @@ public class NetHelper {
 
     //获取个人资料，公开，不需要登录
     //sns/details/memberNo/
-    public void snsDetails(String id, Callback callback) {
+    public void snsDetails(int id, Callback callback) {
         String method = "sns/details/memberNo/" + id;
         new WIRequest().Get(method, callback);
     }

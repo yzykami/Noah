@@ -265,45 +265,67 @@ public class PersonalActivity extends MyBaseActivity {
     }
 
     private void refreshView() {
-        new SnsManager(mContext).snsDetail(user, new StringDialogCallback(mContext) {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                toast(getResources().getString(R.string.internet_fault));
-            }
-
-            @Override
-            public void onResponse(IMsg iMsg) {
-                if (iMsg.isSucceed()) {
-                    user = (User) iMsg.Data;
-                    initview();
-                } else {
-                    toast(iMsg.getMsg());
+        if (isLogin())
+            new SnsManager(mContext).snsDetail2(user, new StringDialogCallback(mContext) {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    toast(getResources().getString(R.string.internet_fault));
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    if (iMsg.isSucceed()) {
+                        user = (User) iMsg.Data;
+                        initview();
+                    } else {
+                        toast(iMsg.getMsg());
+                    }
+                }
+            });
+        else
+            new SnsManager(mContext).snsDetail(user, new StringDialogCallback(mContext) {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    toast(getResources().getString(R.string.internet_fault));
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    if (iMsg.isSucceed()) {
+                        user = (User) iMsg.Data;
+                        initview();
+                    } else {
+                        toast(iMsg.getMsg());
+                    }
+                }
+            });
+
     }
 
     public void handle_btn1(View view) {
-        new SnsManager(mContext).snsAttention(user, new StringDialogCallback(mContext) {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                toast(getResources().getString(R.string.internet_fault));
-            }
-
-            @Override
-            public void onResponse(IMsg iMsg) {
-                if (iMsg.isSucceed()) {
-                    toast("关注成功");
-                    refreshView();
-                } else {
-                    toast(iMsg.getMsg());
+        if (makesureLogin())
+            new SnsManager(mContext).snsAttention(user, new StringDialogCallback(mContext) {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    toast(getResources().getString(R.string.internet_fault));
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    if (iMsg.isSucceed()) {
+                        toast("关注成功");
+                        refreshView();
+                    } else {
+                        toast(iMsg.getMsg());
+                    }
+                }
+            });
     }
 
     public void handle_btn2(View view) {
-        String account = user.netEaseId + "";
-        SessionHelper.startP2PSession(this, account);
+        if (makesureLogin()) {
+            String account = user.netEaseId + "";
+            SessionHelper.startP2PSession(this, account);
+        }
     }
 }

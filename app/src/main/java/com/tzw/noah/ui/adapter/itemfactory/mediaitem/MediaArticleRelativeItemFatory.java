@@ -36,7 +36,7 @@ public class MediaArticleRelativeItemFatory extends AssemblyRecyclerItemFactory<
     @Override
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
 
-        int screenWidth = Utils.getSrceenWidth();
+        int screenWidth = Utils.getScreenWidth();
 //        width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 3) / 3;
 //        height = width * 2 / 3;
 
@@ -88,7 +88,7 @@ public class MediaArticleRelativeItemFatory extends AssemblyRecyclerItemFactory<
                 }
             });
 //            if (width == 0) {
-//                int screenWidth = Utils.getSrceenWidth();
+//                int screenWidth = Utils.getScreenWidth();
 //                width = (int) (screenWidth - mContext.getResources().getDimension(R.dimen.bjs) * 3) / 3;
 //                height = width * 15 / 23;
 //                ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();

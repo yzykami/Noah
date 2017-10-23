@@ -638,6 +638,52 @@ public class SnsManager {
 
     public void snsDetail(final User user, final Callback callback) {
         if (NetWorkUtils.isNetworkAvailable(mContext))
+            NetHelper.getInstance().snsDetails(user.memberNo, new StringDialogCallback(mContext) {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    if (callback != null) {
+                        callback.onAfter();
+                        callback.onFailure(call, e);
+                    }
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        //保存到本地数据库
+                        if (iMsg.isSucceed()) {
+                            User u = User.load(iMsg);
+                            snsDBManager.updateUser(u);
+                            iMsg.Data = u;
+                        }
+                    } catch (Exception e) {
+
+                    }
+                    callback.onAfter();
+                    callback.onResponse(iMsg);
+                }
+            });
+        else {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (callback != null) {
+                        final IMsg iMsg = createImsg();
+                        iMsg.Data = snsDBManager.getUserDetail(user.memberNo);
+                        mdelivery.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onAfter();
+                                callback.onResponse(iMsg);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+    public void snsDetail2(final User user, final Callback callback) {
+        if (NetWorkUtils.isNetworkAvailable(mContext))
             NetHelper.getInstance().snsDetails2(user.memberNo, new StringDialogCallback(mContext) {
                 @Override
                 public void onFailure(Call call, IOException e) {

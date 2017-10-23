@@ -4,13 +4,11 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.Advertising;
-import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
 import com.tzw.noah.utils.Utils;
 
@@ -38,7 +36,7 @@ public class AdvListPicItemFatory extends AssemblyRecyclerItemFactory<AdvListPic
     @Override
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
 
-        int screenWidth = Utils.getSrceenWidth();
+        int screenWidth = Utils.getScreenWidth();
         width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 3) / 3;
         height = width * 2 / 3;
 
@@ -90,7 +88,7 @@ public class AdvListPicItemFatory extends AssemblyRecyclerItemFactory<AdvListPic
                 }
             });
             if (width == 0) {
-                int screenWidth = Utils.getSrceenWidth();
+                int screenWidth = Utils.getScreenWidth();
                 width = (int) (screenWidth - mContext.getResources().getDimension(R.dimen.bjs) * 3) / 3;
                 height = width * 15 / 23;
                 ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();

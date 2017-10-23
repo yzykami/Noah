@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.demoscaner.QrCodeActivity;
+import com.google.zxing.demoscaner.WeChatCaptureActivity;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.ChannelCache;
@@ -164,6 +166,11 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
     }
 
     public void handle_more(View view) {
+    }
+
+    public void handle_qrscan(View view) {
+        startActivity(WeChatCaptureActivity.class);
+//        startActivity(QrCodeActivity.class);
     }
 
     // 退出时间

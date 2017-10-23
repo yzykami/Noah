@@ -35,7 +35,7 @@ public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<Med
     @Override
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
 
-        int screenWidth = Utils.getSrceenWidth();
+        int screenWidth = Utils.getScreenWidth();
         width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 2);
         height = width * 9 / 16;
 
@@ -87,7 +87,7 @@ public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<Med
                 }
             });
             if (width == 0) {
-                int screenWidth = Utils.getSrceenWidth();
+                int screenWidth = Utils.getScreenWidth();
                 width = (int) (screenWidth - mContext.getResources().getDimension(R.dimen.bjs) * 2);
                 height = width * 9 / 16;
                 ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();
@@ -124,7 +124,7 @@ public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<Med
             } else {
                 tv_comment_count.setVisibility(View.VISIBLE);
             }
-            tv_comment_count.setText(mediaArticle.articleCommentSum + "人评");
+            tv_comment_count.setText(mediaArticle.articleCommentSum + "评");
 
             if (mediaArticle.isArticleTypPicGallery()) {
                 tvPicCount.setText(mediaArticle.articleContentImageNum + "图");

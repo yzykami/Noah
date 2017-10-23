@@ -9,7 +9,7 @@
     <View
         android:id="@+id/top_line"
         style="@style/horizontal_light_thin_divider"
-        android:layout_marginLeft="@dimen/bj" />
+        android:layout_marginLeft="@dimen/headPadding" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -19,7 +19,7 @@
 
         <FrameLayout
             android:id="@+id/portrait_panel"
-            android:layout_width="@dimen/recentContactHeight"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/recentContactHeight"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true">
@@ -68,7 +68,7 @@
             android:includeFontPadding="false"
             android:singleLine="true"
             android:textColor="@color/textDarkGray"
-            android:textSize="@dimen/text_content" />
+            android:textSize="@dimen/sp15" />
 
         <LinearLayout
             android:id="@+id/content_layout"
@@ -84,7 +84,7 @@
                 android:gravity="center_vertical"
                 android:lines="1"
                 android:textColor="@color/textLightGray"
-                android:textSize="@dimen/text_lable_small" />
+                android:textSize="@dimen/text_comment" />
 
             <ImageView
                 android:id="@+id/img_msg_status"
@@ -148,6 +148,6 @@
     <View
         android:id="@+id/bottom_line"
         style="@style/horizontal_light_thin_divider"
-        android:layout_marginLeft="@dimen/bj" />
+        android:layout_marginLeft="@dimen/headPadding" />
 
 </LinearLayout>

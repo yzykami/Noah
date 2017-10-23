@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
@@ -38,7 +39,7 @@ public class MediaListDefaultItemFatory extends AssemblyRecyclerItemFactory<Medi
 
     public class GalleryItem extends BindAssemblyRecyclerItem<MediaArticle> {
         @BindView(R.id.container)
-        LinearLayout container;
+        RelativeLayout container;
         //        @BindView(R.id.iv_cover)
 //        SampleImageView iv_cover;
         @BindView(R.id.title)
@@ -79,7 +80,7 @@ public class MediaListDefaultItemFatory extends AssemblyRecyclerItemFactory<Medi
             else {
                 tv_comment_count.setVisibility(View.VISIBLE);
             }
-            tv_comment_count.setText(mediaArticle.articleCommentSum+"人评");
+            tv_comment_count.setText(mediaArticle.articleCommentSum+"评");
         }
     }
 }

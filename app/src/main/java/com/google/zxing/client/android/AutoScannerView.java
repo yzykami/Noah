@@ -122,7 +122,7 @@ public class AutoScannerView extends View {
             lineRect.bottom = frame.top + dp2px(10) + lineOffsetCount;
             canvas.drawBitmap(((BitmapDrawable)(getResources().getDrawable(R.drawable.scanline))).getBitmap(), null, lineRect, linePaint);
         }
-        postInvalidateDelayed(10L, frame.left, frame.top, frame.right, frame.bottom);
+        postInvalidateDelayed(40L, frame.left, frame.top, frame.right, frame.bottom);
     }
 
     private int dp2px(int dp) {

@@ -9,25 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.cache.UserCache;
-import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.MediaArticle;
-import com.tzw.noah.models.MediaComment;
-import com.tzw.noah.models.MediaLike;
-import com.tzw.noah.net.IMsg;
-import com.tzw.noah.net.NetHelper;
-import com.tzw.noah.net.StringDialogCallback;
-import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.utils.Utils;
-
-import java.io.IOException;
-import java.util.List;
 
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
 import me.xiaopan.sketchsample.adapter.BindAssemblyRecyclerItem;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
-import okhttp3.Call;
 
 public class MediaArticleLikeItemFatory extends AssemblyRecyclerItemFactory<MediaArticleLikeItemFatory.GalleryItem> {
 
@@ -77,7 +65,7 @@ public class MediaArticleLikeItemFatory extends AssemblyRecyclerItemFactory<Medi
         @Override
         protected void onConfigViews(Context context) {
             mContext = context;
-            screenWidth = Utils.getSrceenWidth();
+            screenWidth = Utils.getScreenWidth();
         }
 
         @Override

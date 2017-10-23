@@ -36,7 +36,7 @@ public class IMsg extends JsonTool implements Serializable {
     private JsonElement json;
     private JsonElement jobj;
 
-    String jsonStr = "";
+    public String jsonStr = "";
 
     public Object Data;
 

@@ -118,7 +118,7 @@
         <item name="apTabDividerColor">@color/transparent</item>
         <item name="apTabDividerPadding">0dp</item>
         <item name="apTabShouldExpand">true</item>
-        <item name="apTabPaddingLeftRight">12dp</item>
+        <item name="apTabPaddingLeftRight">@dimen/bjs</item>
         <item name="apTabTextSelectColor">@color/white</item>
     </style>
     <!--<style name="pagertab_icon_style">-->

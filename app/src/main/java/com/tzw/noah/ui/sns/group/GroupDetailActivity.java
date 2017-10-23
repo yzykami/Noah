@@ -2,11 +2,9 @@ package com.tzw.noah.ui.sns.group;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,7 +16,6 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
-import com.tzw.noah.init.NimInit;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
@@ -28,7 +25,6 @@ import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.sdk.SnsManager;
 import com.tzw.noah.ui.BottomPopupWindow;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.sns.discuss.DiscussDetailActivity;
 import com.tzw.noah.ui.sns.friendlist.GroupFragment;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
@@ -43,8 +39,6 @@ import butterknife.ButterKnife;
 import me.xiaopan.sketchsample.widget.SampleImageView;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 import okhttp3.Call;
-
-import static com.tzw.noah.R.id.et_sign;
 
 /**
  * Created by yzy on 2017/7/3.
@@ -156,7 +150,7 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
 
         float span = getResources().getDimension(R.dimen.bj);
 
-        float sw = Utils.getSrceenWidth();
+        float sw = Utils.getScreenWidth();
 
         int itemSize = (int) ((sw - 7 * span) / 6);
 
@@ -344,7 +338,7 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
                     if (iMsg.isSucceed()) {
                         isIvSlient = !isIvSlient;
                         group.messageGet = isIvSlient == true ? 1 : 0;
-                        NIMClient.getService(TeamService.class).muteTeam(group.netEaseGroupId+"", isIvSlient);
+                        NIMClient.getService(TeamService.class).muteTeam(group.netEaseGroupId + "", isIvSlient);
                         setBackground(iv_slient, isIvSlient);
                         if (isIvSlient)
                             toast("群消息免打扰开启");
@@ -424,7 +418,8 @@ public class GroupDetailActivity extends MyBaseActivity implements BottomPopupWi
     }
 
     public void handle_send(View view) {
-        NimUIKit.startTeamSession(mContext, group.netEaseGroupId + "");
+        if (makesureLogin())
+            NimUIKit.startTeamSession(mContext, group.netEaseGroupId + "");
     }
 
     @Override

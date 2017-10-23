@@ -1,6 +1,5 @@
 package com.tzw.noah.ui.mine;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,17 +15,12 @@ import com.tzw.noah.R;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.DBManager;
 import com.tzw.noah.logger.Log;
-import com.tzw.noah.models.Device;
 import com.tzw.noah.models.Dict;
-import com.tzw.noah.models.GroupMember;
-import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.sns.group.GroupAddMemberActivity;
-import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.utils.Utils;
 
 import java.io.IOException;
@@ -197,7 +191,7 @@ public class FeedbackActivity extends MyBaseActivity {
 
         float span = getResources().getDimension(R.dimen.bj);
 
-        float sw = Utils.getSrceenWidth();
+        float sw = Utils.getScreenWidth();
 
         int itemSize = (int) ((sw - 7 * span) / 6);
 

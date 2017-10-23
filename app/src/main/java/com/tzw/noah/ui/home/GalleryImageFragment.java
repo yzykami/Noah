@@ -86,7 +86,7 @@ public class GalleryImageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_image2, container, false);
         ButterKnife.bind(this, view);
 //        int width = Utils.getSrceenWidth();
-//        int height = Utils.getSrceenHeight();
+//        int height = Utils.getScreenHeight();
 
 
 //        ViewGroup.LayoutParams lp1 = new ViewGroup.LayoutParams(width, height);

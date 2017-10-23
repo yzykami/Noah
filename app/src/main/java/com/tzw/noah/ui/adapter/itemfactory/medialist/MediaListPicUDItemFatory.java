@@ -1,10 +1,8 @@
 package com.tzw.noah.ui.adapter.itemfactory.medialist;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,7 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
-import me.xiaopan.sketchsample.adapter.BindAssemblyRecyclerItem;
 import me.xiaopan.sketchsample.widget.SampleImageView;
 
 public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaListPicUDItemFatory.GalleryItem> {
@@ -41,7 +38,7 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
     @Override
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
 
-        int screenWidth = Utils.getSrceenWidth();
+        int screenWidth = Utils.getScreenWidth();
         btnsize = Utils.dp2px(viewGroup.getContext(),34);
         bjs = (int) viewGroup.getContext().getResources().getDimension(R.dimen.bjs);
 
@@ -115,7 +112,7 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
                 }
             });
             if (width == 0) {
-                int screenWidth = Utils.getSrceenWidth();
+                int screenWidth = Utils.getScreenWidth();
                 width = (int) (screenWidth - mContext.getResources().getDimension(R.dimen.bjs) * 3) / 3;
                 height = width * 15 / 23;
                 ml = (int) mContext.getResources().getDimension(R.dimen.bjs) / 2;
@@ -181,7 +178,7 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
             } else {
                 tv_comment_count.setVisibility(View.VISIBLE);
             }
-            tv_comment_count.setText(mediaArticle.articleCommentSum + "人评");
+            tv_comment_count.setText(mediaArticle.articleCommentSum + "评");
 
             if (mediaArticle.isArticleTypPicGallery()) {
                 tvPicCount.setText(mediaArticle.articleContentImageNum + "图");

@@ -51,11 +51,11 @@ public class Utils {
         return (int) (dp * scale + 0.5);
     }
 
-    public static int getSrceenWidth() {
+    public static int getScreenWidth() {
         return AppContext.getContext().getResources().getDisplayMetrics().widthPixels;
     }
 
-    public static int getSrceenHeight() {
+    public static int getScreenHeight() {
         return AppContext.getContext().getResources().getDisplayMetrics().heightPixels;
     }
 
@@ -343,11 +343,12 @@ public class Utils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         long t = 0;
+        java.util.Date date;
         try {
-            java.util.Date date = format.parse(timeStr);
+            date = format.parse(timeStr);
             t = date.getTime();
         } catch (ParseException e) {
-//            return "";
+            return timeStr;
         }
         // long t = Long.parseLong(timeStr);
 
@@ -366,14 +367,17 @@ public class Utils {
 
 //        int maxday = 365;
 
-        if (year - 1 > 0) {
-            return timeStr;
-        }
-        if (day - 1 > 0) {
-            sb.append(day + "天");
-        } else if (hour - 1 > 0) {
+//        if (year - 1 > 0) {
+//            return timeStr;
+//        }
+//        if (day - 1 > 0) {
+//            sb.append(day + "天");
+//        } else
+        if (hour - 1 > 0) {
             if (hour >= 24) {
-                sb.append("昨天");
+//                sb.append("昨天");
+                SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                return format2.format(date);
             } else {
                 sb.append(hour + "小时");
             }

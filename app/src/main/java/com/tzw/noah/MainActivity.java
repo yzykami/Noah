@@ -52,6 +52,7 @@ import com.tzw.noah.ui.mine.MineMainActivity;
 import com.tzw.noah.ui.service.ServiceMainActivity;
 import com.tzw.noah.ui.sns.SnsMainActivity;
 import com.tzw.noah.ui.sns.friendlist.FriendListActivity;
+import com.tzw.noah.utils.SchemeUtils;
 import com.tzw.noah.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -113,6 +114,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         Uri uri = getIntent().getData();
         if (uri != null) {
             Log.d("aaa-oncreate",uri.toString());
+            new SchemeUtils().parse(mContext,uri);
         }
     }
 
@@ -122,6 +124,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         Uri uri = intent.getData();
         if (uri != null) {
             Log.d("aaa-newIntent",uri.toString());
+            new SchemeUtils().parse(mContext,uri);
         }
     }
 

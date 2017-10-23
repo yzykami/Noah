@@ -81,7 +81,7 @@ public class MediaListTextItemFatory extends AssemblyRecyclerItemFactory<MediaLi
         private View getPicture() {
             float span = mContext.getResources().getDimension(R.dimen.bj);
 
-            float sw = Utils.getSrceenWidth();
+            float sw = Utils.getScreenWidth();
 
             int picNum = 3;
 

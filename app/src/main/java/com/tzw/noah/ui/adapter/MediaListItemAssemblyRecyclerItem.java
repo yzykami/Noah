@@ -47,17 +47,17 @@ public abstract class MediaListItemAssemblyRecyclerItem<T> extends BindAssemblyR
 //                iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             if (mediaArticle.isSelected)
-                iv.setImageResource(R.drawable.tab_circle_clicked_2);
+                iv.setImageResource(R.drawable.item_selected);
             else
-                iv.setImageResource(R.drawable.tab_circle_2);
+                iv.setImageResource(R.drawable.item_unselect);
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mediaArticle.isSelected = !mediaArticle.isSelected;
                     if (mediaArticle.isSelected)
-                        iv.setImageResource(R.drawable.tab_circle_clicked_2);
+                        iv.setImageResource(R.drawable.item_selected);
                     else
-                        iv.setImageResource(R.drawable.tab_circle_2);
+                        iv.setImageResource(R.drawable.item_unselect);
 
                     if (mMediaListListener != null) {
                         mMediaListListener.onItemClick(getAdapterPosition(), "isSelected");

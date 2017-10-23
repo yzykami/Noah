@@ -11,7 +11,6 @@ import com.tzw.noah.R;
 import com.tzw.noah.ui.circle.PostListFragment;
 import com.tzw.noah.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -97,7 +96,7 @@ public class CircleListItemFactory extends AssemblyRecyclerItemFactory<CircleLis
         private View getPicture() {
             float span = mContext.getResources().getDimension(R.dimen.bj);
 
-            float sw = Utils.getSrceenWidth();
+            float sw = Utils.getScreenWidth();
 
             int picNum = 3;
 

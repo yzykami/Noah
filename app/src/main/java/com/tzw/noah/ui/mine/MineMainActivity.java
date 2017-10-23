@@ -1,41 +1,21 @@
 package com.tzw.noah.ui.mine;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.demo.WeChatCaptureActivity;
-import com.netease.nim.demo.contact.activity.UserProfileSettingActivity;
+import com.google.zxing.demoscaner.WeChatCaptureActivity;
 import com.netease.nim.uikit.common.media.picker.PickImageHelper;
-import com.netease.nim.uikit.permission.BaseMPermission;
-import com.netease.nim.uikit.permission.MPermission;
-import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
-import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
-import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
 import com.netease.nim.uikit.session.SessionCustomization;
-import com.netease.nim.uikit.session.constant.Extras;
-import com.netease.nim.uikit.session.module.Container;
-import com.netease.nimlib.sdk.friend.model.Friend;
 import com.tzw.noah.MainActivity;
 import com.tzw.noah.R;
-import com.tzw.noah.appupdate.UpdateManager;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.SnsDBManager;
-import com.tzw.noah.init.DBInit;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
@@ -43,22 +23,16 @@ import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.home.FavoriteActivity;
-import com.tzw.noah.ui.home.SearchActivity;
 import com.tzw.noah.ui.mine.setting.PersonalSettingActivity;
 import com.tzw.noah.ui.mine.setting.SettingActivity;
-import com.tzw.noah.ui.sns.add.AddActivity;
 import com.tzw.noah.ui.sns.friendlist.FriendListActivity;
 import com.tzw.noah.utils.Utils;
-import com.tzw.noah.widgets.CircleImageView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import me.xiaopan.sketchsample.widget.SampleImageView;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 import okhttp3.Call;
 
@@ -275,6 +249,7 @@ public class MineMainActivity extends MyBaseActivity {
     }
 
     private static final int PICK_AVATAR_REQUEST = 0x0E;
+    private static final int QR_SCAN_REQUEST = 111;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -283,6 +258,12 @@ public class MineMainActivity extends MyBaseActivity {
             String path = data.getStringExtra(com.netease.nim.uikit.session.constant.Extras.EXTRA_FILE_PATH);
             updateAvatar(path);
         }
+//        if (resultCode == Activity.RESULT_OK && requestCode == QR_SCAN_REQUEST) {
+//            Bundle bu = data.getExtras();
+//            if (bu != null) {
+//                startActivity(ConfirmScanLoginActivity.class, bu);
+//            }
+//        }
     }
 
     public void updateAvatar(String path) {
@@ -382,6 +363,7 @@ public class MineMainActivity extends MyBaseActivity {
     }
 
     public void handle_qrscan(View view) {
-        startActivity2NoOPT(WeChatCaptureActivity.class);
+//        startActivityForResult(QR_SCAN_REQUEST, WeChatCaptureActivity.class);
+        startActivity(WeChatCaptureActivity.class);
     }
 }

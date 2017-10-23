@@ -113,6 +113,19 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_qrscan"
+                android:layout_width="@dimen/btn_title_width"
+                android:layout_height="@dimen/btn_title_height"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:onClick="handle_qrscan"
+                android:paddingBottom="@dimen/pt4"
+                android:paddingLeft="@dimen/pt10"
+                android:paddingRight="@dimen/pt10"
+                android:paddingTop="@dimen/pt6"
+                android:src="@drawable/home_qrscan" />
 
             <ImageView
                 android:id="@+id/iv_search_icon"
@@ -120,7 +133,6 @@
                 android:layout_height="@dimen/btn_title_height"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/title_right_btn_right_bj"
                 android:clickable="true"
                 android:onClick="handle_search"
                 android:paddingBottom="@dimen/pt4"
@@ -133,7 +145,7 @@
             <ImageView
                 android:id="@+id/iv_logo"
                 android:layout_width="wrap_content"
-                android:layout_height="34dp"
+                android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 android:src="@drawable/logo_word"
@@ -144,6 +156,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-8dp"
         android:background="@drawable/media_bg">
 
         <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
@@ -161,8 +174,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/bjs"
-            android:layout_marginRight="@dimen/bjs"
+            android:layout_marginRight="@dimen/pt1"
             android:background="@color/transparent"
             android:padding="@dimen/pt9"
             android:src="@drawable/media_channel_select"

@@ -44,8 +44,8 @@ public final class CameraManager {
 
     private static final int MIN_FRAME_WIDTH = 240;
     private static final int MIN_FRAME_HEIGHT = 240;
-    private static final int MAX_FRAME_WIDTH = 1200; // = 5/8 * 1920
-    private static final int MAX_FRAME_HEIGHT = 675; // = 5/8 * 1080
+    private static final int MAX_FRAME_WIDTH = 675; // = 5/8 * 1920
+    private static final int MAX_FRAME_HEIGHT = 1200; // = 5/8 * 1080
 
     private final Context context;
     private final CameraConfigurationManager configManager;
@@ -169,7 +169,7 @@ public final class CameraManager {
     }
 
     /**
-     * Convenience method for {@link com.google.zxing.client.android.CaptureActivity}
+     * Convenience method for {com.google.zxing.client.android.CaptureActivity}
      *
      * @param newSetting if {@code true}, light should be turned on if currently off. And vice versa.
      */

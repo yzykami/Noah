@@ -79,10 +79,10 @@
     <dimen name="columnHeight">44dp</dimen>
     <dimen name="title_height">40dp</dimen>
     <dimen name="text_title_right">15sp</dimen>
-    <dimen name="head">48dp</dimen>
+    <dimen name="head">44dp</dimen>
     <dimen name="groupHead">60dp</dimen>
     <dimen name="headtext">60dp</dimen>
-    <dimen name="headPadding">6dp</dimen>
+    <dimen name="headPadding">8dp</dimen>
     <dimen name="sns_invite_height">66dp</dimen>
     <dimen name="sns_dialog_bj">50dp</dimen>
 

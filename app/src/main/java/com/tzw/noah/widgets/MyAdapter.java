@@ -1,7 +1,6 @@
 package com.tzw.noah.widgets;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.MediaCategory;
@@ -71,7 +69,7 @@ public class MyAdapter extends DragAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.channel_dragitem, null);
             if (width2 == 0) {
                 int num = 4;
-                int screenwidth = Utils.getSrceenWidth();
+                int screenwidth = Utils.getScreenWidth();
                 width = screenwidth / 4;
 //                height = width * 8 / 15;
                 dp_small = dp2px(3);

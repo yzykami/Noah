@@ -36,7 +36,7 @@ public class AdvListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<AdvLi
     @Override
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
 
-        int screenWidth = Utils.getSrceenWidth();
+        int screenWidth = Utils.getScreenWidth();
         width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 2);
         height = width * 9 / 16;
 
@@ -89,7 +89,7 @@ public class AdvListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<AdvLi
                 }
             });
             if (width == 0) {
-                int screenWidth = Utils.getSrceenWidth();
+                int screenWidth = Utils.getScreenWidth();
                 width = (int) (screenWidth - mContext.getResources().getDimension(R.dimen.bjs) * 2);
                 height = width * 9 / 16;
                 ViewGroup.LayoutParams lp = iv_cover.getLayoutParams();

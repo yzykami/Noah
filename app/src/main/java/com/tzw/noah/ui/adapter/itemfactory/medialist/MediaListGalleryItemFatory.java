@@ -1,37 +1,30 @@
 package com.tzw.noah.ui.adapter.itemfactory.medialist;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.Advertising;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
-import com.tzw.noah.ui.circle.PostListFragment;
 import com.tzw.noah.ui.home.ViewpagerFragment;
 import com.tzw.noah.utils.Utils;
 import com.tzw.noah.widgets.MyViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
 import me.xiaopan.sketchsample.adapter.BindAssemblyRecyclerItem;
 import me.xiaopan.sketchsample.widget.DepthPageTransformer;
-import me.xiaopan.sketchsample.widget.SampleImageView;
 import me.xiaopan.sketchsample.widget.ZoomOutPageTransformer;
 
 public class MediaListGalleryItemFatory extends AssemblyRecyclerItemFactory<MediaListGalleryItemFatory.GalleryItem> {
@@ -55,7 +48,7 @@ public class MediaListGalleryItemFatory extends AssemblyRecyclerItemFactory<Medi
 
     @Override
     public GalleryItem createAssemblyItem(ViewGroup viewGroup) {
-        int screenWidth = Utils.getSrceenWidth();
+        int screenWidth = Utils.getScreenWidth();
         width = (int) (screenWidth - viewGroup.getContext().getResources().getDimension(R.dimen.bjs) * 2);
         height = width * 9 / 16;
         return new GalleryItem(R.layout.media_list_article_item_viewpage, viewGroup);

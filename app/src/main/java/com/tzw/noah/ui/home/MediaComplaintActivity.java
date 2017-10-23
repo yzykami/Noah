@@ -9,15 +9,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
-import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.DBManager;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Dict;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
-import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
-import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.MySwipeBackActivity;
 import com.tzw.noah.utils.Utils;
 
@@ -149,7 +146,7 @@ public class MediaComplaintActivity extends MySwipeBackActivity {
 
         float span = getResources().getDimension(R.dimen.bj);
 
-        float sw = Utils.getSrceenWidth();
+        float sw = Utils.getScreenWidth();
 
         int itemSize = (int) ((sw - 7 * span) / 6);
 

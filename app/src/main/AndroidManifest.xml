@@ -274,7 +274,19 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.google.zxing.demo.WeChatCaptureActivity"
+            android:name=".ui.mine.ConfirmScanLoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.mine.ScanResultActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.google.zxing.demoscaner.WeChatCaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarBlack" />
+        <activity
+            android:name="com.google.zxing.demoscaner.QrCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBarBlack" />
         <activity
