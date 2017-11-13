@@ -158,7 +158,7 @@ public class GalleryRelativeFragment extends Fragment implements MediaArticleDet
     @Override
     public void onItemClick(int position, Object o) {
 //        MediaArticle ma = new MediaArticle();
-//        ma.appArticleImage = "http://img.zhisheji.com/bbs/forum/201409/29/211716mtecegbn9299u0bp.jpg";
+//        ma.articleImage = "http://img.zhisheji.com/bbs/forum/201409/29/211716mtecegbn9299u0bp.jpg";
 //        ma.articleTitle = "position = " + position + 2;
 //        adapter.addAll(ma);
 //        adapter.notifyDataSetChanged();
@@ -203,6 +203,11 @@ public class GalleryRelativeFragment extends Fragment implements MediaArticleDet
 
     @Override
     public void onCommentClick(int adapterPosition, MediaComment data) {
+
+    }
+
+    @Override
+    public void onCommentLikeClick(int position, MediaComment data) {
 
     }
 

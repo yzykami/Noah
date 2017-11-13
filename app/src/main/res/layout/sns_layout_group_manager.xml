@@ -183,6 +183,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
+                    android:scaleType="fitEnd"
                     android:src="@drawable/btn1_selected" />
 
             </RelativeLayout>
@@ -251,6 +252,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
+                    android:scaleType="fitEnd"
                     android:src="@drawable/btn1_selected" />
 
             </RelativeLayout>
@@ -281,6 +283,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
+                    android:scaleType="fitEnd"
                     android:src="@drawable/btn1_selected" />
 
             </RelativeLayout>

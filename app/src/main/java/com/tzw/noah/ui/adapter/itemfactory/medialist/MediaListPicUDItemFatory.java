@@ -152,10 +152,10 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
         @Override
         protected void onSetData(int position, final MediaArticle mediaArticle) {
             String[] ss = new String[0];
-            if (mediaArticle.appArticleImage.contains(","))
-                ss = mediaArticle.appArticleImage.split(",");
-            else if (mediaArticle.appArticleImage.contains(";"))
-                ss = mediaArticle.appArticleImage.split(";");
+            if (mediaArticle.articleImage.contains(","))
+                ss = mediaArticle.articleImage.split(",");
+            else if (mediaArticle.articleImage.contains(";"))
+                ss = mediaArticle.articleImage.split(";");
             List<SampleImageView> list = new ArrayList<>();
             list.add(iv_cover);
             list.add(iv_cover2);

@@ -37,6 +37,7 @@
     <dimen name="pt28">28dp</dimen>
     <dimen name="pt29">29dp</dimen>
     <dimen name="pt30">30dp</dimen>
+    <dimen name="pt40">40dp</dimen>
     <dimen name="pt50">50dp</dimen>
 
     <dimen name="sp0">0sp</dimen>
@@ -108,7 +109,7 @@
 
     <dimen name="media_input_textHeight">35dp</dimen>
     <dimen name="media_input_bottom">4.5dp</dimen>
-    <dimen name="media_input_btn">34dp</dimen>
+    <dimen name="media_input_btn">30dp</dimen>
     <dimen name="media_input_btn_padding">5dp</dimen>
 
 </resources>

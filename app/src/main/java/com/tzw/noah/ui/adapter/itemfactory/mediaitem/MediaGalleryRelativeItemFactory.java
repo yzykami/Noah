@@ -87,10 +87,10 @@ public class MediaGalleryRelativeItemFactory extends AssemblyRecyclerItemFactory
         @Override
         protected void onSetData(int i, MediaArticle mediaArticle) {
             String[] ss = new String[0];
-            if (mediaArticle.appArticleImage.contains(","))
-                ss = mediaArticle.appArticleImage.split(",");
-            else if (mediaArticle.appArticleImage.contains(";"))
-                ss = mediaArticle.appArticleImage.split(";");
+            if (mediaArticle.articleImage.contains(","))
+                ss = mediaArticle.articleImage.split(",");
+            else if (mediaArticle.articleImage.contains(";"))
+                ss = mediaArticle.articleImage.split(";");
             if (ss.length >= 1 && !TextUtils.isEmpty(ss[0]))
                 iv_cover.displayImage(ss[0]);
             tv_title.setText(mediaArticle.articleTitle);

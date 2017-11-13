@@ -347,7 +347,7 @@ public class Utils {
         try {
             date = format.parse(timeStr);
             t = date.getTime();
-        } catch (ParseException e) {
+        } catch (Exception e) {
             return timeStr;
         }
         // long t = Long.parseLong(timeStr);

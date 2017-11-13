@@ -70,14 +70,14 @@ public class MyAdapter extends DragAdapter {
             if (width2 == 0) {
                 int num = 4;
                 int screenwidth = Utils.getScreenWidth();
-                width = screenwidth / 4;
-//                height = width * 8 / 15;
                 dp_small = dp2px(3);
                 dp_big = dp2px(12);
-                width2 = (screenwidth - 5 * dp_big) / 4;
+                width = (screenwidth - dp_small - dp_big) / 4;
+//                width2 = (screenwidth - 5 * dp_big) / 4;
+                width2 = width - dp_big;
                 height2 = width2 * 8 / 15;
                 height = height2 + dp_big - dp_small;
-                width = width2 + dp_big;
+//                width = width2 + dp_big;
             }
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, height);
             convertView.setLayoutParams(lp);

@@ -76,7 +76,7 @@
                         android:layout_marginTop="@dimen/pt8"
                         android:ellipsize="end"
                         android:lines="1"
-                        android:text="描述这是一个怎样的群组"
+                        android:text="描述这是一个怎样的群聊"
                         android:textColor="@color/textLightGray"
                         android:textSize="@dimen/sp12" />
                 </LinearLayout>
@@ -97,6 +97,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
+                    android:scaleType="fitEnd"
                     android:src="@drawable/btn1_selected" />
 
                 <LinearLayout

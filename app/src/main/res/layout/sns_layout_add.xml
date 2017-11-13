@@ -108,7 +108,7 @@
                         android:gravity="center"
                         android:onClick="handle_select"
                         android:padding="@dimen/pt6"
-                        android:text="群组"
+                        android:text="群聊"
                         android:textColor="@color/myRed"
                         android:textSize="@dimen/text_content" />
 

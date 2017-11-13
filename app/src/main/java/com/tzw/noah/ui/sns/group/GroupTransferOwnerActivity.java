@@ -86,7 +86,7 @@ public class GroupTransferOwnerActivity extends MyBaseActivity {
 
     private void initview() {
 
-        tv_title.setText("转让群组");
+        tv_title.setText("转让群聊");
         tv_right.setText("确定");
         tv_right.setVisibility(View.VISIBLE);
 

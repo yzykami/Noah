@@ -70,6 +70,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="皮皮虾"
+                            android:maxWidth="300dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:textColor="@color/textDarkGray"
                             android:textSize="@dimen/sp17" />
 

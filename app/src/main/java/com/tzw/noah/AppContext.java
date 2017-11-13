@@ -64,6 +64,7 @@ import com.tzw.noah.init.DBInit;
 import com.tzw.noah.init.NimInit;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.utils.CrashHandler;
+import com.vondear.rxtools.RxTool;
 
 import java.util.Map;
 import java.util.logging.Handler;
@@ -103,6 +104,7 @@ public class AppContext extends Application { //NimApplication {//Application {
 
         instance = getApplicationContext();
         Context context = instance;
+        RxTool.init(instance);
         printTime(context, "onCreate");
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////云信初始化////////////////////////////////////////////////////////

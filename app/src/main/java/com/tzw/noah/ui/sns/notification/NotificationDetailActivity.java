@@ -61,7 +61,7 @@ public class NotificationDetailActivity extends MyBaseActivity {
 //    int selectPage;
 //    Fragment[] fragmentList = null;
 
-    String title = "我的群组信息通知";
+    String title = "我的群聊信息通知";
     Notification notification;
     int position;
 

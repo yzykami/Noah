@@ -4,16 +4,16 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.MediaArticle;
+import com.tzw.noah.ui.adapter.MediaListItemAssemblyRecyclerItem;
 import com.tzw.noah.utils.Utils;
 
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
-import me.xiaopan.sketchsample.adapter.BindAssemblyRecyclerItem;
 import me.xiaopan.sketchsample.widget.SampleImageView;
 
 public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<MediaListPicUDBigItemFatory.GalleryItem> {
@@ -42,9 +42,9 @@ public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<Med
         return new GalleryItem(R.layout.media_list_article_item_bigpic, viewGroup);
     }
 
-    public class GalleryItem extends BindAssemblyRecyclerItem<MediaArticle> {
+    public class GalleryItem extends MediaListItemAssemblyRecyclerItem<MediaArticle> {
         @BindView(R.id.container)
-        LinearLayout container;
+        RelativeLayout container;
         @BindView(R.id.iv_cover)
         SampleImageView iv_cover;
         @BindView(R.id.tv_title)
@@ -104,13 +104,13 @@ public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<Med
 
         @Override
         protected void onSetData(int i, final MediaArticle mediaArticle) {
-            String ss[] = mediaArticle.appArticleImage.split(",");
-            if (mediaArticle.appArticleImage.contains(","))
-                ss = mediaArticle.appArticleImage.split(",");
-            else if (mediaArticle.appArticleImage.contains(";"))
-                ss = mediaArticle.appArticleImage.split(";");
+            String ss[] = mediaArticle.articleImage.split(",");
+            if (mediaArticle.articleImage.contains(","))
+                ss = mediaArticle.articleImage.split(",");
+            else if (mediaArticle.articleImage.contains(";"))
+                ss = mediaArticle.articleImage.split(";");
 
-            if (mediaArticle.appArticleImage.isEmpty()) {
+            if (mediaArticle.articleImage.isEmpty()) {
                 iv_cover.setVisibility(View.GONE);
             } else {
                 iv_cover.setVisibility(View.VISIBLE);

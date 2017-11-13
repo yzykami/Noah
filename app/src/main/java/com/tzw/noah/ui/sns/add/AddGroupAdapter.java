@@ -139,7 +139,7 @@ public class AddGroupAdapter extends BaseAdapter {
                             public void onResponse(IMsg iMsg) {
                                 if (iMsg.isSucceed()) {
                                     updateItem(position);
-                                    myBaseActivity.toast("加入群组成功");
+                                    myBaseActivity.toast("加入群聊成功");
                                 } else {
                                     myBaseActivity.toast(iMsg.getMsg());
                                 }

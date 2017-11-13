@@ -64,6 +64,9 @@ public class MediaArticleDetailTagItemFatory extends AssemblyRecyclerItemFactory
         @Override
         protected void onSetData(int i, MediaArticle mediaArticle) {
             tv_tag.setText(mediaArticle.tag);
+            if (mediaArticle.equals("全部回复")) {
+                container.setBackgroundResource(R.color.transparent);
+            }
         }
     }
 }

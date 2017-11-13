@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/pt25"
             android:layout_marginRight="@dimen/pt25"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="25dp"
             android:background="@color/white">
 
             <TextView
@@ -60,10 +60,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/bg_red_border_round"
-                android:paddingBottom="@dimen/pt5"
-                android:paddingLeft="@dimen/pt5"
-                android:paddingRight="@dimen/pt5"
-                android:paddingTop="@dimen/pt5"
+                android:paddingBottom= "@dimen/pt7"
+                android:paddingLeft="@dimen/pt6"
+                android:paddingRight="@dimen/pt6"
+                android:paddingTop="@dimen/pt7"
                 android:text="获取验证码"
                 android:textColor="@color/myRed"
                 android:textSize="@dimen/sp12" />
@@ -89,7 +89,10 @@
                 android:imeOptions="actionNext"
                 android:maxLines="1"
                 android:nextFocusForward="@+id/et_pwd"
-                android:padding="@dimen/pt6"
+                android:paddingLeft="@dimen/pt6"
+                android:paddingRight="@dimen/pt6"
+                android:paddingTop="@dimen/pt12"
+                android:paddingBottom="@dimen/pt12"
                 android:singleLine="true"
                 android:text=""
                 android:textColor="@color/mygray"
@@ -105,7 +108,7 @@
             android:layout_marginLeft="@dimen/pt25"
             android:layout_marginRight="@dimen/pt25"
             android:layout_marginTop="@dimen/pt3"
-            android:background="@color/textLightGray" />
+            android:background="@color/bg_light" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -148,7 +151,10 @@
                 android:imeOptions="actionNext"
                 android:lines="1"
                 android:maxLines="1"
-                android:padding="@dimen/pt6"
+                android:paddingLeft="@dimen/pt6"
+                android:paddingRight="@dimen/pt6"
+                android:paddingTop="@dimen/pt12"
+                android:paddingBottom="@dimen/pt12"
                 android:text=""
                 android:textColor="@color/mygray"
                 android:textColorHint="@color/textLightLightGray"
@@ -162,7 +168,7 @@
             android:layout_marginLeft="@dimen/pt25"
             android:layout_marginRight="@dimen/pt25"
             android:layout_marginTop="@dimen/pt3"
-            android:background="@color/textLightGray" />
+            android:background="@color/bg_light" />
 
 
         <RelativeLayout
@@ -209,7 +215,10 @@
                 android:password="true"
                 android:lines="1"
                 android:maxLines="1"
-                android:padding="@dimen/pt6"
+                android:paddingLeft="@dimen/pt6"
+                android:paddingRight="@dimen/pt6"
+                android:paddingTop="@dimen/pt12"
+                android:paddingBottom="@dimen/pt12"
                 android:text=""
                 android:textColor="@color/mygray"
                 android:textColorHint="@color/textLightLightGray"
@@ -224,7 +233,7 @@
             android:layout_marginLeft="@dimen/pt25"
             android:layout_marginRight="@dimen/pt25"
             android:layout_marginTop="@dimen/pt3"
-            android:background="@color/textLightGray" />
+            android:background="@color/bg_light" />
 
         <TextView
             android:id="@+id/tv_submit"
@@ -248,7 +257,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/pt25"
             android:layout_marginRight="@dimen/pt25"
-            android:layout_marginTop="@dimen/pt12"
+            android:layout_marginTop="@dimen/pt0"
             android:background="@color/white"
             android:orientation="horizontal">
 

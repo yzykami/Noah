@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 群组头像合成控件
+ * 群聊头像合成控件
  * <p/>
  * Created by huangjun on 2015/6/17.
  */

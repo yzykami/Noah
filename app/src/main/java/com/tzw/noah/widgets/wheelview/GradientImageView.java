@@ -83,6 +83,8 @@ public class GradientImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (1 == 1)
+            return;
         if (mLinearGradient == null) {
             mViewWidth = getWidth();
             mViewHeight = getHeight();

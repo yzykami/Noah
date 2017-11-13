@@ -98,7 +98,7 @@ public class GobalObserverImpl implements GobalObserver {
         final int netEaseGroupId = Utils.String2Int(acount);
 
         if (netEaseGroupId == 0) {
-            Toast.makeText(context, "群组id不正确", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "群聊id不正确", Toast.LENGTH_LONG).show();
             return;
         }
         if (group == null) {

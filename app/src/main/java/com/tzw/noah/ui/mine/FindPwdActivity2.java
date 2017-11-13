@@ -22,6 +22,7 @@ import com.tzw.noah.net.Param;
 import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.sns.group.GroupCreateActivity4;
+import com.tzw.noah.utils.DeviceUuidFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,8 +52,9 @@ public class FindPwdActivity2 extends MyBaseActivity {
 
     String Tag = "FindPwdActivity2";
 
-    boolean isSeepwd=false;
-    boolean isSeepwd2=false;
+    boolean isSeepwd = false;
+    boolean isSeepwd2 = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,14 +78,12 @@ public class FindPwdActivity2 extends MyBaseActivity {
         iv_seepwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isSeepwd=!isSeepwd;
-                if(isSeepwd)
-                {
+                isSeepwd = !isSeepwd;
+                if (isSeepwd) {
                     iv_seepwd.setImageResource(R.drawable.mine_login_seepwd);
                     et_username.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     et_username.setSelection(et_pwd.getText().toString().length());
-                }
-                else {
+                } else {
                     iv_seepwd.setImageResource(R.drawable.mine_login_notseepwd);
                     et_username.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     et_username.setSelection(et_pwd.getText().toString().length());
@@ -94,14 +94,12 @@ public class FindPwdActivity2 extends MyBaseActivity {
         iv_seepwd2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isSeepwd=!isSeepwd;
-                if(isSeepwd)
-                {
+                isSeepwd = !isSeepwd;
+                if (isSeepwd) {
                     iv_seepwd2.setImageResource(R.drawable.mine_login_seepwd);
                     et_pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     et_pwd.setSelection(et_pwd.getText().toString().length());
-                }
-                else {
+                } else {
                     iv_seepwd2.setImageResource(R.drawable.mine_login_notseepwd);
                     et_pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     et_pwd.setSelection(et_pwd.getText().toString().length());
@@ -129,11 +127,13 @@ public class FindPwdActivity2 extends MyBaseActivity {
             toast("两次密码输入不一致");
             return;
         }
-        List<Param> body=new ArrayList<>();
-        body.add(new Param("memberMobile",FindPwdActivity.mobile));
-        body.add(new Param("memberPasswd",et_pwd.getText().toString()));
-        body.add(new Param("vcode",FindPwdActivity.vcode));
-        NetHelper.getInstance().memberFindPwd(body,new StringDialogCallback(this) {
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("memberMobile", FindPwdActivity.mobile));
+        body.add(new Param("memberPasswd", et_pwd.getText().toString()));
+        body.add(new Param("vcode", FindPwdActivity.vcode));
+        body.add(new Param("clientCode", new DeviceUuidFactory(this).getDeviceUuidString()));
+
+        NetHelper.getInstance().memberFindPwd(body, new StringDialogCallback(this) {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getString(R.string.internet_fault));
@@ -142,17 +142,14 @@ public class FindPwdActivity2 extends MyBaseActivity {
 
             @Override
             public void onResponse(IMsg iMsg) {
-                if(iMsg.isSucceed())
-                {
+                if (iMsg.isSucceed()) {
                     toast("密码修改成功,请登录");
                     setResult(100);
 //                    startActivity2(LoginActivity.class);
                     finish();
 
-                }
-                else
-                {
-                    Log.log(Tag,iMsg.getMsg());
+                } else {
+                    Log.log(Tag, iMsg.getMsg());
                     toast(iMsg.getMsg());
                 }
             }

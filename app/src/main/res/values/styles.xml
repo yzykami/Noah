@@ -88,20 +88,21 @@
 
     <!--pager tab-->
     <style name="pagertab_style">
-        <item name="android:background">@color/bg_light</item>
-        <item name="apTabBackground">@drawable/tab_bg_color</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="apTabBackground">@color/transparent</item>
         <item name="android:textSize">@dimen/text_content</item>
         <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
         <item name="android:textColor">@drawable/tab_color_select</item>
         <item name="apTabIndicatorColor">@color/myRed</item>
-        <item name="apTabIndicatorHeight">@dimen/pt3</item>
+        <item name="apTabIndicatorHeight">@dimen/pt2</item>
+        <item name="apTabIndicatorWidth">@dimen/pt14</item>
         <item name="apTabUnderlineColor">@color/bg_darkLight</item>
-        <item name="apTabUnderlineHeight">@dimen/pt1</item>
+        <item name="apTabUnderlineHeight">@dimen/pt0</item>
         <item name="apTabDividerColor">@color/transparent</item>
         <item name="apTabDividerPadding">0dp</item>
         <item name="apTabShouldExpand">true</item>
-        <item name="apTabPaddingLeftRight">18dp</item>
-        <item name="apTabTextSelectColor">@color/myRed</item>
+        <item name="apTabPaddingLeftRight">@dimen/bjs</item>
+        <item name="apTabTextSelectColor">@color/textDarkGray</item>
     </style>
 
     <style name="pagertab_style_media">
@@ -121,6 +122,7 @@
         <item name="apTabPaddingLeftRight">@dimen/bjs</item>
         <item name="apTabTextSelectColor">@color/white</item>
     </style>
+
     <!--<style name="pagertab_icon_style">-->
     <!--<item name="android:background">@drawable/tab_bg_normal</item>-->
     <!--<item name="apTabBackground">@drawable/tab_bg_normal</item>-->

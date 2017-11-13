@@ -45,6 +45,7 @@ import me.xiaopan.sketchsample.util.AppConfig;
 public class SampleImageViewHead extends SketchImageView {
     private Page page;
     private boolean disabledRedisplay;
+    String mUri = "";
 
     public SampleImageViewHead(Context context) {
         super(context);

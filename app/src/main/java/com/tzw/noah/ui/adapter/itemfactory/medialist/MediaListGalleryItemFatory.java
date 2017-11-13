@@ -119,13 +119,13 @@ public class MediaListGalleryItemFatory extends AssemblyRecyclerItemFactory<Medi
 //            String[] filePaths = ImageOrientationCorrectTestFileGenerator.getInstance(getContext()).getFilePaths();
             fragments = new ArrayList<>();
 //            MediaArticle ma = new MediaArticle();
-//            ma.appArticleImage = "http://taizhouwang.oss-cn-beijing.aliyuncs.com/media/articleContent/20170913/57231505287820252037.jpg";
+//            ma.articleImage = "http://taizhouwang.oss-cn-beijing.aliyuncs.com/media/articleContent/20170913/57231505287820252037.jpg";
 //            fragments.add(ViewpagerFragment.newInstance(ma));
 //            ma = new MediaArticle();
-//            ma.appArticleImage = "http://taizhouwang.oss-cn-beijing.aliyuncs.com/media/articleContent/20170913/59761505287820489701.jpg";
+//            ma.articleImage = "http://taizhouwang.oss-cn-beijing.aliyuncs.com/media/articleContent/20170913/59761505287820489701.jpg";
 //            fragments.add(ViewpagerFragment.newInstance(ma));
 //            ma = new MediaArticle();
-//            ma.appArticleImage = "http://taizhouwang.oss-cn-beijing.aliyuncs.com/media/articleContent/20170913/85851505287820546460.jpg";
+//            ma.articleImage = "http://taizhouwang.oss-cn-beijing.aliyuncs.com/media/articleContent/20170913/85851505287820546460.jpg";
 //            fragments.add(ViewpagerFragment.newInstance(ma));
             List<String> titles = new ArrayList<>();
 //            titles.add("");
@@ -134,7 +134,7 @@ public class MediaListGalleryItemFatory extends AssemblyRecyclerItemFactory<Medi
             for (Advertising adv : mediaArticle.Advertisings) {
                 titles.add("");
                 MediaArticle mma = new MediaArticle();
-                mma.appArticleImage = adv.advertImage;
+                mma.articleImage = adv.advertImage;
                 mma.articleTitle = adv.advertTitle;
                 fragments.add(ViewpagerFragment.newInstance(mma));
             }

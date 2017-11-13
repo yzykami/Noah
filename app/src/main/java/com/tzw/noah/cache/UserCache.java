@@ -24,6 +24,7 @@ public class UserCache {
     private static String loginKey = "";
     private static long timeOffset = -12345678l;
     private static long timeOut = 10;
+    private static String preUrl = "http://10.0.9.2:9094/";
     public static User user;
 
     protected static final String PREFS_FILE = "usercache.xml";
@@ -31,6 +32,7 @@ public class UserCache {
     protected static final String PREFS_LOGINKEY = "loginkey";
     protected static final String PREFS_TIMEOFFSET = "timeoffset";
     protected static final String PREFS_TIMEOUT = "timeout";
+    protected static final String PREFS_PREURL = "preurl";
 
     public static User getUser() {
         if (user != null)
@@ -161,7 +163,6 @@ public class UserCache {
             timeOut = 10;
         return timeOut;
     }
-
     public static void setTimeOut(long timeOut) {
         Context context = AppContext.getContext();
         final SharedPreferences prefs = context
@@ -177,5 +178,23 @@ public class UserCache {
         if (token.isEmpty())
             return false;
         return true;
+    }
+
+    public static String getPreUrl() {
+        Context context = AppContext.getContext();
+        final SharedPreferences prefs = context
+                .getSharedPreferences(PREFS_FILE, 0);
+        preUrl = prefs.getString(PREFS_PREURL, "http://10.0.9.2:9094/");
+//        if (timeOut == 0)
+//            timeOut = 10;
+        return preUrl;
+    }
+    public static void setPreUrl(String url) {
+        Context context = AppContext.getContext();
+        final SharedPreferences prefs = context
+                .getSharedPreferences(PREFS_FILE, 0);
+        UserCache.preUrl = url;
+        WIRequest.preUrl = url;
+        prefs.edit().putString(PREFS_PREURL, preUrl).commit();
     }
 }

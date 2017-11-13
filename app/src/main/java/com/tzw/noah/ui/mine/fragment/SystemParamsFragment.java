@@ -32,7 +32,7 @@ public class SystemParamsFragment extends Fragment {
 
     @BindView(R.id.tv_content)
     TextView tvContent;
-    @BindView(R.id.tv_set_timeout)
+    @BindView(R.id.tv_set)
     TextView tvSetTimeout;
     @BindView(R.id.tv_offset)
     TextView tvOffset;

@@ -92,7 +92,7 @@ public class GroupFragment extends MyFragment {
         ImageView iv = (ImageView) nextView.findViewById(R.id.iv_head);
         TextView tv = (TextView) nextView.findViewById(R.id.tv_name);
         iv.setImageResource(R.drawable.sns_star);
-        tv.setText("群组推荐");
+        tv.setText("群聊推荐");
         list_view.addHeaderView(nextView);
 
         View nextView2 = inflater.inflate(R.layout.sns_next_operation_item, container, false);

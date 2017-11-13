@@ -11,26 +11,43 @@
         android:id="@+id/rl2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pt0"
+        android:layout_marginTop="@dimen/pt15"
         android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tv_like_num"
+        <LinearLayout
+            android:id="@+id/ll_like_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="@dimen/pt15"
+            android:layout_alignTop="@+id/tv_complaint"
+            android:layout_alignBottom="@+id/tv_complaint"
             android:layout_marginLeft="@dimen/bj"
-            android:layout_marginTop="@dimen/pt20"
-            android:drawableLeft="@drawable/media_like"
-            android:drawablePadding="@dimen/pt7"
-            android:gravity="center"
-            android:paddingBottom="@dimen/pt10"
-            android:paddingTop="@dimen/pt10"
-            android:text="aaaaaa"
-            android:textColor="@color/textLightGray"
-            android:textSize="@dimen/sp14" />
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/iv_like"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/media_comment_like"
+                android:visibility="visible" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/pt7">
+
+                <TextView
+                    android:id="@+id/tv_like_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/pt0"
+                    android:gravity="center"
+                    android:text="aaaaaa"
+                    android:textColor="@color/textLightGray"
+                    android:textSize="@dimen/sp14" />
+            </FrameLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_complaint"
@@ -53,6 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/bj"
+        android:layout_marginTop="@dimen/pt10"
         android:background="@color/white"
         android:orientation="horizontal"></LinearLayout>
 </LinearLayout>

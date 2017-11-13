@@ -108,13 +108,13 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
 
         @Override
         protected void onSetData(int i, final MediaArticle mediaArticle) {
-            String ss[] = mediaArticle.appArticleImage.split(",");
-            if (mediaArticle.appArticleImage.contains(","))
-                ss = mediaArticle.appArticleImage.split(",");
-            else if (mediaArticle.appArticleImage.contains(";"))
-                ss = mediaArticle.appArticleImage.split(";");
+            String ss[] = mediaArticle.articleImage.split(",");
+            if (mediaArticle.articleImage.contains(","))
+                ss = mediaArticle.articleImage.split(",");
+            else if (mediaArticle.articleImage.contains(";"))
+                ss = mediaArticle.articleImage.split(";");
 
-            if (mediaArticle.appArticleImage.isEmpty()) {
+            if (mediaArticle.articleImage.isEmpty()) {
                 iv_cover.setVisibility(View.GONE);
             } else {
                 iv_cover.setVisibility(View.VISIBLE);

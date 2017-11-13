@@ -121,6 +121,8 @@
 
             <com.tzw.noah.widgets.DragGridView
                 android:id="@+id/drag_selected"
+                android:paddingLeft="@dimen/pt3"
+                android:paddingRight="@dimen/pt12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

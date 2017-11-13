@@ -25,7 +25,7 @@ public class MediaArticle implements Serializable {
     public String articleTitle = "";
     public int articleType;
     public String webArticleImage = "";
-    public String appArticleImage = "";
+    public String articleImage = "";
     public String h5ArticleImage = "";
     public Object articleContent;
     public String articleAbstract = "";
@@ -67,6 +67,13 @@ public class MediaArticle implements Serializable {
 
     public boolean isEditMode;
     public boolean isSelected;
+
+//    没有回复
+//    public boolean hasReply = true;
+
+
+    public int dividerWhiteMarginTop = -1;
+    public int dividerWhiteHeight = -1;
 
     public String getAuthor() {
         String author = "";
@@ -138,6 +145,7 @@ public class MediaArticle implements Serializable {
     public boolean isDividerLine() {
         return TYPE == TYPE_DIVIDER_LINE;
     }
+
     public boolean isDividerWhite() {
         return TYPE == TYPE_DIVIDER_WHITE;
     }
@@ -248,6 +256,7 @@ public class MediaArticle implements Serializable {
         }
         return new ArrayList<String>();
     }
+
     public List<String> getKeywordIds() {
         if (arrKeywordIds != null && arrKeywordIds instanceof ArrayList) {
             return (List<String>) arrKeywordIds;
@@ -400,7 +409,7 @@ public class MediaArticle implements Serializable {
 
 
     public int getListType() {
-        if (TextUtils.isEmpty(this.appArticleImage)) {
+        if (TextUtils.isEmpty(this.articleImage)) {
             return LIST_TYPE_TXT;
         } else {
             return LIST_TYPE_PIC_RL;
@@ -466,6 +475,8 @@ public class MediaArticle implements Serializable {
     public boolean isArticleTypeVideo() {
         return articleType == ARTICLE_TYPE_VIDEO;
     }
+
+
 
 
     public class GalleryArticle implements Serializable {

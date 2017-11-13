@@ -73,6 +73,7 @@ public class GroupAdapter extends BaseAdapter {
         else
             holder.tv.setText(group.groupName);
         holder.tv_sign.setText(group.groupIntroduction);
+        holder.tv_sign.setVisibility(View.GONE);
 
         if(group.groupAttribute==Group.Type.GROUP)
         {

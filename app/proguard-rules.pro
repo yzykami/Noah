@@ -67,6 +67,8 @@
 -keepattributes *Annotation*,InnerClasses
 #-keepattributes SourceFile,LineNumberTable
 
+-keep class com.tzw.noah.models.** {*;}
+
 ### APP 3rd party jars
 -dontwarn com.amap.**
 -keep class com.amap.** {*;}
@@ -120,7 +122,39 @@
     java.lang.Object readResolve();
 }
 
--keep class **.R$* {
- *;
+-keep public class * implements java.io.Serializable {*;}
 
-}
+-keep class **.R$* { *;}
+
+##第三方引用
+-keep class com.tencent.mm.opensdk.** {*;}
+-keep class com.nineoldandroids.animation.** {*;}
+## okhttp
+-dontwarn okhttp3.**
+-keep class okhttp3.** {*;}
+-dontwarn okio.**
+-keep class okio.** {*;}
+-dontwarn com.vondear.rxtools.**
+-keep class com.vondear.rxtools.** {*;}
+
+##
+-dontwarn tv.danmaku.ijk.**
+-keep class tv.danmaku.ijk.** { *; }
+-dontwarn com.shuyu.gsyvideoplayer.**
+-keep class com.shuyu.gsyvideoplayer.** { *; }
+
+-dontwarn android.net.**
+-keep class android.net.SSLCertificateSocketFactory{*;}
+
+-dontwarn me.xiaopan.**
+-keep class me.xiaopan.**{*;}
+
+-dontwarn org.greenrobot.eventbus.**
+-keep class org.greenrobot.eventbus.**{*;}
+
+-dontwarn org.greenrobot.eventbus.**
+-keep class org.greenrobot.eventbus.**{*;}
+
+-dontwarn com.google.gson.**
+-keep class com.google.gson.**{*;}
+

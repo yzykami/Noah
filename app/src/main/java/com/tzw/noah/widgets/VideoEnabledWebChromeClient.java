@@ -9,6 +9,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 /**
@@ -38,7 +39,7 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements Medi
     private View activityNonVideoView;
     private ViewGroup activityVideoView;
     private View loadingView;
-    private MyWebView webView;
+    private WebView webView;
 
     private boolean isVideoFullscreen; // Indicates if the video is being displayed using a custom view (typically full-screen)
     private FrameLayout videoViewContainer;
@@ -95,7 +96,7 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements Medi
      * Note: The web page must only contain one video tag in order for the HTML5 video ended event to work. This could be improved if needed (see Javascript code).
      */
     @SuppressWarnings("unused")
-    public VideoEnabledWebChromeClient(View activityNonVideoView, ViewGroup activityVideoView, View loadingView, MyWebView webView)
+    public VideoEnabledWebChromeClient(View activityNonVideoView, ViewGroup activityVideoView, View loadingView, WebView webView)
     {
         this.activityNonVideoView = activityNonVideoView;
         this.activityVideoView = activityVideoView;

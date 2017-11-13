@@ -164,7 +164,7 @@ public class GlobalSearchActivity extends UI implements OnItemClickListener {
 
         SearchGroupStrategy() {
             add(ContactGroupStrategy.GROUP_NULL, 0, "");
-            add(GROUP_TEAM, 1, "群组");
+            add(GROUP_TEAM, 1, "群聊");
             add(GROUP_FRIEND, 2, "好友");
             add(GROUP_MSG, 3, "聊天记录");
         }

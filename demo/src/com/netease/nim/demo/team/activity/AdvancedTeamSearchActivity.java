@@ -18,7 +18,7 @@ import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.model.Team;
 
 /**
- * 搜索加入群组界面
+ * 搜索加入群聊界面
  * Created by hzxuwen on 2015/3/20.
  */
 public class AdvancedTeamSearchActivity extends UI {
@@ -89,7 +89,7 @@ public class AdvancedTeamSearchActivity extends UI {
     }
 
     /**
-     * 搜索群组成功的回调
+     * 搜索群聊成功的回调
      * @param team 群
      */
     private void updateTeamInfo(Team team) {

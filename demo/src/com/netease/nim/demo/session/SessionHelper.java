@@ -354,7 +354,7 @@ public class SessionHelper {
 
             @Override
             public void onAvatarLongClicked(Context context, IMMessage message) {
-                // 一般用于群组@功能，或者弹出菜单，做拉黑，加好友等功能
+                // 一般用于群聊@功能，或者弹出菜单，做拉黑，加好友等功能
             }
         };
 

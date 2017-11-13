@@ -401,7 +401,7 @@ public class RecentContactsFragment extends TFragment {
                                 updateOfflineContactAited(loadedRecent);
                             }
                         }
-                        // 此处如果是界面刚初始化，为了防止界面卡顿，可先在后台把需要显示的用户资料和群组资料在后台加载好，然后再刷新界面
+                        // 此处如果是界面刚初始化，为了防止界面卡顿，可先在后台把需要显示的用户资料和群聊资料在后台加载好，然后再刷新界面
                         //
                         msgLoaded = true;
                         if (isAdded()) {

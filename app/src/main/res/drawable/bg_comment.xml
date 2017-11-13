@@ -18,7 +18,7 @@
     <item android:top="@dimen/pt6">
 
         <shape android:shape="rectangle">
-            <padding android:bottom="@dimen/pt6" />
+            <padding android:bottom="@dimen/pt0" />
             <padding android:top="@dimen/pt6" />
             <solid android:color="#f7f7f7" />
             <corners android:radius="@dimen/corner" />

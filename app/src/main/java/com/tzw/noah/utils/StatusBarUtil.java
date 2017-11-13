@@ -18,6 +18,12 @@ import java.lang.reflect.Method;
 
 public class StatusBarUtil {
 
+    private static int statusBarHeight;
+
+    public static int getStatusBarHeight() {
+        return statusBarHeight;
+    }
+
     public interface StatusBarProvider {
         public View getStatusBar();
     }

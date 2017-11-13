@@ -71,11 +71,11 @@ public class MediaArticleDetailItemFatory extends AssemblyRecyclerItemFactory<Me
 
         @Override
         protected void onSetData(int i, MediaArticle mediaArticle) {
-            if (mediaArticle.appArticleImage.isEmpty()) {
+            if (mediaArticle.articleImage.isEmpty()) {
                 iv_cover.setVisibility(View.GONE);
             } else {
                 iv_cover.setVisibility(View.VISIBLE);
-                iv_cover.displayRoundImageSmallThumb(mediaArticle.appArticleImage);
+                iv_cover.displayRoundImageSmallThumb(mediaArticle.articleImage);
             }
             tv_title.setText(mediaArticle.articleTitle);
         }

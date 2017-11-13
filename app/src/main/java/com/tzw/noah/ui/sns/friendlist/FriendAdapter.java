@@ -73,6 +73,7 @@ public class FriendAdapter extends BaseAdapter {
         User user = items.get(position);
         holder.tv.setText(user.getName());
         holder.tv_sign.setText(user.memberIntroduce);
+        holder.tv_sign.setVisibility(View.GONE);
         holder.iv_head.displayImage(user.memberHeadPic);
 
         boolean isSame = false;

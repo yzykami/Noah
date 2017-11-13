@@ -283,7 +283,7 @@ public final class NimUIKit {
      * 打开一个聊天窗口，开始聊天
      *
      * @param context       上下文
-     * @param id            聊天对象ID（用户帐号account或者群组ID）
+     * @param id            聊天对象ID（用户帐号account或者群聊ID）
      * @param sessionType   会话类型
      * @param customization 定制化信息。针对不同的聊天对象，可提供不同的定制化。
      * @param anchor        跳转到指定消息的位置，不需要跳转填null
@@ -301,7 +301,7 @@ public final class NimUIKit {
      * 打开一个聊天窗口（用于从聊天信息中创建群聊时，打开群聊）
      *
      * @param context       上下文
-     * @param id            聊天对象ID（用户帐号account或者群组ID）
+     * @param id            聊天对象ID（用户帐号account或者群聊ID）
      * @param sessionType   会话类型
      * @param customization 定制化信息。针对不同的聊天对象，可提供不同的定制化。
      * @param backToClass   返回的指定页面

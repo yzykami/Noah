@@ -9,8 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.zxing1.demoscaner.QrCodeActivity;
+import com.google.zxing1.demoscaner.WeChatCaptureActivity;
 import com.tzw.noah.R;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.home.scan.ActivityScanerCode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,6 +59,9 @@ public class DebugActivity extends MyBaseActivity {
     public static int TYPE_DATEBASE_TABLE_LIST = 6002;
     public static int TYPE_DATEBASE_TABLE = 6003;
 
+    public static int TYPE_SYSTEMSWITCH = 7001;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +95,10 @@ public class DebugActivity extends MyBaseActivity {
         items.add("异常日志");
         items.add("第三方服务");
         items.add("数据库");
+        items.add("系统配置");
+//        items.add("扫码1");
+//        items.add("扫码2");
+//        items.add("扫码3");
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -112,6 +122,18 @@ public class DebugActivity extends MyBaseActivity {
                 if (items.get(position).equals("缓存相关")) {
                     startDetailActivity(mContext, "缓存相关", TYPE_SYSTEMCACHE, null);
                 }
+                if (items.get(position).equals("系统配置")) {
+                    startDetailActivity(mContext, "系统配置", TYPE_SYSTEMSWITCH, null);
+                }
+//                if (items.get(position).equals("扫码1")) {
+//                    startActivity2(ActivityScanerCode.class);
+//                }
+//                if (items.get(position).equals("扫码2")) {
+//                    startActivity2(WeChatCaptureActivity.class);
+//                }
+//                if (items.get(position).equals("扫码3")) {
+//                    startActivity2(QrCodeActivity.class);
+//                }
             }
         });
         adapter = new StringAdapter(mContext, items);

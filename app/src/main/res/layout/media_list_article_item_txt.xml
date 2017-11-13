@@ -15,8 +15,7 @@
             android:layout_marginBottom="@dimen/bjs"
             android:layout_marginLeft="@dimen/bjs"
             android:layout_marginRight="@dimen/bjs"
-            android:layout_marginTop="@dimen/bjs"
-            android:background="@color/white">
+            android:layout_marginTop="@dimen/bjs">
 
             <include
                 android:id="@+id/title"

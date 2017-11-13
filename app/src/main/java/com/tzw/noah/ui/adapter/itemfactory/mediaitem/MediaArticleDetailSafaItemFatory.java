@@ -60,6 +60,8 @@ public class MediaArticleDetailSafaItemFatory extends AssemblyRecyclerItemFactor
 
         @Override
         protected void onSetData(int i, MediaArticle mediaArticle) {
+//            if(!mediaArticle.hasReply)
+//                tv.setText("暂无回复");
         }
     }
 }

@@ -1,19 +1,19 @@
 package com.tzw.noah.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +30,7 @@ import com.tzw.noah.models.Advertising;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.MediaComment;
 import com.tzw.noah.models.MediaLike;
+import com.tzw.noah.models.User;
 import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
@@ -52,6 +53,7 @@ import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleKeywordItemFato
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleLikeItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleRelativeItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
+import com.tzw.noah.ui.sns.personal.PersonalActivity;
 import com.tzw.noah.widgets.MyGSYVideoPlayer;
 import com.tzw.noah.widgets.MyWebView;
 
@@ -62,8 +64,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
+import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
 import me.xiaopan.assemblyadapter.OnRecyclerLoadMoreListener;
 import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
+import me.xiaopan.sketchsample.util.AssemblyRecyclerAdapterTool;
 import me.xiaopan.sketchsample.widget.SampleImageView;
 import okhttp3.Call;
 
@@ -117,7 +121,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     InputFragment frame_input;
 
     private AssemblyRecyclerAdapter adapter;
-//    static HomeDetailActivity instance;
+    //    static HomeDetailActivity instance;
     HomeDetailActivity instance;
     String Tag = "HomeDetailActivity";
 
@@ -169,6 +173,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
         if (bu != null) {
             title = bu.getString("title");
             mediaArticle = (MediaArticle) bu.getSerializable("DATA");
+//            mediaArticle.articleId =179;
             htmlContent = mediaArticle.getContentString();
         }
         title = "";
@@ -182,8 +187,21 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
         }
     }
 
-    private void findview() {
+    int totaly = 0;
 
+    private void findview() {
+        divider.setVisibility(View.GONE);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totaly += dy;
+                if (totaly > 0)
+                    divider.setVisibility(View.VISIBLE);
+                else
+                    divider.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void loadData() {
@@ -256,7 +274,6 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     }
 
     private void initVideo() {
-
         statusBar.setVisibility(View.GONE);
         statusBar.setBackgroundResource(R.color.transParent);
         rl_top.setBackgroundResource(R.color.transParent);
@@ -277,9 +294,9 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
             String url = mediaArticle.videoObj.get(0).articleRessourceUrl;
 
             //设置封面图
-            if (!TextUtils.isEmpty(mediaArticle.appArticleImage)) {
+            if (!TextUtils.isEmpty(mediaArticle.articleImage)) {
                 SampleImageView imageView = new SampleImageView(mContext);
-                imageView.displayRoundImageBigThumb(mediaArticle.appArticleImage);
+                imageView.displayRoundImageBigThumb(mediaArticle.articleImage);
                 videoPlayer.setThumbImageView(imageView);
             }
 
@@ -351,9 +368,9 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
             }
         }
 
+        items.add(mediaArticle.makeDivider());
+        items.add(mediaArticle.makeTag(TAG_COMMENT));
         if (mediaArticle.articleCommentObj.size() > 0) {
-            items.add(mediaArticle.makeDivider());
-            items.add(mediaArticle.makeTag(TAG_COMMENT));
             for (int i = 0; i < mediaArticle.articleCommentObj.size(); i++) {
                 items.add(mediaArticle.articleCommentObj.get(i));
             }
@@ -412,7 +429,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
                     setError();
                 }
             }
-        }, DataCenter.INTEL_TIMEOUT);
+        }, 15000);
     }
 
     public void setComplete() {
@@ -459,7 +476,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
                             list = new ArrayList<MediaComment>();
                         } else {
                             for (int i = 0; i < list.size(); i++) {
-                                list.get(i).isCommentDetail = true;
+//                                list.get(i).isCommentDetail = true;
                                 items.add(list.get(i));
                             }
                         }
@@ -543,6 +560,14 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
                 }
             }
         }
+        if (o instanceof MediaComment) {
+            User u = new User();
+            u.memberNo = ((MediaComment) o).memberNo;
+            u.memberNickName = ((MediaComment) o).memberNickName;
+            Bundle bu = new Bundle();
+            bu.putSerializable("DATA", u);
+            startActivity2(PersonalActivity.class, bu);
+        }
     }
 
     @Override
@@ -564,6 +589,10 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     public void onLikeMemberClick(int position, Object o) {
         Bundle bu = new Bundle();
         bu.putInt("articleId", mediaArticle.articleId);
+        bu.putString("articleTitle", mediaArticle.articleTitle);
+        bu.putString("createTime", mediaArticle.createTime);
+        bu.putString("author", mediaArticle.getAuthor());
+        bu.putSerializable("DATA", mediaArticle);
         startActivity2(LikeListActivity.class, bu);
     }
 
@@ -575,6 +604,11 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 //        bu.putSerializable("DATA2", data);
         DataCenter.getInstance().setMediaComment(data);
         startActivity2(CommentListActivity.class);
+    }
+
+    @Override
+    public void onCommentLikeClick(int position, MediaComment data) {
+//        CommentLikeClick(position, data);
     }
 
     @Override
@@ -693,8 +727,8 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
                             position = getfirstPosition(MediaArticle.TYPE_SAFA);
                             isFirstComment = true;
                             adapter.remove(adapter.getDataList().get(position));
-                            adapter.insert(mediaArticle.makeDivider(), position++);
-                            adapter.insert(mediaArticle.makeTag(TAG_COMMENT), position++);
+//                            adapter.insert(mediaArticle.makeDivider(), position++);
+//                            adapter.insert(mediaArticle.makeTag(TAG_COMMENT), position++);
                         }
                         MediaComment mc = MediaComment.load(iMsg);
 //                        mc.memberHeadPic=UserCache.getUser().memberHeadPic;
@@ -704,15 +738,16 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
                         adapter.insert(mc, position);
                         adapter.notifyDataSetChanged();
                         if (isFirstComment) {
+                            AssemblyRecyclerAdapterTool.unLock(adapter);
                             loadMoreItem = new LoadMoreItemFactory(instance);
                             adapter.setLoadMoreItem(loadMoreItem);
                             adapter.setLoadMoreEnd(true);
-                            recyclerView.setAdapter(adapter);
+//                            recyclerView.setAdapter(adapter);
                         }
                         frame_input.switchEditMode(false);
                         frame_input.clearInputEdit();
                         showKeyboard(false);
-                        onCommentClick();
+//                        onCommentClick();
                         ((MyBaseActivity) mContext).toast("发表成功");
                     } else {
                         ((MyBaseActivity) mContext).toast(iMsg.getMsg());
@@ -744,7 +779,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
             }
         }
         final int finalPosition = position;
-        NetHelper.getInstance().mediaEvaluate(mediaArticle.articleId, isLike == 0 ? 1 : 0, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaEvaluate(mediaArticle.articleId, isLike == 0 ? 1 : 0, 0, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 isloading = false;
@@ -770,7 +805,16 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
                             adapter.remove(adapter.getDataList().get(finalPosition));
                             adapter.insert(mediaArticle.makeLiker(), finalPosition);
                             adapter.notifyItemChanged(finalPosition);
+                            for (int i = 0; i < adapter.getItemFactoryCount(); i++) {
+                                AssemblyRecyclerItemFactory itemfactory = adapter.getItemFactoryList().get(i);
+                                if (itemfactory instanceof MediaArticleLikeItemFatory) {
+                                    MediaArticleLikeItemFatory mali = (MediaArticleLikeItemFatory) itemfactory;
+                                    if (mali.galleryItem != null)
+                                        mali.galleryItem.setLikeAnima();
+                                }
+                            }
                             frame_input.notifyUpdate(mediaArticle);
+                            frame_input.setLikeAnima();
                             ((MyBaseActivity) mContext).toast("点赞成功");
                         } else {
                             mediaArticle.praiseNumber--;
@@ -801,6 +845,51 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
         });
     }
 
+    public void CommentLikeClick(final int position, final MediaComment mc) {
+        if (!makesureLogin()) {
+            return;
+        }
+//        if(isLike==1)
+//            return;
+        if (isloading)
+            return;
+        else
+            isloading = true;
+        NetHelper.getInstance().mediaEvaluate(mediaArticle.articleId, mc.isArticleEvaluate == 0 ? 1 : 0, mc.articleCommentId, new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                isloading = false;
+                ((MyBaseActivity) mContext).toast(mContext.getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                isloading = false;
+                try {
+                    if (iMsg.isSucceed()) {
+                        int isLike = mc.isArticleEvaluate;
+                        isLike = isLike == 0 ? 1 : 0;
+                        mc.isArticleEvaluate = isLike;
+                        if (isLike == 1) {
+                            mc.praiseNumber++;
+//                            ((MyBaseActivity) mContext).toast("点赞成功");
+                        } else {
+                            mc.praiseNumber--;
+                            if (mc.praiseNumber < 0)
+                                mc.praiseNumber = 0;
+//                            ((MyBaseActivity) mContext).toast("取消点赞成功");
+                        }
+                        adapter.notifyItemChanged(position);
+                    } else {
+                        ((MyBaseActivity) mContext).toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(Tag, e);
+                }
+            }
+        });
+    }
+
     public void favoriteClick() {
         if (!makesureLogin()) {
             return;
@@ -819,7 +908,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
             }
         }
         final int finalPosition = position;
-        NetHelper.getInstance().mediaMixFavorite(0,mediaArticle.articleId+"", isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaMixFavorite(0, mediaArticle.articleId + "", isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 isloading = false;
@@ -835,6 +924,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
                         mediaArticle.isArticleKeep = isFavorite;
                         frame_input.notifyUpdate(mediaArticle);
                         if (isFavorite) {
+                            frame_input.setFavAnima();
                             ((MyBaseActivity) mContext).toast("收藏成功");
                         } else {
 
@@ -866,7 +956,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 //                @Override
 //                public void onFinish() {
 ////                    Log.d(TAG, "onFinish -- 倒计时结束");
-//                    iv_detail.setVisibility(View.VISIBLE);
+//                    iv_detail.setVisibility(View.VISIBLE); 
 //                    rl_video_cover.setVisibility(View.GONE);
 //                }
 //            };
@@ -934,7 +1024,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 
         if (mediaArticle.isArticleTypeArticle())
             if (webViewItemFatory != null) {
-                MyWebView webView = webViewItemFatory.item.getWebView();
+                WebView webView = webViewItemFatory.item.getWebView();
                 if (webView != null)
                     webView.destroy();
             }
@@ -1107,6 +1197,16 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
         super.onViewPositionChanged(fractionAnchor, fractionScreen);
 //        if(fractionScreen==0)
         if (mediaArticle.isArticleTypeVideo()) {
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MyWebView.LOGINREQUEST && resultCode == LOGINSUCCEED) {
+            if (webViewItemFatory != null) {
+                MyWebView webView = webViewItemFatory.item.getWebView();
+                webView.loadUrl("javascript:handleLogin(\"" + "loginsuccess" + "\")");
+            }
         }
     }
 }

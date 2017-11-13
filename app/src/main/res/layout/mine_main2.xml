@@ -273,7 +273,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="0dp"
                             android:maxLines="1"
-                            android:text="群组"
+                            android:text="群聊"
                             android:textColor="@color/mygray"
                             android:textSize="@dimen/text_lable_small" />
 

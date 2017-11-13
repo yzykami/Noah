@@ -17,7 +17,7 @@ import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.cache.SearchHistoryCache;
 import com.tzw.noah.logger.Log;
-import com.tzw.noah.models.Favorite;
+import com.tzw.noah.models.MyFavorite;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
@@ -78,6 +78,8 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
     TextView tv_right;
     @BindView(R.id.tv_delete)
     TextView tv_delete;
+    @BindView(R.id.tv_select_all)
+    TextView tv_select_all;
     @BindView(R.id.rl_delete)
     RelativeLayout rl_delete;
     //    @BindView(R.id.maskView)
@@ -103,9 +105,9 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
     private boolean isloading = false;
 
     boolean isEditMode = false;
+    private boolean hasSelectAll = false;
 
     private LinearLayoutManager layoutManager;
-
     LoadMoreItemFactory loadMoreItem;
 
 //    public static FavoriteActivity getInstance() {
@@ -213,13 +215,13 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
             public void onResponse(IMsg iMsg) {
                 try {
                     if (iMsg.isSucceed()) {
-                        List<Favorite> list = Favorite.loadList(iMsg);
+                        List<MyFavorite> list = MyFavorite.loadList(iMsg);
 //                        items =
                         if (list == null)
                             list = new ArrayList();
 
                         items = new ArrayList<>();
-                        for (Favorite fav : list) {
+                        for (MyFavorite fav : list) {
                             items.add(fav.articleDetails);
                         }
                         if (items == null) {
@@ -235,16 +237,20 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
                                 ma.listShowType = MediaArticle.LIST_TYPE_PIC_RL;
                                 items.set(i, ma);
                             }
+                            if (isEditMode)
+                                ma.isEditMode = isEditMode;
                         }
                         adapter.addAll(items);
                         if (list.size() >= 1) {
-                            articleId = list.get(list.size() - 1).userKeepArticleId;
+                            articleId = list.get(list.size() - 1).memberCollectionId;
                         }
                         adapter.loadMoreFinished(list.size() < DataCenter.pagesize);
                         if (items.size() == 0 && articleId == 0)
                             setEmpty();
                         else
                             setComplete();
+                        if(isEditMode)
+                            refreshDeleteLayout();
                     } else {
                         setError();
                         toast(iMsg.getMsg());
@@ -352,7 +358,15 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
         } else {
             tv_delete.setText("删除(" + count + ")");
             tv_delete.setTextColor(getResources().getColor(R.color.textDarkGray));
-
+        }
+        if (count == list.size())
+            hasSelectAll = true;
+        else
+            hasSelectAll = false;
+        if (hasSelectAll) {
+            tv_select_all.setText("取消全选");
+        } else {
+            tv_select_all.setText("选择全部");
         }
     }
 
@@ -447,6 +461,7 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
         } else {
             tv_right.setText("编辑");
             rl_delete.setVisibility(View.GONE);
+            hasSelectAll = false;
         }
 
         List<MediaArticle> list = adapter.getDataList();
@@ -459,5 +474,18 @@ public class FavoriteActivity extends MySwipeBackActivity implements OnRecyclerL
         refreshDeleteLayout();
 
 //        adapter.notifyDataSetChanged();
+    }
+
+    public void handle_select_all(View view) {
+        hasSelectAll = !hasSelectAll;
+
+        List<MediaArticle> list = adapter.getDataList();
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).isEditMode = isEditMode;
+            if (isEditMode)
+                list.get(i).isSelected = hasSelectAll;
+        }
+        adapter.setDataList(list);
+        refreshDeleteLayout();
     }
 }

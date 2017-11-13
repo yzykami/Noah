@@ -41,9 +41,9 @@ public class MediaArticleDetailTitleItemFatory extends AssemblyRecyclerItemFacto
     public class GalleryItem extends BindAssemblyRecyclerItem<MediaArticle> {
         @BindView(R.id.container)
         LinearLayout container;
-        @BindView(R.id.tv_title)
+        @BindView(R.id.tv_article_title)
         TextView tv_title;
-        @BindView(R.id.tv_author)
+        @BindView(R.id.tv_article_author)
         TextView tv_author;
 
         Context mContext;

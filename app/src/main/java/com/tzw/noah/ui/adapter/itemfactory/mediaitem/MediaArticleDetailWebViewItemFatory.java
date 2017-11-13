@@ -1,11 +1,21 @@
 package com.tzw.noah.ui.adapter.itemfactory.mediaitem;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.net.http.SslError;
+import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.ConsoleMessage;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -14,8 +24,10 @@ import android.widget.Toast;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.models.MediaArticle;
+import com.tzw.noah.models.MediaCategory;
 import com.tzw.noah.ui.home.HomeDetailActivity;
 import com.tzw.noah.ui.mine.MineMainActivity;
+import com.tzw.noah.ui.webview.WebViewActivity;
 import com.tzw.noah.widgets.MyWebView;
 import com.tzw.noah.widgets.VideoEnabledWebChromeClient;
 
@@ -57,6 +69,7 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
         MyWebView webView;
 
         Context mContext;
+        boolean isFirstLoad = true;
         private VideoEnabledWebChromeClient webChromeClient;
 
         public MyWebView getWebView() {
@@ -73,7 +86,7 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
         }
 
         @Override
-        protected void onSetData(int i, MediaArticle content) {
+        protected void onSetData(int i, final MediaArticle content) {
             if (height != 0) {
                 ViewGroup.LayoutParams lp = webView.getLayoutParams();
                 if (lp.height != 0)
@@ -84,26 +97,118 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
             }
             WebSettings wSet = webView.getSettings();
             wSet.setJavaScriptEnabled(true);
-            webView.loadDataWithBaseURL("about:blank", content.getContentString(), "text/html", "utf-8", null);
-//            webView.loadUrl("http://10.0.9.2:7072/home/media/detail/id/70.html");
+
+//            if (content.isWebBrowserMode) {
+//                webView.loadUrl(content.getContentString());
+//                webView.setBackgroundResource(R.color.myBlue);
+//                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) webView.getLayoutParams();
+//                lp.setMargins(0, 10, 0, 0);
+//                webView.setLayoutParams(lp);
+//            } else {
+//            if (content.articleId == 203)
+//                webView.loadUrl("http://10.0.9.2:7072/home/media/detail/id/70.html");
+//            else
+                webView.loadDataWithBaseURL("about:blank", content.getContentString(), "text/html", "utf-8", null);
+//            webView.loadUrl("http://10.0.12.226/b.html");
+//            }
 
             webView.setWebViewClient(new WebViewClient() {
+
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    view.loadUrl(url);
-                    return false;
+                    if (url.startsWith("http:") || url.startsWith("https:")) {
+//                        if (content.isWebBrowserMode) {
+//                            view.loadUrl(url);
+//                        } else {
+                        MediaArticle ma = new MediaArticle();
+                        Bundle bu = new Bundle();
+                        bu.putSerializable("DATA", ma);
+                        ma.articleContent = url;
+//                            ma.isWebBrowserMode = true;
+                        mActivity.startActivity2(WebViewActivity.class, bu);
+//                    }
+                        return true;
+                    }
+//                    else{// if (url.startsWith("tzw://")) {
+//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                        mContext.startActivity(intent);
+//                        return true;
+//                    }
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        mContext.startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                    String url = "";
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        url = request.getUrl().toString();
+                    } else {
+                        url = request.toString();
+                    }
+                    if (url.startsWith("http:") || url.startsWith("https:")) {
+//                        if (content.isWebBrowserMode) {
+//                            view.loadUrl(url);
+//                        } else {
+                        MediaArticle ma = new MediaArticle();
+                        Bundle bu = new Bundle();
+                        bu.putSerializable("DATA", ma);
+                        ma.articleContent = url;
+//                            ma.isWebBrowserMode = true;
+                        mActivity.startActivity2(WebViewActivity.class, bu);
+//                    }
+                        return true;
+                    }
+//                    else{// if (url.startsWith("tzw://")) {
+//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                        mContext.startActivity(intent);
+//                        return true;
+//                    }
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        mContext.startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+//                    return false;
+                }
+
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//                    if(!isLoadUrl){
+//                        isLoadUrl = true;
+//                        view.loadUrl(url);
+
+//                    }
+                    super.onPageStarted(view, url, favicon);
                 }
 
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
-                    // web 页面加载完成，添加监听图片的点击 js 函数
-                    webView.setImageClickListner();
-                    //解析 HTML
-                    webView.parseHTML(view);
-                    webView.loadUrl("javascript:handleLogin(\"" + UserCache.getLoginKey() + "\")");
-                    webView.loadUrl(getOutCss("file:///android_asset/video.css"));
+                    if (isFirstLoad) {
+                        isFirstLoad = false;
+                        // web 页面加载完成，添加监听图片的点击 js 函数
+                        webView.setImageClickListner();
+                        //解析 HTML
+                        webView.parseHTML(view);
+                        webView.loadUrl("javascript:handleLogin(\"" + UserCache.getLoginKey() + "\")");
+                        webView.loadUrl(getOutCss("file:///android_asset/video.css"));
+                    }
+                }
 
+                @Override
+                public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                    //handler.cancel(); 默认的处理方式，WebView变成空白页
+                    // 接受证书
+                    handler.proceed();  // 接受所有网站的证书
+//                    super.onReceivedSslError(view, handler, error);
                 }
             });
 
@@ -111,23 +216,34 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
             ViewGroup videoLayout = (ViewGroup) mActivity.findViewById(R.id.videoLayout); // Your own view, read class comments
             //noinspection all
             View loadingView = mActivity.getLayoutInflater().inflate(R.layout.view_loading_video, null); // Your own view, read class comments
-            webChromeClient = new VideoEnabledWebChromeClient(nonVideoLayout, videoLayout, loadingView, webView) // See all available constructors...
-            {
-                // Subscribe to standard events, such as onProgressChanged()...
-                @Override
-                public void onProgressChanged(WebView view, int progress) {
-                    // Your code...
-                    if (progress == 100) {
-                        if (mMediaListListener != null) {
-                            mMediaListListener.onWebViewLoadComplete();
+            webChromeClient = new
+
+                    VideoEnabledWebChromeClient(nonVideoLayout, videoLayout, loadingView, webView) // See all available constructors...
+                    {
+                        // Subscribe to standard events, such as onProgressChanged()...
+                        @Override
+                        public void onProgressChanged(WebView view, int progress) {
+                            // Your code...
+                            if (progress == 100) {
+                                if (mMediaListListener != null) {
+                                    view.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mMediaListListener.onWebViewLoadComplete();
+                                        }
+                                    }, 100);
+                                }
+                                height = webView.getHeight();
+                            }
                         }
-                        height = webView.getHeight();
                     }
-                }
-            };
+
+            ;
             webView.setWebChromeClient(webChromeClient);
 
-            webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback() {
+            webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback()
+
+            {
                 @Override
                 public void toggledFullscreen(boolean fullscreen) {
                     if (mMediaListListener != null) {
@@ -136,6 +252,7 @@ public class MediaArticleDetailWebViewItemFatory extends AssemblyRecyclerItemFac
                 }
             });
         }
+
     }
 
     public static String getOutCss(String url) {

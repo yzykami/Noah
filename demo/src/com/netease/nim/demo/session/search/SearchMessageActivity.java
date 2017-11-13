@@ -59,7 +59,7 @@ public class SearchMessageActivity extends UI {
     private String sessionId;
     private SessionTypeEnum sessionType;
 
-    // 转为群组类型提供
+    // 转为群聊类型提供
     private List<TeamMember> members;
 
     private IMMessage emptyMsg;

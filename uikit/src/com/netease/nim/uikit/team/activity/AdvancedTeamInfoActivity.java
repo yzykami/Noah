@@ -491,7 +491,7 @@ public class AdvancedTeamInfoActivity extends UI implements
     }
 
     /**
-     * 初始化群组基本信息
+     * 初始化群聊基本信息
      */
     private void loadTeamInfo() {
         Team t = TeamDataCache.getInstance().getTeamById(teamId);

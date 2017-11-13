@@ -20,7 +20,7 @@ public interface ItemTypes {
 
     int FRIEND = 1; // 好友项
 
-    int TEAM = 2; // 群组项
+    int TEAM = 2; // 群聊项
 
     int TEAM_MEMBER = 3; // 群成员
 

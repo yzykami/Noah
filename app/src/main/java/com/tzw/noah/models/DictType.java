@@ -18,5 +18,5 @@ public class DictType {
     @MyField
     public String createTime;//:;//2017-04-07 17:41:23;//,
     @MyField
-    public String updateTime;//:;//2017-04-07 17:48:15;//
+    public String updateTime;//:;//2017-04-07 17:ic_launcher_round:15;//
 }

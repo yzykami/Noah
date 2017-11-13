@@ -13,8 +13,7 @@
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pt0"
-        android:background="@color/white"
-        />
+        android:background="@color/white" />
 
     <RelativeLayout
         android:id="@+id/rl_top"
@@ -28,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="点赞"
+            android:text=""
             android:textColor="@color/textDarkGray"
             android:textSize="@dimen/text_title" />
 
@@ -64,6 +63,15 @@
 
     </RelativeLayout>
 
+    <include layout="@layout/media_article_title_item" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt5"
+        android:layout_marginTop="@dimen/pt15"
+        android:background="@color/bg_light"
+        android:visibility="gone" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -92,8 +100,10 @@
         </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
         <View
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_mask" />
+            android:background="@drawable/bg_mask"
+            android:visibility="gone" />
     </FrameLayout>
 </LinearLayout>

@@ -351,7 +351,7 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
                         frame_input.switchEditMode(false);
                         frame_input.clearInputEdit();
                         showKeyboard(false);
-                        onCommentClick();
+//                        onCommentClick();
                         ((MyBaseActivity) mContext).toast("发表成功");
                     } else {
                         ((MyBaseActivity) mContext).toast(iMsg.getMsg());
@@ -374,7 +374,7 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
         else
             isloading = true;
 
-        NetHelper.getInstance().mediaEvaluate(mediaArticle.articleId, isLike == 0 ? 1 : 0, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaEvaluate(mediaArticle.articleId, isLike == 0 ? 1 : 0,0, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 isloading = false;
@@ -401,6 +401,7 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
 //                            adapter.insert(mediaArticle.makeLiker(), finalPosition);
 //                            adapter.notifyItemChanged(finalPosition);
                             frame_input.notifyUpdate(mediaArticle);
+                            frame_input.setLikeAnima();
                             ((MyBaseActivity) mContext).toast("点赞成功");
                         } else {
                             mediaArticle.praiseNumber--;
@@ -456,6 +457,7 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
                         mediaArticle.isArticleKeep = isFavorite;
                         frame_input.notifyUpdate(mediaArticle);
                         if (isFavorite) {
+                            frame_input.setFavAnima();
                             ((MyBaseActivity) mContext).toast("收藏成功");
                         } else {
 

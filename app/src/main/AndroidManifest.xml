@@ -98,8 +98,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/WelcomeEntranceActionBarTheme1">
 
-
         </activity>
+        <activity
+            android:name=".ui.DevelopingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ui.home.HomeMainActivity"
             android:screenOrientation="portrait"
@@ -123,8 +126,7 @@
         <activity
             android:name=".ui.home.CommentListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Swipe.Back"
-            android:windowSoftInputMode="adjustPan" />
+            android:theme="@style/Theme.Swipe.Back" />
         <activity
             android:name=".ui.home.MediaComplaintActivity"
             android:screenOrientation="portrait"
@@ -151,6 +153,10 @@
             android:theme="@style/Theme.Swipe.Back" />
         <activity
             android:name=".ui.home.FavoriteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Swipe.Back" />
+        <activity
+            android:name=".ui.home.scan.ActivityScanerCode"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Swipe.Back" />
         <activity
@@ -282,11 +288,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.google.zxing.demoscaner.WeChatCaptureActivity"
+            android:name=".ui.mine.MineCommentActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBarBlack" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.google.zxing.demoscaner.QrCodeActivity"
+            android:name="com.google.zxing1.demoscaner.WeChatCaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.google.zxing1.demoscaner.QrCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBarBlack" />
         <activity

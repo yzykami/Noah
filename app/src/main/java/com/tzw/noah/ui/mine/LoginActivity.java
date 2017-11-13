@@ -3,13 +3,11 @@ package com.tzw.noah.ui.mine;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
-import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,7 +17,6 @@ import android.widget.Toast;
 import com.netease.nim.demo.DemoCache;
 import com.netease.nim.demo.config.preference.Preferences;
 import com.netease.nim.demo.config.preference.UserPreferences;
-import com.netease.nim.demo.main.activity.MainActivity;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
 import com.netease.nim.uikit.common.util.log.LogUtil;
@@ -28,29 +25,32 @@ import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
-import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.tzw.noah.R;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.SnsDBManager;
 import com.tzw.noah.init.DBInit;
 import com.tzw.noah.init.NimInit;
+import com.tzw.noah.logger.Log;
+import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.Param;
+import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.utils.DeviceUuidFactory;
 import com.tzw.noah.utils.Utils;
+import com.tzw.noah.utils.VCodeCountDownTimer;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import me.xiaopan.sketch.request.DisplayOptions;
-import me.xiaopan.sketch.shaper.CircleImageShaper;
-import me.xiaopan.sketch.shaper.RoundRectImageShaper;
-import me.xiaopan.sketchsample.ImageOptions;
-import me.xiaopan.sketchsample.bean.Image;
 import me.xiaopan.sketchsample.widget.SampleImageView;
+import okhttp3.Call;
 
 /**
  * Created by yzy on 2017/6/9.
@@ -60,7 +60,7 @@ public class LoginActivity extends MyBaseActivity {
 
     public static int succeed = 1;
     String TAG = "LoginActivity";
-    LoginActivity mycontext = LoginActivity.this;
+    LoginActivity mContext = LoginActivity.this;
     String outData = "";
 
 
@@ -90,6 +90,7 @@ public class LoginActivity extends MyBaseActivity {
         setContentView(R.layout.mine_login);
         initdata();
         findview();
+        runCountDown();
         initview();
 //        et_username.setText("15858652110");
 //        et_pwd.setText("123456");
@@ -155,7 +156,7 @@ public class LoginActivity extends MyBaseActivity {
         tv_regsit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mycontext, RegisterActivity.class);
+                Intent intent = new Intent(mContext, RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -167,7 +168,7 @@ public class LoginActivity extends MyBaseActivity {
                     secretCode++;
                 else if (secretCode == 2) {
                     et_username.setText("15858652110");
-                    et_pwd.setText("123456");
+                    et_pwd.setText("123123");
                     handle_submit(null);
                 } else secretCode = 0;
             }
@@ -195,6 +196,55 @@ public class LoginActivity extends MyBaseActivity {
                     iv_seepwd.setImageResource(R.drawable.mine_login_notseepwd);
                     et_pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     et_pwd.setSelection(et_pwd.getText().toString().length());
+                }
+            }
+        });
+
+        tv_getcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (VCodeCountDownTimer.getInstance().isClickable()) {
+                    doGetVCode();
+                }
+            }
+        });
+    }
+
+    private void startCountDown() {
+        VCodeCountDownTimer.getInstance().start(tv_getcode);
+    }
+
+    private void runCountDown() {
+        VCodeCountDownTimer.getInstance().run(tv_getcode);
+    }
+
+    private void doGetVCode() {
+        if (!Utils.isMobileNO(et_username.getText().toString())) {
+            toast("请输入正确的手机号！");
+            return;
+        }
+
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("phone", et_username.getText().toString()));
+        body.add(new Param("type", "safety"));
+        body.add(new Param("clientCode", new DeviceUuidFactory(this).getDeviceUuidString()));
+        NetHelper.getInstance().smsSendCode(body, new StringDialogCallback(mContext) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                toast(mContext.getResources().getString(R.string.internet_fault));
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                try {
+                    if (iMsg.isSucceed()) {
+                        toast("验证码已发送");
+                        startCountDown();
+                    } else {
+                        toast(iMsg.getMsg());
+                    }
+                } catch (Exception e) {
+                    Log.log(TAG, e);
                 }
             }
         });
@@ -301,7 +351,7 @@ public class LoginActivity extends MyBaseActivity {
 
                 message.setData(bu);
 
-                mycontext.LoginResultHandler.sendMessage(message);
+                mContext.LoginResultHandler.sendMessage(message);
 
             } catch (Exception e) {
 
@@ -313,7 +363,7 @@ public class LoginActivity extends MyBaseActivity {
                 bu.putString("MESSAGE_DATA", getString(R.string.internet_fault));
                 message.setData(bu);
 
-                mycontext.LoginResultHandler.sendMessage(message);
+                mContext.LoginResultHandler.sendMessage(message);
             }
         }
     }
@@ -350,14 +400,14 @@ public class LoginActivity extends MyBaseActivity {
                         User user = User.load(iMsg);
                         UserCache.setUser(user);
                         new DBInit().snsInit();
-                        new SnsDBManager(mycontext).updateUser(user);
-                        NimInit.init(mycontext);
+                        new SnsDBManager(mContext).updateUser(user);
+                        NimInit.init(mContext);
                         //云信登录
                         //
                         nim_login(user.netEaseId + "", user.netEaseToken);
 
                         if (!outData.isEmpty()) {
-                            Intent intent = new Intent(mycontext, MineMainActivity.class);
+                            Intent intent = new Intent(mContext, MineMainActivity.class);
                             startActivity(intent);
                         }
 //                        setResult(LOGINSUCCEED);
@@ -423,15 +473,15 @@ public class LoginActivity extends MyBaseActivity {
             public void onFailed(int code) {
                 onLoginDone();
                 if (code == 302 || code == 404) {
-                    Toast.makeText(mycontext, com.netease.nim.demo.R.string.login_failed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, com.netease.nim.demo.R.string.login_failed, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(mycontext, "登录失败: " + code, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "登录失败: " + code, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onException(Throwable exception) {
-                Toast.makeText(mycontext, com.netease.nim.demo.R.string.login_exception, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, com.netease.nim.demo.R.string.login_exception, Toast.LENGTH_LONG).show();
                 onLoginDone();
             }
         });

@@ -135,6 +135,8 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
 
     private int lastScrollX = 0;
 
+    private Context mContext;
+
     private int tabBackgroundResId = R.drawable.psts_background_tab;
 //    private int tabBackgroundResId;
 
@@ -147,10 +149,12 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
 
     public AdvancedPagerSlidingTabStrip(Context context) {
         this(context, null);
+        mContext = context;
     }
 
     public AdvancedPagerSlidingTabStrip(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+        mContext = context;
     }
 
     public void setIndicatorWidth(int px) {
@@ -159,6 +163,7 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
 
     public AdvancedPagerSlidingTabStrip(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        mContext = context;
 
         setFillViewport(true);
         setWillNotDraw(false);
@@ -324,8 +329,14 @@ public class AdvancedPagerSlidingTabStrip extends HorizontalScrollView {
         RelativeLayout.LayoutParams txtParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        txtParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        txtParams.setMargins(tabPadding, 0, tabPadding, 0);
+        txtParams.addRule(RelativeLayout.CENTER_VERTICAL);
+//        if (position == 0) {
+//            final float scale = mContext.getResources().getDisplayMetrics().density;
+//            int padding = (int) (10 * scale + 0.5);
+//            txtParams.setMargins(padding, 0, tabPadding, 0);
+//        } else {
+            txtParams.setMargins(tabPadding, 0, tabPadding, 0);
+//        }
         if (pager.getAdapter() instanceof LayoutProvider) {
             LayoutProvider layoutProvider = (LayoutProvider) pager.getAdapter();
             for (Integer rule : layoutProvider.getPageRule(position)) {

@@ -778,7 +778,7 @@ public class SnsManager {
 
 
     ///////////////////////////////////////////////////////////////////
-    //////////////////////// 群组,多人会话接口  /////////////////////////////////
+    //////////////////////// 群聊,多人会话接口  /////////////////////////////////
     ///////////////////////////////////////////////////////////////////
 
 
@@ -928,37 +928,37 @@ public class SnsManager {
     }
 
 
-    //获取我的多人会话和群组信息通知
+    //获取我的多人会话和群聊信息通知
     //sns/groupNotification
     public void snsGroupNotification(Callback callback) {
         NetHelper.getInstance().snsGroupNotification(callback);
     }
 
-    //获取我的多人会话和群组信息通知
+    //获取我的多人会话和群聊信息通知
     //sns/relationRecords
     public void snsRelationRecords(Callback callback) {
         NetHelper.getInstance().snsRelationRecords(callback);
     }
 
-    //主动退出群（多人会话、群组）
+    //主动退出群（多人会话、群聊）
     //sns/quit/
     public void snsQuit(int groupId, Callback callback) {
         NetHelper.getInstance().snsQuit(groupId, callback);
     }
 
-    //移交群主（多人会话、群组）
+    //移交群主（多人会话、群聊）
     //sns/transfer/
     public void snsTransfer(int groupId, int memberNo, Callback callback) {
         NetHelper.getInstance().snsTransfer(groupId, memberNo, callback);
     }
 
-    //主动退出群（多人会话、群组）
+    //主动退出群（多人会话、群聊）
     //sns/dismiss/
     public void snsDismiss(int groupId, Callback callback) {
         NetHelper.getInstance().snsDismiss(groupId, callback);
     }
 
-    //获取群成员（多人会话、群组）
+    //获取群成员（多人会话、群聊）
     //sns/getMembers
     public void snsGetMembers(final int groupId, final Callback callback) {
 
@@ -1039,13 +1039,13 @@ public class SnsManager {
 //        NetHelper.getInstance().snsGetMembers(groupId, callback);
     }
 
-    //获取群组的类别
+    //获取群聊的类别
     //sns/groupType
     public void snsGroupType(Callback callback) {
         NetHelper.getInstance().snsGroupType(callback);
     }
 
-    //创建群组
+    //创建群聊
     //sns/createGroup
     public void snsCreateGroup(List<Param> body, Map<String, File> fileBody, Callback callback) {
         NetHelper.getInstance().snsCreateGroup2(body, fileBody, callback);
@@ -1069,7 +1069,7 @@ public class SnsManager {
         NetHelper.getInstance().snsUpdateNickToGroup(groupId, body, callback);
     }
 
-    //群组:添加管理员
+    //群聊:添加管理员
     //sns/addManagersToGroup
     public void snsAddManagersToGroup(int groupId, List<String> ids, Callback callback) {
         NetHelper.getInstance().snsAddManagersToGroup(groupId, ids, callback);
@@ -1105,7 +1105,7 @@ public class SnsManager {
         NetHelper.getInstance().snsHandleInviteWithGroup(body, callback);
     }
 
-    //群组设置(是否允许成员邀请、是否允许匿名聊天、加群验证方式)
+    //群聊设置(是否允许成员邀请、是否允许匿名聊天、加群验证方式)
     //sns/settingOfGroup
     public void snsSettingOfGroup(int groupId, List<Param> body, Callback callback) {
         NetHelper.getInstance().snsSettingOfGroup(groupId, body, callback);
@@ -1122,13 +1122,13 @@ public class SnsManager {
         NetHelper.getInstance().snsSearchUser(key, callback);
     }
 
-    // 群组搜索
+    // 群聊搜索
     //sns/findGroup
     public void snsFindGroup(String key, Callback callback) {
         NetHelper.getInstance().snsFindGroup(key, callback);
     }
 
-    // 群组消息免打扰
+    // 群聊消息免打扰
     //sns/settingOfMyGroup
     public void snsSettingOfMyGroup(int groupId, int isGet, Callback callback) {
         NetHelper.getInstance().snsSettingOfMyGroup(groupId, isGet, callback);

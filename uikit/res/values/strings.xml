@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- common -->
     <string name="empty"></string>
@@ -33,7 +33,7 @@
     <string name="delete_has_blank">删 除</string>
     <string name="voice_to_text">转文字</string>
     <string name="forward_to_person">转发到个人</string>
-    <string name="forward_to_team">转发到群组</string>
+    <string name="forward_to_team">转发到群聊</string>
     <string name="withdrawn_msg">撤 回</string>
     <string name="save">保存</string>
     <string name="main_msg_list_delete_chatting">删除该聊天</string>
@@ -42,7 +42,7 @@
     <string name="save_to_device">保存到手机</string>
     <string name="picture_save_fail">图片保存失败</string>
     <string name="picture_save_to">图片已保存到手机</string>
-    <string name="search_join_team">搜索加入群组</string>
+    <string name="search_join_team">搜索加入群聊</string>
     <string name="file_transfer_state_downloaded">已下载</string>
     <string name="file_transfer_state_undownload">未下载</string>
     <string name="trans_voice_failed">语音转化失败</string>
@@ -115,7 +115,7 @@
     <string name="no_permission">没有权限</string>
     <string name="set_team_admin">设为管理员</string>
     <string name="cancel_team_admin">取消管理员</string>
-    <string name="team_member_remove_confirm">确定要将其移出群组么?</string>
+    <string name="team_member_remove_confirm">确定要将其移出群聊么?</string>
     <string name="team_annourcement">群公告</string>
     <string name="invite_member">邀请成员</string>
     <string name="team_name">群名称</string>

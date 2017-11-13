@@ -1,43 +1,59 @@
 package com.tzw.noah.ui.adapter.itemfactory.mediaitem;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.UnderlineSpan;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tzw.noah.R;
+import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.MediaComment;
-import com.tzw.noah.ui.sns.personal.PersonalActivity;
+import com.tzw.noah.net.IMsg;
+import com.tzw.noah.net.NetHelper;
+import com.tzw.noah.net.StringDialogCallback;
+import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.utils.Utils;
+import com.tzw.noah.widgets.MTextView;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
 import me.xiaopan.sketchsample.adapter.BindAssemblyRecyclerItem;
 import me.xiaopan.sketchsample.widget.SampleImageViewHead;
+import okhttp3.Call;
 
 public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFactory<MediaArticleDatailCommentItemFactory.ChatListItem> {
 
 
     private MediaArticleDetailListener onImageClickListener;
     private int itemSize;
+    MyBaseActivity mActivity;
 
     public MediaArticleDatailCommentItemFactory(MediaArticleDetailListener onImageClickListener) {
         this.onImageClickListener = onImageClickListener;
+        mActivity = (MyBaseActivity) onImageClickListener;
     }
 
     @Override
@@ -56,6 +72,10 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
 
 
     public class ChatListItem extends BindAssemblyRecyclerItem<MediaComment> {
+        @BindView(R.id.container)
+        RelativeLayout container;
+        @BindView(R.id.rl_comment)
+        RelativeLayout rl_comment;
         @BindView(R.id.iv_head)
         SampleImageViewHead imageView;
         @BindView(R.id.tv_name)
@@ -72,6 +92,8 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
         TextView tvCommentReply3;
         @BindView(R.id.tv_seeall)
         TextView tvSeeall;
+        @BindView(R.id.v_space)
+        View vSpace;
         @BindView(R.id.ll_reply)
         LinearLayout llReply;
         @BindView(R.id.ll_comment)
@@ -82,17 +104,29 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
         LinearLayout llReplyCount;
         @BindView(R.id.tv_comment_count)
         TextView tvCommentCount;
+
+        @BindView(R.id.iv_like)
+        ImageView ivLike;
+        @BindView(R.id.tv_like_count)
+        TextView tvLikeCount;
+        //        @BindView(R.id.tv_plus1)
+//        TextView tvPlus1;
+        @BindView(R.id.ll_like_count)
+        LinearLayout llLikeCount;
+
         private Context mContext;
+        FrameLayout baseView;
 
         public ChatListItem(int itemLayoutId, ViewGroup parent) {
             super(itemLayoutId, parent);
 
+            baseView = (FrameLayout) mActivity.findViewById(android.R.id.content);
         }
 
         @Override
         protected void onConfigViews(Context context) {
             mContext = context;
-            MediaComment mc = getData();
+
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -101,7 +135,31 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
                     }
                 }
             });
-            llComment.setOnClickListener(new View.OnClickListener() {
+            tvName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onImageClickListener != null) {
+                        onImageClickListener.onItemClick(getAdapterPosition(), getData());
+                    }
+                }
+            });
+            tvCommnet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onImageClickListener != null) {
+                        onImageClickListener.onCommentClick(getAdapterPosition(), getData());
+                    }
+                }
+            });
+            llReplyCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onImageClickListener != null) {
+                        onImageClickListener.onCommentClick(getAdapterPosition(), getData());
+                    }
+                }
+            });
+            tvSeeall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onImageClickListener != null) {
@@ -110,24 +168,59 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
                 }
             });
 
+            llLikeCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    if (onImageClickListener != null) {
+//                        onImageClickListener.onCommentLikeClick(getAdapterPosition(), getData());
+//                    }
+                    CommentLikeClick(getAdapterPosition(), getData());
+                }
+            });
         }
 
         @Override
-        protected void onSetData(int index, MediaComment mc) {
+        protected void onSetData(int index, final MediaComment mc) {
 //            imageView.setNum(i);
-
-            List<MediaComment> replys = mc.sonList();
+            int tag = imageView.getTag() == null ? 0 : (int) imageView.getTag();
+//            Log.log("abc", "tag = " + tag + "," + mc.memberNickName + " " + mc.commentContent + " " + mc.isArticleEvaluate + " " + tvName.getText() + " " + tvCommnet.getText() + " " + tvLikeCount.getText());
+            final List<MediaComment> replys = mc.sonList();
 //            mc.repliesNumber = replys.size();
 
             imageView.displayImage(mc.memberHeadPic);
+            imageView.setTag(mc.articleCommentId);
             tvName.setText(mc.memberNickName);
             tvCommnet.setText(trim(mc.commentContent));
             tvTime.setText(Utils.getStandardDate(mc.createTime));
             tvCommentCount.setText(mc.repliesNumber + "");
+            tvLikeCount.setText(mc.praiseNumber + "");
+
+            if (mc.isArticleEvaluate == 1) {
+                ivLike.setImageResource(R.drawable.media_comment_like_ed);
+                tvLikeCount.setTextColor(mContext.getResources().getColor(R.color.myRed));
+            } else {
+                ivLike.setImageResource(R.drawable.media_comment_like);
+                tvLikeCount.setTextColor(mContext.getResources().getColor(R.color.textLightGray));
+            }
 
             if (mc.isCommentDetail) {
                 tvCommnet.setMaxLines(256);
                 llReply.setVisibility(View.GONE);
+                if (mc.isTopCommentDetail) {
+                    container.setBackgroundResource(R.color.white);
+                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) rl_comment.getLayoutParams();
+                    int bj = mContext.getResources().getDimensionPixelSize(R.dimen.bj);
+                    int pt25 = mContext.getResources().getDimensionPixelSize(R.dimen.pt25);
+                    lp.setMargins(bj, pt25, bj, pt25);
+                    rl_comment.setLayoutParams(lp);
+                } else {
+                    container.setBackgroundResource(R.color.transparent);
+                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) rl_comment.getLayoutParams();
+                    int bj = mContext.getResources().getDimensionPixelSize(R.dimen.bj);
+                    int pt25 = mContext.getResources().getDimensionPixelSize(R.dimen.pt25);
+                    lp.setMargins(bj, bj, bj, 0);
+                    rl_comment.setLayoutParams(lp);
+                }
                 return;
             }
 
@@ -135,26 +228,33 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
                 llReply.setVisibility(View.GONE);
             } else {
                 llReply.setVisibility(View.VISIBLE);
-                for (int i = 0; i < llReply.getChildCount(); i++) {
+                for (int i = 0; i < llReply.getChildCount() && i < 3; i++) {
                     TextView tv = (TextView) llReply.getChildAt(i);
                     if (i > replys.size() - 1) {
                         tv.setVisibility(View.GONE);
                     } else {
                         tv.setVisibility(View.VISIBLE);
-                        tv.setText(getClickableSpan(0, replys.get(i).memberNickName.length(), replys.get(i).memberNickName + ":   " + trim(replys.get(i).commentContent)));
+                        if (tv instanceof MTextView)
+                            ((MTextView) tv).setMText(getClickableSpan(0, replys.get(i).memberNickName.length(), replys.get(i).memberNickName + ":   " + trim(replys.get(i).commentContent), replys.get(i)));
+                        else
+                            tv.setText(getClickableSpan(0, replys.get(i).memberNickName.length(), replys.get(i).memberNickName + ":   " + trim(replys.get(i).commentContent), replys.get(i)));
                         tv.setMovementMethod(LinkMovementMethod.getInstance());
 //                        tv.setText(replys.get(i).memberNickName + ":   " +replys.get(i).commentContent);
                     }
                 }
-            }
-            if (mc.repliesNumber >= 3) {
-                tvSeeall.setVisibility(View.VISIBLE);
-                tvSeeall.setText("查看全部" + mc.repliesNumber + "条回复");
+                if (mc.repliesNumber > 3) {
+                    tvSeeall.setText("查看全部" + mc.repliesNumber + "条回复");
+                    tvSeeall.setVisibility(View.VISIBLE);
+                    vSpace.setVisibility(View.GONE);
+                } else {
+                    tvSeeall.setVisibility(View.GONE);
+                    vSpace.setVisibility(View.VISIBLE);
+                }
             }
         }
 
 
-        private SpannableString getClickableSpan(final int start, final int end, final String str) {
+        private SpannableString getClickableSpan(final int start, final int end, final String str, final MediaComment mediaComment) {
             SpannableString spannableString = new SpannableString(str);
             //设置下划线文字
 //            spannableString.setSpan(new UnderlineSpan(), 16, 20, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -163,7 +263,16 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
             spannableString.setSpan(new MyClickableSpan() {
                 @Override
                 public void onClick(View widget) {
-                    Toast.makeText(mContext, str.substring(start, end), Toast.LENGTH_SHORT).show();
+                    if (widget != null) {
+                        if (onImageClickListener != null) {
+                            onImageClickListener.onItemClick(0, mediaComment);
+                        }
+                    } else {
+                        if (onImageClickListener != null) {
+                            onImageClickListener.onCommentClick(getAdapterPosition(), getData());
+                        }
+                    }
+//                    Toast.makeText(mContext, str.substring(start, end), Toast.LENGTH_SHORT).show();
                 }
             }, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             //设置文字的前景色
@@ -196,7 +305,101 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
 //                bundle.putString("content", content);
 //                intent.putExtra("bundle", bundle);
 //                mContext.startActivity(intent);
+//                Toast.makeText(mContext, content, Toast.LENGTH_SHORT).show();
             }
+        }
+
+        public void CommentLikeClick(final int position, final MediaComment mc) {
+            if (!mActivity.makesureLogin()) {
+                return;
+            }
+//        if(isLike==1)
+//            return;
+
+            NetHelper.getInstance().mediaEvaluate(mc.webArticleId, mc.isArticleEvaluate == 0 ? 1 : 0, mc.articleCommentId, new StringDialogCallback(mContext, 500) {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    ((MyBaseActivity) mContext).toast(mContext.getResources().getString(R.string.internet_fault));
+                }
+
+                @Override
+                public void onResponse(IMsg iMsg) {
+                    try {
+                        if (iMsg.isSucceed() || iMsg.getCode() == 1204) {
+                            int isLike = mc.isArticleEvaluate;
+                            isLike = isLike == 0 ? 1 : 0;
+                            if (iMsg.getCode() == 0) {
+                                if (isLike == 1) {
+                                    mc.praiseNumber++;
+                                } else {
+                                    mc.praiseNumber--;
+                                    if (mc.praiseNumber < 0)
+                                        mc.praiseNumber = 0;
+                                }
+                            }
+
+                            mc.isArticleEvaluate = isLike;
+                            tvLikeCount.setText(mc.praiseNumber + "");
+
+                            if (mc.isArticleEvaluate == 1) {
+                                ivLike.setImageResource(R.drawable.media_comment_like_ed);
+                                tvLikeCount.setTextColor(mContext.getResources().getColor(R.color.myRed));
+                                Animation anima = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0.5f);
+                                anima.setDuration(300);
+                                anima.setInterpolator(new LinearInterpolator());
+//                                tvLikeCount.setAnimation(anima);
+                                tvLikeCount.startAnimation(anima);
+                                Animation anima2 = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                                anima2.setDuration(300);
+                                anima2.setInterpolator(new LinearInterpolator());
+                                ivLike.startAnimation(anima2);
+
+                                int[] size = new int[2];
+                                ivLike.getLocationInWindow(size);
+                                final TextView tvp1 = new TextView(mContext);
+                                tvp1.setText("+1");
+                                tvp1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9);
+                                tvp1.setTextColor(mContext.getResources().getColor(R.color.myRed));
+                                tvp1.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT));
+                                baseView.addView(tvp1);
+                                TextPaint textPaint = tvp1.getPaint();
+                                float textPaintWidth = textPaint.measureText("+1");
+                                size[0]+=ivLike.getWidth()/2-textPaintWidth/2;
+                                size[1]-=18;
+//        tvp1.layout(size[0] - ivWidth / 2, size[1], size[0] + ivWidth / 2, size[1] + tvp1.getHeight());
+//                                Animation anima3 = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0f, Animation.RELATIVE_TO_PARENT, 0f, Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0f);
+                                AnimatorSet animatorSetGroup1 = new AnimatorSet();
+                                ObjectAnimator objectAnimatorScaleX1 = ObjectAnimator.ofFloat(tvp1, "scaleX", 0f, 1f);
+                                ObjectAnimator objectAnimatorScaleY1 = ObjectAnimator.ofFloat(tvp1, "scaleY", 0f, 1f);
+                                ObjectAnimator objectAnimatorRotateX1 = ObjectAnimator.ofFloat(tvp1, "translationY", size[1] - 0, size[1] - 20f);
+                                ObjectAnimator objectAnimatorRotateY1 = ObjectAnimator.ofFloat(tvp1, "translationX", size[0], size[0]);
+                                animatorSetGroup1
+                                        .play(objectAnimatorRotateX1)
+                                        .with(objectAnimatorRotateY1);
+//                                        .with(objectAnimatorScaleX1)
+//                                        .with(objectAnimatorScaleY1);
+                                animatorSetGroup1.setDuration(1000);
+                                animatorSetGroup1.start();
+
+                                tvp1.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        baseView.removeView(tvp1);
+                                    }
+                                }, 1200);
+
+                            } else {
+                                ivLike.setImageResource(R.drawable.media_comment_like);
+                                tvLikeCount.setTextColor(mContext.getResources().getColor(R.color.textLightGray));
+                            }
+                        } else {
+                            ((MyBaseActivity) mContext).toast(iMsg.getMsg());
+                        }
+                    } catch (Exception e) {
+                        Log.log("CommentLikeClick", e);
+                    }
+                }
+            });
         }
     }
 
@@ -208,4 +411,6 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
             s = s.replace("\n", "");
         return s;
     }
+
+
 }

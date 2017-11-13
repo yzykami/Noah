@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'tzw'
+            keyPassword 'Tz89058888'
+            storeFile file('C:/Users/sysadmin/AndroidStudioProjects/tzw.jks')
+            storePassword 'Tz89058888'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
@@ -13,15 +21,25 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
-
         ndk {
-            abiFilters "arm64-v8a", "armeabi-v7a", "x86", "x86_64"
+            abiFilters "arm64-v8a", "armeabi-v7a", "x86"
+            // , "x86_64"
         }
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             manifestPlaceholders = [AMAP_KEY: "09fd4efd3e28e9bf1f449ecec7d34bfe"]
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            jniDebuggable false
+            signingConfig signingConfigs.config
+            renderscriptDebuggable false
+            zipAlignEnabled true
+        }
+        debug {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -31,6 +49,14 @@ android {
 //            res.srcDirs = ['.\src\main\res', 'res-zxing']
             main.res.srcDirs += ['src/main/res-zxing']
         }
+    }
+    productFlavors {
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
     }
 }
 
@@ -51,7 +77,8 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.github.hijesse:android-logger:2.0.0'
-    compile 'in.srain.cube:ultra-ptr:1.0.11'
+    compile(name:'ptr-lib', ext:'aar')
+//    compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'me.xiaopan:sketch:2.4.1'
     compile 'me.xiaopan:sketch-gif:2.4.1'
     compile 'me.xiaopan:pagerslidingtabstrip:1.6.0'
@@ -67,4 +94,5 @@ dependencies {
     compile 'cn.lankton:flowlayout:1.0.1'
     compile 'org.jsoup:jsoup:1.10.3'
     compile 'com.shuyu:GSYVideoPlayer:2.0.8'
+    compile 'com.github.vondear:RxTools:v1.7.6.2'
 }

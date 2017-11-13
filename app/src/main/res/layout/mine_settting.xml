@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_light">
@@ -47,7 +48,7 @@
             android:id="@+id/rl6"
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt12"
+            android:layout_marginTop="@dimen/pt10"
             android:onClick="handle_personalsetting"
             android:background="@color/white">
 
@@ -73,7 +74,7 @@
             android:id="@+id/rl"
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt15"
+            android:layout_marginTop="@dimen/pt10"
             android:onClick="handle_devicesafe"
             android:background="@color/white">
 
@@ -97,7 +98,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt15"
+            android:layout_marginTop="@dimen/pt10"
             android:onClick="handle_commonsetting"
             android:background="@color/white">
 
@@ -139,6 +140,48 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
                 android:text="关于"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_debug"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pt1"
+            android:background="@color/white"
+            android:clickable="true"
+            android:onClick="handle_dev"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/bj"
+                android:src="@drawable/mine_arrow_gray" />
+
+            <ImageView
+                android:id="@+id/iv_rl6"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignBottom="@+id/tv_rl6"
+                android:layout_alignTop="@+id/tv_rl6"
+                android:layout_marginLeft="@dimen/bj"
+                android:gravity="center"
+                android:src="@drawable/mine_develop"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_rl6"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/iv_rl6"
+                android:paddingTop="15dip"
+                android:paddingBottom="15dip"
+                android:layout_marginLeft="10dip"
+                android:text="调试工具"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>

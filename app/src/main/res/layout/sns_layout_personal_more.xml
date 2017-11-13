@@ -118,6 +118,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
                     android:onClick="handle_star"
+                    android:scaleType="fitEnd"
                     android:src="@drawable/btn1_selected" />
 
                 <TextView
@@ -200,6 +201,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/bj"
                     android:onClick="handle_black"
+                    android:scaleType="fitEnd"
                     android:src="@drawable/btn1_selected" />
 
                 <TextView

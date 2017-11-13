@@ -131,6 +131,14 @@ public class NetHelper {
         return imsg;
     }
 
+    public IMsg setDeviceId(String deviceId) {
+        String method = "base/deviceNo";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("clientCode", deviceId));
+        IMsg imsg = new WIRequest().Post(method, body);
+        return imsg;
+    }
+
     //检查设备ID是否已经上传到服务器，已上传返回true，未上传则更新，更新成功返回true，网络或者其他问题返回false
     public IMsg checkDeviceId() {
         Context context = AppContext.getContext();
@@ -146,6 +154,14 @@ public class NetHelper {
         return iMsg;
     }
 
+    //发送验证码
+    //sms/sendCode
+    //1、safety:会员的动态登录；2、register:会员注册；3、forgot:会员找回密码 4、changePhone:更换绑定手机
+    public void smsSendCode(List<Param> body, Callback callback) {
+        String method = "sms/sendCode";
+        String bodyName = "smsCodeSObj";
+        new WIRequest().Post(method, body, bodyName, callback);
+    }
     //注册
     //member/register
     public void memberRegister(List<Param> body, Callback callback) {
@@ -266,7 +282,14 @@ public class NetHelper {
         new WIRequest().Post(method, null, callback);
     }
 
-    //user/details
+    //user/phone
+    public void setUserPhone(List<Param> body, Callback callback) {
+        String method = "user/phone";
+        String bodyName = "phoneSObj";
+        new WIRequest().Put(method, body, bodyName, callback);
+    }
+
+    //user/infoSObj
     public void setUserInfo(List<Param> body, Callback callback) {
         String method = "user/info";
         String bodyName = "infoSObj";
@@ -492,7 +515,7 @@ public class NetHelper {
         new WIRequest().Put(method, body, callback);
     }
 
-    //获取群成员（多人会话、群组）
+    //获取群成员（多人会话、群聊）
     //sns/getMembers
     public void snsGetMembers(int groupId, Callback callback) {
         String method = "sns/getMembers?groupId=" + groupId;
@@ -500,14 +523,14 @@ public class NetHelper {
     }
 
 
-    //主动退出群（多人会话、群组）
+    //主动退出群（多人会话、群聊）
     //sns/quit/
     public void snsQuit(int groupId, Callback callback) {
         String method = "sns/quit/" + groupId;
         new WIRequest().Put(method, null, callback);
     }
 
-    //移交群主（多人会话、群组）
+    //移交群主（多人会话、群聊）
     //sns/transfer/
     public void snsTransfer(int groupId, int memberNo, Callback callback) {
         List<Param> body = Param.makeSingleParam("memberId", memberNo);
@@ -530,7 +553,7 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
-    //获取我的多人会话和群组信息通知
+    //获取我的多人会话和群聊信息通知
     //sns/groupNotification
     public void snsGroupNotification(Callback callback) {
         String method = "sns/groupNotification";
@@ -544,14 +567,14 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
-    //主动退出群（多人会话、群组）
+    //主动退出群（多人会话、群聊）
     //sns/dismiss/
     public void snsDismiss(int groupId, Callback callback) {
         String method = "sns/dismiss/" + groupId;
         new WIRequest().Put(method, null, callback);
     }
 
-    //获取群组的类别
+    //获取群聊的类别
     //sns/groupType
     public void snsGroupType(Callback callback) {
         String method = "sns/groupType";
@@ -611,7 +634,7 @@ public class NetHelper {
         new WIRequest().Put(method, body, bodyName, callback);
     }
 
-    //群组:添加管理员
+    //群聊:添加管理员
     //sns/addManagersToGroup
     public void snsAddManagersToGroup(int groupId, List<String> ids, Callback callback) {
         List<Param> body = new ArrayList<>();
@@ -674,7 +697,7 @@ public class NetHelper {
         new WIRequest().Put(method, body, bodyName, callback);
     }
 
-    //群组设置(是否允许成员邀请、是否允许匿名聊天、加群验证方式)
+    //群聊设置(是否允许成员邀请、是否允许匿名聊天、加群验证方式)
     //sns/settingOfGroup
     public void snsSettingOfGroup(int groupId, List<Param> body, Callback callback) {
         String method = "sns/settingOfGroup/" + groupId;
@@ -689,7 +712,7 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
-    //更新多人会话和群组头像
+    //更新多人会话和群聊头像
     //sns/uploadIconToGroup
     public void snsUploadIconToGroup(int groupId, Map<String, File> fileBody, Callback callback) {
         String method = "sns/uploadIconToGroup/" + groupId;
@@ -705,7 +728,7 @@ public class NetHelper {
         new WIRequest().Post(method, body, callback);
     }
 
-    // 群组搜索
+    // 群聊搜索
     //sns/findGroup
     public void snsFindGroup(String key, Callback callback) {
         String method = "sns/findGroup";
@@ -714,7 +737,7 @@ public class NetHelper {
         new WIRequest().Post(method, body, callback);
     }
 
-    // 群组消息免打扰
+    // 群聊消息免打扰
     //sns/settingOfMyGroup
     public void snsSettingOfMyGroup(int groupId, int isGet, Callback callback) {
         String method = "sns/settingOfMyGroup/" + groupId;
@@ -757,11 +780,13 @@ public class NetHelper {
 
     // 文章点赞
     //media/evaluate
-    public void mediaEvaluate(int articleId, int evaluteValue, Callback callback) {
+    public void mediaEvaluate(int articleId, int evaluteValue, int articleCommentId, Callback callback) {
         String method = "media/evaluate";
         List<Param> body = new ArrayList<>();
         body.add(new Param("articleId", articleId));
         body.add(new Param("evaluateValue", evaluteValue));
+        if (articleCommentId != 0)
+            body.add(new Param("articleCommentId", articleCommentId));
         String bodyName = "evaluateSObj";
         new WIRequest().Post(method, body, bodyName, callback);
     }
@@ -785,7 +810,7 @@ public class NetHelper {
         body.add(new Param("articleId", articleId));
         body.add(new Param("commentContent", commentContent));
         if (commentId != 0)
-            body.add(new Param("beArticleCommentId", commentId));
+            body.add(new Param("articleCommentPid", commentId));
         String bodyName = "articleCommentSObj";
         new WIRequest().Post(method, body, bodyName, callback);
     }
@@ -880,28 +905,28 @@ public class NetHelper {
     }
 
 
-    //获取评论列表
+    //获取关键词列表
     //media/articleListByKeyword/{$keywordId}/{$articleId}/{$pagesize}
     public void mediaKeywordList(int keywordId, int articleId, int pagesize, Callback callback) {
         String method = "media/articleListByKeyword/" + keywordId + "/" + articleId + "/" + pagesize;
         new WIRequest().Get(method, callback);
     }
 
-    //获取评论列表
+    //获取我的收藏列表
     //media/ collectionList/{$userKeepArticleId }/{$pagesize}
     public void mediaFavoriteList(int articleId, int pagesize, Callback callback) {
         String method = "media/collectionList/" + articleId + "/" + pagesize;
         new WIRequest().Get(method, callback);
     }
 
-    //获取评论列表
+    //获取我的收藏列表
     //mix/collectionList/{$infoType}/{$userKeepArticleId }/{$pagesize}
     public void mediaMixFavoriteList(int infoType, int articleId, int pagesize, Callback callback) {
         String method = "mix/collectionList/" + infoType + "/" + articleId + "/" + pagesize;
         new WIRequest().Get(method, callback);
     }
 
-    // 文章收藏
+    // 收藏文章
     //mix/saveToFavorite
     public void mediaMixFavorite(int infoType, String articleId, int status, Callback callback) {
         String method = "mix/saveToFavorite";
@@ -912,4 +937,20 @@ public class NetHelper {
         String bodyName = "favoriteSObj";
         new WIRequest().Post(method, body, bodyName, callback);
     }
+
+    //获取我的评论列表
+    //mix/commentsList/{$infoType}/{$userKeepArticleId }/{$pagesize}
+    public void mediaMixCommentsList(int infoType, int memberReadId, int pagesize, Callback callback) {
+        String method = "mix/commentsList/" + infoType + "/" + memberReadId + "/" + pagesize;
+        new WIRequest().Get(method, callback);
+    }
+
+    //获取我的评论列表
+    //mix/commentsList/{$infoType}/{$userKeepArticleId }/{$pagesize}
+    public void mediaMixRevertList(int infoType, int memberReadId, int pagesize, Callback callback) {
+        String method = "mix/revertList/" + infoType + "/" + memberReadId + "/" + pagesize;
+        new WIRequest().Get(method, callback);
+    }
+
+
 }

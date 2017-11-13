@@ -47,7 +47,7 @@
             android:id="@+id/rl_username"
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt12"
+            android:layout_marginTop="@dimen/pt10"
             android:background="@color/white">
 
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_marginLeft="@dimen/bj"
                 android:text="会员号"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp15" />
 
 
             <TextView
@@ -70,7 +70,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/bj"
                 android:text="12345678"
-                android:textColor="@color/textDarkGray"
+                android:textColor="@color/textLightGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>
 
@@ -78,18 +78,19 @@
             android:id="@+id/rl_nickname"
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt12"
+            android:layout_marginTop="@dimen/pt10"
             android:background="@color/white"
             android:onClick="handle_nickname">
 
             <TextView
+                android:id="@+id/tvnick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
                 android:text="昵称"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp15" />
 
 
             <ImageView
@@ -108,8 +109,12 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/pt10"
                 android:layout_toLeftOf="@+id/iv_nickname"
+                android:layout_toRightOf="@+id/tvnick"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:gravity="right"
                 android:text="请输入您的昵称"
-                android:textColor="@color/textDarkGray"
+                android:textColor="@color/textLightGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>
 
@@ -128,7 +133,7 @@
                 android:layout_marginLeft="@dimen/bj"
                 android:text="生日"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp15" />
 
 
             <ImageView
@@ -148,7 +153,7 @@
                 android:layout_marginRight="@dimen/pt10"
                 android:layout_toLeftOf="@+id/iv_birth"
                 android:text="点击添加生日"
-                android:textColor="@color/textDarkGray"
+                android:textColor="@color/textLightGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>
 
@@ -167,7 +172,7 @@
                 android:layout_marginLeft="@dimen/bj"
                 android:text="性别"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp15" />
 
 
             <ImageView
@@ -187,7 +192,7 @@
                 android:layout_marginRight="@dimen/pt10"
                 android:layout_toLeftOf="@+id/iv_sex"
                 android:text="未填写"
-                android:textColor="@color/textDarkGray"
+                android:textColor="@color/textLightGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>
 
@@ -206,7 +211,7 @@
                 android:layout_marginLeft="@dimen/bj"
                 android:text="地区"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp15" />
 
 
             <ImageView
@@ -227,7 +232,7 @@
                 android:layout_toLeftOf="@+id/iv_district"
                 android:maxLines="1"
                 android:text="浙江 台州"
-                android:textColor="@color/textDarkGray"
+                android:textColor="@color/textLightGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>
 
@@ -235,7 +240,7 @@
             android:id="@+id/rl_interest"
             android:layout_width="match_parent"
             android:layout_height="@dimen/columnHeight"
-            android:layout_marginTop="@dimen/pt12"
+            android:layout_marginTop="@dimen/pt10"
             android:background="@color/white"
             android:onClick="handle_interest">
 
@@ -247,7 +252,7 @@
                 android:layout_marginLeft="@dimen/bj"
                 android:text="兴趣"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp15" />
 
 
             <ImageView
@@ -271,7 +276,7 @@
                 android:gravity="right"
                 android:maxLines="1"
                 android:text="未填写"
-                android:textColor="@color/textDarkGray"
+                android:textColor="@color/textLightGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>
 
@@ -291,7 +296,7 @@
                 android:layout_marginLeft="@dimen/bj"
                 android:text="个性"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp15" />
 
 
             <ImageView
@@ -315,7 +320,7 @@
                 android:gravity="right"
                 android:maxLines="1"
                 android:text="未填写"
-                android:textColor="@color/textDarkGray"
+                android:textColor="@color/textLightGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>
 
@@ -335,7 +340,7 @@
                 android:layout_marginLeft="@dimen/bj"
                 android:text="职业"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp15" />
 
 
             <ImageView
@@ -359,7 +364,7 @@
                 android:gravity="right"
                 android:maxLines="1"
                 android:text="未填写"
-                android:textColor="@color/textDarkGray"
+                android:textColor="@color/textLightGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>
 
@@ -379,7 +384,7 @@
                 android:layout_marginLeft="@dimen/bj"
                 android:text="个性签名"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/sp14" />
+                android:textSize="@dimen/sp15" />
 
 
             <ImageView
@@ -400,10 +405,11 @@
                 android:layout_marginRight="@dimen/pt10"
                 android:layout_toLeftOf="@+id/iv_sign"
                 android:layout_toRightOf="@+id/tv_sign1"
+                android:ellipsize="end"
                 android:gravity="right"
                 android:maxLines="1"
                 android:text="未填写"
-                android:textColor="@color/textDarkGray"
+                android:textColor="@color/textLightGray"
                 android:textSize="@dimen/sp14" />
         </RelativeLayout>
 

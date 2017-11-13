@@ -4,7 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/transparent"
     android:orientation="vertical">
     <TextView
         android:id="@+id/tv_tag"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/bj"
-        android:layout_marginTop="@dimen/pt10"
+        android:layout_marginTop="@dimen/bj"
         android:text="全部评论"
         android:textColor="@color/textDarkGray"
         android:textSize="@dimen/sp14" />

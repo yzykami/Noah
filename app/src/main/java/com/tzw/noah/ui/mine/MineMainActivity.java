@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.demoscaner.WeChatCaptureActivity;
+import com.google.zxing1.demoscaner.WeChatCaptureActivity;
 import com.netease.nim.uikit.common.media.picker.PickImageHelper;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.tzw.noah.MainActivity;
@@ -18,6 +18,7 @@ import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.SnsDBManager;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.User;
+import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
@@ -26,6 +27,7 @@ import com.tzw.noah.ui.home.FavoriteActivity;
 import com.tzw.noah.ui.mine.setting.PersonalSettingActivity;
 import com.tzw.noah.ui.mine.setting.SettingActivity;
 import com.tzw.noah.ui.sns.friendlist.FriendListActivity;
+import com.tzw.noah.utils.StatusBarUtil;
 import com.tzw.noah.utils.Utils;
 
 import java.io.File;
@@ -52,12 +54,17 @@ public class MineMainActivity extends MyBaseActivity {
     private TextView tv_circle_num;
     private TextView tv_airtle_num;
     private TextView tv_reply_num;
+    private TextView tv_notice_count;
+    private TextView tv_growth;
+    private TextView tv_score;
     private User user;
     private SampleImageViewHead iv_head;
 
+    String imageHeadUrl = "";
     SessionCustomization customization = new SessionCustomization();
     private boolean isFirstLoad = true;
     static MineMainActivity instance;
+    boolean isOnResume = false;
 
     public static void reload() {
         if (instance != null)
@@ -69,7 +76,8 @@ public class MineMainActivity extends MyBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mine_main);
         instance = this;
-        setStatusBarLightMode();
+        StatusBarUtil.transparencyBar(this);
+        setStatusBarHeight();
         findview();
         initview();
         doWorking();
@@ -84,6 +92,9 @@ public class MineMainActivity extends MyBaseActivity {
         tv_circle_num = (TextView) findViewById(R.id.tv_circle_num);
         tv_airtle_num = (TextView) findViewById(R.id.tv_airtle_num);
         tv_reply_num = (TextView) findViewById(R.id.tv_reply_num);
+        tv_notice_count = (TextView) findViewById(R.id.tv_notice_count);
+        tv_growth = (TextView) findViewById(R.id.tv_growth);
+        tv_score = (TextView) findViewById(R.id.tv_score);
         iv_head = (SampleImageViewHead) findViewById(R.id.iv_head);
 
 
@@ -110,36 +121,55 @@ public class MineMainActivity extends MyBaseActivity {
         boolean islogin = isLogin();
         if (islogin) {
             tv_name.setText(user.memberNickName);
+            tv_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mycontext, PersonalSettingActivity.class);
+                    startActivity(intent);
+                }
+            });
             String sign = "";
             if (!user.memberIntroduce.isEmpty()) {
-                String s = user.memberIntroduce;
-                if (s.contains("\n"))
-                    s = s.split("\n")[0];
-                if (s.length() > 14)
-                    s = s.substring(0, 12) + "...";
-                sign += s + "| ";
+//                String s = user.memberIntroduce;
+//                if (s.contains("\n"))
+//                    s = s.split("\n")[0];
+//                if (s.length() > 14)
+//                    s = s.substring(0, 12) + "...";
+//                sign += s + "| ";
+                sign = user.memberIntroduce.replace("\r\n", "");
             }
-            sign += "积分 " + user.growth;
+//            sign += "积分 " + user.growth;
             tv_sign.setText(sign);
-            iv_head.displayImage(user.memberHeadPic);
+            if (!imageHeadUrl.equals(user.memberHeadPic)) {
+                iv_head.displayImage(user.memberHeadPic);
+                imageHeadUrl = user.memberHeadPic;
+            }
 //            ((CircleImageView)iv_head).setNum(99);
             tv_login.setVisibility(View.GONE);
             tv_friend_num.setText(user.friends + "");
             tv_group_num.setText(user.groups + "");
+            tv_growth.setText(user.growth + "");
+            tv_score.setText(user.totalScore + "");
+
         } else {
-            tv_login.setVisibility(View.VISIBLE);
-            tv_login.setOnClickListener(new View.OnClickListener() {
+//            tv_login.setVisibility(View.VISIBLE);
+            tv_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mycontext, LoginActivity.class);
                     startActivity(intent);
                 }
             });
-            tv_name.setText("未登录");
+            tv_name.setText("点击登录");
             tv_sign.setText("1秒登录，专享个性化服务");
-            iv_head.setImageResource(R.drawable.sns_user_default);
+            if (!imageHeadUrl.equals("")) {
+                imageHeadUrl = "";
+                iv_head.setImageResource(R.drawable.sns_user_default);
+            }
             tv_friend_num.setText("0");
             tv_group_num.setText("0");
+            tv_growth.setText("0");
+            tv_score.setText("0");
         }
     }
 
@@ -166,7 +196,7 @@ public class MineMainActivity extends MyBaseActivity {
     }
 
     public void handle_setting(View view) {
-        startActivity(SettingActivity.class);
+        startActivity2(SettingActivity.class);
     }
 
     public void handle_dev(View view) {
@@ -174,16 +204,16 @@ public class MineMainActivity extends MyBaseActivity {
     }
 
     public void handle_1(View view) {
-//        throw new RuntimeException(mycontext.toString()
+//        throw new RuntimeException(mContext.toString()
 //                + "测试异常1");
 
-        //Toast.makeText(mycontext, "该功能正在研发中...", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, "该功能正在研发中...", Toast.LENGTH_SHORT).show();
     }
 
     public void handle_2(View view) {
-//        throw new RuntimeException(mycontext.toString()
+//        throw new RuntimeException(mContext.toString()
 //                + "测试异常2");
-//        Toast.makeText(mycontext, "该功能正在研发中...", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, "该功能正在研发中...", Toast.LENGTH_SHORT).show();
     }
 
     public void handle_3(View view) {
@@ -194,16 +224,18 @@ public class MineMainActivity extends MyBaseActivity {
     protected void onResume() {
         super.onResume();
         Log.log(TAG, "onResume");
-        initview();
+        isOnResume = true;
         if (isLogin())
 //            if (isFirstLoad) {
 //                isFirstLoad = false;
             fetchUserDetails();
 //            }
+        else
+            initview();
     }
 
     private void fetchUserDetails() {
-        NetHelper.getInstance().getUserDetails(new StringDialogCallback(this) {
+        NetHelper.getInstance().getUserDetails(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 toast(getResources().getString(R.string.internet_fault));
@@ -227,7 +259,11 @@ public class MineMainActivity extends MyBaseActivity {
     }
 
     public void handle_userdetail(View view) {
-        startActivity(PersonalSettingActivity.class);
+        if (isLogin())
+            startActivity(PersonalSettingActivity.class);
+        else {
+            handle_login(view);
+        }
     }
 
     public void handle_friendlist(View view) {
@@ -245,7 +281,12 @@ public class MineMainActivity extends MyBaseActivity {
     }
 
     public void handle_circle(View view) {
-        MainActivity.getInstance().selectTag(1);
+        toast("功能开发中,敬请期待~");
+//        MainActivity.getInstance().selectTag(1);
+    }
+
+    public void handle_post(View view) {
+        toast("功能开发中,敬请期待~");
     }
 
     private static final int PICK_AVATAR_REQUEST = 0x0E;
@@ -359,11 +400,26 @@ public class MineMainActivity extends MyBaseActivity {
 
     public void handle_favorite(View view) {
         startActivity(FavoriteActivity.class);
-        getParent().overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
+//        getParent().overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
     }
 
     public void handle_qrscan(View view) {
 //        startActivityForResult(QR_SCAN_REQUEST, WeChatCaptureActivity.class);
         startActivity(WeChatCaptureActivity.class);
     }
+
+    public void handle_comment(View view) {
+//        toast("功能开发中,敬请期待~");
+        startActivity(MineCommentActivity.class);
+    }
+
+    public void handle_history(View view) {
+        toast("功能开发中,敬请期待~");
+    }
+
+    public void setNoticeMsgCount(String unreadMsg) {
+        tv_notice_count.setText(unreadMsg);
+    }
+
+
 }

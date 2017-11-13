@@ -9,18 +9,21 @@
         android:id="@+id/ll_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="@dimen/pt1">
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/pt1"
+        android:background="@color/white"
+        android:orientation="horizontal">
 
         <me.xiaopan.sketchsample.widget.SampleImageViewHead
             android:id="@+id/iv_head"
             android:layout_width="@dimen/head"
             android:layout_height="@dimen/head"
-            android:layout_margin="@dimen/headPadding"
+            android:layout_marginBottom="@dimen/pt4"
+            android:layout_marginLeft="@dimen/headPadding"
+            android:layout_marginRight="@dimen/headPadding"
+            android:layout_marginTop="@dimen/pt4"
             android:scaleType="centerCrop"
             android:src="@drawable/default_user"
             app:type="circle" />
@@ -40,7 +43,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="昵称"
                 android:textColor="@color/textDarkGray"
-                android:textSize="@dimen/text_content" />
+                android:textSize="@dimen/text_content_title" />
 
         </LinearLayout>
 

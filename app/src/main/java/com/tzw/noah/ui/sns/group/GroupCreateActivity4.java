@@ -113,7 +113,7 @@ public class GroupCreateActivity4 extends MyBaseActivity {
             public void onResponse(IMsg iMsg) {
                 if (iMsg.isSucceed()) {
                     GroupFragment.setUpdate();
-                    toast("群组创建成功");
+                    toast("群聊创建成功");
                     setResult(100);
                     finish();
                 } else {

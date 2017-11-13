@@ -927,7 +927,7 @@ public class MessageListPanelEx {
             });
         }
 
-        // 长按菜单项 -- 转发到群组
+        // 长按菜单项 -- 转发到群聊
         private void longClickItemForwardToTeam(final IMMessage item, CustomAlertDialog alertDialog) {
             alertDialog.addItem(container.activity.getString(R.string.forward_to_team), new CustomAlertDialog.onSeparateItemClickListener() {
 

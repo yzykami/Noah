@@ -1,5 +1,7 @@
 package com.tzw.noah.ui.home;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -7,15 +9,21 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 //import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -76,6 +84,7 @@ public class InputFragment extends Fragment {
     SoftHideKeyBoardUtil keyboradUtil;
     private boolean isBlackBackground = false;
     private View ll_content;
+    private FrameLayout baseView;
 
     public void notifyUpdate(MediaArticle mediaArticle) {
         mMediaArticle = mediaArticle;
@@ -132,6 +141,7 @@ public class InputFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.input_layout, container, false);
         ButterKnife.bind(this, view);
+        baseView = (FrameLayout) activity.findViewById(android.R.id.content);
         if (isBlackBackground) {
             rl_edit.setBackgroundResource(R.drawable.media_input_bg_black);
             tv_edit.setBackgroundResource(R.drawable.bg_lightblack_fill_round);
@@ -272,6 +282,54 @@ public class InputFragment extends Fragment {
             iv_fav.setVisibility(View.GONE);
             iv_like.setVisibility(View.GONE);
         }
+    }
+
+    public void setLikeAnima() {
+        Animation anima2 = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        anima2.setDuration(300);
+        anima2.setInterpolator(new LinearInterpolator());
+        iv_like.startAnimation(anima2);
+
+        int[] size = new int[2];
+        iv_like.getLocationInWindow(size);
+        final TextView tvp1 = new TextView(mContext);
+        tvp1.setText("+1");
+        tvp1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        tvp1.setTextColor(mContext.getResources().getColor(R.color.myRed));
+        tvp1.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+        baseView.addView(tvp1);
+        TextPaint textPaint = tvp1.getPaint();
+        float textPaintWidth = textPaint.measureText("+1");
+        size[0]+=iv_like.getWidth()/2-textPaintWidth/2;
+        size[1]-=20;
+//        tvp1.layout(size[0] - ivWidth / 2, size[1], size[0] + ivWidth / 2, size[1] + tvp1.getHeight());
+//                                Animation anima3 = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0f, Animation.RELATIVE_TO_PARENT, 0f, Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0f);
+        AnimatorSet animatorSetGroup1 = new AnimatorSet();
+        ObjectAnimator objectAnimatorScaleX1 = ObjectAnimator.ofFloat(tvp1, "scaleX", 0f, 1f);
+        ObjectAnimator objectAnimatorScaleY1 = ObjectAnimator.ofFloat(tvp1, "scaleY", 0f, 1f);
+        ObjectAnimator objectAnimatorRotateX1 = ObjectAnimator.ofFloat(tvp1, "translationY", size[1] - 0, size[1] - 20f);
+        ObjectAnimator objectAnimatorRotateY1 = ObjectAnimator.ofFloat(tvp1, "translationX", size[0], size[0]);
+        animatorSetGroup1
+                .play(objectAnimatorRotateX1)
+                .with(objectAnimatorRotateY1);
+//                .with(objectAnimatorScaleX1)
+//                .with(objectAnimatorScaleY1);
+        animatorSetGroup1.setDuration(1000);
+        animatorSetGroup1.start();
+
+        tvp1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                baseView.removeView(tvp1);
+            }
+        }, 1200);
+    }
+
+    public void setFavAnima() {
+        Animation anima2 = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        anima2.setDuration(300);
+        anima2.setInterpolator(new LinearInterpolator());
+        iv_fav.startAnimation(anima2);
     }
 
     @Override

@@ -19,6 +19,7 @@ import com.tzw.noah.ui.mine.fragment.DatabaseTableListFragment;
 import com.tzw.noah.ui.mine.fragment.NetToolFragment;
 import com.tzw.noah.ui.mine.fragment.SystemCacheFragment;
 import com.tzw.noah.ui.mine.fragment.SystemParamsFragment;
+import com.tzw.noah.ui.mine.fragment.SystemSwitchFragment;
 import com.tzw.noah.ui.mine.fragment.ThirdPartyFragment;
 
 import java.util.List;
@@ -103,6 +104,8 @@ public class DebugDetailActivity extends MyBaseActivity {
             transaction.replace(R.id.framelayout, ThirdPartyFragment.newInstance());
         } else if (type == DebugActivity.TYPE_SYSTEMCACHE) {
             transaction.replace(R.id.framelayout, SystemCacheFragment.newInstance());
+        } else if (type == DebugActivity.TYPE_SYSTEMSWITCH) {
+            transaction.replace(R.id.framelayout, SystemSwitchFragment.newInstance());
         }
         transaction.commit();
     }

@@ -6,10 +6,11 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
+
     <View
-        android:layout_marginTop="@dimen/pt10"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pt5"
+        android:layout_marginTop="@dimen/bj"
         android:background="@color/bg_light" />
 </LinearLayout>
 

@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-    <com.google.zxing.client.android.ViewfinderView
+    <com.google.zxing1.client.android.ViewfinderView
         android:id="@+id/cover_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />

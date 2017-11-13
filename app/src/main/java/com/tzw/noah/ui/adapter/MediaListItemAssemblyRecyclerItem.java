@@ -27,6 +27,8 @@ public abstract class MediaListItemAssemblyRecyclerItem<T> extends BindAssemblyR
         mContext = parent.getContext();
         mBtnsize = Utils.dp2px(parent.getContext(), 34);
         mBjs = (int) parent.getContext().getResources().getDimension(R.dimen.bjs);
+        View view = getItemView();
+        view.setBackgroundResource(R.drawable.touch_bg);
     }
 
 
@@ -36,7 +38,15 @@ public abstract class MediaListItemAssemblyRecyclerItem<T> extends BindAssemblyR
 //                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) view.getLayoutParams();
 //                lp.setMargins(mBjs, mBjs, mBjs, mBjs);
             view.setScrollX(mBjs - mBtnsize);
-            final ImageView iv = new ImageView(mContext);
+            ImageView iiv;
+            if (container.getChildCount() > 1) {
+                iiv = (ImageView) container.getChildAt(1);
+            } else {
+                iiv = new ImageView(mContext);
+                container.addView(iiv);
+            }
+
+            final ImageView iv = iiv;
             RelativeLayout.LayoutParams iv_lp = new RelativeLayout.LayoutParams(mBtnsize, ViewGroup.LayoutParams.MATCH_PARENT);
             iv_lp.addRule(RelativeLayout.CENTER_VERTICAL);
 //                iv_lp.setMargins(mBjs, mBjs, mBjs, mBjs);
@@ -64,7 +74,6 @@ public abstract class MediaListItemAssemblyRecyclerItem<T> extends BindAssemblyR
                     }
                 }
             });
-            container.addView(iv);
         } else {
             View view = container.getChildAt(0);
 //                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) view.getLayoutParams();

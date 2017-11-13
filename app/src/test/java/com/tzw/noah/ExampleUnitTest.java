@@ -202,7 +202,7 @@ public class ExampleUnitTest {
         List<String> name2=new ArrayList();
 
         name1.add("多边形-3-拷贝");
-        name1.add("椭圆-55");
+        name1.add("tab_mine_2_2-55");
         name1.add("形状-12-拷贝-3");
         name1.add("形状-12-拷贝-4");
 

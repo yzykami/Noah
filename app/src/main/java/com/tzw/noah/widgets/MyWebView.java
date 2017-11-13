@@ -3,11 +3,11 @@ package com.tzw.noah.widgets;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.RequiresApi;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,13 +19,14 @@ import android.widget.Toast;
 
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
+import com.tzw.noah.cache.UserCache;
+import com.tzw.noah.ui.mine.LoginActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -40,6 +41,7 @@ import me.xiaopan.sketchsample.bean.Image;
 
 public class MyWebView extends WebView {
 
+    public static final int LOGINREQUEST = 1234;
     private List<String> listImgSrc = new ArrayList<>();
     ArrayList<Image> imageArrayList = new ArrayList<Image>();
     // 获取img标签正则
@@ -98,14 +100,17 @@ public class MyWebView extends WebView {
 //        int fontSize = 16;//(int) getResources().getDimension(R.dimen.sp8);
 //        Log.i("aaa", "initView: fontSize = " + fontSize);
 //        this.getSettings().setDefaultFontSize(fontSize);
+        String ua = this.getSettings().getUserAgentString();
+        ua+=";tzwapp/android";
+//        this.getSettings().setUserAgentString(ua);
         this.getSettings().setJavaScriptEnabled(true);
         this.getSettings().setDefaultTextEncodingName("UTF-8");
-//        this.getSettings().setSupportZoom(true);
-        this.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+//        this.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        this.getSettings().setDomStorageEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+        }
 
-//        this.getSettings().setUseWideViewPort(true);
-//        this.getSettings().setLoadWithOverviewMode(true);
-//        this.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
 
         //载入js
         this.addJavascriptInterface(new MyJavascriptInterface(context), "imageListener");
@@ -113,8 +118,8 @@ public class MyWebView extends WebView {
         this.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
         //video全屏处理
         this.addJavascriptInterface(new JavascriptInterface(), "_VideoEnabledWebView");
-
-        this.setBackgroundResource(R.color.myBlue);
+        //供H5调用的JS接口
+        this.addJavascriptInterface(new H5Javascript(this, context), "appjs");
     }
 
 
@@ -231,6 +236,12 @@ public class MyWebView extends WebView {
 //            intent.setClass(context, ShowImageFromWebActivity.class);
 //            context.startActivity(intent);
         }
+
+        @android.webkit.JavascriptInterface
+        public String getClientType() {
+            Toast.makeText(context, "getClientType", Toast.LENGTH_SHORT).show();
+            return "android";
+        }
     }
 
     public String htmlReplace(String str) {
@@ -274,6 +285,48 @@ public class MyWebView extends WebView {
                 }
             });
         }
+    }
+
+    private class H5Javascript {
+        WebView mWebView;
+        Context mContext;
+
+        public H5Javascript(WebView webView, Context context) {
+            mWebView = webView;
+            mContext = context;
+        }
+
+        @android.webkit.JavascriptInterface
+        public String getClientType() {
+//            Toast.makeText(mContext, "getClientType", Toast.LENGTH_SHORT).show();
+            return "android";
+        }
+
+        @android.webkit.JavascriptInterface
+        public boolean isLogin() {
+            return UserCache.isLogin();
+        }
+
+        @android.webkit.JavascriptInterface
+        public String getLoginKey() {
+            return UserCache.getLoginKey();
+        }
+
+        @android.webkit.JavascriptInterface
+        public void appLogin() {
+            Intent intent = new Intent(mContext, LoginActivity.class);
+//            mContext.startActivity(intent);
+            ((Activity) mContext).startActivityForResult(intent, LOGINREQUEST);
+        }
+
+        @android.webkit.JavascriptInterface
+        public void appLogout() {
+            Toast.makeText(mContext, "logout", Toast.LENGTH_SHORT).show();
+        }
+
+//        private void callback(String method, String value) {
+//            mWebView.loadUrl("javascript:appCallback(\"" + method + "\", \"" + value + "\"");
+//        }
     }
 
     /***

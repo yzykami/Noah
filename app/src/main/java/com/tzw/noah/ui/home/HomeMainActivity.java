@@ -2,7 +2,6 @@ package com.tzw.noah.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,28 +12,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.demoscaner.QrCodeActivity;
-import com.google.zxing.demoscaner.WeChatCaptureActivity;
+import com.google.zxing1.demoscaner.QrCodeActivity;
+import com.google.zxing1.demoscaner.WeChatCaptureActivity;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.ChannelCache;
-import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.MediaCategory;
-import com.tzw.noah.net.IMsg;
-import com.tzw.noah.net.NetHelper;
-import com.tzw.noah.net.StringDialogCallback;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
-import com.tzw.noah.ui.circle.PostListFragment;
-import com.tzw.noah.ui.sns.search.UserSearchActivity;
+import com.tzw.noah.ui.home.scan.ActivityScanerCode;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Call;
 
 /**
  * Created by yzy on 2017/6/8.
@@ -102,7 +94,7 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
         tv_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (System.currentTimeMillis() - currentShowPressedTime > 300)
+                if (System.currentTimeMillis() - 3 > 300)
                     showCount = 1;
                 currentShowPressedTime = System.currentTimeMillis();
                 showCount++;
@@ -169,6 +161,7 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
     }
 
     public void handle_qrscan(View view) {
+//        startActivity(ActivityScanerCode.class);
         startActivity(WeChatCaptureActivity.class);
 //        startActivity(QrCodeActivity.class);
     }

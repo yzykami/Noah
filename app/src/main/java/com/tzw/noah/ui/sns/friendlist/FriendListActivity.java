@@ -180,12 +180,14 @@ public class FriendListActivity extends MyBaseActivity implements ViewPager.OnPa
         if (index == 2)
             tv_title.setText("粉丝");
         if (index == 3)
-            tv_title.setText("群组");
+            tv_title.setText("群聊");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        showFragment(selectPage);
+        setTag(selectPage);
         fragmentList.get(selectPage).onResume();
     }
 

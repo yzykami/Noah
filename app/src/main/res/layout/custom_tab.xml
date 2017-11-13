@@ -43,8 +43,7 @@
             android:id="@+id/frame_circle"
             android:layout_width="fill_parent"
             android:layout_height="48.0dip"
-            android:layout_weight="1.0"
-            android:visibility="gone">
+            android:layout_weight="1.0">
 
             <ImageView
                 android:id="@+id/iv_circle"

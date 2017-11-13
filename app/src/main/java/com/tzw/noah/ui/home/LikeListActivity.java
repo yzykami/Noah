@@ -7,27 +7,28 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Group;
-import com.tzw.noah.models.GroupMember;
 import com.tzw.noah.models.MediaArticle;
+import com.tzw.noah.models.MediaComment;
 import com.tzw.noah.models.MediaLike;
 import com.tzw.noah.models.User;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
-import com.tzw.noah.sdk.SnsManager;
-import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.MySwipeBackActivity;
-import com.tzw.noah.ui.adapter.itemfactory.MemberListItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.media.LikeListItemFactory;
+import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailDividerItemFatory;
+import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTagItemFatory;
+import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTitleItemFatory;
 import com.tzw.noah.ui.sns.add.AddActivity;
-import com.tzw.noah.ui.sns.group.GroupAddMemberActivity;
-import com.tzw.noah.ui.sns.group.GroupRemoveMemberActivity;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
+import com.tzw.noah.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,6 +54,8 @@ public class LikeListActivity extends MySwipeBackActivity implements LikeListIte
 
     @BindView(R.id.list_view)
     RecyclerView recyclerView;
+    @BindView(R.id.divider)
+    View divider;
 
     Context mContext = LikeListActivity.this;
     Activity mActivity;
@@ -62,9 +65,13 @@ public class LikeListActivity extends MySwipeBackActivity implements LikeListIte
     private Group group;
 
     int pagesize = 50;
-    List<MediaLike> items;
+    List<Object> items;
     private int articleId;
+    private String articleTitle;
+    private String createTime;
+    private String author;
     private int likeId;
+    private MediaArticle mediaArticle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,13 +90,37 @@ public class LikeListActivity extends MySwipeBackActivity implements LikeListIte
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
             articleId = bu.getInt("articleId");
+            articleTitle = bu.getString("articleTitle");
+            createTime = bu.getString("createTime");
+            author = bu.getString("author");
+            mediaArticle = (MediaArticle) bu.getSerializable("DATA");
         } else {
 
         }
     }
-
+    int totaly = 0;
     private void findview() {
+        divider.setVisibility(View.GONE);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totaly += dy;
+                if (totaly > 0)
+                    divider.setVisibility(View.VISIBLE);
+                else
+                    divider.setVisibility(View.GONE);
+            }
+        });
 
+        TextView tv_article_title = (TextView) findViewById(R.id.tv_article_title);
+        TextView tv_article_author = (TextView) findViewById(R.id.tv_article_author);
+
+        tv_article_title.setText(articleTitle);
+        tv_article_author.setText(Utils.getStandardDate(createTime) + "  " + author);
+
+        tv_article_title.setVisibility(View.GONE);
+        tv_article_author.setVisibility(View.GONE);
     }
 
     private void initview() {
@@ -128,7 +159,7 @@ public class LikeListActivity extends MySwipeBackActivity implements LikeListIte
         gm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if (position == adapter.getDataCount())
+                if (position == adapter.getDataCount() || position <=2)
                     return spancount;
                 else
                     return 1;
@@ -144,6 +175,9 @@ public class LikeListActivity extends MySwipeBackActivity implements LikeListIte
         } else {
             adapter = new AssemblyRecyclerAdapter(new ArrayList<MediaLike>());
             adapter.addItemFactory(new LikeListItemFactory(this));
+            adapter.addItemFactory(new MediaArticleDetailTagItemFatory(null));
+            adapter.addItemFactory(new MediaArticleDetailTitleItemFatory(null));
+            adapter.addItemFactory(new MediaArticleDetailDividerItemFatory(null));
 //            adapter.addHeaderItem(new SearchHeadFactory(this), "");
             recyclerView.setAdapter(adapter);
             count = 0;
@@ -154,6 +188,12 @@ public class LikeListActivity extends MySwipeBackActivity implements LikeListIte
 //            }
         }
 
+        items = new ArrayList<Object>();
+//        mMediaComment.isCommentDetail = true;
+//        items.add(mMediaComment);
+        items.add(mediaArticle.makeTitle());
+        items.add(mediaArticle.makeDivider());
+        items.add(new MediaArticle().makeTag("全部点赞"));
         updateData();
     }
 
@@ -174,16 +214,25 @@ public class LikeListActivity extends MySwipeBackActivity implements LikeListIte
                 try {
                     mPtrFrame.refreshComplete();
                     if (iMsg.isSucceed()) {
-                        items = MediaLike.loadList(iMsg);
-                        if (items == null)
-                            items = new ArrayList<MediaLike>();
-                        if (likeId == 0)
-                            adapter.clear();
+                        List<MediaLike> list = MediaLike.loadList(iMsg);
+//                        items = new ArrayList<>();
+                        if (list == null) {
+                            list = new ArrayList<MediaLike>();
+                        } else {
+                            for (int i = 0; i < list.size(); i++) {
+                                items.add(list.get(i));
+                            }
+                        }
+//                        if (likeId == 0) {
+//                            adapter.clear();
+//                            adapter.addAll(new MediaArticle().makeTag("全部点赞"));
+//                        }
                         adapter.addAll(items);
                         if (items.size() >= 1)
-                            likeId = items.get(items.size() - 1).articleEvaluateId;
-                        adapter.loadMoreFinished(items.size() < pagesize);
+                            likeId = list.get(list.size() - 1).articleEvaluateId;
+                        adapter.loadMoreFinished(list.size() < pagesize);
                         adapter.notifyDataSetChanged();
+
                     } else {
                         toast(iMsg.getMsg());
                     }

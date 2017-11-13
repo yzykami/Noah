@@ -53,7 +53,7 @@ public class RecommendGroupListActivity extends MyBaseActivity implements AddGro
 //    int selectPage;
 //    Fragment[] fragmentList = null;
 
-    String title = "群组推荐";
+    String title = "群聊推荐";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

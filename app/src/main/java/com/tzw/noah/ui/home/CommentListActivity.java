@@ -20,6 +20,7 @@ import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.MediaComment;
 import com.tzw.noah.models.MediaLike;
+import com.tzw.noah.models.User;
 import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
@@ -40,6 +41,7 @@ import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleLikeItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListTxtItemFatory;
+import com.tzw.noah.ui.sns.personal.PersonalActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ import butterknife.ButterKnife;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
 import me.xiaopan.assemblyadapter.OnRecyclerLoadMoreListener;
 import me.xiaopan.sketchsample.adapter.itemfactory.LoadMoreItemFactory;
+import me.xiaopan.sketchsample.util.AssemblyRecyclerAdapterTool;
 import okhttp3.Call;
 
 /**
@@ -68,6 +71,9 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
     RelativeLayout rl_bg;
     @BindView(R.id.maskView)
     View maskView;
+
+    @BindView(R.id.container)
+    RelativeLayout container;
     Context mContext = CommentListActivity.this;
 
     InputFragment frame_input;
@@ -86,7 +92,7 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
     private int isLike;
     private boolean isFavorite;
 
-    String TAG_COMMENT = "全部评论";
+    String TAG_COMMENT = "全部回复";
     String TAG_RELATE = "相关文章";
     private LinearLayoutManager layoutManager;
     private boolean loginState;
@@ -124,13 +130,16 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
 //            mediaArticle = new MediaArticle();
 //            mediaArticle.articleId = mMediaComment.webArticleId;
 //        }
-        mMediaComment = DataCenter.getInstance().getMediaComment();
+
+
+        MediaComment mc = DataCenter.getInstance().getMediaComment();
+        mMediaComment = MediaComment.Clone(mc);
         mediaArticle = new MediaArticle();
         mediaArticle.articleId = mMediaComment.webArticleId;
     }
 
     private void findview() {
-
+        container.setBackgroundResource(R.color.bg_light);
     }
 
 //    private void loadData() {
@@ -190,8 +199,10 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
     private void initAdapter() {
         items = new ArrayList<Object>();
         mMediaComment.isCommentDetail = true;
+        mMediaComment.isTopCommentDetail = true;
+
         items.add(mMediaComment);
-        items.add(mediaArticle.makeDivider());
+//        items.add(mediaArticle.makeDivider());
 //        items.add(mediaArticle.makeTitle());
 //        items.add(mediaArticle.makeContent());
 //        if (mediaArticle.getKeywords().size() > 0)
@@ -209,9 +220,9 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
 //            }
 //        }
 
+        items.add(mediaArticle.makeTag(TAG_COMMENT));
         if (mMediaComment.repliesNumber > 0) {
 //            items.add(mediaArticle.makeDivider());
-            items.add(mediaArticle.makeTag(TAG_COMMENT));
 //            for (int i = 0; i < mediaArticle.articleCommentObj.size(); i++) {
 //                items.add(mediaArticle.articleCommentObj.get(i));
 //            }
@@ -360,6 +371,14 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
                 this.finish();
             }
         }
+        if (o instanceof MediaComment) {
+            User u = new User();
+            u.memberNo = ((MediaComment) o).memberNo;
+            u.memberNickName = ((MediaComment) o).memberNickName;
+            Bundle bu = new Bundle();
+            bu.putSerializable("DATA", u);
+            startActivity2(PersonalActivity.class, bu);
+        }
     }
 
     @Override
@@ -376,12 +395,20 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
     public void onLikeMemberClick(int position, Object o) {
         Bundle bu = new Bundle();
         bu.putInt("articleId", mediaArticle.articleId);
+        bu.putString("articleTitle", mediaArticle.articleTitle);
+        bu.putString("createTime", mediaArticle.createTime);
+        bu.putString("author", mediaArticle.getAuthor());
         startActivity2(LikeListActivity.class, bu);
     }
 
     @Override
     public void onCommentClick(int adapterPosition, MediaComment data) {
 //// TODO: 2017-09-16
+    }
+
+    @Override
+    public void onCommentLikeClick(int position, MediaComment data) {
+
     }
 
     @Override
@@ -459,33 +486,34 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
                     if (iMsg.isSucceed()) {
                         boolean isFirstComment = false;
                         adapter.setNotifyOnChange(false);
-                        int position = getfirstPosition(MediaArticle.TYPE_TAG, TAG_COMMENT);
-                        if (position == -1) {
-                            position = getfirstPosition(MediaArticle.TYPE_SAFA);
+                        int position = getfirstPosition(MediaArticle.TYPE_SAFA);
+                        if (position != -1) {
                             isFirstComment = true;
                             adapter.remove(adapter.getDataList().get(position));
 //                            adapter.insert(mediaArticle.makeDivider(), position++);
-                            adapter.insert(mediaArticle.makeTag(TAG_COMMENT), position++);
+//                            adapter.insert(mediaArticle.makeTag(TAG_COMMENT), position++);
                         } else {
-                            position++;
+                            position = getfirstPosition(MediaArticle.TYPE_TAG, TAG_COMMENT) + 1;
                         }
                         MediaComment mc = MediaComment.load(iMsg);
 //                        mc.memberHeadPic=UserCache.getUser().memberHeadPic;
 //                        mc.memberNickName=UserCache.getUser().memberNickName;
 //                        mc.commentContent = content;
+                        mc.isCommentDetail = true;
                         mediaArticle.articleCommentObj.add(0, mc);
                         adapter.insert(mc, position);
                         adapter.notifyDataSetChanged();
                         if (isFirstComment) {
+                            AssemblyRecyclerAdapterTool.unLock(adapter);
                             loadMoreItem = new LoadMoreItemFactory(instance);
                             adapter.setLoadMoreItem(loadMoreItem);
                             adapter.setLoadMoreEnd(true);
-                            recyclerView.setAdapter(adapter);
+//                            recyclerView.setAdapter(adapter);
                         }
                         frame_input.switchEditMode(false);
                         frame_input.clearInputEdit();
                         showKeyboard(false);
-                        onCommentClick();
+//                        onCommentClick();
                         ((MyBaseActivity) mContext).toast("发表成功");
                     } else {
                         ((MyBaseActivity) mContext).toast(iMsg.getMsg());
@@ -517,7 +545,7 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
             }
         }
         final int finalPosition = position;
-        NetHelper.getInstance().mediaEvaluate(mediaArticle.articleId, isLike == 0 ? 1 : 0, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaEvaluate(mediaArticle.articleId, isLike == 0 ? 1 : 0,0, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 isloading = false;
@@ -544,6 +572,7 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
                             adapter.insert(mediaArticle.makeLiker(), finalPosition);
                             adapter.notifyItemChanged(finalPosition);
                             frame_input.notifyUpdate(mediaArticle);
+                            frame_input.setLikeAnima();
                             ((MyBaseActivity) mContext).toast("点赞成功");
                         } else {
                             mediaArticle.praiseNumber--;
@@ -592,7 +621,7 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
             }
         }
         final int finalPosition = position;
-        NetHelper.getInstance().mediaMixFavorite(0,mediaArticle.articleId+"", isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
+        NetHelper.getInstance().mediaMixFavorite(0, mediaArticle.articleId + "", isFavorite ? 0 : 1, new StringDialogCallback(mContext) {
             @Override
             public void onFailure(Call call, IOException e) {
                 isloading = false;
@@ -608,6 +637,7 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
                         mediaArticle.isArticleKeep = isFavorite;
                         frame_input.notifyUpdate(mediaArticle);
                         if (isFavorite) {
+                            frame_input.setFavAnima();
                             ((MyBaseActivity) mContext).toast("收藏成功");
                         } else {
 

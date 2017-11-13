@@ -54,13 +54,14 @@
                 android:id="@+id/rl_comment"
                 android:layout_width="@dimen/media_input_btn"
                 android:layout_height="@dimen/media_input_btn"
+                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/pt10">
 
                 <ImageView
                     android:id="@+id/iv_comment"
                     android:layout_width="@dimen/media_input_btn"
                     android:layout_height="@dimen/media_input_btn"
-                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
                     android:padding="@dimen/media_input_btn_padding"
                     android:scaleType="fitXY"
                     android:src="@drawable/media_input_comment" />
@@ -84,7 +85,6 @@
             <ImageView
                 android:id="@+id/iv_fav"
                 android:layout_width="@dimen/media_input_btn"
-
                 android:layout_height="@dimen/media_input_btn"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/pt15"

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt0"
+        android:background="@color/white" />
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_height"
+        android:layout_below="@id/statusBar"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/rl_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/pt6"
+            android:layout_marginLeft="@dimen/bjs"
+            android:layout_marginRight="@dimen/bjs"
+            android:layout_marginTop="@dimen/pt6"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/pt6"
+                android:layout_toLeftOf="@+id/tv_cancel"
+                android:background="@drawable/bg_lightgray_fill_round">
+
+                <ImageView
+                    android:id="@+id/iv_search_icon"
+                    android:layout_width="@dimen/pt14"
+                    android:layout_height="@dimen/pt14"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/pt6"
+                    android:src="@drawable/media_search_gray" />
+
+                <EditText
+                    android:id="@+id/et_keyword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/iv_delete_icon"
+                    android:layout_toRightOf="@+id/iv_search_icon"
+                    android:background="@null"
+                    android:hint="搜个关键词试试看"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:padding="@dimen/pt4"
+                    android:singleLine="true"
+                    android:textColor="@color/textDarkGray"
+                    android:textColorHint="@color/textLightGray"
+                    android:textSize="@dimen/sp12" />
+
+                <ImageView
+                    android:id="@+id/iv_delete_icon"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:onClick="handle_clear_editor"
+                    android:padding="8dp"
+                    android:src="@drawable/media_editor_delete" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/textDarkGray" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/text_title" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/btn_title_width"
+                android:layout_height="@dimen/btn_title_height"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_left_btn_left_bj"
+                android:clickable="true"
+                android:onClick="handle_back"
+                android:paddingBottom="@dimen/pt8"
+                android:paddingLeft="@dimen/pt13"
+                android:paddingRight="@dimen/pt13"
+                android:paddingTop="@dimen/pt8"
+                android:src="@drawable/back_gray" />
+
+            <TextView
+                android:id="@+id/tv_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/bj"
+                android:gravity="center"
+                android:onClick="handle_edit"
+                android:paddingBottom="@dimen/pt5"
+                android:paddingLeft="@dimen/pt5"
+                android:paddingTop="@dimen/pt5"
+                android:text="编辑"
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/text_title_right"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+        android:id="@+id/tabs"
+        style="@style/pagertab_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt40"
+        android:layout_alignLeft="@+id/shadow"
+        android:layout_alignRight="@+id/shadow"
+        android:layout_below="@+id/rl_top"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@+id/iv_config"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="我发出的"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/text_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/bj"
+            android:gravity="center"
+            android:text="回复我的"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/text_title" />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabs"
+        android:background="@color/white" />
+
+    <View
+        android:id="@+id/rl_divider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabs"
+        android:background="@drawable/bg_mask" />
+</RelativeLayout>

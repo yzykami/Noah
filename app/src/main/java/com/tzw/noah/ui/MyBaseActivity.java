@@ -258,7 +258,7 @@ public class MyBaseActivity extends AppCompatActivity implements StatusBarUtil.S
         }
     }
 
-    protected boolean makesureLogin() {
+    public boolean makesureLogin() {
         return checkLogin(MAKESURELOGINCODE, null, null);
     }
 

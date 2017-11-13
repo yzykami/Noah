@@ -128,10 +128,10 @@
                 android:layout_marginRight="@dimen/bj"
                 android:gravity="center"
                 android:onClick="handle_edit"
-                android:text="编辑"
-                android:paddingTop="@dimen/pt5"
                 android:paddingBottom="@dimen/pt5"
                 android:paddingLeft="@dimen/pt5"
+                android:paddingTop="@dimen/pt5"
+                android:text="编辑"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/text_title_right" />
         </RelativeLayout>
@@ -143,6 +143,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_top"
+        android:background="@color/white"
         android:choiceMode="singleChoice"
         android:clipToPadding="false"
         android:divider="@null"
@@ -274,7 +275,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_top"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -318,7 +320,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_top"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="match_parent"
@@ -342,22 +345,34 @@
         android:background="@color/white"
         android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/iv"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt1"
+            android:layout_alignParentTop="true"
+            android:background="@color/bg_light" />
+
+        <TextView
+            android:id="@+id/tv_select_all"
             android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/bj"
-            android:src="@drawable/mine_arrow_gray"
-            android:visibility="gone"/>
+            android:layout_marginLeft="@dimen/bj"
+            android:onClick="handle_select_all"
+            android:paddingBottom="@dimen/pt6"
+            android:paddingTop="@dimen/pt6"
+            android:text="选择全部"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/sp14" />
 
         <TextView
             android:id="@+id/tv_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/bj"
+            android:layout_marginRight="@dimen/bj"
+            android:paddingBottom="@dimen/pt6"
+            android:paddingTop="@dimen/pt6"
             android:text="标题"
             android:textColor="@color/textDarkGray"
             android:textSize="@dimen/sp14" />

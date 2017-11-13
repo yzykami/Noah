@@ -15,22 +15,40 @@ public abstract class StringDialogCallback extends Callback {
 
     private ProgressDialog dialog;
     boolean isFinished = false;
+    int delay = 200;
 
     public StringDialogCallback(Activity activity) {
-        dialog = new ProgressDialog(activity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("请求网络中...");
-    }
-    public StringDialogCallback(Context context) {
-        dialog = new ProgressDialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("请求网络中...");
+        initDialog(activity);
+        this.delay = delay;
     }
 
+    public StringDialogCallback(Context context) {
+        initDialog(context);
+        this.delay = delay;
+    }
+
+    public StringDialogCallback(Activity activity, int delay) {
+        initDialog(activity);
+        this.delay = delay;
+    }
+
+    public StringDialogCallback(Context context, int delay) {
+        initDialog(context);
+        this.delay = delay;
+    }
+
+    void initDialog(Object o) {
+        dialog = null;
+        if (o instanceof Context) {
+            dialog = new ProgressDialog((Context) o);
+        } else if (o instanceof Activity) {
+            dialog = new ProgressDialog((Activity) o);
+        }
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("请求网络中...");
+    }
 //    @Override
 //    public String parseNetworkResponse(Response response) throws Exception {
 //        return response.body().string();
@@ -45,19 +63,18 @@ public abstract class StringDialogCallback extends Callback {
                 if (!isFinished && dialog != null && !dialog.isShowing()) {
                     try {
                         dialog.show();
-                    }catch (Exception e )
-                    {
+                    } catch (Exception e) {
 
                     }
                 }
             }
-        },200);
+        }, delay);
     }
 
     @Override
-    public void onAfter(){
+    public void onAfter() {
         //网络请求结束后关闭对话框
-        isFinished=true;
+        isFinished = true;
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }

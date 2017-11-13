@@ -22,7 +22,7 @@ import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 public class LikeListItemFactory extends AssemblyRecyclerItemFactory<LikeListItemFactory.Item> {
 
     private OnImageClickListener onImageClickListener;
-    private int itemSize;
+    private int itemSize, bj, top;
 
     public LikeListItemFactory(OnImageClickListener onImageClickListener) {
         this.onImageClickListener = onImageClickListener;
@@ -35,6 +35,8 @@ public class LikeListItemFactory extends AssemblyRecyclerItemFactory<LikeListIte
 
     @Override
     public Item createAssemblyItem(ViewGroup viewGroup) {
+        bj = viewGroup.getResources().getDimensionPixelSize(R.dimen.pt25);
+        top = viewGroup.getResources().getDimensionPixelSize(R.dimen.pt20);
         if (itemSize == 0) {
             itemSize = -1;
             if (viewGroup instanceof RecyclerView) {
@@ -48,7 +50,7 @@ public class LikeListItemFactory extends AssemblyRecyclerItemFactory<LikeListIte
                 }
                 if (spanCount > 1) {
                     int screenWidth = viewGroup.getResources().getDisplayMetrics().widthPixels;
-                    itemSize = (screenWidth - (SketchUtils.dp2px(viewGroup.getContext(), 0) * (spanCount + 1))) / spanCount;
+                    itemSize = (screenWidth - spanCount * bj - bj) / spanCount;
                 }
             }
         }
@@ -84,19 +86,22 @@ public class LikeListItemFactory extends AssemblyRecyclerItemFactory<LikeListIte
                 }
             });
 
-            if (itemSize > 0) {
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-                int nn = SketchUtils.dp2px(context, 10);
-                layoutParams.width = itemSize - nn * 2;
-                layoutParams.height = itemSize - nn * 2;
-                layoutParams.setMargins(nn, nn * 2, nn, nn);
-                imageView.setLayoutParams(layoutParams);
-            }
+
         }
 
         @Override
         protected void onSetData(int i, MediaLike mediaLike) {
 //            imageView.setNum(i);
+            int realIndex = (i - 3) % 5;
+            if (itemSize > 0) {
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+                layoutParams.width = itemSize;
+                layoutParams.height = itemSize;
+                int bj2 = bj / 5;
+                layoutParams.setMargins(bj - realIndex * bj2, top, bj2 * realIndex, 15);
+                imageView.setLayoutParams(layoutParams);
+            }
+
             imageView.displayImage(mediaLike.memberHeadPic);
             tv_name.setText(mediaLike.memberNickName);
 //            view.setMask(imageView.getDrawable());

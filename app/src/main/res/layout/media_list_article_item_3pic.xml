@@ -16,7 +16,6 @@
             android:layout_marginLeft="@dimen/bjs"
             android:layout_marginRight="@dimen/bjs"
             android:layout_marginTop="@dimen/bjs"
-            android:background="@color/white"
             android:orientation="vertical">
 
             <include

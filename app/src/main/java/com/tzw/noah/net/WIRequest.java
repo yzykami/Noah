@@ -27,7 +27,7 @@ import okhttp3.Call;
 
 public class WIRequest {
 
-    private static String preUrl = "http://10.0.9.2:9094/";
+    public static String preUrl = UserCache.getPreUrl();//"http://10.0.9.2:9094/";
     private static String AppId = "10101";
     private static String AppSecret = "FBC33F36A7146B21DF44EAA0D795D474";
     public static Long TimeOffset = -12345678l;
@@ -500,6 +500,9 @@ public class WIRequest {
         if (iMsg.isSucceed()) {
             String loginKey = iMsg.getJsonObject("loginKeyRObj").getValue("loginKey");
             UserCache.setLoginkey(loginKey);
+        } else {
+            UserCache.setLoginkey("");
+            UserCache.setToken("");
         }
         return iMsg;
     }

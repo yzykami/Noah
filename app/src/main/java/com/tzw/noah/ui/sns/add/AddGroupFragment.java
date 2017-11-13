@@ -87,7 +87,7 @@ public class AddGroupFragment extends Fragment {
 //        View spanView = inflater.inflate(R.layout.sns_span, container, false);
 //        list_view.addHeaderView(spanView);
 
-        list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_group, "创建群组"));
+        list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_group, "创建群聊"));
         list_view.addHeaderView(getHeadView(inflater, container, R.drawable.sns_create_multichat, "创建多人会话"));
 
         View headSpanView = inflater.inflate(R.layout.sns_span, container, false);

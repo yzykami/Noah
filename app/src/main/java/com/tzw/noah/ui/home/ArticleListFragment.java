@@ -1,16 +1,23 @@
 package com.tzw.noah.ui.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.netease.nim.uikit.common.ui.recyclerview.listener.SimpleClickListener;
+import com.netease.nim.uikit.recent.adapter.RecentContactAdapter;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.logger.Log;
@@ -131,6 +138,15 @@ public class ArticleListFragment extends ViewPagerBaseFragment implements MediaL
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
+        TextView tv = new TextView(getContext());
+        tv.setText("刷新完成");
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        tv.setBackgroundColor(Color.parseColor("#ffdcdc"));
+        tv.setTextColor(getResources().getColor(R.color.myRed));
+        tv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        tv.setPadding(0, 20, 0, 20);
+        tv.setGravity(Gravity.CENTER);
+        mPtrFrame.setForeHeaderView(tv);
 
         updateData();
         return view;
@@ -233,9 +249,17 @@ public class ArticleListFragment extends ViewPagerBaseFragment implements MediaL
             @Override
             public void onResponse(IMsg iMsg) {
                 try {
-                    mPtrFrame.refreshComplete();
                     if (iMsg.isSucceed()) {
+
                         items = MediaArticle.loadList(iMsg);
+
+                        if (articleId == 0&&items.size()>0) {
+
+                            mPtrFrame.refreshComplete("又发现了"+items.size()+"条内容");
+                        }
+                        else
+                            mPtrFrame.refreshComplete();
+
                         if (items == null)
                             items = new ArrayList<MediaArticle>();
                         if (articleId == 0) {
@@ -261,10 +285,12 @@ public class ArticleListFragment extends ViewPagerBaseFragment implements MediaL
 
                         setComplete();
                     } else {
+                        mPtrFrame.refreshComplete();
                         setError();
                         activity.toast(iMsg.getMsg());
                     }
                 } catch (Exception e) {
+                    mPtrFrame.refreshComplete();
                     setError();
                     Log.log(Tag, e);
                 }
@@ -353,6 +379,12 @@ public class ArticleListFragment extends ViewPagerBaseFragment implements MediaL
         if (adapter.getItemCount() > 0)
             list_view.smoothScrollToPosition(0);
         list_view.addItemDecoration(new DividerItemDecoration(mContext, R.drawable.recycleview_divider_pt5));
+        list_view.addOnItemTouchListener(new com.tzw.noah.widgets.listener.SimpleClickListener<AssemblyRecyclerAdapter>() {
+            @Override
+            public void onItemClick(AssemblyRecyclerAdapter adapter, View view, int position) {
+
+            }
+        });
     }
 
     private void loadMore() {

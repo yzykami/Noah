@@ -1,7 +1,6 @@
 package com.tzw.noah.ui.home;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,9 +11,6 @@ import android.widget.TextView;
 import com.tzw.noah.R;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.ui.MyBaseActivity;
-import com.tzw.noah.ui.mine.DebugDetailActivity;
-import com.tzw.noah.ui.mine.StringAdapter;
-import com.tzw.noah.ui.mine.fragment.CrashDetailIndexFragment;
 
 import java.io.File;
 import java.util.List;
@@ -95,7 +91,7 @@ public class ViewpagerFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         tv_content.setText(mMediaArticle.articleTitle);
-        imageView.displayRoundImageBigThumb(mMediaArticle.appArticleImage);
+        imageView.displayRoundImageBigThumb(mMediaArticle.articleImage);
         return view;
     }
 
@@ -143,8 +139,8 @@ public class ViewpagerFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
 //            if (tv_content != null)
-//                tv_content.setText(mMediaArticle.appArticleImage);
-//            imageView.displayImage(mMediaArticle.appArticleImage);
+//                tv_content.setText(mMediaArticle.articleImage);
+//            imageView.displayImage(mMediaArticle.articleImage);
         }
     }
 }
