@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
+import com.mob.MobApplication;
 import com.netease.nim.demo.DemoCache;
 import com.netease.nim.demo.NimApplication;
 import com.netease.nim.demo.NimDemo;
@@ -73,7 +74,7 @@ import java.util.logging.Handler;
  * Created by yzy on 2017/6/15.
  */
 
-public class AppContext extends Application { //NimApplication {//Application {
+public class AppContext extends MobApplication { //NimApplication {//Application {
 
     public static Context instance;
 

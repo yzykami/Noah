@@ -131,12 +131,14 @@ public class NetHelper {
         return imsg;
     }
 
-    public IMsg setDeviceId(String deviceId) {
-        String method = "base/deviceNo";
+    public void secretKeyDetails(Callback callback) {
+        Context context = AppContext.getContext();
+        DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(context);
+        String deviceId = deviceUuidFactory.getDeviceUuidString();
+        String method = "base/secretKeyDetails";
         List<Param> body = new ArrayList<>();
         body.add(new Param("clientCode", deviceId));
-        IMsg imsg = new WIRequest().Post(method, body);
-        return imsg;
+        new WIRequest().Post(method, body, callback);
     }
 
     //检查设备ID是否已经上传到服务器，已上传返回true，未上传则更新，更新成功返回true，网络或者其他问题返回false

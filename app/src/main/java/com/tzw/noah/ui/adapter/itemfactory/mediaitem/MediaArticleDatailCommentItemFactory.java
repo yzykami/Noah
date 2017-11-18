@@ -328,7 +328,7 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
                         if (iMsg.isSucceed() || iMsg.getCode() == 1204) {
                             int isLike = mc.isArticleEvaluate;
                             isLike = isLike == 0 ? 1 : 0;
-                            if (iMsg.getCode() == 0) {
+//                            if (iMsg.getCode() == 0) {
                                 if (isLike == 1) {
                                     mc.praiseNumber++;
                                 } else {
@@ -336,7 +336,7 @@ public class MediaArticleDatailCommentItemFactory extends AssemblyRecyclerItemFa
                                     if (mc.praiseNumber < 0)
                                         mc.praiseNumber = 0;
                                 }
-                            }
+//                            }
 
                             mc.isArticleEvaluate = isLike;
                             tvLikeCount.setText(mc.praiseNumber + "");

@@ -115,20 +115,24 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
 
     private void initdata() {
         loginState = UserCache.isLogin();
-        Bundle bu = getIntent().getExtras();
-        if (bu != null) {
+//        Bundle bu = getIntent().getExtras();
+//        if (bu != null) {
 //            title = bu.getString("title");
-            mediaArticle = (MediaArticle) bu.getSerializable("DATA");
+//            mediaArticle = (MediaArticle) bu.getSerializable("DATA");
 //            mMediaComment = (MediaComment) bu.getSerializable("DATA2");
 //            mediaArticle = new MediaArticle();
 //            mediaArticle.articleId = mMediaComment.webArticleId;
-        }
-//        mMediaComment = DataCenter.getInstance().getMediaComment();
+//        }
+//        mMediaComment = DataCenter.getInstance().getMediaArticle();
 //        mediaArticle = new MediaArticle();
 //        mediaArticle.articleId = mMediaComment.webArticleId;
+        mediaArticle = DataCenter.getInstance().getMediaArticle();
+        isLike = mediaArticle.isArticleEvaluate;
+        isFavorite = mediaArticle.isArticleKeep;
     }
 
     int totaly = 0;
+
     private void findview() {
         rl_divider.setVisibility(View.GONE);
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -269,6 +273,63 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
             loginState = UserCache.isLogin();
 //            loadData();
         }
+        compareCommentList();
+    }
+
+    private void compareCommentList() {
+        MediaArticle ma = DataCenter.getInstance().getMediaArticle();
+        if (ma == null)
+            return;
+        if (ma.articleCommentObj.size() == mediaArticle.articleCommentObj.size()) {
+            for (int i = 0; i < ma.articleCommentObj.size(); i++) {
+                compareComment(ma.articleCommentObj.get(i));
+            }
+        } else {
+            int index = getfirstPosition(MediaArticle.TYPE_COMMENT);
+            for (int i = index; i < adapter.getDataList().size(); i++) {
+                Object o = adapter.getDataList().get(i);
+                if (o instanceof MediaComment) {
+                    adapter.remove(o);
+                    i--;
+                }
+            }
+            for (int i = 0; i < ma.articleCommentObj.size(); i++) {
+                MediaComment cmc = ma.articleCommentObj.get(i);
+                cmc.isCommentDetail = false;
+                cmc.isTopCommentDetail = false;
+                adapter.insert(cmc, i + index);
+                adapter.notifyItemChanged(i + index);
+                commentId = cmc.articleCommentId;
+            }
+        }
+        frame_input.notifyUpdate(ma);
+        mediaArticle = ma;
+    }
+
+    private void compareComment(final MediaComment cmc) {
+
+        for (int i = 0; i < items.size(); i++) {
+            boolean isNeedUpdate = false;
+            Object o = items.get(i);
+            if (o instanceof MediaComment && ((MediaComment) o).articleCommentId == cmc.articleCommentId) {
+                if (((MediaComment) o).praiseNumber != cmc.praiseNumber || ((MediaComment) o).repliesNumber != cmc.repliesNumber) {
+                    isNeedUpdate = true;
+                }
+            }
+            if (isNeedUpdate) {
+                final int finalI = i;
+                tv_title.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        cmc.isCommentDetail = false;
+                        cmc.isTopCommentDetail = false;
+                        adapter.remove(adapter.getDataList().get(finalI));
+                        adapter.insert(cmc, finalI);
+                        adapter.notifyItemChanged(finalI);
+                    }
+                });
+            }
+        }
     }
 
     private void doWorking() {
@@ -404,8 +465,11 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
     @Override
     public void onCommentClick(int adapterPosition, MediaComment data) {
 //// TODO: 2017-09-16
-        DataCenter.getInstance().setMediaComment(data);
-        startActivity2(CommentListActivity.class);
+        Bundle bu = new Bundle();
+        int beginIndex = getfirstPosition(MediaArticle.TYPE_COMMENT);
+        bu.putInt("index", adapterPosition - beginIndex);
+        DataCenter.getInstance().setMediaArticle(MediaArticle.Clone(mediaArticle));
+        startActivity2(CommentListActivity.class, bu);
     }
 
     @Override
@@ -501,6 +565,7 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
 //                        mc.memberNickName=UserCache.getUser().memberNickName;
 //                        mc.commentContent = content;
                         mediaArticle.articleCommentObj.add(0, mc);
+                        mediaArticle.articleCommentSum++;
                         adapter.insert(mc, position);
                         adapter.notifyDataSetChanged();
                         if (isFirstComment) {
@@ -512,6 +577,7 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
                         }
                         frame_input.switchEditMode(false);
                         frame_input.clearInputEdit();
+                        frame_input.notifyUpdate(mediaArticle);
                         showKeyboard(false);
 //                        onCommentClick();
                         ((MyBaseActivity) mContext).toast("发表成功");

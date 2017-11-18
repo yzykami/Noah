@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -59,10 +61,15 @@ import com.tzw.noah.widgets.MyWebView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
 import me.xiaopan.assemblyadapter.OnRecyclerLoadMoreListener;
@@ -168,6 +175,7 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 
 
     private void initdata() {
+        DataCenter.getInstance().setMediaArticle(null);
         loginState = UserCache.isLogin();
         Bundle bu = getIntent().getExtras();
         if (bu != null) {
@@ -411,11 +419,45 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
     }
 
     public void handle_more(View view) {
-        MyWebView webView = webViewItemFatory.item.getWebView();
-//        webView.loadUrl("javascript:handleTest (" + UserCache.getUser().memberNo + "," + UserCache.getUser().memberNickName + ")");
-//        webView.loadUrl("javascript:handleTest (\""+UserCache.getLoginKey()+"\",2)");
-        toast("js: " + UserCache.getLoginKey());
-        webView.loadUrl("javascript:handleLogin(\"" + UserCache.getLoginKey() + "\")");
+//        MyWebView webView = webViewItemFatory.item.getWebView();
+//        toast("js: " + UserCache.getLoginKey());
+//        webView.loadUrl("javascript:handleLogin(\"" + UserCache.getLoginKey() + "\")");
+
+//        OnekeyShare oks = new OnekeyShare();
+//        oks.setImageUrl("http://taizhouwang.oss-cn-beijing.aliyuncs.com/memberHeadPic/1503732300_539577.jpg");
+//        oks.setText("text");
+//        oks.setTitle("title");
+//        oks.show(mContext);
+
+        Platform.ShareParams params = new Platform.ShareParams();
+
+        Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        params.setShareType(Platform.SHARE_WEBPAGE);
+//        params.setImageData(logo);
+
+        params.setText("分享的内容");
+        params.setTitle("分享的标题");
+        params.setUrl("http://10.0.9.2:7070/");
+
+        Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
+        wechat.setPlatformActionListener(new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                Log.log("share-wechat", "complete");
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                Log.log("share-wechat", "error");
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+                Log.log("share-wechat", "cancel");
+            }
+        });
+        wechat.share(params);
+
     }
 
     public void setLoading() {
@@ -598,12 +640,11 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 
     @Override
     public void onCommentClick(int adapterPosition, MediaComment data) {
-//// TODO: 2017-09-16
-//        Bundle bu=new Bundle();
-//        bu.putSerializable("DATA", mediaArticle);
-//        bu.putSerializable("DATA2", data);
-        DataCenter.getInstance().setMediaComment(data);
-        startActivity2(CommentListActivity.class);
+        Bundle bu = new Bundle();
+        int beginIndex = getfirstPosition(MediaArticle.TYPE_COMMENT);
+        bu.putInt("index", adapterPosition - beginIndex);
+        DataCenter.getInstance().setMediaArticle(MediaArticle.Clone(mediaArticle));
+        startActivity2(CommentListActivity.class, bu);
     }
 
     @Override
@@ -680,11 +721,11 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 //        smoothScroller.setTargetPosition(position);
 //        layoutManager.startSmoothScroll(smoothScroller);
 
-        Bundle bu = new Bundle();
-        bu.putSerializable("DATA", mediaArticle);
+//        Bundle bu = new Bundle();
+//        bu.putSerializable("DATA", mediaArticle);
 //        bu.putSerializable("DATA2", data);
-//        DataCenter.getInstance().setMediaComment(mMediaComment);
-        startActivity2(GalleryCommentListActivity.class, bu);
+        DataCenter.getInstance().setMediaArticle(MediaArticle.Clone(mediaArticle));
+        startActivity2(GalleryCommentListActivity.class);
     }
 
     @Override
@@ -1007,9 +1048,66 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
             loginState = UserCache.isLogin();
             loadData();
         }
+        compareCommentList();
         getCurPlay().onVideoResume();
         super.onResume();
         isPause = false;
+    }
+
+    private void compareCommentList() {
+        MediaArticle ma = DataCenter.getInstance().getMediaArticle();
+        if (ma == null)
+            return;
+        if (ma.articleCommentObj.size() == mediaArticle.articleCommentObj.size()) {
+            for (int i = 0; i < ma.articleCommentObj.size(); i++) {
+                compareComment(ma.articleCommentObj.get(i));
+            }
+        } else {
+            int index = getfirstPosition(MediaArticle.TYPE_COMMENT);
+            for (int i = index; i < adapter.getDataList().size(); i++) {
+                Object o = adapter.getDataList().get(i);
+                if (o instanceof MediaComment) {
+                    adapter.remove(o);
+                    i--;
+                }
+            }
+            for (int i = 0; i < ma.articleCommentObj.size(); i++) {
+                MediaComment cmc = ma.articleCommentObj.get(i);
+                cmc.isCommentDetail = false;
+                cmc.isTopCommentDetail = false;
+                adapter.insert(cmc, i + index);
+                adapter.notifyItemChanged(i + index);
+                commentId = cmc.articleCommentId;
+            }
+        }
+        frame_input.notifyUpdate(ma);
+        mediaArticle = ma;
+    }
+
+    private void compareComment(final MediaComment cmc) {
+
+        for (int i = 0; i < items.size(); i++) {
+            boolean isNeedUpdate = false;
+            Object o = items.get(i);
+            if (o instanceof MediaComment && ((MediaComment) o).articleCommentId == cmc.articleCommentId) {
+                if (((MediaComment) o).praiseNumber != cmc.praiseNumber || ((MediaComment) o).repliesNumber != cmc.repliesNumber) {
+                    isNeedUpdate = true;
+                }
+            }
+            if (isNeedUpdate) {
+                final int finalI = i;
+                tv_title.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        cmc.isCommentDetail = false;
+                        cmc.isTopCommentDetail = false;
+                        adapter.remove(adapter.getDataList().get(finalI));
+                        adapter.insert(cmc, finalI);
+                        adapter.notifyItemChanged(finalI);
+                    }
+                });
+            }
+        }
     }
 
     @Override

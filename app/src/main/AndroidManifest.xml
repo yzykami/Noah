@@ -110,8 +110,9 @@
         <activity
             android:name=".ui.home.HomeDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Swipe.Back"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.home.HomeDetailVideoActivity"
@@ -457,6 +458,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.webview.WebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -472,6 +474,17 @@
             android:name="me.xiaopan.sketchsample.activity.ImageDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBarBlack" />
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -519,6 +532,13 @@
         <meta-data
             android:name="me.xiaopan.sketchsample.SketchInitializer"
             android:value="SKETCH_INITIALIZER" />
+
+        <meta-data
+            android:name="Mob-AppKey"
+            android:value="2266001f8f5aa" />
+        <meta-data
+            android:name="Mob-AppSecret"
+            android:value="66e1b14406f7d89f3f23206c76b14715" />
     </application>
 
     <!--<receiver android:name="com.tzw.noah.broadcast.NetWorkStatusReceiver">-->

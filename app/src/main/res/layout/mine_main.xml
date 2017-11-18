@@ -556,6 +556,7 @@
                     android:textColor="@color/textLightGray"
                     android:textSize="@dimen/sp13" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_a2"
                 android:layout_width="fill_parent"
@@ -606,6 +607,7 @@
                     android:textColor="@color/textLightGray"
                     android:textSize="@dimen/sp13" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl1"
                 android:layout_width="fill_parent"
@@ -811,7 +813,8 @@
                 android:layout_marginTop="@dimen/pt1"
                 android:background="@color/white"
                 android:clickable="true"
-                android:onClick="handle_dev">
+                android:onClick="handle_dev"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"

@@ -310,7 +310,7 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
         Bundle bu = new Bundle();
         bu.putSerializable("DATA", mediaArticle);
 //        bu.putSerializable("DATA2", data);
-//        DataCenter.getInstance().setMediaComment(mMediaComment);
+//        DataCenter.getInstance().setMediaArticle(mMediaComment);
         startActivity2(GalleryCommentListActivity.class, bu);
     }
 

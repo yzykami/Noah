@@ -28,8 +28,8 @@ import okhttp3.Call;
 public class WIRequest {
 
     public static String preUrl = UserCache.getPreUrl();//"http://10.0.9.2:9094/";
-    private static String AppId = "10101";
-    private static String AppSecret = "FBC33F36A7146B21DF44EAA0D795D474";
+    public static String AppId = "10101";//UserCache.getAppId();//
+    public static String AppSecret ="FBC33F36A7146B21DF44EAA0D795D474";//UserCache.getAppSecret();//
     public static Long TimeOffset = -12345678l;
     private static Long CurTime = 0l;
     private static String Sign = "";

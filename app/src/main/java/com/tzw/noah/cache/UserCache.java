@@ -25,6 +25,8 @@ public class UserCache {
     private static long timeOffset = -12345678l;
     private static long timeOut = 10;
     private static String preUrl = "http://10.0.9.2:9094/";
+    private static String AppId = "10101";
+    private static String AppSecret = "FBC33F36A7146B21DF44EAA0D795D474";
     public static User user;
 
     protected static final String PREFS_FILE = "usercache.xml";
@@ -33,6 +35,8 @@ public class UserCache {
     protected static final String PREFS_TIMEOFFSET = "timeoffset";
     protected static final String PREFS_TIMEOUT = "timeout";
     protected static final String PREFS_PREURL = "preurl";
+    protected static final String PREFS_APPID = "appid";
+    protected static final String PREFS_APPSECRET = "appsecret";
 
     public static User getUser() {
         if (user != null)
@@ -196,5 +200,36 @@ public class UserCache {
         UserCache.preUrl = url;
         WIRequest.preUrl = url;
         prefs.edit().putString(PREFS_PREURL, preUrl).commit();
+    }
+
+    public static String getAppId() {
+        Context context = AppContext.getContext();
+        final SharedPreferences prefs = context
+                .getSharedPreferences(PREFS_FILE, 0);
+        AppId = prefs.getString(PREFS_APPID, "10101");
+        return AppId;
+    }
+    public static void setAppId(String appid) {
+        Context context = AppContext.getContext();
+        final SharedPreferences prefs = context
+                .getSharedPreferences(PREFS_FILE, 0);
+        UserCache.AppId = appid;
+        WIRequest.AppId = appid;
+        prefs.edit().putString(PREFS_APPID, AppId).commit();
+    }
+    public static String getAppSecret() {
+        Context context = AppContext.getContext();
+        final SharedPreferences prefs = context
+                .getSharedPreferences(PREFS_FILE, 0);
+        AppSecret = prefs.getString(PREFS_APPSECRET, "FBC33F36A7146B21DF44EAA0D795D474");
+        return AppSecret;
+    }
+    public static void setAppSecret(String AppSecret) {
+        Context context = AppContext.getContext();
+        final SharedPreferences prefs = context
+                .getSharedPreferences(PREFS_FILE, 0);
+        UserCache.AppSecret = AppSecret;
+        WIRequest.AppSecret = AppSecret;
+        prefs.edit().putString(PREFS_APPSECRET, AppSecret).commit();
     }
 }

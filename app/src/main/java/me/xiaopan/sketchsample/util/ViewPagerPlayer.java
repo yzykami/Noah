@@ -72,10 +72,13 @@ public class ViewPagerPlayer implements Runnable {
         int nextItem;
         if (leftToRight) {
             nextItem = currentItem + 1;
+            viewPager.setCurrentItem(nextItem, true);
         } else {
-            nextItem = currentItem - 1;
+//            nextItem = currentItem - 1;
+            nextItem = 0;
+            leftToRight =true;
+            viewPager.setCurrentItem(nextItem, false);
         }
-        viewPager.setCurrentItem(nextItem, true);
         if (playing) {
             handler.postDelayed(this, delayMillis);
         }

@@ -24,6 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
 import me.xiaopan.sketchsample.adapter.BindAssemblyRecyclerItem;
+import me.xiaopan.sketchsample.util.ViewPagerPlayer;
 import me.xiaopan.sketchsample.widget.DepthPageTransformer;
 import me.xiaopan.sketchsample.widget.ZoomOutPageTransformer;
 
@@ -65,6 +66,7 @@ public class MediaListGalleryItemFatory extends AssemblyRecyclerItemFactory<Medi
         Context mContext;
         FragmentViewPagerAdapter fragmentAdapter;
         ArrayList<Fragment> fragments;
+        private ViewPagerPlayer viewPagerPlayer;
 
         public GalleryItem(int itemLayoutId, ViewGroup parent) {
             super(itemLayoutId, parent);
@@ -94,7 +96,7 @@ public class MediaListGalleryItemFatory extends AssemblyRecyclerItemFactory<Medi
 
             if (viewPager.getAdapter() != null)
                 return;
-
+            viewPagerPlayer = new ViewPagerPlayer(viewPager);
             int count = mediaArticle.Advertisings.size();
             ll_select.removeAllViews();
             for (int i = 0; i < count; i++) {
@@ -150,7 +152,7 @@ public class MediaListGalleryItemFatory extends AssemblyRecyclerItemFactory<Medi
                 }
             }
 
-
+            viewPagerPlayer.start();
         }
 
         @Override

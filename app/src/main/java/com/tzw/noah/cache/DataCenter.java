@@ -2,6 +2,7 @@ package com.tzw.noah.cache;
 
 import com.tzw.noah.models.Group;
 import com.tzw.noah.models.GroupMember;
+import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.MediaComment;
 import com.tzw.noah.models.User;
 import com.tzw.noah.utils.Utils;
@@ -179,13 +180,13 @@ public class DataCenter {
         this.memberList = menberList;
     }
 
-    MediaComment mMediaComment;
+    MediaArticle mMediaComment;
 
-    public void setMediaComment(MediaComment mediaComment) {
-        mMediaComment = mediaComment;
+    public void setMediaArticle(MediaArticle mediaArticle) {
+        mMediaComment = mediaArticle;
     }
 
-    public MediaComment getMediaComment() {
+    public MediaArticle getMediaArticle() {
         return mMediaComment;
     }
 }

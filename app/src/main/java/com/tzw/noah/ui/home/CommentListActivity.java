@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,7 +20,6 @@ import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.models.MediaComment;
 import com.tzw.noah.models.MediaLike;
 import com.tzw.noah.models.User;
-import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
@@ -29,24 +27,16 @@ import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.MySwipeBackActivity;
 import com.tzw.noah.ui.adapter.itemfactory.SearchHeadFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDatailCommentItemFactory;
-import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailAdvertiseItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailDividerItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailListener;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailSafaItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTagItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTitleItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailWebViewItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleKeywordItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleLikeItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
-import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListPicItemFatory;
-import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListTxtItemFatory;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,6 +87,7 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
     private LinearLayoutManager layoutManager;
     private boolean loginState;
     private int commentId = 0;
+    int index = 0;
 
 //    public static CommentListActivity getInstance() {
 //        if (instance == null) {
@@ -122,20 +113,22 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
 
     private void initdata() {
         loginState = UserCache.isLogin();
-//        Bundle bu = getIntent().getExtras();
-//        if (bu != null) {
+        Bundle bu = getIntent().getExtras();
+        if (bu != null) {
 //            title = bu.getString("title");
-////            mediaArticle = (MediaArticle) bu.getSerializable("DATA");
+//            mediaArticle = (MediaArticle) bu.getSerializable("DATA");
 //            mMediaComment = (MediaComment) bu.getSerializable("DATA2");
 //            mediaArticle = new MediaArticle();
 //            mediaArticle.articleId = mMediaComment.webArticleId;
-//        }
+            index = bu.getInt("index");
+        }
 
 
-        MediaComment mc = DataCenter.getInstance().getMediaComment();
-        mMediaComment = MediaComment.Clone(mc);
-        mediaArticle = new MediaArticle();
-        mediaArticle.articleId = mMediaComment.webArticleId;
+//        MediaComment mc = DataCenter.getInstance().getMediaArticle();
+//        mMediaComment = MediaComment.Clone(mc);
+        mediaArticle = DataCenter.getInstance().getMediaArticle();
+        mMediaComment = mediaArticle.articleCommentObj.get(index);
+//        mediaArticle.articleId = mMediaComment.webArticleId;
     }
 
     private void findview() {
@@ -500,9 +493,12 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
 //                        mc.memberNickName=UserCache.getUser().memberNickName;
 //                        mc.commentContent = content;
                         mc.isCommentDetail = true;
-                        mediaArticle.articleCommentObj.add(0, mc);
+//                        mediaArticle.articleCommentObj.get(index).sonList().add(0, mc);
+                        mMediaComment.sonList().add(0,mc);
+                        mMediaComment.repliesNumber++;
                         adapter.insert(mc, position);
                         adapter.notifyDataSetChanged();
+                        mediaArticle.articleCommentSum++;
                         if (isFirstComment) {
                             AssemblyRecyclerAdapterTool.unLock(adapter);
                             loadMoreItem = new LoadMoreItemFactory(instance);

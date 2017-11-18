@@ -1,5 +1,6 @@
 package com.tzw.noah.models;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -7,10 +8,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.tzw.noah.AppContext;
 import com.tzw.noah.logger.Log;
 import com.tzw.noah.net.IMsg;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -486,5 +489,29 @@ public class MediaArticle implements Serializable {
 
     public boolean isRelative() {
         return isRelative;
+    }
+
+
+    public static MediaArticle Clone(MediaArticle obj) {
+        MediaArticle clone = new MediaArticle();
+        try {
+            Class c = Class.forName("com.tzw.noah.models.MediaArticle");
+            Field[] fields = c.getDeclaredFields();
+            Context context = AppContext.getContext();
+            for (Field field : fields) {
+                if (field.get(obj) != null)
+                    field.set(clone, field.get(obj));
+            }
+        } catch (Exception e) {
+
+        }
+        if(obj.articleCommentObj!=null)
+        {
+            clone.articleCommentObj = new ArrayList<>();
+            for (int i=0; i<obj.articleCommentObj.size(); i++) {
+                clone.articleCommentObj.add(MediaComment.Clone(obj.articleCommentObj.get(i)));
+            }
+        }
+        return clone;
     }
 }

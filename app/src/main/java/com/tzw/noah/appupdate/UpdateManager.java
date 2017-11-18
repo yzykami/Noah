@@ -31,6 +31,8 @@ import android.widget.Toast;
 
 import com.tzw.noah.MainActivity;
 import com.tzw.noah.R;
+import com.tzw.noah.cache.UserCache;
+import com.tzw.noah.models.SecretKey;
 import com.tzw.noah.net.Callback;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
@@ -69,6 +71,9 @@ public class UpdateManager {
 
     private boolean interceptFlag = false;
 
+    private boolean isForcedUpdate = false;
+
+
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -97,14 +102,47 @@ public class UpdateManager {
     }
 
     public void checkUpdateInfo() {
-        int versionCode = 0;
-        try {
-            versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        final int finalVersionCode = versionCode;
-        NetHelper.getInstance().getAppVersion(new Callback() {
+//        int versionCode = 0;
+//        try {
+//            versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        final int finalVersionCode = versionCode;
+//        NetHelper.getInstance().getAppVersion(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(IMsg iMsg) {
+//                if (iMsg.isSucceed()) {
+//                    Handler mDelivery = new Handler(Looper.getMainLooper());
+//
+//                    String data = (String) iMsg.Data;
+//                    int remoteVersionCode = 0;
+//                    try {
+//                        remoteVersionCode = Integer.parseInt(data);
+//                    } catch (Exception e) {
+//
+//                    }
+//                    final int finalRemoteVersionCode = remoteVersionCode;
+//
+//                    mDelivery.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            //Toast.makeText(mContext, "本地版本:" + finalVersionCode + " 最新版本:" + finalRemoteVersionCode, Toast.LENGTH_SHORT).show();
+//                            if (finalRemoteVersionCode > finalVersionCode) {
+//                                showNoticeDialog();
+//                            }
+//                        }
+//                    });
+//
+//                }
+//            }
+//        });
+        NetHelper.getInstance().secretKeyDetails(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -113,27 +151,13 @@ public class UpdateManager {
             @Override
             public void onResponse(IMsg iMsg) {
                 if (iMsg.isSucceed()) {
-                    Handler mDelivery = new Handler(Looper.getMainLooper());
-
-                    String data = (String) iMsg.Data;
-                    int remoteVersionCode = 0;
-                    try {
-                        remoteVersionCode = Integer.parseInt(data);
-                    } catch (Exception e) {
-
-                    }
-                    final int finalRemoteVersionCode = remoteVersionCode;
-
-                    mDelivery.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Toast.makeText(mContext, "本地版本:" + finalVersionCode + " 最新版本:" + finalRemoteVersionCode, Toast.LENGTH_SHORT).show();
-                            if (finalRemoteVersionCode > finalVersionCode) {
-                                showNoticeDialog();
-                            }
-                        }
-                    });
-
+                    SecretKey sk = SecretKey.load(iMsg);
+                    String appid = sk.secretKeyId + "";
+                    if (sk.forcedUpdate == 1) {
+                        isForcedUpdate = true;
+                        showNoticeDialog();
+                    } else if (!appid.equals(UserCache.getAppId()))
+                        showNoticeDialog();
                 }
             }
         });
@@ -143,6 +167,8 @@ public class UpdateManager {
         Builder builder = new Builder(mContext);
         builder.setTitle("更新");
         builder.setMessage(updateMsg);
+        if (isForcedUpdate)
+            builder.setCancelable(false);
         builder.setPositiveButton("更新", new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -150,12 +176,13 @@ public class UpdateManager {
                 showDownloadDialog();
             }
         });
-        builder.setNegativeButton("取消", new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        if (!isForcedUpdate)
+            builder.setNegativeButton("取消", new OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
 
         try {
             noticeDialog = builder.create();
@@ -168,7 +195,8 @@ public class UpdateManager {
     private void showDownloadDialog() {
         Builder builder = new Builder(mContext);
         builder.setTitle("更新");
-
+        if (isForcedUpdate)
+            builder.setCancelable(false);
         final LayoutInflater inflater = LayoutInflater.from(mContext);
         View v = inflater.inflate(R.layout.updateprogress, null);
         mProgress = (ProgressBar) v.findViewById(R.id.updateprogress);
@@ -179,6 +207,8 @@ public class UpdateManager {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 interceptFlag = true;
+                if(isForcedUpdate)
+                    showNoticeDialog();
             }
         });
         downloadDialog = builder.create();
@@ -258,10 +288,8 @@ public class UpdateManager {
 
             mContext.startActivity(intent);
             MainActivity.getInstance().finish();
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(mContext,"安装失败, 请从台州网官网下载最新App",Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(mContext, "安装失败, 请从台州网官网下载最新App", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -42,22 +42,26 @@ public class MediaComment implements Serializable {
     public boolean isCommentDetail = false;
     public boolean isTopCommentDetail = false;
 
+    private List<MediaComment> sonlist;
 
     public List<MediaComment> sonList() {
-        if (children != null && children instanceof ArrayList) {
-            Gson gson = new GsonBuilder().create();
-            try {
-                //创建一个JsonParser
-                JsonParser parser = new JsonParser();
-                //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
-                JsonElement el = parser.parse(gson.toJson(children));
-                return gson.fromJson(el, new TypeToken<List<MediaComment>>() {
-                }.getType());
-            } catch (Exception e) {
-                Log.log("MediaComment", e);
+        if(sonlist==null) {
+            if (children != null && children instanceof ArrayList) {
+                Gson gson = new GsonBuilder().create();
+                try {
+                    //创建一个JsonParser
+                    JsonParser parser = new JsonParser();
+                    //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
+                    JsonElement el = parser.parse(gson.toJson(children));
+                    return sonlist = gson.fromJson(el, new TypeToken<List<MediaComment>>() {
+                    }.getType());
+                } catch (Exception e) {
+                    Log.log("MediaComment", e);
+                }
             }
+            return sonlist = new ArrayList<>();
         }
-        return new ArrayList<>();
+        return sonlist;
     }
 
     public static MediaComment load(IMsg iMsg) {

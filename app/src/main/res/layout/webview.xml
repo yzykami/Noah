@@ -9,73 +9,85 @@
     android:orientation="vertical"
     tools:context="com.tzw.noah.MainActivity">
 
-    <View
-        android:id="@+id/statusBar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pt0"
-        android:background="@color/white" />
-
     <RelativeLayout
-        android:id="@+id/rl_top"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/title_height"
-        android:layout_below="@id/statusBar"
-        android:background="@color/white">
+        android:id="@+id/nonVideoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@color/textDarkGray"
-            android:textSize="@dimen/text_title" />
+        <View
+            android:id="@+id/statusBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt0"
+            android:background="@color/white" />
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="@dimen/btn_title_width"
-            android:layout_height="@dimen/btn_title_height"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/title_left_btn_left_bj"
-            android:clickable="true"
-            android:onClick="handle_back"
-            android:paddingBottom="@dimen/pt8"
-            android:paddingLeft="@dimen/pt13"
-            android:paddingRight="@dimen/pt13"
-            android:paddingTop="@dimen/pt8"
-            android:src="@drawable/back_gray"
-            android:visibility="visible" />
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/title_height"
+            android:layout_below="@id/statusBar"
+            android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/iv_detail"
-            android:layout_width="@dimen/btn_title_width"
-            android:layout_height="@dimen/btn_title_height"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/title_right_btn_right_bj"
-            android:clickable="true"
-            android:onClick="handle_more"
-            android:paddingBottom="@dimen/pt5"
-            android:paddingLeft="@dimen/pt10"
-            android:paddingRight="@dimen/pt10"
-            android:paddingTop="@dimen/pt5"
-            android:src="@drawable/more_gray"
-            android:visibility="visible" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/text_title" />
 
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/btn_title_width"
+                android:layout_height="@dimen/btn_title_height"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_left_btn_left_bj"
+                android:clickable="true"
+                android:onClick="handle_back"
+                android:paddingBottom="@dimen/pt8"
+                android:paddingLeft="@dimen/pt13"
+                android:paddingRight="@dimen/pt13"
+                android:paddingTop="@dimen/pt8"
+                android:src="@drawable/back_gray"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iv_detail"
+                android:layout_width="@dimen/btn_title_width"
+                android:layout_height="@dimen/btn_title_height"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_right_btn_right_bj"
+                android:clickable="true"
+                android:onClick="handle_more"
+                android:paddingBottom="@dimen/pt5"
+                android:paddingLeft="@dimen/pt10"
+                android:paddingRight="@dimen/pt10"
+                android:paddingTop="@dimen/pt5"
+                android:src="@drawable/more_gray"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+
+        <com.tzw.noah.widgets.MyWebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_top"></com.tzw.noah.widgets.MyWebView>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_top"
+            android:background="@drawable/bg_mask" />
     </RelativeLayout>
 
-    <com.tzw.noah.widgets.MyWebView
-        android:id="@+id/webView"
+    <RelativeLayout
+        android:id="@+id/videoLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rl_top"></com.tzw.noah.widgets.MyWebView>
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/rl_top"
-        android:background="@drawable/bg_mask" />
+        android:layout_height="match_parent" />
 </RelativeLayout>

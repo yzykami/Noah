@@ -29,7 +29,7 @@ public class Advertising implements Serializable {
 
         Advertising advertising = new Advertising();
         try {
-            List<Advertising> advertisings = iMsg.getModelList("advertisingRObj", new TypeToken<List<Advertising>>() {
+             List<Advertising> advertisings = iMsg.getModelList("advertisingRObj", new TypeToken<List<Advertising>>() {
             }.getType());
             if (advertisings.size() > 0)
                 advertising = advertisings.get(0);
