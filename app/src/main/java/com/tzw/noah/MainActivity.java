@@ -39,6 +39,7 @@ import com.netease.nimlib.sdk.msg.SystemMessageService;
 import com.tzw.noah.appupdate.UpdateManager;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.ui.DevelopingActivity;
+import com.tzw.noah.ui.circle.CircleMainActivity2;
 import com.tzw.noah.ui.circle.CirileMainActivity;
 import com.tzw.noah.ui.home.HomeMainActivity;
 import com.tzw.noah.ui.mine.LoginActivity;
@@ -151,7 +152,7 @@ public class MainActivity extends TabActivity implements ReminderManager.UnreadN
         tabHost.addTab(tabHost.newTabSpec("1").setIndicator("1")
                 .setContent(intent1));
         Intent intent2 = new Intent();
-        intent2.setClass(MainActivity.this, DevelopingActivity.class);// CirileMainActivity.class);
+        intent2.setClass(MainActivity.this, DevelopingActivity.class);//CircleMainActivity2.class);//
         tabHost.addTab(tabHost.newTabSpec("2").setIndicator("2")
                 .setContent(intent2));
 

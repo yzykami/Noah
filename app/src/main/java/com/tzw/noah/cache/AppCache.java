@@ -12,6 +12,8 @@ import com.tzw.noah.models.Configuration;
 import com.tzw.noah.models.Dict;
 import com.tzw.noah.models.DictList;
 import com.tzw.noah.models.DictType;
+import com.tzw.noah.models.SensitiveWords;
+import com.tzw.noah.models.SensitiveWordsType;
 import com.tzw.noah.net.IMsg;
 import com.tzw.noah.net.NetHelper;
 import com.tzw.noah.net.StringDialogCallback;
@@ -245,7 +247,7 @@ public class AppCache {
     }
 
     public static void updateDictCache(final Context context, final int lastVersion, final UpdateCallback callback) {
-        NetHelper.getInstance().getBaseArea(new StringDialogCallback(context) {
+        NetHelper.getInstance().getBaseDict(new StringDialogCallback(context) {
             @Override
             public void onFailure(Call call, IOException e) {
                 callback.onComplete(false, 0);
@@ -270,7 +272,7 @@ public class AppCache {
     }
 
     public static void updateDictTypeCache(final Context context, final int lastVersion, final UpdateCallback callback) {
-        NetHelper.getInstance().getBaseArea(new StringDialogCallback(context) {
+        NetHelper.getInstance().getBaseDictType(new StringDialogCallback(context) {
             @Override
             public void onFailure(Call call, IOException e) {
                 callback.onComplete(false, 0);
@@ -295,29 +297,54 @@ public class AppCache {
     }
 
     public static void updateWordsCache(final Context context, final int lastVersion, final UpdateCallback callback) {
-        new DBManager(context).updateSensitiveWords(null, lastVersion);
-        callback.onComplete(true, lastVersion);
-//        NetHelper.getInstance().getBaseArea(new StringDialogCallback(context) {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                callback.onComplete(false, 0);
-//            }
-//
-//            @Override
-//            public void onResponse(IMsg iMsg) {
-//                if (iMsg.isSucceed()) {
-//                    try {
-//                        List<Area> list = iMsg.getModelList("areaRObj", new TypeToken<List<Area>>() {
-//                        }.getType());
-//                        new DBManager(context).updateArea(list, lastVersion);
-//                    } catch (Exception e) {
-//                        callback.onComplete(false, 0);
-//                    }
-//                } else {
-//                    callback.onComplete(false, 0);
-//                }
-//            }
-//        });
+//        new DBManager(context).updateSensitiveWords(null, lastVersion);
+//        callback.onComplete(true, lastVersion);
+        NetHelper.getInstance().getBaseSensitiveWords(new StringDialogCallback(context) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onComplete(false, 0);
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                if (iMsg.isSucceed()) {
+                    try {
+                        List<SensitiveWords> list = iMsg.getModelList("sensitiveWordsRObj", new TypeToken<List<SensitiveWords>>() {
+                        }.getType());
+                        new DBManager(context).updateSensitiveWords(list, lastVersion);
+                    } catch (Exception e) {
+                        callback.onComplete(false, 0);
+                    }
+                } else {
+                    callback.onComplete(false, 0);
+                }
+            }
+        });
+    }
+
+    public static void updateSensitiveWordsType(final Context context, final int lastVersion, final UpdateCallback callback) {
+        NetHelper.getInstance().getBaseSensitiveWordsType(new StringDialogCallback(context) {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onComplete(false, 0);
+            }
+
+            @Override
+            public void onResponse(IMsg iMsg) {
+                if (iMsg.isSucceed()) {
+                    try {
+                        List<SensitiveWordsType> list = iMsg.getModelList("sensitiveWordsTypeRObj", new TypeToken<List<SensitiveWordsType>>() {
+                        }.getType());
+                        new DBManager(context).updateSensitiveWordsType(list, lastVersion);
+                        callback.onComplete(true,lastVersion);
+                    } catch (Exception e) {
+                        callback.onComplete(false, 0);
+                    }
+                } else {
+                    callback.onComplete(false, 0);
+                }
+            }
+        });
     }
 
     public static void updateAllCache(Context context, int lastVersion) {

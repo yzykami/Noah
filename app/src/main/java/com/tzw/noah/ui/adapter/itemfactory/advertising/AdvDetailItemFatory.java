@@ -1,6 +1,7 @@
 package com.tzw.noah.ui.adapter.itemfactory.advertising;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,7 +10,10 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.Advertising;
+import com.tzw.noah.models.MediaArticle;
+import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
+import com.tzw.noah.ui.webview.WebViewActivity;
 import com.tzw.noah.utils.Utils;
 
 import butterknife.BindView;
@@ -21,9 +25,11 @@ public class AdvDetailItemFatory extends AssemblyRecyclerItemFactory<AdvDetailIt
 
     private MediaListListener mMediaListListener;
     private int width = 0, height = 0;
+    MyBaseActivity mActivity;
 
     public AdvDetailItemFatory(MediaListListener mMediaListListener) {
         this.mMediaListListener = mMediaListListener;
+        mActivity = (MyBaseActivity) mMediaListListener;
     }
 
     @Override
@@ -86,6 +92,14 @@ public class AdvDetailItemFatory extends AssemblyRecyclerItemFactory<AdvDetailIt
                     if (mMediaListListener != null) {
                         mMediaListListener.onItemClick(getAdapterPosition(), getData());
                     }
+                    if (getData().advertUrl.isEmpty())
+                        return;
+                    MediaArticle ma = new MediaArticle();
+                    Bundle bu = new Bundle();
+                    bu.putSerializable("DATA", ma);
+                    bu.putString("title", "广告");
+                    ma.articleContent = getData().advertUrl;
+                    mActivity.startActivity2(WebViewActivity.class, bu);
                 }
             });
             if (width == 0) {

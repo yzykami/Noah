@@ -1,5 +1,6 @@
 package com.tzw.noah.ui.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import com.tzw.noah.R;
 import com.tzw.noah.models.Advertising;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.webview.WebViewActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +31,7 @@ public class GalleryAdvFragment extends Fragment {
     String Tag = "GalleryFragment";
 
     Context mContext;
-    MyBaseActivity activity;
+    HomeDetailGalleryActivity activity;
     AssemblyRecyclerAdapter adapter;
     LoadMoreItemFactory loadMoreItem;
 
@@ -76,8 +78,26 @@ public class GalleryAdvFragment extends Fragment {
         ivCover.getOptions().setLoadingImage(R.drawable.logo_gray_fatter);
         ivCover.displayImage(advertising.advertImage);
         tvTitle.setText(advertising.advertTitle);
-
-
+        tvNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (activity != null)
+                    activity.setLastPage();
+            }
+        });
+        ivCover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (advertising.advertUrl.isEmpty())
+                    return;
+                MediaArticle ma = new MediaArticle();
+                Bundle bu = new Bundle();
+                bu.putSerializable("DATA", ma);
+                bu.putString("title", "广告");
+                ma.articleContent = advertising.advertUrl;
+                ((MyBaseActivity)getActivity()).startActivity2(WebViewActivity.class, bu);
+            }
+        });
         return view;
     }
 
@@ -90,7 +110,7 @@ public class GalleryAdvFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity = (MyBaseActivity) context;
+        activity = context instanceof HomeDetailGalleryActivity ? (HomeDetailGalleryActivity) context : null;
         mContext = context;
     }
 

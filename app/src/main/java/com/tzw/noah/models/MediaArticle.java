@@ -87,7 +87,7 @@ public class MediaArticle implements Serializable {
             author = articleAuthor;
 
         if (TextUtils.isEmpty(author))
-            author = "作者不详";
+            author = "来自网络";
 
         return author;
     }

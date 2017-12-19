@@ -138,6 +138,7 @@ public class MediaListGalleryItemFatory extends AssemblyRecyclerItemFactory<Medi
                 MediaArticle mma = new MediaArticle();
                 mma.articleImage = adv.advertImage;
                 mma.articleTitle = adv.advertTitle;
+                mma.articleContent = adv.advertUrl;
                 fragments.add(ViewpagerFragment.newInstance(mma));
             }
             fragmentAdapter = new FragmentViewPagerAdapter(mFragment.getChildFragmentManager(), fragments, titles);
@@ -162,7 +163,7 @@ public class MediaListGalleryItemFatory extends AssemblyRecyclerItemFactory<Medi
         @Override
         public void onPageSelected(int position) {
             int count = 3;//viewPager.();
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count && i < ll_select.getChildCount(); i++) {
                 ImageView imageView = (ImageView) ll_select.getChildAt(i);
 
                 if (i == position) {

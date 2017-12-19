@@ -50,6 +50,8 @@ public class SystemCacheFragment extends Fragment {
     TextView tvDic;
     @BindView(R.id.tv_word)
     TextView tvWord;
+    @BindView(R.id.tv_wordtype)
+    TextView tvWordType;
     @BindView(R.id.tv_update)
     TextView tvUpdate;
 
@@ -66,6 +68,8 @@ public class SystemCacheFragment extends Fragment {
     TextView tvDicLocal;
     @BindView(R.id.tv_word_local)
     TextView tvWordLocal;
+    @BindView(R.id.tv_wordtype_local)
+    TextView tvWordTypeLocal;
     @BindView(R.id.textView2)
     TextView textView2;
 
@@ -77,8 +81,8 @@ public class SystemCacheFragment extends Fragment {
     DebugDetailActivity mActivity;
     Object object;
 
-    int localTotalVersion, localArea, localConfig, localDictype, localDic, localWord;
-    int serverTotalVersion, serverArea, serverConfig, serverDictype, serverDic, serverWord;
+    int localTotalVersion, localArea, localConfig, localDictype, localDic, localWord, localWordType;
+    int serverTotalVersion, serverArea, serverConfig, serverDictype, serverDic, serverWord, serverWordType;
 
     int differentCount = 0;
     boolean isUpdateSuccess = true;
@@ -138,29 +142,63 @@ public class SystemCacheFragment extends Fragment {
 //            llLocal.addView(tv);
 
 
-            if (acm.appCacheSort == 0) {
+            if (acm.appCacheId.equals("AllCache")) {
+                serverTotalVersion = acm.appCacheVersion;
+                tvTotal.setText("缓存总版本 : " + acm.appCacheVersion);
+            }
+            if (acm.appCacheId.equals("AreaCache")) {
+                serverArea = acm.appCacheVersion;
+                tvArea.setText("地区信息缓存 : " + acm.appCacheVersion);
+            }
+            if (acm.appCacheId.equals("ConfigurationCache")) {
+                serverConfig = acm.appCacheVersion;
+                tvConfig.setText("系统配置缓存 : " + acm.appCacheVersion);
+            }
+            if (acm.appCacheId.equals("DictionaryCache")) {
+                serverDictype = acm.appCacheVersion;
+                tvDictype.setText("字典类型缓存 : " + acm.appCacheVersion);
+            }
+            if (acm.appCacheId.equals("DictionaryTpyeCache")) {
+                serverDic = acm.appCacheVersion;
+                tvDic.setText("字典信息缓存 : " + acm.appCacheVersion);
+            }
+            if (acm.appCacheId.equals("SensitiveWordsCache")) {
+                serverWord = acm.appCacheVersion;
+                tvWord.setText("敏感字缓存 : " + acm.appCacheVersion);
+            }
+            if (acm.appCacheId.equals("SensitiveWordsType")) {
+                serverWordType = acm.appCacheVersion;
+                tvWordType.setText("敏感词词类型缓存 : " + acm.appCacheVersion);
+            }
+
+
+            if (acm.appCacheId.equals("AllCache")) {
                 localTotalVersion = acm.appCacheVersion;
                 tvTotalLocal.setText("缓存总版本 : " + acm.appCacheVersion);
             }
-            if (acm.appCacheSort == 1) {
+            if (acm.appCacheId.equals("AreaCache")) {
                 localArea = acm.appCacheVersion;
                 tvAreaLocal.setText("地区信息缓存 : " + acm.appCacheVersion);
             }
-            if (acm.appCacheSort == 2) {
+            if (acm.appCacheId.equals("ConfigurationCache")) {
                 localConfig = acm.appCacheVersion;
                 tvConfigLocal.setText("系统配置缓存 : " + acm.appCacheVersion);
             }
-            if (acm.appCacheSort == 3) {
+            if (acm.appCacheId.equals("DictionaryCache")) {
                 localDictype = acm.appCacheVersion;
                 tvDictypeLocal.setText("字典类型缓存 : " + acm.appCacheVersion);
             }
-            if (acm.appCacheSort == 4) {
+            if (acm.appCacheId.equals("DictionaryTpyeCache")) {
                 localDic = acm.appCacheVersion;
                 tvDicLocal.setText("字典信息缓存 : " + acm.appCacheVersion);
             }
-            if (acm.appCacheSort == 5) {
+            if (acm.appCacheId.equals("SensitiveWordsCache")) {
                 localWord = acm.appCacheVersion;
                 tvWordLocal.setText("敏感字缓存 : " + acm.appCacheVersion);
+            }
+            if (acm.appCacheId.equals("SensitiveWordsType")) {
+                localWord = acm.appCacheVersion;
+                tvWordTypeLocal.setText("敏感词词类型缓存 : " + acm.appCacheVersion);
             }
         }
         tvUpdate.setOnClickListener(new View.OnClickListener() {
@@ -179,12 +217,16 @@ public class SystemCacheFragment extends Fragment {
                     local.add(localConfig);
                     local.add(localDic);
                     local.add(localDictype);
+                    local.add(localWord);
+                    local.add(localWordType);
 
                     List<Integer> server = new ArrayList<Integer>();
                     server.add(serverArea);
                     server.add(serverConfig);
                     server.add(serverDic);
                     server.add(serverDictype);
+                    server.add(serverWord);
+                    server.add(serverWordType);
 
                     for (int i = 0; i < local.size(); i++) {
                         if (local.get(i) != server.get(i)) {
@@ -206,12 +248,10 @@ public class SystemCacheFragment extends Fragment {
                                 isUpdateSuccess = false;
                             differentCount--;
                             if (differentCount == 0) {
-                                if (isUpdateSuccess)
-                                {
-                                    AppCache.updateAllCache(mContext,serverTotalVersion);
+                                if (isUpdateSuccess) {
+                                    AppCache.updateAllCache(mContext, serverTotalVersion);
                                     tvTotalLocal.setText("缓存总版本 : " + serverTotalVersion);
-                                }
-                                else
+                                } else
                                     tvTotalLocal.setText("缓存总版本 : " + localTotalVersion + " (更新失败)");
                             }
                         }
@@ -231,12 +271,10 @@ public class SystemCacheFragment extends Fragment {
                                 isUpdateSuccess = false;
                             differentCount--;
                             if (differentCount == 0) {
-                                if (isUpdateSuccess)
-                                {
-                                    AppCache.updateAllCache(mContext,serverTotalVersion);
+                                if (isUpdateSuccess) {
+                                    AppCache.updateAllCache(mContext, serverTotalVersion);
                                     tvTotalLocal.setText("缓存总版本 : " + serverTotalVersion);
-                                }
-                                else
+                                } else
                                     tvTotalLocal.setText("缓存总版本 : " + localTotalVersion + " (更新失败)");
                             }
                         }
@@ -256,12 +294,10 @@ public class SystemCacheFragment extends Fragment {
                                 isUpdateSuccess = false;
                             differentCount--;
                             if (differentCount == 0) {
-                                if (isUpdateSuccess)
-                                {
-                                    AppCache.updateAllCache(mContext,serverTotalVersion);
+                                if (isUpdateSuccess) {
+                                    AppCache.updateAllCache(mContext, serverTotalVersion);
                                     tvTotalLocal.setText("缓存总版本 : " + serverTotalVersion);
-                                }
-                                else
+                                } else
                                     tvTotalLocal.setText("缓存总版本 : " + localTotalVersion + " (更新失败)");
                             }
                         }
@@ -281,12 +317,11 @@ public class SystemCacheFragment extends Fragment {
                                 isUpdateSuccess = false;
                             differentCount--;
                             if (differentCount == 0) {
-                                if (isUpdateSuccess)
-                                {
-                                    AppCache.updateAllCache(mContext,serverTotalVersion);
+                                if (isUpdateSuccess) {
+
+                                    AppCache.updateAllCache(mContext, serverTotalVersion);
                                     tvTotalLocal.setText("缓存总版本 : " + serverTotalVersion);
-                                }
-                                else
+                                } else
                                     tvTotalLocal.setText("缓存总版本 : " + localTotalVersion + " (更新失败)");
                             }
                         }
@@ -307,12 +342,34 @@ public class SystemCacheFragment extends Fragment {
                                 isUpdateSuccess = false;
                             differentCount--;
                             if (differentCount == 0) {
-                                if (isUpdateSuccess)
-                                {
-                                    AppCache.updateAllCache(mContext,serverTotalVersion);
+                                if (isUpdateSuccess) {
+                                    AppCache.updateAllCache(mContext, serverTotalVersion);
                                     tvTotalLocal.setText("缓存总版本 : " + serverTotalVersion);
-                                }
-                                else
+                                } else
+                                    tvTotalLocal.setText("缓存总版本 : " + localTotalVersion + " (更新失败)");
+                            }
+                        }
+                    });
+                }
+
+                if (localWordType != serverWordType) {
+                    tvWordLocal.setText("敏感词词类型缓存 : 正在更新...");
+                    AppCache.updateSensitiveWordsType(mContext, serverWord, new AppCache.UpdateCallback() {
+                        @Override
+                        public void onComplete(boolean isSuccess, int version) {
+                            if (isSuccess)
+                                tvWordLocal.setText("敏感词词类型缓存 : " + version);
+                            else
+                                tvWordLocal.setText("敏感词词类型缓存 : " + localWord + " (更新失败)");
+
+                            if (!isSuccess)
+                                isUpdateSuccess = false;
+                            differentCount--;
+                            if (differentCount == 0) {
+                                if (isUpdateSuccess) {
+                                    AppCache.updateAllCache(mContext, serverTotalVersion);
+                                    tvTotalLocal.setText("缓存总版本 : " + serverTotalVersion);
+                                } else
                                     tvTotalLocal.setText("缓存总版本 : " + localTotalVersion + " (更新失败)");
                             }
                         }
@@ -333,6 +390,7 @@ public class SystemCacheFragment extends Fragment {
         tvDictype.setText("字典类型缓存 : 正在获取...");
         tvDic.setText("字典信息缓存 : 正在获取...");
         tvWord.setText("敏感字缓存 : 正在获取...");
+        tvWordType.setText("敏感词词类型缓存 : 正在获取...");
 
         NetHelper.getInstance().getBaseAppCache(new StringDialogCallback(mContext) {
             @Override
@@ -348,29 +406,33 @@ public class SystemCacheFragment extends Fragment {
 
                         List<AppCacheModel> list = AppCacheModel.loadList(iMsg);
                         for (AppCacheModel acm : list) {
-                            if (acm.appCacheSort == 0) {
+                            if (acm.appCacheId.equals("AllCache")) {
                                 serverTotalVersion = acm.appCacheVersion;
                                 tvTotal.setText("缓存总版本 : " + acm.appCacheVersion);
                             }
-                            if (acm.appCacheSort == 1) {
+                            if (acm.appCacheId.equals("AreaCache")) {
                                 serverArea = acm.appCacheVersion;
                                 tvArea.setText("地区信息缓存 : " + acm.appCacheVersion);
                             }
-                            if (acm.appCacheSort == 2) {
+                            if (acm.appCacheId.equals("ConfigurationCache")) {
                                 serverConfig = acm.appCacheVersion;
                                 tvConfig.setText("系统配置缓存 : " + acm.appCacheVersion);
                             }
-                            if (acm.appCacheSort == 3) {
+                            if (acm.appCacheId.equals("DictionaryCache")) {
                                 serverDictype = acm.appCacheVersion;
                                 tvDictype.setText("字典类型缓存 : " + acm.appCacheVersion);
                             }
-                            if (acm.appCacheSort == 4) {
+                            if (acm.appCacheId.equals("DictionaryTpyeCache")) {
                                 serverDic = acm.appCacheVersion;
                                 tvDic.setText("字典信息缓存 : " + acm.appCacheVersion);
                             }
-                            if (acm.appCacheSort == 5) {
+                            if (acm.appCacheId.equals("SensitiveWordsCache")) {
                                 serverWord = acm.appCacheVersion;
                                 tvWord.setText("敏感字缓存 : " + acm.appCacheVersion);
+                            }
+                            if (acm.appCacheId.equals("SensitiveWordsType")) {
+                                serverWordType = acm.appCacheVersion;
+                                tvWordType.setText("敏感词词类型缓存 : " + acm.appCacheVersion);
                             }
                         }
                     } else {
@@ -392,6 +454,7 @@ public class SystemCacheFragment extends Fragment {
         tvDictype.setText("字典类型缓存 : 获取失败");
         tvDic.setText("字典信息缓存 : 获取失败");
         tvWord.setText("敏感字缓存 : 获取失败");
+        tvWordType.setText("敏感词词类型缓存 : 获取失败");
     }
 
     @Override

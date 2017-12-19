@@ -47,7 +47,7 @@ public class OnekeyShare {
 
 	/**
 	 * title标题，在印象笔记、邮箱、信息、微信（包括好友、朋友圈和收藏）、
-	 * 易信（包括好友、朋友圈）、人人网和QQ空间使用，否则可以不提供
+	 * 易信（包括好友、share_icon_friend_circle）、人人网和QQ空间使用，否则可以不提供
 	 */
 	public void setTitle(String title) {
 		params.put("title", title);

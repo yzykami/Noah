@@ -1,14 +1,19 @@
 package com.tzw.noah.ui.mine;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,10 +51,18 @@ import com.tzw.noah.utils.VCodeCountDownTimer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.tencent.qq.QQ;
+import cn.sharesdk.wechat.friends.Wechat;
 import me.xiaopan.sketchsample.widget.SampleImageView;
+import me.xiaopan.sketchsample.widget.SampleImageViewHead;
 import okhttp3.Call;
 
 /**
@@ -83,6 +96,8 @@ public class LoginActivity extends MyBaseActivity {
 //    int MODE_
 
     int secretCode = 0;
+    String third_userid;
+    int third_type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -274,16 +289,122 @@ public class LoginActivity extends MyBaseActivity {
     }
 
     public void handle_qqlogin(View view) {
+//        startActivity2(CombineActivity.class);
+        Platform platform = ShareSDK.getPlatform(QQ.NAME);
+        third_login_dialog(platform);
     }
 
     public void handle_wxlogin(View view) {
-        if (secretCode == 1)
-            secretCode++;
-        else
-            secretCode = 0;
+//        if (secretCode == 1)
+//            secretCode++;
+//        else
+//            secretCode = 0;
+        Platform platform = ShareSDK.getPlatform(Wechat.NAME);
+        third_login_dialog(platform);
     }
 
     public void handle_wblogin(View view) {
+        third_login_dialog(ShareSDK.getPlatform(SinaWeibo.NAME));
+    }
+
+    public void third_login_dialog(final Platform plat) {
+        if (plat.getDb().getUserId().equals("")) {
+            authorize(plat);
+            return;
+        }
+
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.dialog_comfirm_thirdlogin, null);
+        SampleImageViewHead iv_head = (SampleImageViewHead) layout.findViewById(R.id.iv_head);
+        iv_head.displayImage(plat.getDb().getUserIcon());
+        TextView tv_name = (TextView) layout.findViewById(R.id.tv_name);
+        tv_name.setText(plat.getDb().getUserName());
+
+        new AlertDialog.Builder(this).setView(layout)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        authorize(plat);
+                    }
+                }).setNegativeButton("更换账号", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                plat.removeAccount(true);
+                authorize(plat);
+            }
+        }).show();
+    }
+
+    private void authorize(final Platform plat) {
+//        if (plat == null) {
+//            popupOthers();
+//            return;
+//        }
+
+//        plat.removeAccount(true);
+        plat.setPlatformActionListener(new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int action, HashMap<String, Object> hashMap) {
+                if (action == Platform.ACTION_USER_INFOR) {
+                    Log.log("third-login", "success :" + platform.getName());
+                    third_userid = platform.getDb().getUserId();
+                    if (platform.getName().equals("QQ")) {
+                        third_type = 2;
+                    } else if (platform.getName().equals("Wechat")) {
+                        third_type = 1;
+                    } else if (platform.getName().equals("SinaWeibo")) {
+                        third_type = 3;
+                    }
+                    Handler mDelivery = new Handler(Looper.getMainLooper());
+                    mDelivery.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (third_type == 1)
+                                toast("微信登录成功");
+                            if (third_type == 2)
+                                toast("QQ登录成功");
+                            if (third_type == 3)
+                                toast("微博登录成功");
+                            showLoaddingDialog();
+                        }
+                    });
+                    new Thread(new ThirdLoginThread()).start();
+                }
+            }
+
+            @Override
+            public void onError(Platform platform, int action, Throwable throwable) {
+                if (action == Platform.ACTION_USER_INFOR) {
+                    String name = "";
+                    if (platform.getName().equals("QQ")) {
+                        name = "QQ";
+                    } else if (platform.getName().equals("Wechat")) {
+                        name = "微信";
+                    } else if (platform.getName().equals("SinaWeibo")) {
+                        name = "share_icon_weibo";
+                    }
+                    toast(name + "登录失败");
+                }
+            }
+
+            @Override
+            public void onCancel(Platform platform, int action) {
+                if (action == Platform.ACTION_USER_INFOR) {
+                    String name = "";
+                    if (platform.getName().equals("QQ")) {
+                        name = "QQ";
+                    } else if (platform.getName().equals("Wechat")) {
+                        name = "微信";
+                    } else if (platform.getName().equals("SinaWeibo")) {
+                        name = "share_icon_weibo";
+                    }
+                    toast(name + "登录取消");
+                }
+            }
+        });
+        //关闭SSO授权
+        plat.SSOSetting(true);
+        plat.showUser(null);
     }
 
     public void handle_findpwd(View view) {
@@ -310,9 +431,6 @@ public class LoginActivity extends MyBaseActivity {
                 String pwd = et_pwd.getText().toString();
 
                 List<Param> params;
-                params = new ArrayList<>();
-                params.add(new Param("memberName", username));
-                params.add(new Param("memberPasswd", pwd));
 
                 IMsg iMsg = null;
                 if (MODE == 0) {
@@ -320,7 +438,7 @@ public class LoginActivity extends MyBaseActivity {
                     params.add(new Param("memberName", username));
                     params.add(new Param("memberPasswd", pwd));
                     iMsg = NetHelper.getInstance().memberLogin(params);
-                } else {
+                } else if (MODE == 1) {
                     params = new ArrayList<>();
                     params.add(new Param("memberMobile", username));
                     params.add(new Param("vcode", pwd));
@@ -368,6 +486,71 @@ public class LoginActivity extends MyBaseActivity {
         }
     }
 
+    class ThirdLoginThread implements Runnable {
+        public void run() {
+            try {
+                Message message = new Message();
+                message.what = LOGIN_ERROR;
+
+                String username = et_username.getText().toString();
+                String pwd = et_pwd.getText().toString();
+
+                List<Param> params;
+
+                IMsg iMsg = null;
+                params = new ArrayList<>();
+                params.add(new Param("unionid", third_userid));
+                iMsg = NetHelper.getInstance().memberLoginByThird(params);
+
+                if (iMsg.isSucceed()) {
+                    String token = iMsg.getValue("tokenCode");
+                    UserCache.setToken(token);
+                    List<Param> p2 = new ArrayList<>();
+                    p2.add(new Param("tokenCode", token));
+                    iMsg = NetHelper.getInstance().memberLoginKey(p2);
+                    String loginKey = iMsg.getJsonObject("loginKeyRObj").getValue("loginKey");
+                    UserCache.setLoginkey(loginKey);
+
+                    if (iMsg.isSucceed()) {
+                        iMsg = NetHelper.getInstance().getUserDetails();
+                        if (iMsg.isSucceed())
+                            message.what = LOGIN_SUCCESS;
+                        else {
+                            UserCache.setToken("");
+                            UserCache.setLoginkey("");
+                        }
+                    }
+                } else if (iMsg.getCode() == 1025) {
+                    dismissLoaddingDialog();
+//                        toast(iMsg.getMsg());
+                    Bundle bu = new Bundle();
+                    bu.putString("id", third_userid);
+                    bu.putInt("type", third_type);
+                    startActivity2(CombineActivity.class, bu);
+                    return;
+                }
+                Bundle bu = new Bundle();
+
+                bu.putSerializable("MESSAGE_DATA", iMsg);
+
+                message.setData(bu);
+
+                mContext.LoginResultHandler.sendMessage(message);
+
+            } catch (Exception e) {
+
+                com.tzw.noah.logger.Log.log(TAG, e);
+                Message message = new Message();
+                message.what = LOGIN_INTERNET_FAULT;
+
+                Bundle bu = new Bundle();
+                bu.putString("MESSAGE_DATA", getString(R.string.internet_fault));
+                message.setData(bu);
+
+                mContext.LoginResultHandler.sendMessage(message);
+            }
+        }
+    }
 
     private final int LOGIN_SUCCESS = 0x1001;
     private final int LOGIN_ERROR = 0x1002;

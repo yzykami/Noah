@@ -1,6 +1,8 @@
 package com.tzw.noah.ui.adapter.itemfactory.advertising;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -9,7 +11,10 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.Advertising;
+import com.tzw.noah.models.MediaArticle;
+import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
+import com.tzw.noah.ui.webview.WebViewActivity;
 import com.tzw.noah.utils.Utils;
 
 import java.util.ArrayList;
@@ -22,11 +27,13 @@ import me.xiaopan.sketchsample.widget.SampleImageView;
 
 public class AdvListPicUDItemFatory extends AssemblyRecyclerItemFactory<AdvListPicUDItemFatory.GalleryItem> {
 
+    private MyBaseActivity mActivity;
     private MediaListListener mMediaListListener;
     private int width = 0, height = 0, ml = 0;
 
     public AdvListPicUDItemFatory(MediaListListener mMediaListListener) {
         this.mMediaListListener = mMediaListListener;
+//        mActivity = (MyBaseActivity) mMediaListListener;
     }
 
     @Override
@@ -92,6 +99,17 @@ public class AdvListPicUDItemFatory extends AssemblyRecyclerItemFactory<AdvListP
                     if (mMediaListListener != null) {
                         mMediaListListener.onItemClick(getAdapterPosition(), getData());
                     }
+                    if (getData().advertUrl.isEmpty())
+                        return;
+                    MediaArticle ma = new MediaArticle();
+                    Bundle bu = new Bundle();
+                    bu.putSerializable("DATA", ma);
+                    bu.putString("title", "广告");
+                    ma.articleContent = getData().advertUrl;
+                    Intent intent = new Intent(mContext, WebViewActivity.class);
+                    if (bu != null)
+                        intent.putExtras(bu);
+                    mContext.startActivity(intent);
                 }
             });
             iv_cover2.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +118,17 @@ public class AdvListPicUDItemFatory extends AssemblyRecyclerItemFactory<AdvListP
                     if (mMediaListListener != null) {
                         mMediaListListener.onItemClick(getAdapterPosition(), getData());
                     }
+                    if (getData().advertUrl.isEmpty())
+                        return;
+                    MediaArticle ma = new MediaArticle();
+                    Bundle bu = new Bundle();
+                    bu.putSerializable("DATA", ma);
+                    bu.putString("title", "广告");
+                    ma.articleContent = getData().advertUrl;
+                    Intent intent = new Intent(mContext, WebViewActivity.class);
+                    if (bu != null)
+                        intent.putExtras(bu);
+                    mContext.startActivity(intent);
                 }
             });
             iv_cover3.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +137,17 @@ public class AdvListPicUDItemFatory extends AssemblyRecyclerItemFactory<AdvListP
                     if (mMediaListListener != null) {
                         mMediaListListener.onItemClick(getAdapterPosition(), getData());
                     }
+                    if (getData().advertUrl.isEmpty())
+                        return;
+                    MediaArticle ma = new MediaArticle();
+                    Bundle bu = new Bundle();
+                    bu.putSerializable("DATA", ma);
+                    bu.putString("title", "广告");
+                    ma.articleContent = getData().advertUrl;
+                    Intent intent = new Intent(mContext, WebViewActivity.class);
+                    if (bu != null)
+                        intent.putExtras(bu);
+                    mContext.startActivity(intent);
                 }
             });
             if (width == 0) {

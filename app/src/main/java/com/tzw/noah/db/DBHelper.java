@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.google.gson.reflect.TypeToken;
 import com.tzw.noah.R;
+import com.tzw.noah.logger.Log;
 import com.tzw.noah.models.Area;
 import com.tzw.noah.utils.FileUtil;
 import com.tzw.noah.utils.Utils;
@@ -140,6 +141,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public <T> void insert(List<T> tList, String tableName) {
+        int i = 0;
         if (tList == null || tList.size() == 0)
             return;
         T t = tList.get(0);
@@ -148,22 +150,47 @@ public class DBHelper extends SQLiteOpenHelper {
             Class tclass = Class.forName(t.getClass().getName());
             Field[] fields = tclass.getDeclaredFields();
             db.execSQL("delete from " + tableName);
-            String sql = "INSERT INTO " + tableName + " VALUES(";
-            List<Object> objs = new ArrayList<>();
+//            List<Object> objs = new ArrayList<>();
+
             for (T tt : tList) {
+                i++;
+                String sql = "";
+//                for (Field field : fields) {
+//                    Annotation a = field.getAnnotation(MyField.class);
+//                    if (a == null) {
+//                        continue;
+//                    }
+//                    sql += ",?";
+//                    objs.add(field.get(tt));
+//                }
+//                sql += ")";
+//                db.execSQL(sql, objs.toArray(new Object[objs.size()]));
+
+                String column = " (";
+                String values = " (";
+                List<Object> objs = new ArrayList<>();
                 for (Field field : fields) {
                     Annotation a = field.getAnnotation(MyField.class);
                     if (a == null) {
                         continue;
                     }
-                    sql += ",?";
+                    String fname = field.getName();
+                    Type ftype = field.getType();
+
+                    column += fname + ",";
+                    values += "?,";
                     objs.add(field.get(tt));
                 }
-                sql += ")";
+
+                column = column.substring(0, column.length() - 1) + ") ";
+                values = values.substring(0, values.length() - 1) + ") ";
+
+                sql = "INSERT INTO " + tableName + column + " VALUES" + values;
                 db.execSQL(sql, objs.toArray(new Object[objs.size()]));
             }
             db.setTransactionSuccessful();  //设置事务成功完成
         } catch (Exception e) {
+            Log.log(this.getClass().getName(), "index = " + i + " , " + e.getMessage());
         } finally {
             db.endTransaction();    //结束事务
         }

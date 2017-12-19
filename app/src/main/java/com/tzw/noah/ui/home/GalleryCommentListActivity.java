@@ -35,6 +35,7 @@ import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTagItemFa
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTitleItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
+import com.tzw.noah.utils.ShareUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -228,6 +229,9 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
         if (mediaArticle.articleCommentSum > 0) {
 //            items.add(mediaArticle.makeDivider());
             for (int i = 0; i < mediaArticle.articleCommentObj.size(); i++) {
+                MediaComment mmc = mediaArticle.articleCommentObj.get(i);
+                mmc.isCommentDetail=false;
+                mmc.isTopCommentDetail=false;
                 items.add(mediaArticle.articleCommentObj.get(i));
             }
         } else {
@@ -336,7 +340,7 @@ public class GalleryCommentListActivity extends MySwipeBackActivity implements M
     }
 
     public void handle_more(View view) {
-
+        new ShareUtil(mContext, this).show();
     }
 
     @Override

@@ -28,6 +28,7 @@ import com.netease.nim.demo.contact.ContactHelper;
 import com.netease.nim.demo.event.DemoOnlineStateContentProvider;
 import com.netease.nim.demo.event.OnlineStateEventManager;
 import com.netease.nim.demo.main.activity.WelcomeActivity;
+import com.netease.nim.demo.mixpush.DemoMixPushMessageHandler;
 import com.netease.nim.demo.rts.activity.RTSActivity;
 import com.netease.nim.demo.session.NimDemoLocationProvider;
 import com.netease.nim.demo.session.SessionHelper;
@@ -51,6 +52,7 @@ import com.netease.nimlib.sdk.avchat.AVChatManager;
 import com.netease.nimlib.sdk.avchat.constant.AVChatControlCommand;
 import com.netease.nimlib.sdk.avchat.model.AVChatAttachment;
 import com.netease.nimlib.sdk.avchat.model.AVChatData;
+import com.netease.nimlib.sdk.mixpush.NIMPushClient;
 import com.netease.nimlib.sdk.msg.MessageNotifierCustomization;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
@@ -113,9 +115,9 @@ public class AppContext extends MobApplication { //NimApplication {//Application
         DemoCache.setContext(instance);
         printTime(context, "DemoCache");
         // 注册小米推送appID 、appKey 以及在云信管理后台添加的小米推送证书名称，该逻辑放在 NIMClient init 之前
-        //NIMPushClient.registerMiPush(this, "DEMO_MI_PUSH", "2882303761517502883", "5671750254883");
+        NIMPushClient.registerMiPush(this, "xiaomi", "2882303761517669332", "5771766994332");
         // 注册自定义小米推送消息处理，这个是可选项
-        //NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
+        NIMPushClient.registerMixPushMessageHandler(new DemoMixPushMessageHandler());
         NIMClient.init(instance, getLoginInfo(), getOptions());
         printTime(context, "NIMClient");
         ExtraOptions.provide();
@@ -243,7 +245,7 @@ public class AppContext extends MobApplication { //NimApplication {//Application
         StatusBarNotificationConfig config = loadStatusBarNotificationConfig();
 
         // load 用户的 StatusBarNotificationConfig 设置项
-        StatusBarNotificationConfig userConfig = UserPreferences.getStatusConfig();
+        StatusBarNotificationConfig userConfig = null;//UserPreferences.getStatusConfig();
         if (userConfig == null) {
             userConfig = config;
         } else {

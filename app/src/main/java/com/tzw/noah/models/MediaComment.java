@@ -45,7 +45,7 @@ public class MediaComment implements Serializable {
     private List<MediaComment> sonlist;
 
     public List<MediaComment> sonList() {
-        if(sonlist==null) {
+        if (sonlist == null) {
             if (children != null && children instanceof ArrayList) {
                 Gson gson = new GsonBuilder().create();
                 try {
@@ -90,9 +90,12 @@ public class MediaComment implements Serializable {
                 if (field.get(obj) != null)
                     field.set(clone, field.get(obj));
             }
+            clone.isTopCommentDetail = false;
+            clone.isCommentDetail = false;
         } catch (Exception e) {
 
         }
+
         return clone;
     }
 }

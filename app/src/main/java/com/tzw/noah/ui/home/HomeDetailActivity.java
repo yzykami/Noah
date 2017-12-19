@@ -56,6 +56,7 @@ import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleLikeItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleRelativeItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
+import com.tzw.noah.utils.ShareUtil;
 import com.tzw.noah.widgets.MyGSYVideoPlayer;
 import com.tzw.noah.widgets.MyWebView;
 
@@ -69,6 +70,8 @@ import butterknife.ButterKnife;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.wechat.friends.Wechat;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerAdapter;
 import me.xiaopan.assemblyadapter.AssemblyRecyclerItemFactory;
@@ -423,40 +426,65 @@ public class HomeDetailActivity extends MySwipeBackActivity implements MediaArti
 //        toast("js: " + UserCache.getLoginKey());
 //        webView.loadUrl("javascript:handleLogin(\"" + UserCache.getLoginKey() + "\")");
 
-//        OnekeyShare oks = new OnekeyShare();
-//        oks.setImageUrl("http://taizhouwang.oss-cn-beijing.aliyuncs.com/memberHeadPic/1503732300_539577.jpg");
-//        oks.setText("text");
-//        oks.setTitle("title");
-//        oks.show(mContext);
+        new ShareUtil(mContext, this).show();
+
+        if (1 == 1) return;
+        OnekeyShare oks = new OnekeyShare();
+        oks.setImageUrl("http://taizhouwang.oss-cn-beijing.aliyuncs.com/memberHeadPic/1503732300_539577.jpg");
+        oks.setText("text");
+        oks.setTitle("title");
+        oks.setTitleUrl("http://10.0.9.2:7070/");
+        oks.setUrl("http://10.0.9.2:7070/");
+        oks.show(mContext);
 
         Platform.ShareParams params = new Platform.ShareParams();
 
         Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         params.setShareType(Platform.SHARE_WEBPAGE);
-//        params.setImageData(logo);
+        params.setImageData(logo);
 
         params.setText("分享的内容");
         params.setTitle("分享的标题");
         params.setUrl("http://10.0.9.2:7070/");
 
-        Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
-        wechat.setPlatformActionListener(new PlatformActionListener() {
-            @Override
-            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                Log.log("share-wechat", "complete");
-            }
+//        Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
+//        wechat.setPlatformActionListener(new PlatformActionListener() {
+//            @Override
+//            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+//                Log.log("share-wechat", "complete");
+//            }
+//
+//            @Override
+//            public void onError(Platform platform, int i, Throwable throwable) {
+//                Log.log("share-wechat", "error");
+//            }
+//
+//            @Override
+//            public void onCancel(Platform platform, int i) {
+//                Log.log("share-wechat", "cancel");
+//            }
+//        });
+//        wechat.share(params);
 
-            @Override
-            public void onError(Platform platform, int i, Throwable throwable) {
-                Log.log("share-wechat", "error");
-            }
 
-            @Override
-            public void onCancel(Platform platform, int i) {
-                Log.log("share-wechat", "cancel");
-            }
-        });
-        wechat.share(params);
+//        Platform sinaWeibo = ShareSDK.getPlatform(SinaWeibo.NAME);
+//        sinaWeibo.setPlatformActionListener(new PlatformActionListener() {
+//            @Override
+//            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+//                Log.log("share-sinaWeibo", "complete");
+//            }
+//
+//            @Override
+//            public void onError(Platform platform, int i, Throwable throwable) {
+//                Log.log("share-sinaWeibo", "error");
+//            }
+//
+//            @Override
+//            public void onCancel(Platform platform, int i) {
+//                Log.log("share-sinaWeibo", "cancel");
+//            }
+//        });
+//        sinaWeibo.share(params);
 
     }
 

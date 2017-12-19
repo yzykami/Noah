@@ -122,6 +122,17 @@ public class NetHelper {
         String method = "base/dict";
         new WIRequest().Get(method, callback);
     }
+    //base/SensitiveWordsType
+    public void getBaseSensitiveWordsType(Callback callback) {
+        String method = "base/SensitiveWordsType";
+        new WIRequest().Get(method, callback);
+    }
+
+    //base/sensitiveWords
+    public void getBaseSensitiveWords(Callback callback) {
+        String method = "base/sensitiveWords";
+        new WIRequest().Get(method, callback);
+    }
 
     public IMsg setDeviceId(String deviceId) {
         String method = "base/deviceNo";
@@ -148,7 +159,7 @@ public class NetHelper {
         iMsg.setSucceed(true);
         DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(context);
         if (!deviceUuidFactory.isIsupdated()) {
-            iMsg = setDeviceId(deviceUuidFactory.getDeviceUuidString());
+            iMsg = setDeviceId(deviceUuidFactory.getDeviceUuidStringNoCheck());
             if (iMsg.isSucceed())
                 deviceUuidFactory.setUpdate();
             return iMsg;
@@ -195,6 +206,37 @@ public class NetHelper {
         if (iMsg.isSucceed()) {
             String method = "member/loginBySmsCode";
             String bodyName = "loginSObj";
+            DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(AppContext.getContext());
+            body.add(new Param("clientCode", deviceUuidFactory.getDeviceUuidString()));
+            iMsg = new WIRequest().Post(method, body, bodyName);
+            return iMsg;
+        } else {
+            return iMsg;
+        }
+    }
+
+    //第三方登录
+    //member/loginByThird
+    public IMsg memberLoginByThird(List<Param> body) {
+        IMsg iMsg = checkDeviceId();
+        if (iMsg.isSucceed()) {
+            String method = "member/loginByThird";
+            String bodyName = "loginSObj";
+            DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(AppContext.getContext());
+            body.add(new Param("clientCode", deviceUuidFactory.getDeviceUuidString()));
+            iMsg = new WIRequest().Post(method, body, bodyName);
+            return iMsg;
+        } else {
+            return iMsg;
+        }
+    }
+    //第三方绑定
+    //member/bindThird
+    public IMsg memberBindThird(List<Param> body) {
+        IMsg iMsg = checkDeviceId();
+        if (iMsg.isSucceed()) {
+            String method = "member/bindThird";
+            String bodyName = "bindThirdSObj";
             DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(AppContext.getContext());
             body.add(new Param("clientCode", deviceUuidFactory.getDeviceUuidString()));
             iMsg = new WIRequest().Post(method, body, bodyName);
@@ -954,5 +996,19 @@ public class NetHelper {
         new WIRequest().Get(method, callback);
     }
 
+    //获取我的历史阅读
+    //mix/memberReadList/{$infoType}/{$userKeepArticleId }/{$pagesize}
+    public void mediaMixMemberReadList(int infoType, int memberReadId, int pagesize, Callback callback) {
+        String method = "mix/memberReadList/" + infoType + "/" + memberReadId + "/" + pagesize;
+        new WIRequest().Get(method, callback);
+    }
 
+    // 删除我的历史阅读
+    //mix/deleteHistory
+    public void mediaMixDeleteHistory(String ids, Callback callback) {
+        String method = "mix/deleteHistory";
+        List<Param> body = new ArrayList<>();
+        body.add(new Param("readHistoryIds ", ids));
+        new WIRequest().Post(method, body, "", callback);
+    }
 }

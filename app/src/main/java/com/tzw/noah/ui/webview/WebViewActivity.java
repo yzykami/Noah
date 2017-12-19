@@ -30,6 +30,7 @@ import com.tzw.noah.ui.sns.notification.NotificationAdapter;
 import com.tzw.noah.ui.sns.notification.NotificationCompare;
 import com.tzw.noah.ui.sns.notification.NotificationDetailActivity;
 import com.tzw.noah.utils.FileUtil;
+import com.tzw.noah.utils.ShareUtil;
 import com.tzw.noah.widgets.MyWebView;
 import com.tzw.noah.widgets.VideoEnabledWebChromeClient;
 
@@ -84,7 +85,8 @@ public class WebViewActivity extends MyBaseActivity {
             htmlContent = mediaArticle.getContentString();
 //            title = mediaArticle.articleTitle;
         }
-        title = "网页浏览";
+        if (title.isEmpty())
+            title = "网页浏览";
     }
 
     private void findview() {
@@ -146,8 +148,7 @@ public class WebViewActivity extends MyBaseActivity {
     }
 
 
-    void abc()
-    {
+    void abc() {
         // Initialize the VideoEnabledWebChromeClient and set event handlers
         View nonVideoLayout = findViewById(R.id.nonVideoLayout); // Your own view, read class comments
         ViewGroup videoLayout = (ViewGroup) findViewById(R.id.videoLayout); // Your own view, read class comments
@@ -159,8 +160,7 @@ public class WebViewActivity extends MyBaseActivity {
             @Override
             public void onProgressChanged(WebView view, int progress) {
                 // Your code...
-                if(progress==100)
-                {
+                if (progress == 100) {
                     webView.loadUrl(getOutCss("file:///android_asset/video.css"));
                 }
             }
@@ -208,5 +208,9 @@ public class WebViewActivity extends MyBaseActivity {
                 "s.setAttribute('href', '" + url + "');" +
                 "d.head.appendChild(s);";
         return js;
+    }
+
+    public void handle_more(View view) {
+        new ShareUtil(mContext, this).show();
     }
 }

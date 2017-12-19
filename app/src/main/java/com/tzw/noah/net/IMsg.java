@@ -121,6 +121,8 @@ public class IMsg extends JsonTool implements Serializable {
     public String getMsg() {
         if(code==8)
             return "版本过低, 请更新!";
+        if(code==1041)
+            return "登录超时, 请重新登录";
         return msg;
     }
 

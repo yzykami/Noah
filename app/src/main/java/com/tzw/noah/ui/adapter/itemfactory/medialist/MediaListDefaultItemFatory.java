@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.tzw.noah.R;
 import com.tzw.noah.models.MediaArticle;
+import com.tzw.noah.ui.adapter.MediaListItemAssemblyRecyclerItem;
 import com.tzw.noah.utils.Utils;
 
 import butterknife.BindView;
@@ -37,7 +38,7 @@ public class MediaListDefaultItemFatory extends AssemblyRecyclerItemFactory<Medi
         return new GalleryItem(R.layout.media_list_article_item_txt, viewGroup);
     }
 
-    public class GalleryItem extends BindAssemblyRecyclerItem<MediaArticle> {
+    public class GalleryItem extends MediaListItemAssemblyRecyclerItem<MediaArticle> {
         @BindView(R.id.container)
         RelativeLayout container;
         //        @BindView(R.id.iv_cover)
@@ -81,6 +82,7 @@ public class MediaListDefaultItemFatory extends AssemblyRecyclerItemFactory<Medi
                 tv_comment_count.setVisibility(View.VISIBLE);
             }
             tv_comment_count.setText(mediaArticle.articleCommentSum+"评");
+            initEditMode(container, mediaArticle, mMediaListListener);
         }
     }
 }

@@ -30,6 +30,7 @@ import com.tzw.noah.ui.MySwipeBackActivity;
 import com.tzw.noah.ui.adapter.itemfactory.advertising.AdvDetailGalleryItemFactory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaGalleryRelativeFragmentItemFactory;
 import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
+import com.tzw.noah.utils.ShareUtil;
 import com.tzw.noah.utils.StatusBarUtil;
 import com.tzw.noah.widgets.swipeback.SwipeBackLayout;
 
@@ -270,17 +271,17 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
     private FrameLayout.LayoutParams frameLayoutParams;
 
     public void handle_more(View view) {
-
-        if (mChildOfContent == null) {
-            FrameLayout content = (FrameLayout) findViewById(android.R.id.content);
-            content.setBackgroundResource(R.color.myBlue);
-            //2､获取到setContentView放进去的View
-            mChildOfContent = content.getChildAt(0);
-            frameLayoutParams = (FrameLayout.LayoutParams) mChildOfContent.getLayoutParams();
-
-        }
-        frameLayoutParams.height -= 300;
-        mChildOfContent.requestLayout();
+        new ShareUtil(mContext, this).show();
+//        if (mChildOfContent == null) {
+//            FrameLayout content = (FrameLayout) findViewById(android.R.id.content);
+//            content.setBackgroundResource(R.color.myBlue);
+//            //2､获取到setContentView放进去的View
+//            mChildOfContent = content.getChildAt(0);
+//            frameLayoutParams = (FrameLayout.LayoutParams) mChildOfContent.getLayoutParams();
+//
+//        }
+//        frameLayoutParams.height -= 300;
+//        mChildOfContent.requestLayout();
     }
 
     @Override
@@ -553,5 +554,10 @@ public class HomeDetailGalleryActivity extends MySwipeBackActivity implements In
                 frameInput.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    public void setLastPage()
+    {
+        viewPager.setCurrentItem(viewPager.getAdapter().getCount()-1,true);
     }
 }

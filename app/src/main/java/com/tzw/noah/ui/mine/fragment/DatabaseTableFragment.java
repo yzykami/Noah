@@ -98,7 +98,7 @@ public class DatabaseTableFragment extends Fragment {
             String[][] DATA_TO_SHOW = {{"This", "is", "a", "test"},
                     {"and", "a", "second", "test"}};
 
-            String sql = "select * from " + tablename + " limit 100";
+            String sql = "select * from " + tablename + " limit 200";
             Cursor c = db.rawQuery(sql, null);
             String[] headers = new String[]{};
             try {

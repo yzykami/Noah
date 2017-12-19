@@ -112,6 +112,7 @@ public class MediaListPicUDBigItemFatory extends AssemblyRecyclerItemFactory<Med
 
             if (mediaArticle.articleImage.isEmpty()) {
                 iv_cover.setVisibility(View.GONE);
+                iv_cover.displayResourceImage(R.drawable.media_default_pic);
             } else {
                 iv_cover.setVisibility(View.VISIBLE);
                 iv_cover.setBackgroundResource(R.color.transParent);

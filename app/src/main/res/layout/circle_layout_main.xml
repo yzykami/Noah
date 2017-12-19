@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt0"
+        android:background="@drawable/media_bg" />
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/title_height"
+        android:layout_below="@id/statusBar"
+        android:background="@drawable/media_bg">
+
+        <RelativeLayout
+            android:id="@+id/rl_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/text_title" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/btn_title_width"
+                android:layout_height="@dimen/btn_title_height"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_left_btn_left_bj"
+                android:clickable="true"
+                android:onClick="handle_back"
+                android:paddingBottom="@dimen/pt8"
+                android:paddingLeft="@dimen/pt13"
+                android:paddingRight="@dimen/pt13"
+                android:paddingTop="@dimen/pt8"
+                android:src="@drawable/back_gray"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:gravity="center"
+                android:onClick="handle_edit"
+                android:paddingBottom="@dimen/pt5"
+                android:paddingRight="@dimen/pt5"
+                android:paddingTop="@dimen/pt5"
+                android:text="建圈"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_title_right" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <com.lhh.apst.library.AdvancedPagerSlidingTabStrip
+        android:id="@+id/tabs"
+        android:layout_below="@+id/statusBar"
+        style="@style/pagertab_style_media"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pt40"
+        android:layout_alignLeft="@+id/shadow"
+        android:layout_alignRight="@+id/shadow"
+        android:layout_toLeftOf="@+id/iv_config"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="热帖"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/text_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/bj"
+            android:gravity="center"
+            android:text="热圈"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/text_title" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/bj"
+            android:gravity="center"
+            android:text="板块"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/text_title" />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabs"
+        android:background="@color/white" />
+</RelativeLayout>

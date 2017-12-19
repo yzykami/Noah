@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.tzw.noah.R;
+import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.mine.AboutActivity;
 import com.tzw.noah.ui.mine.DebugActivity;
@@ -49,6 +50,11 @@ public class SettingActivity extends MyBaseActivity {
     private static long currentShowPressedTime = 0;
 
     private void countShowDebug() {
+        if (!UserCache.isLogin())
+            return;
+        if (UserCache.getUser().ifDebug == 0)
+            return;
+
         if (System.currentTimeMillis() - currentShowPressedTime > 300)
             showCount = 1;
         currentShowPressedTime = System.currentTimeMillis();

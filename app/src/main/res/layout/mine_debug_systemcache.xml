@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="本地缓存 :"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -28,10 +28,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:paddingBottom="@dimen/bj"
+                android:paddingBottom="@dimen/bjs"
                 android:paddingLeft="@dimen/bj"
                 android:paddingRight="@dimen/bj"
-                android:paddingTop="@dimen/bj"
+                android:paddingTop="@dimen/bjs"
                 android:text="升级缓存"
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="地区信息缓存 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="系统配置缓存 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="字典类型缓存 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="字典信息缓存 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -104,8 +104,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="敏感字缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+            <TextView
+                android:id="@+id/tv_wordtype_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
+                android:text="敏感词词类型缓存 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
 
@@ -141,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="缓存总版本 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -152,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="地区信息缓存 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -163,7 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="系统配置缓存 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -174,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="字典类型缓存 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -185,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="字典信息缓存 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
@@ -196,8 +206,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/bj"
-                android:layout_marginTop="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
                 android:text="敏感字缓存 : "
+                android:textColor="@color/textDarkGray"
+                android:textSize="@dimen/sp14" />
+            <TextView
+                android:id="@+id/tv_wordtype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bj"
+                android:layout_marginTop="@dimen/bjs"
+                android:text="敏感词词类型缓存 : "
                 android:textColor="@color/textDarkGray"
                 android:textSize="@dimen/sp14" />
         </LinearLayout>

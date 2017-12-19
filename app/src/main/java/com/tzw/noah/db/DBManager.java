@@ -290,6 +290,9 @@ public class DBManager {
     public void updateSensitiveWords(List list, int lastVersion) {
         updateSystemCacheVersion("SensitiveWordsCache", lastVersion);
     }
+    public void updateSensitiveWordsType(List list, int lastVersion) {
+        updateSystemCacheVersion("SensitiveWordsType", lastVersion);
+    }
 
     public void updateAllCache(List list, int lastVersion) {
         updateSystemCacheVersion("AllCache", lastVersion);

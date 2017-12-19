@@ -41,7 +41,7 @@ public class ChannelCache {
 
     static List<MediaCategory> channleList;
 
-//    protected static final String DIR = "Media";
+    //    protected static final String DIR = "Media";
     protected static final String FileName = "Channel";
 
 
@@ -53,7 +53,7 @@ public class ChannelCache {
     }
 
     public static List<MediaCategory> getChannels(Context mContext, final ChannelListGetter callback) {
-        if (channleList != null) {
+        if (channleList != null && channleList.size() > 0) {
             if (callback != null)
                 callback.onRead(channleList);
             return channleList;

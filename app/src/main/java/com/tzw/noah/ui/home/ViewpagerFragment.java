@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.tzw.noah.R;
 import com.tzw.noah.models.MediaArticle;
 import com.tzw.noah.ui.MyBaseActivity;
+import com.tzw.noah.ui.webview.WebViewActivity;
 
 import java.io.File;
 import java.util.List;
@@ -92,6 +93,19 @@ public class ViewpagerFragment extends Fragment {
 
         tv_content.setText(mMediaArticle.articleTitle);
         imageView.displayRoundImageBigThumb(mMediaArticle.articleImage);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMediaArticle.getContentString().isEmpty())
+                    return;
+                MediaArticle ma = new MediaArticle();
+                Bundle bu = new Bundle();
+                bu.putSerializable("DATA", ma);
+                bu.putString("title", "广告");
+                ma.articleContent = mMediaArticle.getContentString();
+                ((MyBaseActivity)getActivity()).startActivity2(WebViewActivity.class, bu);
+            }
+        });
         return view;
     }
 

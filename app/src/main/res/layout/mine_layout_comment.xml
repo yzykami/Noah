@@ -160,6 +160,7 @@
         android:visibility="invisible">
 
         <TextView
+            android:id="@+id/tv_shadow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -169,6 +170,7 @@
             android:textSize="@dimen/text_title" />
 
         <TextView
+            android:id="@+id/tv_shadow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -192,4 +194,44 @@
         android:layout_height="match_parent"
         android:layout_below="@id/tabs"
         android:background="@drawable/bg_mask" />
+    <RelativeLayout
+        android:id="@+id/rl_delete"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/columnHeight"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pt1"
+            android:layout_alignParentTop="true"
+            android:background="@color/bg_light" />
+
+        <TextView
+            android:id="@+id/tv_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bj"
+            android:onClick="handle_select_all"
+            android:paddingBottom="@dimen/pt6"
+            android:paddingTop="@dimen/pt6"
+            android:text="选择全部"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/sp14" />
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/bj"
+            android:paddingBottom="@dimen/pt6"
+            android:paddingTop="@dimen/pt6"
+            android:text="标题"
+            android:textColor="@color/textDarkGray"
+            android:textSize="@dimen/sp14" />
+    </RelativeLayout>
 </RelativeLayout>

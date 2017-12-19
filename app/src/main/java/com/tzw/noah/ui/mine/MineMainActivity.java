@@ -6,14 +6,17 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing1.demoscaner.WeChatCaptureActivity;
 import com.netease.nim.uikit.common.media.picker.PickImageHelper;
 import com.netease.nim.uikit.session.SessionCustomization;
+import com.netease.nimlib.sdk.mixpush.MixPushService;
 import com.tzw.noah.MainActivity;
 import com.tzw.noah.R;
+import com.tzw.noah.cache.AppCache;
 import com.tzw.noah.cache.UserCache;
 import com.tzw.noah.db.SnsDBManager;
 import com.tzw.noah.logger.Log;
@@ -84,6 +87,10 @@ public class MineMainActivity extends MyBaseActivity {
     }
 
     private void findview() {
+        RelativeLayout rl_debug = (RelativeLayout) findViewById(R.id.rl_debug);
+        rl_debug.setVisibility(View.VISIBLE);
+
+
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_sign = (TextView) findViewById(R.id.tv_sign);
         tv_login = (TextView) findViewById(R.id.tv_login);
@@ -409,12 +416,11 @@ public class MineMainActivity extends MyBaseActivity {
     }
 
     public void handle_comment(View view) {
-//        toast("功能开发中,敬请期待~");
         startActivity(MineCommentActivity.class);
     }
 
     public void handle_history(View view) {
-        toast("功能开发中,敬请期待~");
+        startActivity(MineHistoryActivity.class);
     }
 
     public void setNoticeMsgCount(String unreadMsg) {

@@ -301,7 +301,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="50dp"
-                android:text="您可以搜索到一下内容"
+                android:text="您可以搜索到以下内容"
                 android:textColor="@color/textLightGray"
                 android:textSize="@dimen/sp15" />
 

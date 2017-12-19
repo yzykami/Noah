@@ -54,6 +54,7 @@ import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleLikeItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleRelativeItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.medialist.MediaListListener;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
+import com.tzw.noah.utils.ShareUtil;
 import com.tzw.noah.widgets.MyGSYVideoPlayer;
 import com.tzw.noah.widgets.MyWebView;
 
@@ -424,7 +425,7 @@ public class HomeDetailVideoActivity extends MyBaseActivity implements MediaArti
     private FrameLayout.LayoutParams frameLayoutParams;
 
     public void handle_more(View view) {
-
+        new ShareUtil(mContext, this).show();
 //        if (mChildOfContent == null) {
 //            FrameLayout content = (FrameLayout) findViewById(android.R.id.content);
 //            content.setBackgroundResource(R.color.myBlue);

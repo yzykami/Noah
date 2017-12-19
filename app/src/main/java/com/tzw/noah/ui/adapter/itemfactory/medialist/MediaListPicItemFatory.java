@@ -115,7 +115,8 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
                 ss = mediaArticle.articleImage.split(";");
 
             if (mediaArticle.articleImage.isEmpty()) {
-                iv_cover.setVisibility(View.GONE);
+//                iv_cover.setVisibility(View.GONE);
+                iv_cover.displayResourceImage(R.drawable.media_default_pic);
             } else {
                 iv_cover.setVisibility(View.VISIBLE);
                 iv_cover.displayRoundImageSmallThumb(ss[0]);
@@ -128,7 +129,7 @@ public class MediaListPicItemFatory extends AssemblyRecyclerItemFactory<MediaLis
                 tv_comment_count.setVisibility(View.VISIBLE);
             }
             tv_comment_count.setText(mediaArticle.articleCommentSum + "评");
-
+            tvTag.setVisibility(View.GONE);
             if (mediaArticle.isArticleTypPicGallery()) {
                 tvPicCount.setText(mediaArticle.articleContentImageNum + "图");
                 tvPicCount.setVisibility(View.VISIBLE);

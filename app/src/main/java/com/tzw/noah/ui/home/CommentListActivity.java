@@ -33,6 +33,7 @@ import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailSafaItemF
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTagItemFatory;
 import com.tzw.noah.ui.adapter.itemfactory.mediaitem.MediaArticleDetailTitleItemFatory;
 import com.tzw.noah.ui.sns.personal.PersonalActivity;
+import com.tzw.noah.utils.ShareUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -268,7 +269,7 @@ public class CommentListActivity extends MySwipeBackActivity implements MediaArt
     }
 
     public void handle_more(View view) {
-
+        new ShareUtil(mContext, this).show();
     }
 
     @Override

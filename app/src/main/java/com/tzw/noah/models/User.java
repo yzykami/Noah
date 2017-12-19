@@ -89,6 +89,8 @@ public class User implements Serializable {
     public int friends = 0;
     public int groups = 0;
 
+    public int ifDebug;
+
     public String getName() {
         if (remarkName.isEmpty())
             return memberNickName;

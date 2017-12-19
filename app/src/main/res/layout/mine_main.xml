@@ -807,7 +807,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rl6"
+                android:id="@+id/rl_debug"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/pt1"

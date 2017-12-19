@@ -180,6 +180,7 @@ public class MediaListPicUDItemFatory extends AssemblyRecyclerItemFactory<MediaL
             }
             tv_comment_count.setText(mediaArticle.articleCommentSum + "评");
 
+            tvTag.setVisibility(View.GONE);
             if (mediaArticle.isArticleTypPicGallery()) {
                 tvPicCount.setText(mediaArticle.articleContentImageNum + "图");
                 tvPicCount.setVisibility(View.VISIBLE);

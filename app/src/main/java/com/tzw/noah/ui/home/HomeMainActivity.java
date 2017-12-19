@@ -17,6 +17,7 @@ import com.google.zxing1.demoscaner.WeChatCaptureActivity;
 import com.lhh.apst.library.AdvancedPagerSlidingTabStrip;
 import com.tzw.noah.R;
 import com.tzw.noah.cache.ChannelCache;
+import com.tzw.noah.cache.DataCenter;
 import com.tzw.noah.models.MediaCategory;
 import com.tzw.noah.ui.MyBaseActivity;
 import com.tzw.noah.ui.circle.FragmentViewPagerAdapter;
@@ -47,6 +48,13 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
     AdvancedPagerSlidingTabStrip tabStrip;
     @BindView(R.id.iv_config)
     ImageView ivConfig;
+    @BindView(R.id.rl_loading)
+    RelativeLayout rl_loading;
+    @BindView(R.id.rl_error)
+    RelativeLayout rl_error;
+    @BindView(R.id.rl_bg)
+    RelativeLayout rl_bg;
+
     Context mContext = HomeMainActivity.this;
 
     String Tag = "HomeMainActivity";
@@ -128,12 +136,8 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
                     fragments.add(new ArticleListFragment().setMediaCategory(mclist.get(i)));
                 }
                 fragmentAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
-//                fragmentAdapter.setListFragments(fragments);
-//                fragmentAdapter.setTitles(titles);
                 viewPager.setAdapter(fragmentAdapter);
                 tabStrip.setViewPager(viewPager);
-//                fragmentAdapter.notifyDataSetChanged();
-//                tabStrip.notifyDataSetChanged();
             }
         }
     }
@@ -184,48 +188,53 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
         }
     }
 
-    private void initCategory() {
-//        NetHelper.getInstance().mediaCategory(new StringDialogCallback(mContext) {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                toast(getResources().getString(R.string.internet_fault));
-//            }
-//
-//            @Override
-//            public void onResponse(IMsg iMsg) {
-//                try {
-//                    if (iMsg.isSucceed()) {
-//                        mediaCategory = MediaCategory.load(iMsg);
-//                        if (fragmentAdapter == null) {
-//                            ArrayList<Fragment> fragments = new ArrayList<>();
-//
-//                            List<String> titles = new ArrayList<>();
-//
-//
-//                            for (int i = 0; i < mediaCategory.children.size(); i++) {
-//                                String s = "哈哈";
-////                                if (i % 2 == 0)
-//                                s = "";
-//                                titles.add(mediaCategory.children.get(i).channelName + s);
-//
-//                                fragments.add(new ArticleListFragment().setMediaCategory(mediaCategory.children.get(i)));
-//                            }
-//
-//                            fragmentAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
-//                        }
-//                        viewPager.setAdapter(fragmentAdapter);
-//                        tabStrip.setViewPager(viewPager);
-//                    }
-//                } catch (Exception e) {
-//                    Log.log(Tag, e);
-//                }
-//            }
-//        });
+    public void setLoading() {
+        viewPager.setVisibility(View.GONE);
+        rl_bg.setVisibility(View.VISIBLE);
+        rl_loading.setVisibility(View.VISIBLE);
+        rl_error.setVisibility(View.GONE);
+        rl_bg.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (rl_bg.getVisibility() == View.VISIBLE) {
+                    setError();
+                }
+            }
+        }, DataCenter.INTEL_TIMEOUT);
+    }
 
+    public void setComplete() {
+        viewPager.setVisibility(View.VISIBLE);
+        rl_bg.setVisibility(View.GONE);
+        rl_loading.setVisibility(View.GONE);
+        rl_error.setVisibility(View.GONE);
+    }
+
+    public void setError() {
+        rl_bg.setVisibility(View.VISIBLE);
+        rl_loading.setVisibility(View.GONE);
+        rl_error.setVisibility(View.VISIBLE);
+        TextView btn = (TextView) rl_error.findViewById(R.id.btn_rlbg);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rl_error.setVisibility(View.GONE);
+                initCategory();
+            }
+        });
+    }
+
+    private void initCategory() {
+        setLoading();
 
         ChannelCache.getChannels(mContext, new ChannelCache.ChannelListGetter() {
             @Override
             public void onRead(List<MediaCategory> list) {
+                if (list == null || list.size() == 0) {
+                    setError();
+                    return;
+                }
+                setComplete();
                 List<MediaCategory> mclist = new ArrayList<MediaCategory>();
                 for (MediaCategory mc : list)
                     mclist.add(mc);
@@ -236,12 +245,8 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
                     fragments.add(new ArticleListFragment().setMediaCategory(mclist.get(i)));
                 }
                 fragmentAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
-//                fragmentAdapter.setListFragments(fragments);
-//                fragmentAdapter.setTitles(titles);
                 viewPager.setAdapter(fragmentAdapter);
                 tabStrip.setViewPager(viewPager);
-//                fragmentAdapter.notifyDataSetChanged();
-//                tabStrip.notifyDataSetChanged();
             }
         });
     }
@@ -250,6 +255,5 @@ public class HomeMainActivity extends MyBaseActivity implements ViewPager.OnPage
         Intent intent = new Intent(HomeMainActivity.this, SearchActivity.class);
         startActivity(intent);
         this.getParent().overridePendingTransition(R.anim.window_push_enter, R.anim.window_push_exit);
-//        this.getParent().overridePendingTransition(R.anim.window_push_enter, 0);
     }
 }
